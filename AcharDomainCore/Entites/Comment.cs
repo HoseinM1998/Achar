@@ -18,7 +18,7 @@ namespace AcharDomainCore.Entites
         public int Score { get; set; }
         public bool IsAccept { get; set; } = false;
         public bool IsDeleted { get; set; } = false;
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime CreateAt { get; set; } = DateTime.Now;
         public int CustomerId { get; set; }
         public Customer Customer { get; set; }
         public int ExpertId { get; set; }

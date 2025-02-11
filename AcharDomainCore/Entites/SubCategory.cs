@@ -15,10 +15,10 @@ namespace AcharDomainCore.Entites
         public string Title { get; set; }
         public string? Image { get; set; }
         public bool IsDeleted { get; set; } = false;
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime CreateAt { get; set; } = DateTime.Now;
         public int CategoryId { get; set; }
         public Category Category { get; set; }
-        public List<HomeService>? Services { get; set; }
+        public List<HomeService>? HomeServices { get; set; }
 
     }
 }

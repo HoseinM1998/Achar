@@ -1,7 +1,26 @@
+using Achar.Infra.Db.Sql;
+using AcharDomainCore.Entites;
+using Framework;
+using Microsoft.AspNetCore.Identity;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
+
+builder.Services.AddIdentity<ApplicationUser, IdentityRole<int>>(options =>
+    {
+        options.SignIn.RequireConfirmedAccount = false;
+        options.Password.RequireDigit = false;
+        options.Password.RequiredLength = 5;
+        options.Password.RequireNonAlphanumeric = false;
+        options.Password.RequireUppercase = false;
+        options.Password.RequireLowercase = false;
+    })
+    .AddErrorDescriber<PersianIdentityErrorDescriber>()
+    .AddEntityFrameworkStores<AppDbContext>();
+
 
 var app = builder.Build();
 

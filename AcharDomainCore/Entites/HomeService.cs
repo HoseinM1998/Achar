@@ -20,7 +20,7 @@ namespace AcharDomainCore.Entites
         public bool IsDeleted { get; set; } = false;
         public int SubCategoryId { get; set; }
         public SubCategory SubCategory { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime CreateAt { get; set; } = DateTime.Now;
         public List<Expert>? Experts { get; set; }
         public List<Request>? Requests { get; set; }
 

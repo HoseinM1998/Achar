@@ -15,7 +15,6 @@ namespace AcharDomainCore.Entites
         public int Id { get; set; }
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
-        public string? PhoneNumber { get; set; }
         public string? ProfileImage { get; set; }
         public string? Street { get; set; }
 
@@ -25,9 +24,7 @@ namespace AcharDomainCore.Entites
         public bool IsActive { get; set; } = false;
         public bool IsDeleted { get; set; } = false;
         public GenderEnum? Gender { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
-        public int CityId { get; set; }
-        public City City { get; set; }
+        public DateTime CreateAt { get; set; } = DateTime.Now;
         public List<HomeService>? Services { get; set; }
         public List<Comment>? Comments { get; set; }
         public List<Proposal>? Bids { get; set; } = new List<Proposal>();

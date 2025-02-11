@@ -10,7 +10,7 @@ namespace AcharDomainCore.Entites
     public class Admin
     {
         public int Id { get; set; }
-        public string? FistName { get; set; }
+        public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public string? ProfileImageUrl { get; set; }
         public DateTime? CreateAt { get; set; } = DateTime.Now;

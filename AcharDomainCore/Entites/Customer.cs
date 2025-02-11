@@ -22,7 +22,7 @@ namespace AcharDomainCore.Entites
         public int?  Balance { get; set; }
         public bool IsDeleted { get; set; } = false;
         public GenderEnum? Gender { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime CreateAt { get; set; } = DateTime.Now;
         public int CityId { get; set; }
         public City City { get; set; }
         public List<Comment>? Comments { get; set; }

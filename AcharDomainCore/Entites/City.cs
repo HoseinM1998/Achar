@@ -12,11 +12,9 @@ namespace AcharDomainCore.Entites
         public int Id { get; set; }
         [Display(Name = "عنوان")]
         public string Title { get; set; }
-        public List<Admin> Admins { get; set; }
+        public DateTime CreateAt { get; set; } = DateTime.Now;
+        public bool IsDeleted { get; set; } = false;
         public List<Customer> Customers { get; set; }
         public List<Expert> Experts { get; set; }
-        public List<HomeService> Services { get; set; }
-
-
     }
 }

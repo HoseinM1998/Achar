@@ -19,8 +19,4 @@
     <ProjectReference Include="..\AcharDomainCore\AcharDomainCore.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="EntitiesConfigration\" />
-  </ItemGroup>
-
 </Project>

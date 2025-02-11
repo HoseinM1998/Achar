@@ -15,7 +15,6 @@ namespace AcharDomainCore.Entites
         public string Title { get; set; }
         [Display(Name = "عکس")]
         public string? Image { get; set; }
-        public string Description { get; set; }
         public bool IsDeleted { get; set; } = false;
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public List<SubCategory>? SubCategories { get; set; }
