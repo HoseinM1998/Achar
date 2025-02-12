@@ -19,7 +19,7 @@ namespace AcharDomainCore.Entites
         public string? Street { get; set; }
 
         [Display(Name = "موجودی")]
-        public int? Balance { get; set; }
+        public decimal? Balance { get; set; }
         public int? Score { get; set; } 
         public bool IsActive { get; set; } = false;
         public bool IsDeleted { get; set; } = false;

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AcharDomainCore.Contracts.Expert
 {
-    public class ICityAppService
+    public class IExpertAppService
     {
     }
 }

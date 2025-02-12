@@ -15,7 +15,7 @@ namespace AcharDomainCore.Entites
         [Display(Name = "توضیحات")]
         public string Description { get; set; }
         [Display(Name = "قیمت پیشنهادی")]
-        public int SuggestedPrice { get; set; }
+        public decimal SuggestedPrice { get; set; }
         public bool IsDeleted { get; set; } = false;
         public bool IsAccepted { get; set; } = false;
         public bool IsRejected { get; set; } = false;

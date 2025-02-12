@@ -14,7 +14,7 @@ namespace AcharDomainCore.Entites
         [Required(ErrorMessage = "وارد کردن عنوان اجباری است")]
         public string Title { get; set; }
         public string? ImageSrc { get; set; }
-        public int BasePrice { get; set; }
+        public decimal BasePrice { get; set; }
         public string? ShortDescription { get; set; }
         public string? Description { get; set; }
         public bool IsDeleted { get; set; } = false;

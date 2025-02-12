@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Achar.Infra.Db.Sql\Achar.Infra.Db.SqLServer.csproj" />
+    <ProjectReference Include="..\AcharDomainCore\AcharDomainCore.csproj" />
+  </ItemGroup>
+
 </Project>

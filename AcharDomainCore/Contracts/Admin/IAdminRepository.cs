@@ -13,5 +13,7 @@ namespace AcharDomainCore.Contracts.Admin
          Task<List<Entites.Admin>> GetAllAmin(CancellationToken cancellationToken);
          Task<bool> UpdateAdmin(Entites.Admin admin, CancellationToken cancellationToken);
          Task<bool> IsActiveAdmin(int id, bool delete, CancellationToken  cancellationToken);
+         Task<bool> UpdateBalance(int id,decimal  balance, CancellationToken cancellationToken);
+
     }
 }

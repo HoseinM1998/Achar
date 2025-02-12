@@ -44,7 +44,7 @@ namespace Achar.Infra.Db.Sql
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Expert> Experts { get; set; }
-        public DbSet<Proposal> Bids { get; set; }
+        public DbSet<Proposal> Proposal { get; set; }
         public DbSet<Request> Requests { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<SubCategory> SubCategory { get; set; }

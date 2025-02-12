@@ -19,7 +19,7 @@ namespace AcharDomainCore.Entites
         public string? Street { get; set; }
 
         [Display(Name = "موجودی")]
-        public int?  Balance { get; set; }
+        public decimal?  Balance { get; set; }
         public bool IsDeleted { get; set; } = false;
         public GenderEnum? Gender { get; set; }
         public DateTime CreateAt { get; set; } = DateTime.Now;
