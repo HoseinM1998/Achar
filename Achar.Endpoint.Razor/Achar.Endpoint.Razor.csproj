@@ -16,4 +16,10 @@
     <ProjectReference Include="..\Framework\Framework.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\userassets\img\admin\" />
+    <Folder Include="wwwroot\userassets\img\customer\" />
+    <Folder Include="wwwroot\userassets\img\expert\" />
+  </ItemGroup>
+
 </Project>

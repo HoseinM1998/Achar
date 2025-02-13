@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AcharDomainCore.Contracts.Proposal
+namespace AcharDomainCore.Contracts.BaseData
 {
-    public interface IPropsolService
+    public interface IBaseRepository
     {
     }
 }

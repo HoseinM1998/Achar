@@ -14,7 +14,7 @@ namespace AcharDomainCore.Entites
         public string Title { get; set; }
         public DateTime CreateAt { get; set; } = DateTime.Now;
         public bool IsDeleted { get; set; } = false;
-        public List<Customer> Customers { get; set; }
-        public List<Expert> Experts { get; set; }
+        public List<Customer> Customers { get; set; } = new List<Customer>();
+        public List<Expert> Experts { get; set; } = new List<Expert>();
     }
 }

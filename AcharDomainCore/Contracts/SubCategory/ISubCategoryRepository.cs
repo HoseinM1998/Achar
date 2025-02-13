@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AcharDomainCore.Dtos;
+using AcharDomainCore.Dtos.SubCategoryDto;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,10 +10,10 @@ namespace AcharDomainCore.Contracts.SubCategory
 {
     public interface ISubCategoryRepository
     {
-        Task<int> CreateSubCategory(Entites.SubCategory subcategory, CancellationToken cancellationToken);
-        Task<bool> UpdateSubCategory(Entites.SubCategory subcategory, CancellationToken cancellationToken);
-        Task<Entites.SubCategory> GetSubCategoryById(int id, CancellationToken cancellation);
+        Task<int> CreateSubCategory(SubCategoryDto subCategoryDto, CancellationToken cancellationToken);
+        Task<bool> UpdateSubCategory(SubCategoryDto subCategoryDto, CancellationToken cancellationToken);
+        Task<Entites.SubCategory> GetSubCategoryById(int id, CancellationToken cancellationToken);
         Task<List<Entites.SubCategory>> GetAllSubCategory(CancellationToken cancellationToken);
-        Task<bool> IsActiveCategory(int id, bool delete, CancellationToken cancellationToken);
+        Task<bool> IsActiveCategory(SoftDeleteDto active, CancellationToken cancellationToken);
     }
 }

@@ -8,21 +8,21 @@ using AcharDomainCore.Enums;
 
 namespace AcharDomainCore.Entites
 {
-    public class Proposal
+    public class Bid
     {
         [Display(Name = "ایدی")]
         public int Id { get; set; }
         [Display(Name = "توضیحات")]
         public string Description { get; set; }
         [Display(Name = "قیمت پیشنهادی")]
-        public decimal SuggestedPrice { get; set; }
+        public decimal BidPrice { get; set; }
         public bool IsDeleted { get; set; } = false;
         public bool IsAccepted { get; set; } = false;
         public bool IsRejected { get; set; } = false;
         [Display(Name = "تاریخ پیشنهادی")]
-        public DateTime SuggestedDate { get; set; }
+        public DateTime BidDate { get; set; }
         public DateTime CreateAt { get; set; } = DateTime.Now;
-        public StatusSuggestedEnum Status { get; set; }
+        public StatusBidEnum Status { get; set; }
 
         [Display(Name = "ایدی متخصص")]
         public int ExpertId { get; set; }

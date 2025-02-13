@@ -27,9 +27,6 @@ namespace Achar.Infra.Db.SqLServer.EntitiesConfigration
             builder.Property(x => x.IsDeleted)
                 .HasDefaultValue(false);
 
-            builder.HasMany(x => x.Experts)
-                .WithMany(x => x.Services);
-
             builder
                 .HasOne(x => x.SubCategory)
                 .WithMany(y => y.HomeServices)

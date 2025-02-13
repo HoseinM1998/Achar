@@ -14,25 +14,15 @@ namespace Achar.Infra.Db.SqLServer.EntitiesConfigration
         public void Configure(EntityTypeBuilder<Admin> builder)
         {
             builder.HasKey(a => a.Id);
-            builder.Property(a => a.Id)
-                .IsRequired();
-            builder.Property(a => a.FirstName)
-                .HasMaxLength(50)
-                .IsRequired();
-            builder.Property(a => a.LastName)
-                .HasMaxLength(50)
-                .IsRequired();
-            builder.Property(a => a.ProfileImageUrl)
-                .HasMaxLength(4000);
+            builder
+                .Property(x => x.IsDeleted)
+                .HasDefaultValue(false);
 
             builder.HasData(new List<Admin>
             {
                 new Admin()
                 {
                     Id = 1,
-                    FirstName = "ادمین",
-                    LastName = "ادمین",
-                    ProfileImageUrl = "/UserAssets/img/admin/1.jpg",
                     ApplicationUserId = 1
                 }
             });

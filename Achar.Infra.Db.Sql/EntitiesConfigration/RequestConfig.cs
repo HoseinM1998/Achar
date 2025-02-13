@@ -36,11 +36,11 @@ namespace Achar.Infra.Db.SqLServer.EntitiesConfigration
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(x => x.AcceptedExpert)
-                .WithMany(y => y.AcceptedRequests)
+                .WithMany(y => y.Requests)
                 .HasForeignKey(x => x.AcceptedExpertId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasMany(x => x.Proposals)
+            builder.HasMany(x => x.Bids)
                 .WithOne(y => y.Request)
                 .HasForeignKey(x => x.RequestId)
                 .OnDelete(DeleteBehavior.Cascade);

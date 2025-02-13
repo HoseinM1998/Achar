@@ -7,21 +7,19 @@ using System.Threading.Tasks;
 
 namespace AcharDomainCore.Enums
 {
-    public enum StatusSuggestedEnum
+    public enum StatusBidEnum
     {
         [Display(Name = "درانتظار تایید مشتری")]
         WaitingForCustomerConfirmation = 1,
-        [Display(Name = "توسط مشتری کنسل شد")]
-        CancelledByCustomer,
         [Display(Name = "درانتظار مراجعه متخصص")]
         WaitingForExpert,
-        [Display(Name = "با‌موفقیت انجام‌شد")]
-        Success,
-        [Display(Name = "با‌موفقیت انجام‌نشد")]
-        Failed ,
+        [Display(Name = "توسط مشتری کنسل شد")]
+        CancelledByCustomer,
         [Display(Name = "کنسل‌شد")]
         Cancelled ,
         [Display(Name = "ردشد")] 
-        Rejected
+        Rejected,
+        [Display(Name = "با‌موفقیت انجام‌شد")]
+        Success
     }
 }

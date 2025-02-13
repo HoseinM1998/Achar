@@ -33,6 +33,6 @@ namespace AcharDomainCore.Entites
         public Expert? AcceptedExpert { get; set; }
         public int ServiceId { get; set; }
         public HomeService Service { get; set; }
-        public List<Proposal>? Proposals { get; set; }
+        public List<Bid>? Bids { get; set; } = new List<Bid>();
     }
 }

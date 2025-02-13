@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Achar.Infra.Db.SqLServer.EntitiesConfigration
 {
-    public class ProposalConfig : IEntityTypeConfiguration<Proposal>
+    public class BidConfig : IEntityTypeConfiguration<Bid>
     {
-        public void Configure(EntityTypeBuilder<Proposal> builder)
+        public void Configure(EntityTypeBuilder<Bid> builder)
         {
             builder .HasKey(p => p.Id);
             builder.Property(x => x.IsDeleted)

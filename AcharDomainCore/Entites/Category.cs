@@ -17,7 +17,7 @@ namespace AcharDomainCore.Entites
         public string? Image { get; set; }
         public bool IsDeleted { get; set; } = false;
         public DateTime CreatedAt { get; set; } = DateTime.Now;
-        public List<SubCategory>? SubCategories { get; set; }
+        public List<SubCategory>? SubCategories { get; set; } = new List<SubCategory>();
 
     }
 }

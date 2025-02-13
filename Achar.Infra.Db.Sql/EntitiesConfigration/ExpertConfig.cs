@@ -15,12 +15,6 @@ namespace Achar.Infra.Db.SqLServer.EntitiesConfigration
         {
             builder.HasKey(x => x.Id);
 
-            builder.Property(x => x.FirstName)
-                .HasMaxLength(100);
-
-            builder .Property(x => x.LastName)
-                .HasMaxLength(100);
-
             builder
                 .Property(x => x.Street)
                 .HasMaxLength(250);
@@ -28,10 +22,8 @@ namespace Achar.Infra.Db.SqLServer.EntitiesConfigration
             builder
                 .Property(x => x.IsActive)
                 .HasDefaultValue(false);
-
-            builder
-                .Property(x => x.IsDeleted)
-                .HasDefaultValue(false);
+            builder.HasMany(x => x.Skills)
+                .WithMany(x => x.Experts);
 
             builder
                 .HasMany(e => e.Comments)
@@ -44,16 +36,11 @@ namespace Achar.Infra.Db.SqLServer.EntitiesConfigration
                 new Expert()
                 {
                     Id = 1,
-                    FirstName = "سعید",
-                    LastName = "لک‌",
-                    ProfileImage = "/UserAssets/img/expert/1.jpg",
                     ApplicationUserId = 5
                 },
                 new Expert()
                 {
                     Id = 2,
-                    FirstName = "سحر",
-                    ProfileImage = "/UserAssets/img/expert/1.jpg",
                     ApplicationUserId = 6
                 }
             });

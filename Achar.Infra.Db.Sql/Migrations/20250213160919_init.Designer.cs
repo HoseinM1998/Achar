@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Achar.Infra.Db.SqLServer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250211203152_init")]
+    [Migration("20250213160919_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -39,19 +39,10 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                     b.Property<DateTime?>("CreateAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("ProfileImageUrl")
-                        .HasMaxLength(4000)
-                        .HasColumnType("nvarchar(4000)");
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.HasKey("Id");
 
@@ -65,10 +56,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         {
                             Id = 1,
                             ApplicationUserId = 1,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 559, DateTimeKind.Local).AddTicks(7245),
-                            FirstName = "ادمین",
-                            LastName = "ادمین",
-                            ProfileImageUrl = "/UserAssets/img/admin/1.jpg"
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 586, DateTimeKind.Local).AddTicks(5013),
+                            IsDeleted = false
                         });
                 });
 
@@ -83,6 +72,9 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<decimal?>("Balance")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -93,6 +85,12 @@ namespace Achar.Infra.Db.SqLServer.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -116,6 +114,9 @@ namespace Achar.Infra.Db.SqLServer.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("ProfileImageUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
@@ -144,16 +145,19 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "85a77bba-0ed2-4d33-b214-1335e8518bc7",
+                            ConcurrencyStamp = "9c38d176-4ddf-4c5f-85e8-41941e2e059c",
                             Email = "Admin@gmail.com",
                             EmailConfirmed = false,
+                            FirstName = "ادمین",
+                            LastName = "ادمین",
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEMecAhNM5v2R3aRkRNt4pX/IrBw6P8o3NTAjl6vr9HWb3NtSvXGXeQaClOXqR/k9Bg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFja0ODf+tEwEVdS+D+vkndDci9Istug/wUeeTDGUDnKqRzknFeX4dj+t/zyDP5wHA==",
                             PhoneNumber = "09913466961",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "f0396e80-c9ce-4d83-8f25-7144801a236b",
+                            ProfileImageUrl = "/userassets/img/1.png",
+                            SecurityStamp = "e0c4fdd9-68a3-4d22-b868-a8eadd8571d6",
                             TwoFactorEnabled = false,
                             UserName = "Admin@gmail.com"
                         },
@@ -161,16 +165,19 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "aeeb97f2-7510-4702-aeb3-d27daefa2111",
+                            ConcurrencyStamp = "ce07de32-2668-4116-a839-05c5e921fb2a",
                             Email = "Hosein@gmail.com",
                             EmailConfirmed = false,
+                            FirstName = "حسین",
+                            LastName = "مصلحی",
                             LockoutEnabled = false,
                             NormalizedEmail = "HOSEIN@GMAIL.COM",
                             NormalizedUserName = "HOSEIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFXCE3xU6aqEREWs3/WaeBeqJQfe8YMUIpvNqmQQKf0ZMnevwADZy9AgN3MeRDzirw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEL0C3pzMCdcArHAnytOmUzDVUTxdry+QHYlvkSS6/kt08tubWeNtbBV/1F8oDB5b6A==",
                             PhoneNumber = "09913466961",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b1b91538-c9c9-411a-8953-a226a162790b",
+                            ProfileImageUrl = "/userassets/img/1.png",
+                            SecurityStamp = "cb69c829-5308-4168-89dc-5678efd24c16",
                             TwoFactorEnabled = false,
                             UserName = "Hosein@gmail.com"
                         },
@@ -178,16 +185,19 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         {
                             Id = 3,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4d9b6e80-9d8d-4681-b4d2-f3b72fb94898",
+                            ConcurrencyStamp = "37943164-ac2a-4215-9e3f-a9c088b32e96",
                             Email = "Javad@gmail.com",
                             EmailConfirmed = false,
+                            FirstName = "جواد",
+                            LastName = "مرادی",
                             LockoutEnabled = false,
                             NormalizedEmail = "JAVAD@GMAIL.COM",
                             NormalizedUserName = "JAVAD@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGBkvZA5QIWctUZdr/cQE3lKGv9gZNcknCxGkMzLo1xUGDSbzV270xpb1azeGL9j1g==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHdV6LL88uDhV+pmxgRaqRWZ9NGeVli2Wm/ZeyPh1e9OYsaoCOFtZK8/zDns6J/yJg==",
                             PhoneNumber = "09913466961",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "f113e5aa-c09e-4628-88ba-aea0bd6e2431",
+                            ProfileImageUrl = "/userassets/img/1.png",
+                            SecurityStamp = "7d50ab28-aa7e-4708-9cbe-bdc443ffdb63",
                             TwoFactorEnabled = false,
                             UserName = "Javad@gmail.com"
                         },
@@ -195,16 +205,19 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         {
                             Id = 4,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "0bb43125-94dc-4dee-a0d7-3be650537b6b",
+                            ConcurrencyStamp = "dc37540d-e143-46ad-a6f2-c41e685bcfb8",
                             Email = "Aref@gmail.com",
                             EmailConfirmed = false,
+                            FirstName = "عارف",
+                            LastName = "بهمنی",
                             LockoutEnabled = false,
                             NormalizedEmail = "AREF@GMAIL.COM",
                             NormalizedUserName = "AREF@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAELm99YniakkY3bE3fraBGpAYWm8jl8JoUPutcQxttkDJaGXr4M4FRtnAdVv2ZU5uIg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDVTUmtbUm2M7qJjJLvPiQrDmhpaUZ8I6FSS7MbAd4rmHOsh0flrWzSCVCLpFmq6JA==",
                             PhoneNumber = "09913466961",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "8cee267c-f3fe-4198-8c6a-a20baa3020f1",
+                            ProfileImageUrl = "/userassets/img/1.png",
+                            SecurityStamp = "ed5c3227-756e-4b26-b4b9-2a602975d1ba",
                             TwoFactorEnabled = false,
                             UserName = "Aref@gmail.com"
                         },
@@ -212,16 +225,19 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         {
                             Id = 5,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "5e1b8dc9-6a2d-48e0-8f9d-2352593e3904",
+                            ConcurrencyStamp = "41a71055-d3b9-44c0-a034-555e5d550eda",
                             Email = "Saeid@gmail.com",
                             EmailConfirmed = false,
+                            FirstName = "سعید",
+                            LastName = "لک‌",
                             LockoutEnabled = false,
                             NormalizedEmail = "SAEID@GMAIL.COM",
                             NormalizedUserName = "SAEID@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEKUYM1C/yVLcsF33h6M3lQUSrNWjQQ4hItBa/qapuutAREzvBi0Tnm5zuhBlwSEl7A==",
-                            PhoneNumber = "09377507920",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKhNLRkLuYWiHMvlz/WODPhRkn5D0W9T02UD+KwNp5j1m2ffy7Zk8vQx0QfaMlLX5Q==",
+                            PhoneNumber = "09913466961",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b0a68e92-57af-45df-857f-85efa3601152",
+                            ProfileImageUrl = "/userassets/img/1.png",
+                            SecurityStamp = "dc52d276-8b9e-47f2-a70c-d9fc40991528",
                             TwoFactorEnabled = false,
                             UserName = "Saeid@gmail.com"
                         },
@@ -229,19 +245,72 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         {
                             Id = 6,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6d01fd41-4c14-41f8-9c73-e4cf84a6ac3f",
+                            ConcurrencyStamp = "1b36c226-d692-4dce-9c7a-7126ff22e40d",
                             Email = "Sahar@gmail.com",
                             EmailConfirmed = false,
+                            FirstName = "سحر",
                             LockoutEnabled = false,
                             NormalizedEmail = "SAHAR@GMAIL.COM",
                             NormalizedUserName = "SAHAR@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEMa5DHSOIXxcaj6cZsP4p9x2STbebcxCtR7hwRHXNWPSQFhhmlL9Qv31iwQKheiYYg==",
-                            PhoneNumber = "09377507920",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEeR0r2w2hTR1i0bUuHqUSxNjwCUS97uSo5JH+ri+gIe08z0LraglY7gNBSFOWhh7Q==",
+                            PhoneNumber = "09913466961",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d8cd3650-2dc9-4962-92e2-ac97714b01dc",
+                            ProfileImageUrl = "/userassets/img/1.png",
+                            SecurityStamp = "e79d9104-0e0e-491c-95e2-333503a8c9a4",
                             TwoFactorEnabled = false,
                             UserName = "Sahar@gmail.com"
                         });
+                });
+
+            modelBuilder.Entity("AcharDomainCore.Entites.Bid", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("BidDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("BidPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(4000)
+                        .HasColumnType("nvarchar(4000)");
+
+                    b.Property<int>("ExpertId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsAccepted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<bool>("IsRejected")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("RequestId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExpertId");
+
+                    b.HasIndex("RequestId");
+
+                    b.ToTable("Bids");
                 });
 
             modelBuilder.Entity("AcharDomainCore.Entites.Category", b =>
@@ -277,7 +346,7 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2025, 2, 12, 0, 1, 51, 565, DateTimeKind.Local).AddTicks(2913),
+                            CreatedAt = new DateTime(2025, 2, 13, 19, 39, 18, 589, DateTimeKind.Local).AddTicks(3240),
                             Image = "/assets/img/category/TamizCari-con.png.png",
                             IsDeleted = false,
                             Title = "تمیزکاری"
@@ -285,7 +354,7 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2025, 2, 12, 0, 1, 51, 565, DateTimeKind.Local).AddTicks(3630),
+                            CreatedAt = new DateTime(2025, 2, 13, 19, 39, 18, 589, DateTimeKind.Local).AddTicks(4036),
                             Image = "/assets/img/category/Sakhtman-icon.png",
                             IsDeleted = false,
                             Title = "ساختمان "
@@ -293,7 +362,7 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2025, 2, 12, 0, 1, 51, 565, DateTimeKind.Local).AddTicks(3634),
+                            CreatedAt = new DateTime(2025, 2, 13, 19, 39, 18, 589, DateTimeKind.Local).AddTicks(4039),
                             Image = "/assets/img/category/Tamirat-icon.png",
                             IsDeleted = false,
                             Title = "تعمیرات اشیا"
@@ -301,7 +370,7 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 4,
-                            CreatedAt = new DateTime(2025, 2, 12, 0, 1, 51, 565, DateTimeKind.Local).AddTicks(3636),
+                            CreatedAt = new DateTime(2025, 2, 13, 19, 39, 18, 589, DateTimeKind.Local).AddTicks(4041),
                             Image = "/assets/img/category/Asbabkeshi-icon.png",
                             IsDeleted = false,
                             Title = " اسباب کشی وحمل بار "
@@ -309,7 +378,7 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 5,
-                            CreatedAt = new DateTime(2025, 2, 12, 0, 1, 51, 565, DateTimeKind.Local).AddTicks(3637),
+                            CreatedAt = new DateTime(2025, 2, 13, 19, 39, 18, 589, DateTimeKind.Local).AddTicks(4042),
                             Image = "/assets/img/category/Khodro-icon.png",
                             IsDeleted = false,
                             Title = "خودرو "
@@ -317,7 +386,7 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 6,
-                            CreatedAt = new DateTime(2025, 2, 12, 0, 1, 51, 565, DateTimeKind.Local).AddTicks(3639),
+                            CreatedAt = new DateTime(2025, 2, 13, 19, 39, 18, 589, DateTimeKind.Local).AddTicks(4043),
                             Image = "/assets/img/category/Salamat-icon.png",
                             IsDeleted = false,
                             Title = " سلامت وزیبایی "
@@ -325,7 +394,7 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 7,
-                            CreatedAt = new DateTime(2025, 2, 12, 0, 1, 51, 565, DateTimeKind.Local).AddTicks(3640),
+                            CreatedAt = new DateTime(2025, 2, 13, 19, 39, 18, 589, DateTimeKind.Local).AddTicks(4045),
                             Image = "/assets/img/category/Sazeman-icon.png",
                             IsDeleted = false,
                             Title = "سازمان ها و مجتمع ها "
@@ -361,175 +430,175 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 1,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 570, DateTimeKind.Local).AddTicks(6459),
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 592, DateTimeKind.Local).AddTicks(9647),
                             IsDeleted = false,
                             Title = "تهران"
                         },
                         new
                         {
                             Id = 2,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 570, DateTimeKind.Local).AddTicks(7201),
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 593, DateTimeKind.Local).AddTicks(151),
                             IsDeleted = false,
                             Title = "مشهد"
                         },
                         new
                         {
                             Id = 3,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 570, DateTimeKind.Local).AddTicks(7205),
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 593, DateTimeKind.Local).AddTicks(154),
                             IsDeleted = false,
                             Title = "اصفهان"
                         },
                         new
                         {
                             Id = 4,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 570, DateTimeKind.Local).AddTicks(7207),
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 593, DateTimeKind.Local).AddTicks(157),
                             IsDeleted = false,
                             Title = "شیراز"
                         },
                         new
                         {
                             Id = 5,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 570, DateTimeKind.Local).AddTicks(7209),
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 593, DateTimeKind.Local).AddTicks(158),
                             IsDeleted = false,
                             Title = "تبریز"
                         },
                         new
                         {
                             Id = 6,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 570, DateTimeKind.Local).AddTicks(7215),
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 593, DateTimeKind.Local).AddTicks(163),
                             IsDeleted = false,
                             Title = "کرج"
                         },
                         new
                         {
                             Id = 7,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 570, DateTimeKind.Local).AddTicks(7216),
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 593, DateTimeKind.Local).AddTicks(258),
                             IsDeleted = false,
                             Title = "قم"
                         },
                         new
                         {
                             Id = 8,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 570, DateTimeKind.Local).AddTicks(7217),
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 593, DateTimeKind.Local).AddTicks(259),
                             IsDeleted = false,
                             Title = "اهواز"
                         },
                         new
                         {
                             Id = 9,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 570, DateTimeKind.Local).AddTicks(7219),
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 593, DateTimeKind.Local).AddTicks(260),
                             IsDeleted = false,
                             Title = "رشت"
                         },
                         new
                         {
                             Id = 10,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 570, DateTimeKind.Local).AddTicks(7221),
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 593, DateTimeKind.Local).AddTicks(263),
                             IsDeleted = false,
                             Title = "کرمانشاه"
                         },
                         new
                         {
                             Id = 11,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 570, DateTimeKind.Local).AddTicks(7223),
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 593, DateTimeKind.Local).AddTicks(264),
                             IsDeleted = false,
                             Title = "زاهدان"
                         },
                         new
                         {
                             Id = 12,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 570, DateTimeKind.Local).AddTicks(7224),
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 593, DateTimeKind.Local).AddTicks(265),
                             IsDeleted = false,
                             Title = "ارومیه"
                         },
                         new
                         {
                             Id = 13,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 570, DateTimeKind.Local).AddTicks(7226),
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 593, DateTimeKind.Local).AddTicks(266),
                             IsDeleted = false,
                             Title = "یزد"
                         },
                         new
                         {
                             Id = 14,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 570, DateTimeKind.Local).AddTicks(7227),
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 593, DateTimeKind.Local).AddTicks(267),
                             IsDeleted = false,
                             Title = "همدان"
                         },
                         new
                         {
                             Id = 15,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 570, DateTimeKind.Local).AddTicks(7228),
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 593, DateTimeKind.Local).AddTicks(268),
                             IsDeleted = false,
                             Title = "قزوین"
                         },
                         new
                         {
                             Id = 16,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 570, DateTimeKind.Local).AddTicks(7230),
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 593, DateTimeKind.Local).AddTicks(270),
                             IsDeleted = false,
                             Title = "سنندج"
                         },
                         new
                         {
                             Id = 17,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 570, DateTimeKind.Local).AddTicks(7231),
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 593, DateTimeKind.Local).AddTicks(271),
                             IsDeleted = false,
                             Title = "بندرعباس"
                         },
                         new
                         {
                             Id = 18,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 570, DateTimeKind.Local).AddTicks(7235),
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 593, DateTimeKind.Local).AddTicks(273),
                             IsDeleted = false,
                             Title = "زنجان"
                         },
                         new
                         {
                             Id = 19,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 570, DateTimeKind.Local).AddTicks(7236),
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 593, DateTimeKind.Local).AddTicks(274),
                             IsDeleted = false,
                             Title = "ساری"
                         },
                         new
                         {
                             Id = 20,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 570, DateTimeKind.Local).AddTicks(7237),
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 593, DateTimeKind.Local).AddTicks(275),
                             IsDeleted = false,
                             Title = "بوشهر"
                         },
                         new
                         {
                             Id = 21,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 570, DateTimeKind.Local).AddTicks(7238),
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 593, DateTimeKind.Local).AddTicks(276),
                             IsDeleted = false,
                             Title = "مازندران"
                         },
                         new
                         {
                             Id = 22,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 570, DateTimeKind.Local).AddTicks(7240),
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 593, DateTimeKind.Local).AddTicks(277),
                             IsDeleted = false,
                             Title = "گرگان"
                         },
                         new
                         {
                             Id = 23,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 570, DateTimeKind.Local).AddTicks(7241),
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 593, DateTimeKind.Local).AddTicks(278),
                             IsDeleted = false,
                             Title = "کرمان"
                         },
                         new
                         {
                             Id = 24,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 570, DateTimeKind.Local).AddTicks(7242),
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 593, DateTimeKind.Local).AddTicks(279),
                             IsDeleted = false,
                             Title = "خرم آباد"
                         },
                         new
                         {
                             Id = 25,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 570, DateTimeKind.Local).AddTicks(7244),
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 593, DateTimeKind.Local).AddTicks(280),
                             IsDeleted = false,
                             Title = "سمنان"
                         });
@@ -592,18 +661,11 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                     b.Property<int>("ApplicationUserId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Balance")
-                        .HasColumnType("int");
-
                     b.Property<int>("CityId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreateAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("FirstName")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int?>("Gender")
                         .HasColumnType("int");
@@ -612,14 +674,6 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
-
-                    b.Property<string>("LastName")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("ProfileImageUrl")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("Street")
                         .HasColumnType("nvarchar(max)");
@@ -639,33 +693,24 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                             Id = 1,
                             ApplicationUserId = 2,
                             CityId = 6,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 575, DateTimeKind.Local).AddTicks(8963),
-                            FirstName = "حسین",
-                            IsDeleted = false,
-                            LastName = "مصلحی",
-                            ProfileImageUrl = "/UserAssets/img/customer/1.jpg"
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 596, DateTimeKind.Local).AddTicks(674),
+                            IsDeleted = false
                         },
                         new
                         {
                             Id = 2,
                             ApplicationUserId = 3,
                             CityId = 1,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 576, DateTimeKind.Local).AddTicks(197),
-                            FirstName = "جواد",
-                            IsDeleted = false,
-                            LastName = "مرادی",
-                            ProfileImageUrl = "/UserAssets/img/customer/2.jpg"
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 596, DateTimeKind.Local).AddTicks(1322),
+                            IsDeleted = false
                         },
                         new
                         {
                             Id = 3,
                             ApplicationUserId = 4,
                             CityId = 1,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 576, DateTimeKind.Local).AddTicks(201),
-                            FirstName = "عارف",
-                            IsDeleted = false,
-                            LastName = "بهمنی",
-                            ProfileImageUrl = "/UserAssets/img/customer/3.jpg"
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 596, DateTimeKind.Local).AddTicks(1326),
+                            IsDeleted = false
                         });
                 });
 
@@ -680,18 +725,11 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                     b.Property<int>("ApplicationUserId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Balance")
-                        .HasColumnType("int");
-
                     b.Property<int?>("CityId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreateAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("FirstName")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
 
                     b.Property<int?>("Gender")
                         .HasColumnType("int");
@@ -700,18 +738,6 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
-
-                    b.Property<bool>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
-
-                    b.Property<string>("LastName")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("ProfileImage")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("Score")
                         .HasColumnType("int");
@@ -734,22 +760,15 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         {
                             Id = 1,
                             ApplicationUserId = 5,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 577, DateTimeKind.Local).AddTicks(4344),
-                            FirstName = "سعید",
-                            IsActive = false,
-                            IsDeleted = false,
-                            LastName = "لک‌",
-                            ProfileImage = "/UserAssets/img/expert/1.jpg"
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 598, DateTimeKind.Local).AddTicks(368),
+                            IsActive = false
                         },
                         new
                         {
                             Id = 2,
                             ApplicationUserId = 6,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 577, DateTimeKind.Local).AddTicks(5406),
-                            FirstName = "سحر",
-                            IsActive = false,
-                            IsDeleted = false,
-                            ProfileImage = "/UserAssets/img/expert/1.jpg"
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 598, DateTimeKind.Local).AddTicks(860),
+                            IsActive = false
                         });
                 });
 
@@ -761,8 +780,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("BasePrice")
-                        .HasColumnType("int");
+                    b.Property<decimal>("BasePrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("CreateAt")
                         .HasColumnType("datetime2");
@@ -799,8 +818,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 1,
-                            BasePrice = 1000000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 584, DateTimeKind.Local).AddTicks(8496),
+                            BasePrice = 1000000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(1228),
                             Description = "سرویس عادی نظافت شامل تمیزکاری کلی محیط، گردگیری سطوح، جارو و تی کشی است. این سرویس برای حفظ نظافت روزمره و ایجاد فضایی پاک و مرتب ارائه میشود.",
                             ImageSrc = "/assets/img/homeservice/1.jpg",
                             IsDeleted = false,
@@ -810,8 +829,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 2,
-                            BasePrice = 2000000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1668),
+                            BasePrice = 2000000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2415),
                             Description = "سرویس ویژه نظافت شامل تمیزکاری عمیق و تخصصی با استفاده از مواد و تجهیزات حرفه ای است. این سرویس برای پاک سازی کامل و ضدعفونی محیط های مسکونی و اداری ارائه میشود.",
                             ImageSrc = "/assets/img/homeservice/2.jpg",
                             IsDeleted = false,
@@ -821,8 +840,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 3,
-                            BasePrice = 500000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1684),
+                            BasePrice = 500000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2419),
                             Description = "سرویس نظافت راه پله شامل جارو و تی کشی پله ها، پاکسازی نرده ها، دستگیره ها و ورودی ساختمان است. این سرویس به حفظ تمیزی و زیبایی مشاعات کمک می کند.",
                             ImageSrc = "/assets/img/homeservice/3.jpg",
                             IsDeleted = false,
@@ -832,8 +851,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 4,
-                            BasePrice = 1500000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1687),
+                            BasePrice = 1500000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2421),
                             Description = "سرویس پذیرایی شامل چیدمان، سرو غذا و نوشیدنی، نظافت میزها و رسیدگی به مهمانان است این سرویس برای مراسم، مهمانی ها و جلسات ارائه میشود",
                             ImageSrc = "/assets/img/homeservice/4.jpg",
                             IsDeleted = false,
@@ -843,8 +862,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 5,
-                            BasePrice = 1000000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1690),
+                            BasePrice = 1000000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2423),
                             Description = "سرویس کارگر ساده شامل انجام امور عمومی مانند جابه جایی وسایل، کمک در نظافت، انبارداری و سایر کارهای دستی است. این سرویس برای مصارف خانگی و صنعتی ارائه میشود.",
                             ImageSrc = "/assets/img/homeservice/5.jpg",
                             IsDeleted = false,
@@ -854,8 +873,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 6,
-                            BasePrice = 200000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1692),
+                            BasePrice = 200000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2425),
                             Description = "سرویس فینگرفود شامل تهیه و سرو انواع خوراکیهای لقمهای شیک و خوشمزه برای مهمانیها، مراسم و جلسات است. این سرویس تنوعی از طعمها را با دیزاینی جذاب ارائه میدهد.",
                             ImageSrc = "/assets/img/homeservice/6.jpg",
                             IsDeleted = false,
@@ -865,8 +884,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 7,
-                            BasePrice = 200000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1695),
+                            BasePrice = 200000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2427),
                             Description = "سرویس فست  شامل تهیه و ارائه انواع غذاهای سریع و لذیذ مانند برگر، پیتزا، ساندویچ و سیب  سرخ  است. این سرویس برای مجالس، مهمانی  و رویدادهای مختلف ارائه میشود.",
                             ImageSrc = "/assets/img/homeservice/7.jpg",
                             IsDeleted = false,
@@ -876,8 +895,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 8,
-                            BasePrice = 250000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1714),
+                            BasePrice = 250000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2441),
                             Description = "سرویس غذای ایرانی شامل تهیه و سرو انواع غذاهای سنتی و اصیل ایرانی مانند کباب، قورمه ، قیمه و باقالی  است. این سرویس برای مهمانی ، مراسم و رویدادهای خاص ارائه میشود.",
                             ImageSrc = "/assets/img/homeservice/8.jpg",
                             IsDeleted = false,
@@ -887,8 +906,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 9,
-                            BasePrice = 200000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1717),
+                            BasePrice = 200000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2443),
                             Description = "سرویس تعمیر و نگهداری پکیج شامل عیب ، رسوب ، تنظیم فشار، هواگیری و تعمیر قطعات معیوب است. این سرویس برای بهبود عملکرد و افزایش عمر مفید پکیج ارائه میشود.",
                             ImageSrc = "/assets/img/homeservice/9.jpg",
                             IsDeleted = false,
@@ -898,8 +917,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 10,
-                            BasePrice = 200000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1719),
+                            BasePrice = 200000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2445),
                             Description = "سرویس تعمیر و نگهداری آبگرمکن شامل عیب ، رسوب ، تنظیم شعله، تعویض قطعات معیوب و هواگیری است. این سرویس برای بهبود عملکرد و افزایش عمر مفید آبگرمکن ارائه میشود.",
                             ImageSrc = "/assets/img/homeservice/10.jpg",
                             IsDeleted = false,
@@ -909,8 +928,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 11,
-                            BasePrice = 200000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1722),
+                            BasePrice = 200000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2447),
                             Description = "سرویس تعمیر و نگهداری فن شامل تمیز کردن فیلترها، بررسی عملکرد موتور، تنظیم دما و فشار آب، و عیب یابی سیستم برقی است. این سرویس به بهبود عملکرد فن کوئل و افزایش کارایی سیستم تهویه کمک میکند.",
                             ImageSrc = "/assets/img/homeservice/11.jpg",
                             IsDeleted = false,
@@ -920,8 +939,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 12,
-                            BasePrice = 200000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1724),
+                            BasePrice = 200000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2449),
                             Description = "سرویس تعمیر و نگهداری کولرگازی و داکت اسپلیت شامل بررسی عملکرد کمپرسور، تمیز کردن فیلترها، شارژ گاز، عیب یابی قطعات الکتریکی و مکانیکی، و تنظیم دما است. این سرویس به بهبود عملکرد و طول عمر دستگاه ها کمک میکند.",
                             ImageSrc = "/assets/img/homeservice/12.jpg",
                             IsDeleted = false,
@@ -931,8 +950,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 13,
-                            BasePrice = 200000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1727),
+                            BasePrice = 200000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2450),
                             Description = "سرویس تعمیر و نگهداری کولر آبی شامل تمیز کردن پوشال‌ها، بررسی موتور و پمپ آب، تنظیم شیب لوله‌ها، تعویض قطعات فرسوده و تنظیم عملکرد فن است. این سرویس به بهبود کارایی کولر و افزایش عمر مفید آن کمک می‌کند.",
                             ImageSrc = "/assets/img/homeservice/13.jpg",
                             IsDeleted = false,
@@ -942,8 +961,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 14,
-                            BasePrice = 3000000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1729),
+                            BasePrice = 3000000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2452),
                             Description = "سرویس سنگ‌کاری شامل نصب، ترمیم و صیقل دادن انواع سنگ‌ها در کف، دیوار و سطوح مختلف است. این سرویس برای زیبا‌سازی و استحکام فضاهای داخلی و خارجی مانند ساختمان‌ها، حیاط‌ها و محوطه‌های عمومی ارائه می‌شود.",
                             ImageSrc = "/assets/img/homeservice/14.jpg",
                             IsDeleted = false,
@@ -953,8 +972,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 15,
-                            BasePrice = 3000000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1732),
+                            BasePrice = 3000000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2454),
                             Description = "سرویس نقاشی ساختمان شامل رنگ‌آمیزی دیوارها، سقف‌ها، درب‌ها و پنجره‌ها با استفاده از رنگ‌های مرغوب و تکنیک‌های حرفه‌ای است. این سرویس برای ایجاد ظاهری زیبا و تازه برای فضاهای داخلی و خارجی ساختمان ارائه می‌شود.",
                             ImageSrc = "/assets/img/homeservice/15.jpg",
                             IsDeleted = false,
@@ -964,8 +983,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 16,
-                            BasePrice = 250000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1734),
+                            BasePrice = 250000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2456),
                             Description = "سرویس نصب کاغذ دیواری شامل اندازه‌گیری دقیق دیوارها، انتخاب و نصب کاغذ دیواری با طراحی و رنگ دلخواه است. این سرویس برای زیباسازی فضاهای داخلی و ایجاد جلوه‌ای خاص و شیک در خانه‌ها و ادارات ارائه می‌شود.",
                             ImageSrc = "/assets/img/homeservice/16.jpg",
                             IsDeleted = false,
@@ -975,8 +994,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 17,
-                            BasePrice = 250000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1736),
+                            BasePrice = 250000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2458),
                             Description = "سرویس دوخت و نصب پرده شامل طراحی، اندازه‌گیری، دوخت پرده متناسب با دکوراسیون و نصب حرفه‌ای آن است. این سرویس برای زیباسازی و تنظیم نور فضاهای مسکونی و اداری ارائه می‌شود.",
                             ImageSrc = "/assets/img/homeservice/17.jpg",
                             IsDeleted = false,
@@ -986,8 +1005,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 18,
-                            BasePrice = 200000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1739),
+                            BasePrice = 200000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2459),
                             Description = "سرویس بنایی شامل ساخت، تعمیر و بازسازی بخش‌های مختلف ساختمان مانند دیوارچینی، کف‌سازی، گچ‌کاری و سیمان‌کاری است. این سرویس برای مقا‌م‌سازی و زیباسازی فضاهای مسکونی، اداری و تجاری ارائه می‌شود.",
                             ImageSrc = "/assets/img/homeservice/18.jpg",
                             IsDeleted = false,
@@ -997,8 +1016,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 19,
-                            BasePrice = 100000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1741),
+                            BasePrice = 100000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2461),
                             Description = "سرویس کلیدسازی شامل ساخت انواع کلید، باز کردن قفل‌های درب، تعویض و تعمیر قفل، و نصب انواع قفل ایمنی است. این سرویس به‌صورت فوری و در محل ارائه می‌شود.",
                             ImageSrc = "/assets/img/homeservice/19.jpg",
                             IsDeleted = false,
@@ -1008,8 +1027,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 20,
-                            BasePrice = 150000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1744),
+                            BasePrice = 150000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2463),
                             Description = "سرویس نصب و تعمیرات شیرآلات شامل نصب انواع شیرآلات بهداشتی، تعویض واشر و کارتریج، رفع نشتی و تنظیم فشار آب است. این سرویس برای بهبود عملکرد و افزایش دوام سیستم لوله‌کشی ارائه می‌شود.",
                             ImageSrc = "/assets/img/homeservice/20.jpg",
                             IsDeleted = false,
@@ -1019,8 +1038,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 21,
-                            BasePrice = 150000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1746),
+                            BasePrice = 150000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2465),
                             Description = "سرویس تخلیه چاه و لوله‌بازکنی شامل رفع گرفتگی لوله‌ها، تخلیه چاه‌های فاضلاب، رسوب‌زدایی و رفع بوی نامطبوع با استفاده از تجهیزات تخصصی است. این سرویس به بهبود عملکرد سیستم فاضلاب و جلوگیری از مشکلات جدی کمک می‌کند.",
                             ImageSrc = "/assets/img/homeservice/21.jpg",
                             IsDeleted = false,
@@ -1030,8 +1049,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 22,
-                            BasePrice = 250000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1749),
+                            BasePrice = 250000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2476),
                             Description = "سرویس پمپ و منبع آب شامل نصب، تعمیر و سرویس انواع پمپ‌های آب، تنظیم فشار، هواگیری و عیب‌یابی مخازن آب است. این سرویس برای افزایش راندمان سیستم آبرسانی و جلوگیری از افت فشار ارائه می‌شود.",
                             ImageSrc = "/assets/img/homeservice/22.jpg",
                             IsDeleted = false,
@@ -1041,8 +1060,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 23,
-                            BasePrice = 100000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1751),
+                            BasePrice = 100000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2478),
                             Description = "سرویس تشخیص و ترمیم ترکیدگی لوله شامل شناسایی محل نشتی با دستگاه‌های دقیق، تعمیر یا تعویض لوله‌های آسیب‌دیده و جلوگیری از هدررفت آب است. این سرویس برای حفظ سلامت سیستم لوله‌کشی و کاهش هزینه‌های ناشی از نشتی ارائه می‌شود.",
                             ImageSrc = "/assets/img/homeservice/23.jpg",
                             IsDeleted = false,
@@ -1052,8 +1071,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 24,
-                            BasePrice = 200000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1754),
+                            BasePrice = 200000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2480),
                             Description = "سرویس لوله‌کشی گاز شامل طراحی، نصب، تعمیر و تست ایمنی لوله‌های گاز در ساختمان‌های مسکونی و تجاری است. این سرویس با رعایت استانداردهای ایمنی برای تأمین گاز مطمئن و پایدار ارائه می‌شود.",
                             ImageSrc = "/assets/img/homeservice/24.jpg",
                             IsDeleted = false,
@@ -1063,8 +1082,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 25,
-                            BasePrice = 400000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1770),
+                            BasePrice = 400000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2482),
                             Description = "سرویس نصب و تعمیر سینک ظرفشویی شامل نصب انواع سینک، تعویض اتصالات، رفع نشتی، تنظیم شیب فاضلاب و آب‌بندی صحیح است. این سرویس برای بهبود عملکرد و جلوگیری از مشکلات نشتی و گرفتگی ارائه می‌شود.",
                             ImageSrc = "/assets/img/homeservice/25.jpg",
                             IsDeleted = false,
@@ -1074,8 +1093,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 26,
-                            BasePrice = 200000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1773),
+                            BasePrice = 200000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2484),
                             Description = "سرویس سیم‌کشی و کابل‌کشی شامل طراحی، اجرا، تعمیر و ارتقای سیستم‌های برق‌رسانی در ساختمان‌های مسکونی، اداری و صنعتی است. این سرویس با رعایت استانداردهای ایمنی برای تأمین برق پایدار و مطمئن ارائه می‌شود.",
                             ImageSrc = "/assets/img/homeservice/26.jpg",
                             IsDeleted = false,
@@ -1085,8 +1104,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 27,
-                            BasePrice = 100000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1775),
+                            BasePrice = 100000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2487),
                             Description = "سرویس رفع اتصالی شامل شناسایی و تعمیر اتصالات برق معیوب، بررسی سیستم‌های برقی، تعویض فیوزها و سیم‌های آسیب‌دیده است. این سرویس برای جلوگیری از خطرات برقی و بهبود عملکرد سیستم برق‌رسانی ارائه می‌شود.\n\n\n\n\n\n\n\n",
                             ImageSrc = "/assets/img/homeservice/27.jpg",
                             IsDeleted = false,
@@ -1096,8 +1115,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 28,
-                            BasePrice = 150000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1778),
+                            BasePrice = 150000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2491),
                             Description = "سرویس نصب و تعمیر آیفون شامل نصب سیستم‌های آیفون صوتی و تصویری، تعمیر و رفع مشکلات مربوط به صدا، تصویر، دکمه‌ها و اتصالات است. این سرویس برای بهبود عملکرد و افزایش امنیت ساختمان‌ها ارائه می‌شود.",
                             ImageSrc = "/assets/img/homeservice/28.jpg",
                             IsDeleted = false,
@@ -1107,8 +1126,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 29,
-                            BasePrice = 150000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1780),
+                            BasePrice = 150000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2493),
                             Description = "سرویس نصب لوستر و چراغ شامل نصب انواع لوسترها و چراغ‌های تزئینی، تنظیم ارتفاع و بررسی اتصالات برقی است. این سرویس برای روشنایی و زیباسازی فضاهای داخلی منازل و ادارات ارائه می‌شود.",
                             ImageSrc = "/assets/img/homeservice/29.jpg",
                             IsDeleted = false,
@@ -1118,8 +1137,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 30,
-                            BasePrice = 100000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1783),
+                            BasePrice = 100000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2495),
                             Description = "سرویس نصب و تعمیر کلید و پریز شامل نصب انواع کلید و پریز برق، تعویض قطعات فرسوده، رفع اتصالات معیوب و بررسی ایمنی سیستم برق است. این سرویس برای بهبود عملکرد و ایمنی سیستم‌های برقی در ساختمان‌ها ارائه می‌شود.",
                             ImageSrc = "/assets/img/homeservice/30.jpg",
                             IsDeleted = false,
@@ -1129,8 +1148,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 31,
-                            BasePrice = 100000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1785),
+                            BasePrice = 100000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2497),
                             Description = "سرویس نصب و تعویض فیوز شامل بررسی سیستم برق‌رسانی، تعویض فیوزهای سوخته یا معیوب و تنظیم ایمنی مدارهای برقی است. این سرویس برای جلوگیری از بروز مشکلات برقی و حفظ امنیت ساختمان ارائه می‌شود.",
                             ImageSrc = "/assets/img/homeservice/31.jpg",
                             IsDeleted = false,
@@ -1140,8 +1159,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 32,
-                            BasePrice = 400000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1787),
+                            BasePrice = 400000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2500),
                             Description = "سرویس تعمیر و نگهداری آسانسور شامل بررسی و تعمیر سیستم‌های مکانیکی، الکتریکی و ایمنی آسانسور، تنظیم درب‌ها، روغن‌کاری قطعات و رفع مشکلات عملکردی است. این سرویس برای افزایش عمر مفید و بهبود عملکرد آسانسور ارائه می‌شود.",
                             ImageSrc = "/assets/img/homeservice/32.jpg",
                             IsDeleted = false,
@@ -1151,8 +1170,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 33,
-                            BasePrice = 100,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1790),
+                            BasePrice = 100m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2502),
                             Description = "سرویس نصب سنسور تایمر شامل نصب سنسورهای حرکتی یا نور برای روشن و خاموش کردن اتوماتیک لوازم برقی مانند چراغ‌ها یا فن‌ها است. این سرویس به صرفه‌جویی در مصرف انرژی و افزایش راحتی در فضاهای مختلف کمک می‌کند.",
                             ImageSrc = "/assets/img/homeservice/33.jpg",
                             IsDeleted = false,
@@ -1162,8 +1181,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 34,
-                            BasePrice = 4000000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1792),
+                            BasePrice = 4000000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2504),
                             Description = "سرویس ساخت کابینت و کمد دیواری شامل طراحی، ساخت و نصب انواع کابینت آشپزخانه، کمد دیواری و سیستم‌های ذخیره‌سازی سفارشی است. این سرویس برای بهینه‌سازی فضای داخلی و ایجاد دکوراسیون مرتب و کاربردی ارائه می‌شود.",
                             ImageSrc = "/assets/img/homeservice/34.jpg",
                             IsDeleted = false,
@@ -1173,8 +1192,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 35,
-                            BasePrice = 2000000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1795),
+                            BasePrice = 2000000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2505),
                             Description = "سرویس نجاری شامل ساخت، تعمیر و نصب انواع مبلمان چوبی، درب و پنجره، قفسه‌ها و سایر وسایل چوبی است. این سرویس برای ایجاد دکوراسیون چوبی زیبا و مقاوم در فضاهای مسکونی و اداری ارائه می‌شود.",
                             ImageSrc = "/assets/img/homeservice/35.jpg",
                             IsDeleted = false,
@@ -1184,8 +1203,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 36,
-                            BasePrice = 2000000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1797),
+                            BasePrice = 2000000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2507),
                             Description = "سرویس تعمیرات مبلمان شامل تعمیر، بازسازی و نوسازی انواع مبلمان چوبی و پارچه‌ای، تعویض پارچه، فوم، و تعمیر اسکلت و پایه‌ها است. این سرویس به حفظ زیبایی و دوام مبلمان کمک می‌کند.",
                             ImageSrc = "/assets/img/homeservice/36.jpg",
                             IsDeleted = false,
@@ -1195,8 +1214,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 37,
-                            BasePrice = 2500000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1799),
+                            BasePrice = 2500000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2611),
                             Description = "سرویس خدمات درب چوبی و ضد سرقت شامل نصب، تعمیر، تعویض یراق‌آلات، تنظیم درب‌ها، و بررسی ایمنی است. این سرویس برای افزایش امنیت و زیبایی درب‌های ورودی ساختمان‌ها ارائه می‌شود.",
                             ImageSrc = "/assets/img/homeservice/37.jpg",
                             IsDeleted = false,
@@ -1206,8 +1225,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 38,
-                            BasePrice = 2500000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1802),
+                            BasePrice = 2500000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2613),
                             Description = "سرویس نصب پارتیشن شیشه‌ای شامل طراحی، اندازه‌گیری، برش و نصب پارتیشن‌های شیشه‌ای برای تقسیم‌بندی فضاهای داخلی است. این سرویس برای ایجاد فضای جداگانه و زیبا با نوردهی مناسب در ادارات و محیط‌های تجاری ارائه می‌شود.\n\n\n\n\n\n\n\n",
                             ImageSrc = "/assets/img/homeservice/38.jpg",
                             IsDeleted = false,
@@ -1217,8 +1236,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 39,
-                            BasePrice = 1500000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1804),
+                            BasePrice = 1500000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2615),
                             Description = "سرویس شیشه‌بری و آینه‌کاری شامل برش دقیق انواع شیشه‌ها و آینه‌ها، نصب و چسباندن آن‌ها در فضاهای مختلف مانند پنجره‌ها، درب‌ها، دیوارها و دکورهای داخلی است. این سرویس برای زیباسازی و تأمین نیازهای شیشه‌ای و آینه‌ای در ساختمان‌ها ارائه می‌شود.",
                             ImageSrc = "/assets/img/homeservice/39.jpg",
                             IsDeleted = false,
@@ -1228,8 +1247,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 40,
-                            BasePrice = 2000000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1806),
+                            BasePrice = 2000000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2617),
                             Description = "سرویس نصب شیشه ریلی اسلاید شامل طراحی، برش و نصب شیشه‌های ریلی متحرک برای فضاهایی مانند درب‌های ورودی، پارتیشن‌ها و فضاهای تجاری است. این سرویس برای استفاده بهینه از فضا و ایجاد ظاهری مدرن و شیک ارائه می‌شود.",
                             ImageSrc = "/assets/img/homeservice/40.jpg",
                             IsDeleted = false,
@@ -1239,8 +1258,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 41,
-                            BasePrice = 3000000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1809),
+                            BasePrice = 3000000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2619),
                             Description = "سرویس تعمیر و نگهداری موتورخانه شامل بررسی و تعمیر سیستم‌های گرمایشی و سرمایشی مانند پکیج‌ها، بویلرها، پمپ‌ها و سیستم‌های لوله‌کشی است. این سرویس برای بهبود عملکرد، افزایش بهره‌وری و جلوگیری از مشکلات احتمالی در موتورخانه ارائه می‌شود.",
                             ImageSrc = "/assets/img/homeservice/41.jpg",
                             IsDeleted = false,
@@ -1250,8 +1269,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 42,
-                            BasePrice = 2000000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1811),
+                            BasePrice = 2000000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2620),
                             Description = "سرویس و تعمیر چیلر شامل عیب‌یابی و تعمیر کمپرسور، تمیز کردن فیلترها، بررسی و تنظیم سیستم‌های گاز، شارژ گاز و عایق‌کاری لوله‌ها است. این سرویس برای بهبود عملکرد و افزایش طول عمر چیلرها در سیستم‌های تهویه مطبوع تجاری و صنعتی ارائه می‌شود.",
                             ImageSrc = "/assets/img/homeservice/42.jpg",
                             IsDeleted = false,
@@ -1261,8 +1280,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 43,
-                            BasePrice = 1000000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1828),
+                            BasePrice = 1000000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2622),
                             Description = "سرویس نصب و تعمیر یخچال و فریزر شامل نصب دستگاه، عیب‌یابی، تعمیر کمپرسور، تعویض قطعات معیوب، شارژ گاز و تنظیم دما است. این سرویس برای بهبود عملکرد و طول عمر یخچال و فریزر در منازل و محیط‌های تجاری ارائه می‌شود.",
                             ImageSrc = "/assets/img/homeservice/43.jpg",
                             IsDeleted = false,
@@ -1272,8 +1291,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 44,
-                            BasePrice = 1000000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1830),
+                            BasePrice = 1000000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2624),
                             Description = "سرویس نصب و تعمیر ماشین لباسشویی شامل نصب دستگاه، بررسی و رفع مشکلات مربوط به موتور، پمپ آب، برد الکترونیکی، تعویض قطعات معیوب و تعمیر نشت آب است. این سرویس برای بهبود عملکرد و طول عمر ماشین لباسشویی در خانه‌ها و محیط‌های تجاری ارائه می‌شود.",
                             ImageSrc = "/assets/img/homeservice/44.jpg",
                             IsDeleted = false,
@@ -1283,8 +1302,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 45,
-                            BasePrice = 1000000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1833),
+                            BasePrice = 1000000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2626),
                             Description = "سرویس نصب و تعمیر ماشین ظرفشویی شامل نصب دستگاه، عیب‌یابی و تعمیر مشکلات مربوط به موتور، پمپ آب، فیلترها، برد الکترونیکی و رفع نشت آب است. این سرویس برای بهبود عملکرد و افزایش عمر مفید ماشین ظرفشویی در منازل و محیط‌های تجاری ارائه می‌شود.",
                             ImageSrc = "/assets/img/homeservice/45.jpg",
                             IsDeleted = false,
@@ -1294,8 +1313,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 46,
-                            BasePrice = 500000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1835),
+                            BasePrice = 500000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2627),
                             Description = "سرویس تعمیر جاروبرقی شامل عیب‌یابی و تعمیر موتور، تعویض قطعات معیوب مانند فیلتر، لوله و برس‌ها، رفع مشکلات مکش و بررسی سیم برق است. این سرویس برای بهبود عملکرد و افزایش عمر مفید جاروبرقی در منازل و محیط‌های تجاری ارائه می‌شود.",
                             ImageSrc = "/assets/img/homeservice/46.jpg",
                             IsDeleted = false,
@@ -1305,8 +1324,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 47,
-                            BasePrice = 1000000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1837),
+                            BasePrice = 1000000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2629),
                             Description = "سرویس تعمیر کامپیوتر و لپ‌تاپ شامل عیب‌یابی و تعمیر مشکلات سخت‌افزاری و نرم‌افزاری، تعویض قطعات معیوب، نصب سیستم‌عامل، به‌روزرسانی نرم‌افزارها و رفع مشکلات مربوط به عملکرد سیستم است. این سرویس برای بهبود عملکرد و افزایش طول عمر دستگاه‌ها ارائه می‌شود.",
                             ImageSrc = "/assets/img/homeservice/47.jpg",
                             IsDeleted = false,
@@ -1316,8 +1335,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 48,
-                            BasePrice = 1500000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1840),
+                            BasePrice = 1500000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2631),
                             Description = "سرویس تعمیر ماشین‌های اداری شامل تعمیر و نگهداری دستگاه‌هایی مانند پرینتر، اسکنر، فکس و کپی است. این سرویس شامل عیب‌یابی، تعویض قطعات معیوب، تعمیر مکانیزم‌های داخلی و به‌روزرسانی نرم‌افزارها برای بهبود عملکرد دستگاه‌ها ارائه می‌شود.\n\n\n\n\n\n\n\n",
                             ImageSrc = "/assets/img/homeservice/48.jpg",
                             IsDeleted = false,
@@ -1327,8 +1346,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 49,
-                            BasePrice = 500000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1842),
+                            BasePrice = 500000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2633),
                             Description = "سرویس نصب و تعمیر مودم و اینترنت شامل راه‌اندازی مودم، تنظیمات شبکه، بررسی سرعت اینترنت، رفع مشکلات اتصال و عیب‌یابی کابل‌ها و اتصالات است. این سرویس برای بهبود عملکرد اینترنت و رفع مشکلات شبکه در منازل و محیط‌های تجاری ارائه می‌شود.",
                             ImageSrc = "/assets/img/homeservice/49.jpg",
                             IsDeleted = false,
@@ -1338,8 +1357,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 50,
-                            BasePrice = 1500000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1844),
+                            BasePrice = 1500000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2635),
                             Description = "سرویس خدمات تاچ و ال سی دی شامل تعمیر یا تعویض صفحه نمایش لمسی و ال سی دی در دستگاه‌هایی مانند گوشی‌های موبایل، تبلت‌ها و لپ‌تاپ‌ها است. این سرویس برای رفع مشکلات صفحه نمایش، از جمله ترک‌خوردگی، رنگ‌پریدگی یا نواقص لمسی ارائه می‌شود.",
                             ImageSrc = "/assets/img/homeservice/50.jpg",
                             IsDeleted = false,
@@ -1349,8 +1368,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 51,
-                            BasePrice = 300000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1847),
+                            BasePrice = 300000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2647),
                             Description = "سرویس خدمات باتری موبایل شامل تعویض باتری معیوب، بررسی عملکرد باتری، کالیبراسیون و رفع مشکلات شارژ در دستگاه‌های موبایل است. این سرویس برای بهبود عمر باتری و عملکرد دستگاه‌های موبایل ارائه می‌شود.",
                             ImageSrc = "/assets/img/homeservice/51.jpg",
                             IsDeleted = false,
@@ -1360,8 +1379,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 52,
-                            BasePrice = 1000000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1849),
+                            BasePrice = 1000000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2649),
                             Description = "سرویس خدمات نرم‌افزاری شامل نصب، به‌روزرسانی، پشتیبانی و رفع مشکلات نرم‌افزاری در سیستم‌های مختلف، از جمله نصب سیستم‌عامل، برنامه‌ها و ابزارهای کاربردی است. این سرویس برای بهبود عملکرد و رفع اشکالات نرم‌افزاری در دستگاه‌های مختلف ارائه می‌شود.\n\n\n\n\n\n\n\n",
                             ImageSrc = "/assets/img/homeservice/52.jpg",
                             IsDeleted = false,
@@ -1371,8 +1390,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 53,
-                            BasePrice = 2000000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1852),
+                            BasePrice = 2000000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2651),
                             Description = "سرویس اسباب‌کشی با خاور و کامیون شامل حمل و نقل اثاثیه منزل یا اداری با استفاده از وسایل نقلیه بزرگ و مناسب، بسته‌بندی ایمن، بارگیری، تخلیه و انتقال به مقصد است. این سرویس برای راحتی و امنیت در جابجایی اثاثیه ارائه می‌شود.",
                             ImageSrc = "/assets/img/homeservice/53.jpg",
                             IsDeleted = false,
@@ -1382,8 +1401,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 54,
-                            BasePrice = 1500000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1854),
+                            BasePrice = 1500000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2654),
                             Description = "سرویس اسباب‌کشی با وانت و نیسان شامل حمل و نقل اثاثیه کوچک و متوسط با استفاده از خودروهای مناسب برای جابجایی سریع و ایمن است. این سرویس برای انتقال اثاثیه از منزل یا دفتر به مقصد با هزینه مناسب و سرعت بالا ارائه می‌شود.\n\n\n\n\n\n\n\n",
                             ImageSrc = "/assets/img/homeservice/54.jpg",
                             IsDeleted = false,
@@ -1393,8 +1412,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 55,
-                            BasePrice = 1000000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1856),
+                            BasePrice = 1000000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2656),
                             Description = "سرویس بسته‌بندی شامل بسته‌بندی ایمن و مطمئن اثاثیه و کالاها با استفاده از مواد محافظ مانند فوم، کارتن، نوار چسب و پلاستیک حبابدار است. این سرویس برای جلوگیری از آسیب‌دیدگی در حین حمل‌ونقل و جابجایی اثاثیه ارائه می‌شود.",
                             ImageSrc = "/assets/img/homeservice/55.jpg",
                             IsDeleted = false,
@@ -1404,8 +1423,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 56,
-                            BasePrice = 300000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1859),
+                            BasePrice = 300000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2657),
                             Description = "سرویس اسباب‌کشی شرکت‌ها و سازمان‌ها شامل جابجایی اثاثیه اداری، مبلمان، تجهیزات کامپیوتری و اسناد با استفاده از وسایل نقلیه مناسب و بسته‌بندی ایمن است. این سرویس برای انتقال راحت و بدون دردسر شرکت‌ها و سازمان‌ها به محل جدید ارائه می‌شود.",
                             ImageSrc = "/assets/img/homeservice/56.jpg",
                             IsDeleted = false,
@@ -1415,8 +1434,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 57,
-                            BasePrice = 2000000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1861),
+                            BasePrice = 2000000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2660),
                             Description = "سرویس تعویض باتری خودرو شامل بررسی وضعیت باتری، تعویض باتری فرسوده با باتری جدید و انجام تست‌های لازم برای اطمینان از عملکرد صحیح سیستم برق‌رسانی خودرو است. این سرویس برای حفظ عملکرد بهینه خودرو و جلوگیری از مشکلات ناشی از خرابی باتری ارائه می‌شود.",
                             ImageSrc = "/assets/img/homeservice/57.jpg",
                             IsDeleted = false,
@@ -1426,8 +1445,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 58,
-                            BasePrice = 500000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1863),
+                            BasePrice = 500000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2661),
                             Description = "سرویس باتری به باتری شامل کمک به خودروهایی است که باتری آن‌ها خالی یا خراب شده است. در این سرویس، باتری سالم از یک خودرو به خودرو دیگر منتقل می‌شود تا آن را روشن کرده و مشکل باتری خودرو رفع شود. این سرویس در مواقع اضطراری برای شروع حرکت خودرو ارائه می‌شود.",
                             ImageSrc = "/assets/img/homeservice/58.jpg",
                             IsDeleted = false,
@@ -1437,8 +1456,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 59,
-                            BasePrice = 3000000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1866),
+                            BasePrice = 3000000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2663),
                             Description = "سرویس مکانیکی خودرو شامل تعمیرات و نگهداری سیستم‌های مختلف خودرو، از جمله موتور، ترمزها، سیستم تعلیق، اگزوز، و انتقال نیرو است. این سرویس برای رفع مشکلات فنی و بهبود عملکرد خودرو ارائه می‌شود.",
                             ImageSrc = "/assets/img/homeservice/59.jpg",
                             IsDeleted = false,
@@ -1448,8 +1467,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 60,
-                            BasePrice = 2500000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1868),
+                            BasePrice = 2500000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2665),
                             Description = "سرویس کارشناسی خودرو شامل بررسی دقیق وضعیت فنی و ظاهری خودرو قبل از خرید یا فروش، از جمله بررسی موتور، سیستم ترمز، بدنه، شاسی، سیستم تعلیق، و تشخیص مشکلات مخفی است. این سرویس برای اطمینان از سلامت خودرو و جلوگیری از خرید یا فروش خودرو با مشکلات پنهان ارائه می‌شود.",
                             ImageSrc = "/assets/img/homeservice/60.jpg",
                             IsDeleted = false,
@@ -1459,8 +1478,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 61,
-                            BasePrice = 2000000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1884),
+                            BasePrice = 2000000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2667),
                             Description = "سرویس تعویض لاستیک شامل جابجایی لاستیک‌های فرسوده یا آسیب‌دیده با لاستیک‌های جدید، بررسی وضعیت تایرها، و تنظیم فشار باد لاستیک‌ها است. این سرویس برای حفظ ایمنی و بهبود عملکرد خودرو در جاده‌ها ارائه می‌شود.",
                             ImageSrc = "/assets/img/homeservice/61.jpg",
                             IsDeleted = false,
@@ -1470,8 +1489,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 62,
-                            BasePrice = 500000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1887),
+                            BasePrice = 500000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2668),
                             Description = "سرویس تعویض لنت شامل بررسی وضعیت لنت‌های ترمز، تعویض لنت‌های فرسوده با لنت‌های جدید، و تنظیم سیستم ترمز برای بهبود عملکرد آن است. این سرویس برای افزایش ایمنی خودرو و بهبود عملکرد ترمزها ارائه می‌شود.",
                             ImageSrc = "/assets/img/homeservice/62.jpg",
                             IsDeleted = false,
@@ -1481,8 +1500,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 63,
-                            BasePrice = 600000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1889),
+                            BasePrice = 600000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2670),
                             Description = "سرویس تعویض روغن شامل تخلیه روغن قدیمی موتور، تعویض فیلتر روغن و افزودن روغن جدید به موتور است. این سرویس برای حفظ عملکرد بهینه موتور، کاهش سایش و افزایش طول عمر آن ارائه می‌شود.",
                             ImageSrc = "/assets/img/homeservice/63.jpg",
                             IsDeleted = false,
@@ -1492,8 +1511,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 64,
-                            BasePrice = 2000000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1892),
+                            BasePrice = 2000000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2672),
                             Description = "سرویس دوره‌ای گیربکس اتوماتیک شامل بررسی و تعویض روغن گیربکس، تنظیم و بازبینی سیستم انتقال قدرت، و اطمینان از عملکرد صحیح قطعات داخلی گیربکس است. این سرویس برای حفظ عملکرد بهینه گیربکس، جلوگیری از مشکلات فنی و افزایش طول عمر سیستم انتقال قدرت خودرو ارائه می‌شود.",
                             ImageSrc = "/assets/img/homeservice/64.jpg",
                             IsDeleted = false,
@@ -1503,8 +1522,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 65,
-                            BasePrice = 2000000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1894),
+                            BasePrice = 2000000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2674),
                             Description = "سرویس سرامیک خودرو شامل اعمال پوشش نانو سرامیک بر روی بدنه خودرو است که به منظور حفاظت از رنگ و سطح خودرو در برابر خراش‌ها، لکه‌ها، آلودگی‌ها و اشعه UV انجام می‌شود. این پوشش باعث براقیت بیشتر، دوام بیشتر و سهولت در تمیز کردن سطح خودرو می‌شود.",
                             ImageSrc = "/assets/img/homeservice/65.jpg",
                             IsDeleted = false,
@@ -1514,8 +1533,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 66,
-                            BasePrice = 1000000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1896),
+                            BasePrice = 1000000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2686),
                             Description = "سرویس کارواش نانو شامل شستشوی خودرو با استفاده از محصولات نانو تکنولوژی است که به طور مؤثری آلودگی‌ها، گرد و غبار، و لکه‌ها را از بین می‌برد. این روش شستشو به سطح خودرو لایه‌ای محافظتی می‌دهد که باعث حفظ براقیت رنگ و جلوگیری از ایجاد لکه‌های جدید می‌شود.",
                             ImageSrc = "/assets/img/homeservice/66.jpg",
                             IsDeleted = false,
@@ -1525,8 +1544,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 67,
-                            BasePrice = 700000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1899),
+                            BasePrice = 700000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2688),
                             Description = "سرویس کارواش با آب شامل شستشوی خودرو با استفاده از آب و مواد شوینده مخصوص است که به طور مؤثر خاک، کثیفی و لکه‌ها را از بدنه، چرخ‌ها و شیشه‌ها پاک می‌کند. این روش شستشو برای تمیز کردن کامل خودرو و حفظ ظاهر آن در شرایط عادی ارائه می‌شود.",
                             ImageSrc = "/assets/img/homeservice/67.jpg",
                             IsDeleted = false,
@@ -1536,8 +1555,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 68,
-                            BasePrice = 1000000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1901),
+                            BasePrice = 1000000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2690),
                             Description = "سرویس موتورشویی خودرو شامل تمیز کردن و شستشوی موتور خودرو با استفاده از مواد شوینده مخصوص است. این سرویس به پاک‌سازی روغن، کثیفی و گرد و غبار از بخش‌های مختلف موتور کمک کرده و باعث بهبود عملکرد و جلوگیری از آسیب به قطعات می‌شود.",
                             ImageSrc = "/assets/img/homeservice/68.jpg",
                             IsDeleted = false,
@@ -1547,8 +1566,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 69,
-                            BasePrice = 1000000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(1997),
+                            BasePrice = 1000000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2692),
                             Description = "سرویس نصب شیشه دودی در محل شامل نصب فیلترهای دودی بر روی شیشه‌های خودرو یا ساختمان است. این سرویس به منظور کاهش تابش نور خورشید، حفظ حریم خصوصی، و جلوگیری از افزایش دمای داخل خودرو یا فضا ارائه می‌شود. شیشه دودی همچنین به محافظت از مواد داخلی در برابر اشعه UV کمک می‌کند.",
                             ImageSrc = "/assets/img/homeservice/69.jpg",
                             IsDeleted = false,
@@ -1558,8 +1577,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 70,
-                            BasePrice = 500000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(2000),
+                            BasePrice = 500000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2694),
                             Description = "سرویس خدمات ناخن شامل انجام انواع خدمات مراقبت و زیبایی ناخن‌ها از جمله مانیکور، پدیکور، کاشت ناخن، ترمیم ناخن، طراحی و لاک زدن است. این سرویس برای تقویت، بهبود ظاهر و زیباسازی ناخن‌ها ارائه می‌شود.",
                             ImageSrc = "/assets/img/homeservice/70.jpg",
                             IsDeleted = false,
@@ -1569,8 +1588,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 71,
-                            BasePrice = 600000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(2002),
+                            BasePrice = 600000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2695),
                             Description = "سرویس رنگ مو بانوان شامل انتخاب و اعمال رنگ مو بر اساس سلیقه مشتری، از جمله رنگ‌های طبیعی یا فانتزی، با استفاده از رنگ‌های حرفه‌ای و ماندگار است. این سرویس برای تغییر رنگ، پوشاندن موهای سفید یا ایجاد جلوه‌ای جدید و زیبا بر روی موهای بانوان ارائه می‌شود.",
                             ImageSrc = "/assets/img/homeservice/71.jpg",
                             IsDeleted = false,
@@ -1580,8 +1599,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 72,
-                            BasePrice = 700000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(2004),
+                            BasePrice = 700000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2697),
                             Description = "سرویس کوتاهی مو بانوان شامل اصلاح و کوتاه کردن موها با توجه به سلیقه مشتری و مدل‌های روز است. این سرویس برای ایجاد تغییرات ظاهری، رفع موهای آسیب‌دیده و فرم‌دهی به موها برای ظاهر مرتب و شیک ارائه می‌شود.",
                             ImageSrc = "/assets/img/homeservice/72.jpg",
                             IsDeleted = false,
@@ -1591,8 +1610,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 73,
-                            BasePrice = 100000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(2007),
+                            BasePrice = 100000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2699),
                             Description = "سرویس کراتینه و ویتامینه مو بانوان شامل درمان و بازسازی موهای آسیب‌دیده با استفاده از مواد کراتینه و ویتامین‌های مغذی است. این سرویس باعث نرمی، درخشندگی و سلامت موها می‌شود و همچنین به کاهش وز و آسیب‌های ناشی از استفاده زیاد از ابزارهای حرارتی کمک می‌کند.",
                             ImageSrc = "/assets/img/homeservice/73.jpg",
                             IsDeleted = false,
@@ -1602,8 +1621,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 74,
-                            BasePrice = 800000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(2009),
+                            BasePrice = 800000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2701),
                             Description = "سرویس بافت مو بانوان شامل انواع مدل‌های بافت مو مانند بافت ساده، فانتزی، فرانسوی یا آفریقایی است که به موها ظاهری خاص و زیبا می‌دهد. این سرویس برای ایجاد مدل‌های متفاوت و جذاب برای مناسبت‌ها یا استفاده روزانه ارائه می‌شود.",
                             ImageSrc = "/assets/img/homeservice/74.jpg",
                             IsDeleted = false,
@@ -1613,8 +1632,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 75,
-                            BasePrice = 800000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(2011),
+                            BasePrice = 800000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2702),
                             Description = "سرویس مراقبت و نگهداری از سالمندان، کودکان و بیماران شامل ارائه خدمات بهداشتی، مراقبتی و رفاهی به افراد نیازمند مراقبت است. این سرویس ممکن است شامل کمک در انجام فعالیت‌های روزمره، نظافت، مصرف داروها، همراهی در مراجعه به پزشک، و فراهم کردن محیطی امن و راحت برای این افراد باشد.",
                             ImageSrc = "/assets/img/homeservice/75.jpg",
                             IsDeleted = false,
@@ -1624,8 +1643,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 76,
-                            BasePrice = 800000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(2013),
+                            BasePrice = 800000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2704),
                             Description = "سرویس پرستاری و تزریقات شامل ارائه خدمات بهداشتی و پزشکی در منزل است که شامل تزریق داروها، خون‌گیری، پانسمان، و سایر خدمات مراقبتی و پرستاری می‌شود. این سرویس برای افرادی که نیاز به مراقبت‌های پزشکی مداوم دارند یا نمی‌توانند به مراکز درمانی مراجعه کنند، ارائه می‌شود.",
                             ImageSrc = "/assets/img/homeservice/76.jpg",
                             IsDeleted = false,
@@ -1635,8 +1654,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 77,
-                            BasePrice = 500000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(2016),
+                            BasePrice = 500000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2706),
                             Description = "سرویس معاینه پزشکی شامل ارزیابی و بررسی سلامت عمومی فرد توسط پزشک است. این معاینه می‌تواند شامل بررسی علائم بیماری، آزمایشات فیزیکی، مشاوره درباره سبک زندگی و تجویز درمان‌های مورد نیاز باشد. هدف این سرویس پیشگیری از بیماری‌ها و تشخیص زودهنگام مشکلات بهداشتی است.",
                             ImageSrc = "/assets/img/homeservice/77.jpg",
                             IsDeleted = false,
@@ -1646,8 +1665,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 78,
-                            BasePrice = 400000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(2018),
+                            BasePrice = 400000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2708),
                             Description = "سرویس خدمات دامپزشکی در محل شامل ارائه مراقبت‌های پزشکی و درمانی برای حیوانات خانگی یا دام‌ها در محل زندگی یا مزرعه است. این خدمات می‌تواند شامل معاینه، درمان بیماری‌ها، واکسیناسیون، دارودرمانی و جراحی‌های جزئی باشد. هدف این سرویس فراهم آوردن راحتی برای صاحب حیوانات و ارائه خدمات بهداشتی بدون نیاز به مراجعه به کلینیک دامپزشکی است.",
                             ImageSrc = "/assets/img/homeservice/78.jpg",
                             IsDeleted = false,
@@ -1657,8 +1676,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 79,
-                            BasePrice = 300000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(2020),
+                            BasePrice = 300000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2709),
                             Description = "سرویس خدمات تربیت حیوانات خانگی شامل آموزش و تربیت حیوانات مانند سگ‌ها و گربه‌ها برای رفتارهای خاص یا رفع مشکلات رفتاری است. این خدمات ممکن است شامل آموزش فرمان‌های ساده، اصلاح رفتارهای نامطلوب، اجتماعی‌سازی حیوان و ایجاد عادات مناسب برای تعامل با انسان‌ها و سایر حیوانات باشد. هدف این سرویس، بهبود ارتباط صاحب حیوان با حیوان خانگی و فراهم آوردن محیطی سالم و هماهنگ است.",
                             ImageSrc = "/assets/img/homeservice/79.jpg",
                             IsDeleted = false,
@@ -1668,8 +1687,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 80,
-                            BasePrice = 200000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(2022),
+                            BasePrice = 200000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2711),
                             Description = "سرویس شستشو و آرایش حیوانات خانگی شامل تمیز کردن، شستشو، و مرتب‌سازی موهای حیوانات خانگی است. این خدمات ممکن است شامل حمام، شستشوی مو، کوتاهی و اصلاح مو، شانه کردن، و استفاده از محصولات بهداشتی مخصوص حیوانات باشد. هدف این سرویس، بهبود بهداشت و ظاهر حیوانات خانگی و فراهم آوردن راحتی و سلامت برای آنها است.",
                             ImageSrc = "/assets/img/homeservice/80.jpg",
                             IsDeleted = false,
@@ -1679,8 +1698,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 81,
-                            BasePrice = 300000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(2025),
+                            BasePrice = 300000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2713),
                             Description = "سرویس مشاور مالی و مالیاتی شامل ارائه مشاوره تخصصی در زمینه مدیریت مالی، برنامه‌ریزی مالی، و مسائل مالیاتی است. این خدمات می‌تواند شامل کمک به تنظیم مالیات، کاهش هزینه‌ها، بهینه‌سازی سرمایه‌گذاری‌ها و برنامه‌ریزی برای آینده مالی باشد. مشاوران مالی و مالیاتی به افراد و کسب‌وکارها کمک می‌کنند تا تصمیمات مالی بهینه و مطابق با قوانین مالیاتی اتخاذ کنند.\n\n\n\n\n\n\n\n",
                             ImageSrc = "/assets/img/homeservice/81.jpg",
                             IsDeleted = false,
@@ -1690,8 +1709,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 82,
-                            BasePrice = 200000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(2027),
+                            BasePrice = 200000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2715),
                             Description = "سرویس کوتاهی موی سر و اصلاح صورت مردانه شامل اصلاح و کوتاه کردن موهای سر به مدل‌های متنوع و مطابق با سلیقه مشتری، و همچنین اصلاح صورت با استفاده از تیغ، ماشین ریش‌زنی و سایر ابزارهای حرفه‌ای است. این سرویس برای ایجاد ظاهری مرتب، شیک و جذاب برای مردان طراحی شده و می‌تواند شامل اصلاح ریش، سبیل و طراحی خط‌های صورت باشد.",
                             ImageSrc = "/assets/img/homeservice/82jpg",
                             IsDeleted = false,
@@ -1701,8 +1720,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 83,
-                            BasePrice = 400000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(2029),
+                            BasePrice = 400000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2716),
                             Description = "سرویس گریم داماد شامل آرایش و زیباسازی چهره داماد برای روز عروسی است. این سرویس شامل استفاده از محصولات آرایشی مخصوص برای بهبود پوست، پوشاندن عیوب صورت، ایجاد جلوه‌ای طبیعی و زیبا، و تنظیم جزئیات چهره برای عکاسی و فیلمبرداری است. هدف این سرویس کمک به داماد برای داشتن ظاهری مرتب، جذاب و اعتماد به نفس بالا در روز مهم زندگی‌اش است.",
                             ImageSrc = "/assets/img/homeservice/83.jpg",
                             IsDeleted = false,
@@ -1712,8 +1731,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 84,
-                            BasePrice = 1000000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(2032),
+                            BasePrice = 1000000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2718),
                             Description = "سرویس برنامه ورزشی و تغذیه شامل ارائه برنامه‌های تمرینی و رژیم‌های غذایی متناسب با اهداف فردی مانند کاهش وزن، افزایش عضله، بهبود سلامت عمومی یا افزایش استقامت است. این برنامه‌ها بر اساس وضعیت بدنی، نیازها و سبک زندگی فرد طراحی می‌شود و ممکن است شامل تمرینات قدرتی، هوازی، انعطاف‌پذیری و تغذیه سالم با توجه به نیازهای تغذیه‌ای خاص هر شخص باشد. هدف این سرویس کمک به فرد برای رسیدن به اهداف ورزشی و بدنی خود به صورت مؤثر و سالم است.",
                             ImageSrc = "/assets/img/homeservice/84.jpg",
                             IsDeleted = false,
@@ -1723,8 +1742,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 85,
-                            BasePrice = 2000000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(2034),
+                            BasePrice = 2000000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2720),
                             Description = "سرویس کلاس یوگا در خانه شامل برگزاری جلسات یوگا با مربی مجرب در منزل شما است. این کلاس‌ها می‌تواند شامل تمرینات تنفسی، انعطاف‌پذیری، تقویت عضلات، و مدیتیشن باشد و به بهبود سلامت جسمی و روانی کمک کند. کلاس‌های یوگا در خانه برای افرادی که وقت یا تمایل به رفتن به باشگاه ندارند، گزینه‌ای راحت و شخصی است.",
                             ImageSrc = "/assets/img/homeservice/85.jpg",
                             IsDeleted = false,
@@ -1734,8 +1753,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 86,
-                            BasePrice = 2000000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(2036),
+                            BasePrice = 2000000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2722),
                             Description = "سرویس کلاس فیتنس در خانه شامل برگزاری جلسات تمرینی شخصی یا گروهی در منزل شما است. این کلاس‌ها ممکن است شامل تمرینات هوازی، قدرتی، HIIT، کار با وزنه یا تمرینات متناسب با اهداف خاص شما مانند کاهش وزن، افزایش قدرت یا بهبود تناسب اندام باشد. این سرویس به افراد این امکان را می‌دهد که بدون نیاز به مراجعه به باشگاه، تمرینات خود را در خانه انجام دهند و از راهنمایی و حمایت مربی بهره‌مند شوند.",
                             ImageSrc = "/assets/img/homeservice/86.jpg",
                             IsDeleted = false,
@@ -1745,8 +1764,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 87,
-                            BasePrice = 5000000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(2039),
+                            BasePrice = 5000000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2723),
                             Description = "با استفاده از خدمات تخصصی آچار، تجهیزات و زیرساخت‌های فنی شرکت خود را همیشه در بهترین شرایط نگه دارید. ما با ارائه تعمیرات، سرویس‌های دوره‌ای، تأمین قطعات و پشتیبانی فنی، به شما کمک می‌کنیم تا هزینه‌های نگهداری را کاهش داده، بهره‌وری را افزایش دهید و از خرابی‌های ناگهانی جلوگیری کنید.",
                             ImageSrc = "/assets/img/homeservice/87.jpg",
                             IsDeleted = false,
@@ -1756,8 +1775,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 88,
-                            BasePrice = 8000000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(2041),
+                            BasePrice = 8000000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2725),
                             Description = "آچار با ارائه خدمات تخصصی برای شرکت‌های بزرگ، بهره‌وری را افزایش داده و هزینه‌های عملیاتی را کاهش می‌دهد. این خدمات شامل نگهداری پیشگیرانه برای جلوگیری از خرابی‌های ناگهانی، پشتیبانی ۲۴/۷ برای رفع سریع مشکلات، تأمین قطعات یدکی با تضمین کیفیت، بهینه‌سازی و ارتقای تجهیزات برای بهبود عملکرد و کاهش مصرف انرژی، و همچنین ارائه راهکارهای اختصاصی متناسب با نیازهای هر سازمان است.",
                             ImageSrc = "/assets/img/homeservice/88.jpg",
                             IsDeleted = false,
@@ -1767,8 +1786,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 89,
-                            BasePrice = 3000000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(2043),
+                            BasePrice = 3000000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2727),
                             Description = "سرویس استخدام بادیگارد خدمات حفاظت شخصی، امنیتی و تشریفاتی را با تیمی از افراد حرفه‌ای، آموزش‌دیده و مجهز ارائه می‌دهد تا امنیت افراد، مدیران، سلبریتی‌ها و رویدادهای خاص تضمین شود.",
                             ImageSrc = "/assets/img/homeservice/89.jpg",
                             IsDeleted = false,
@@ -1778,65 +1797,14 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         new
                         {
                             Id = 90,
-                            BasePrice = 2000000,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 585, DateTimeKind.Local).AddTicks(2045),
+                            BasePrice = 2000000m,
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 603, DateTimeKind.Local).AddTicks(2728),
                             Description = "سرویس استخدام راننده ارائه‌دهنده رانندگان حرفه‌ای، با‌تجربه و قابل‌اعتماد برای جابه‌جایی ایمن و راحت مدیران، افراد مهم و سازمان‌ها با خودروهای شخصی یا تشریفاتی است.",
                             ImageSrc = "/assets/img/homeservice/90.jpg",
                             IsDeleted = false,
                             SubCategoryId = 24,
                             Title = "استخدام راننده"
                         });
-                });
-
-            modelBuilder.Entity("AcharDomainCore.Entites.Proposal", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreateAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(4000)
-                        .HasColumnType("nvarchar(4000)");
-
-                    b.Property<int>("ExpertId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsAccepted")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
-
-                    b.Property<bool>("IsRejected")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("RequestId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("SuggestedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("SuggestedPrice")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ExpertId");
-
-                    b.HasIndex("RequestId");
-
-                    b.ToTable("Bids");
                 });
 
             modelBuilder.Entity("AcharDomainCore.Entites.Request", b =>
@@ -1878,8 +1846,8 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                     b.Property<bool>("IsDone")
                         .HasColumnType("bit");
 
-                    b.Property<int>("Price")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("RequesteForTime")
                         .HasColumnType("datetime2");
@@ -1943,7 +1911,7 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         {
                             Id = 1,
                             CategoryId = 1,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 591, DateTimeKind.Local).AddTicks(4170),
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 607, DateTimeKind.Local).AddTicks(2191),
                             Image = "/assets/img/subcategory/Tamiz-1-mage.png",
                             IsDeleted = false,
                             Title = "نظافت و پذیرایی"
@@ -1952,7 +1920,7 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         {
                             Id = 2,
                             CategoryId = 1,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 591, DateTimeKind.Local).AddTicks(5248),
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 607, DateTimeKind.Local).AddTicks(3089),
                             Image = "/assets/img/subcategory/Tamiz-2-mage.png",
                             IsDeleted = false,
                             Title = "شستشو"
@@ -1961,7 +1929,7 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         {
                             Id = 3,
                             CategoryId = 1,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 591, DateTimeKind.Local).AddTicks(5252),
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 607, DateTimeKind.Local).AddTicks(3092),
                             Image = "/assets/img/subcategory/Tamiz-3-mage.png",
                             IsDeleted = false,
                             Title = " آشپزی"
@@ -1970,7 +1938,7 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         {
                             Id = 4,
                             CategoryId = 2,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 591, DateTimeKind.Local).AddTicks(5254),
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 607, DateTimeKind.Local).AddTicks(3094),
                             Image = "/assets/img/subcategory/Sakhtman-1-image.png",
                             IsDeleted = false,
                             Title = "سرمایش و گرمایش"
@@ -1979,7 +1947,7 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         {
                             Id = 5,
                             CategoryId = 2,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 591, DateTimeKind.Local).AddTicks(5256),
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 607, DateTimeKind.Local).AddTicks(3096),
                             Image = "/assets/img/subcategory/Sakhtman-2-image.png",
                             IsDeleted = false,
                             Title = "تعمیرات ساختمان"
@@ -1988,7 +1956,7 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         {
                             Id = 6,
                             CategoryId = 2,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 591, DateTimeKind.Local).AddTicks(5258),
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 607, DateTimeKind.Local).AddTicks(3098),
                             Image = "/assets/img/subcategory/Sakhtman-3-image.png",
                             IsDeleted = false,
                             Title = "لوله کشی"
@@ -1997,7 +1965,7 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         {
                             Id = 7,
                             CategoryId = 2,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 591, DateTimeKind.Local).AddTicks(5260),
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 607, DateTimeKind.Local).AddTicks(3099),
                             Image = "/assets/img/subcategory/Sakhtman-4-image.png",
                             IsDeleted = false,
                             Title = "برقکاری"
@@ -2006,7 +1974,7 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         {
                             Id = 8,
                             CategoryId = 2,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 591, DateTimeKind.Local).AddTicks(5262),
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 607, DateTimeKind.Local).AddTicks(3101),
                             Image = "/assets/img/subcategory/Sakhtman-6-image.png",
                             IsDeleted = false,
                             Title = "چوب وکابینت"
@@ -2015,7 +1983,7 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         {
                             Id = 9,
                             CategoryId = 2,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 591, DateTimeKind.Local).AddTicks(5264),
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 607, DateTimeKind.Local).AddTicks(3102),
                             Image = "/assets/img/subcategory/Sakhtman-7-image.png",
                             IsDeleted = false,
                             Title = "خدمات شیشه ای ساختمان"
@@ -2024,7 +1992,7 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         {
                             Id = 10,
                             CategoryId = 3,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 591, DateTimeKind.Local).AddTicks(5265),
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 607, DateTimeKind.Local).AddTicks(3104),
                             Image = "/assets/img/subcategory/",
                             IsDeleted = false,
                             Title = "سرمایش وگرمایش"
@@ -2033,7 +2001,7 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         {
                             Id = 11,
                             CategoryId = 3,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 591, DateTimeKind.Local).AddTicks(5267),
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 607, DateTimeKind.Local).AddTicks(3105),
                             Image = "/assets/img/subcategory/Tamirat-1-image.png",
                             IsDeleted = false,
                             Title = "نصب و تعمیرات لوارم خانگی"
@@ -2042,7 +2010,7 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         {
                             Id = 12,
                             CategoryId = 3,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 591, DateTimeKind.Local).AddTicks(5269),
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 607, DateTimeKind.Local).AddTicks(3107),
                             Image = "/assets/img/subcategory/Tamirat-2-image.png",
                             IsDeleted = false,
                             Title = "خدمات کامپیوتری"
@@ -2051,7 +2019,7 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         {
                             Id = 13,
                             CategoryId = 3,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 591, DateTimeKind.Local).AddTicks(5271),
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 607, DateTimeKind.Local).AddTicks(3108),
                             Image = "/assets/img/subcategory/Tamirat-3-image.png",
                             IsDeleted = false,
                             Title = "تعمیرات موبایل"
@@ -2060,7 +2028,7 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         {
                             Id = 14,
                             CategoryId = 4,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 591, DateTimeKind.Local).AddTicks(5273),
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 607, DateTimeKind.Local).AddTicks(3110),
                             Image = "/assets/img/subcategory/asbabkeshi.jpg",
                             IsDeleted = false,
                             Title = "باربری و جابه جایی"
@@ -2069,7 +2037,7 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         {
                             Id = 15,
                             CategoryId = 5,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 591, DateTimeKind.Local).AddTicks(5275),
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 607, DateTimeKind.Local).AddTicks(3111),
                             Image = "/assets/img/subcategoryKhodro-1-image.png/",
                             IsDeleted = false,
                             Title = "خدمات و تعمیرات خودرو"
@@ -2078,7 +2046,7 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         {
                             Id = 16,
                             CategoryId = 5,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 591, DateTimeKind.Local).AddTicks(5276),
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 607, DateTimeKind.Local).AddTicks(3113),
                             Image = "/assets/img/subcategory/Khodro-2-image.png",
                             IsDeleted = false,
                             Title = "کارواش و دیتلینگ"
@@ -2087,7 +2055,7 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         {
                             Id = 17,
                             CategoryId = 6,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 591, DateTimeKind.Local).AddTicks(5278),
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 607, DateTimeKind.Local).AddTicks(3114),
                             Image = "/assets/img/subcategory/Salamat-1-image.png",
                             IsDeleted = false,
                             Title = "زیبایی بانوان"
@@ -2096,7 +2064,7 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         {
                             Id = 18,
                             CategoryId = 6,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 591, DateTimeKind.Local).AddTicks(5280),
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 607, DateTimeKind.Local).AddTicks(3116),
                             Image = "/assets/img/subcategory/Salamat-2-image.png",
                             IsDeleted = false,
                             Title = "پزشکی و پرستاری"
@@ -2105,7 +2073,7 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         {
                             Id = 19,
                             CategoryId = 6,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 591, DateTimeKind.Local).AddTicks(5282),
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 607, DateTimeKind.Local).AddTicks(3117),
                             Image = "/assets/img/subcategory/Salamat-3-image.png",
                             IsDeleted = false,
                             Title = "حیوانات خانگی"
@@ -2114,7 +2082,7 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         {
                             Id = 20,
                             CategoryId = 6,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 591, DateTimeKind.Local).AddTicks(5284),
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 607, DateTimeKind.Local).AddTicks(3118),
                             Image = "/assets/img/subcategory/Salamat-4-image.png",
                             IsDeleted = false,
                             Title = "مشاوره"
@@ -2123,7 +2091,7 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         {
                             Id = 21,
                             CategoryId = 6,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 591, DateTimeKind.Local).AddTicks(5286),
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 607, DateTimeKind.Local).AddTicks(3120),
                             Image = "/assets/img/subcategory/Salamat-5-image.png",
                             IsDeleted = false,
                             Title = "پیرایش و زیبایی آقایان"
@@ -2132,7 +2100,7 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         {
                             Id = 22,
                             CategoryId = 6,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 591, DateTimeKind.Local).AddTicks(5288),
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 607, DateTimeKind.Local).AddTicks(3121),
                             Image = "/assets/img/subcategory/Salamat-6-image.png",
                             IsDeleted = false,
                             Title = "تندرستی و ورزش"
@@ -2141,7 +2109,7 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         {
                             Id = 23,
                             CategoryId = 7,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 591, DateTimeKind.Local).AddTicks(5289),
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 607, DateTimeKind.Local).AddTicks(3123),
                             Image = "/assets/img/subcategory/Sazeman-1-image.png",
                             IsDeleted = false,
                             Title = "خدمات شرکتی"
@@ -2150,26 +2118,26 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         {
                             Id = 24,
                             CategoryId = 7,
-                            CreateAt = new DateTime(2025, 2, 12, 0, 1, 51, 591, DateTimeKind.Local).AddTicks(5291),
+                            CreateAt = new DateTime(2025, 2, 13, 19, 39, 18, 607, DateTimeKind.Local).AddTicks(3124),
                             Image = "/assets/img/subcategory/Sazeman-1-image.png",
                             IsDeleted = false,
                             Title = "تامین نیروی انسانی"
                         });
                 });
 
-            modelBuilder.Entity("ExpertHomeService", b =>
+            modelBuilder.Entity("ExpertSubCategory", b =>
                 {
                     b.Property<int>("ExpertsId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ServicesId")
+                    b.Property<int>("SkillsId")
                         .HasColumnType("int");
 
-                    b.HasKey("ExpertsId", "ServicesId");
+                    b.HasKey("ExpertsId", "SkillsId");
 
-                    b.HasIndex("ServicesId");
+                    b.HasIndex("SkillsId");
 
-                    b.ToTable("ExpertHomeService");
+                    b.ToTable("ExpertSubCategory");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<int>", b =>
@@ -2368,6 +2336,25 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                     b.Navigation("ApplicationUser");
                 });
 
+            modelBuilder.Entity("AcharDomainCore.Entites.Bid", b =>
+                {
+                    b.HasOne("AcharDomainCore.Entites.Expert", "Expert")
+                        .WithMany("Bids")
+                        .HasForeignKey("ExpertId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AcharDomainCore.Entites.Request", "Request")
+                        .WithMany("Bids")
+                        .HasForeignKey("RequestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Expert");
+
+                    b.Navigation("Request");
+                });
+
             modelBuilder.Entity("AcharDomainCore.Entites.Comment", b =>
                 {
                     b.HasOne("AcharDomainCore.Entites.Customer", "Customer")
@@ -2432,29 +2419,10 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                     b.Navigation("SubCategory");
                 });
 
-            modelBuilder.Entity("AcharDomainCore.Entites.Proposal", b =>
-                {
-                    b.HasOne("AcharDomainCore.Entites.Expert", "Expert")
-                        .WithMany("Bids")
-                        .HasForeignKey("ExpertId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AcharDomainCore.Entites.Request", "Request")
-                        .WithMany("Proposals")
-                        .HasForeignKey("RequestId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Expert");
-
-                    b.Navigation("Request");
-                });
-
             modelBuilder.Entity("AcharDomainCore.Entites.Request", b =>
                 {
                     b.HasOne("AcharDomainCore.Entites.Expert", "AcceptedExpert")
-                        .WithMany("AcceptedRequests")
+                        .WithMany("Requests")
                         .HasForeignKey("AcceptedExpertId")
                         .OnDelete(DeleteBehavior.Restrict);
 
@@ -2488,7 +2456,7 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("ExpertHomeService", b =>
+            modelBuilder.Entity("ExpertSubCategory", b =>
                 {
                     b.HasOne("AcharDomainCore.Entites.Expert", null)
                         .WithMany()
@@ -2496,9 +2464,9 @@ namespace Achar.Infra.Db.SqLServer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AcharDomainCore.Entites.HomeService", null)
+                    b.HasOne("AcharDomainCore.Entites.SubCategory", null)
                         .WithMany()
-                        .HasForeignKey("ServicesId")
+                        .HasForeignKey("SkillsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -2584,11 +2552,11 @@ namespace Achar.Infra.Db.SqLServer.Migrations
 
             modelBuilder.Entity("AcharDomainCore.Entites.Expert", b =>
                 {
-                    b.Navigation("AcceptedRequests");
-
                     b.Navigation("Bids");
 
                     b.Navigation("Comments");
+
+                    b.Navigation("Requests");
                 });
 
             modelBuilder.Entity("AcharDomainCore.Entites.HomeService", b =>
@@ -2598,7 +2566,7 @@ namespace Achar.Infra.Db.SqLServer.Migrations
 
             modelBuilder.Entity("AcharDomainCore.Entites.Request", b =>
                 {
-                    b.Navigation("Proposals");
+                    b.Navigation("Bids");
                 });
 
             modelBuilder.Entity("AcharDomainCore.Entites.SubCategory", b =>

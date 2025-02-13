@@ -13,22 +13,15 @@ namespace AcharDomainCore.Entites
     public class Expert
     {
         public int Id { get; set; }
-        public string? FirstName { get; set; }
-        public string? LastName { get; set; }
-        public string? ProfileImage { get; set; }
         public string? Street { get; set; }
-
-        [Display(Name = "موجودی")]
-        public decimal? Balance { get; set; }
         public int? Score { get; set; } 
         public bool IsActive { get; set; } = false;
-        public bool IsDeleted { get; set; } = false;
         public GenderEnum? Gender { get; set; }
         public DateTime CreateAt { get; set; } = DateTime.Now;
-        public List<HomeService>? Services { get; set; }
+        public List<SubCategory>? Skills { get; set; }
         public List<Comment>? Comments { get; set; }
-        public List<Proposal>? Bids { get; set; } = new List<Proposal>();
-        public List<Request>? AcceptedRequests { get; set; } = new List<Request>();
+        public List<Bid>? Bids { get; set; } = new List<Bid>();
+        public List<Request>? Requests { get; set; } = new List<Request>();
         public int ApplicationUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
     }

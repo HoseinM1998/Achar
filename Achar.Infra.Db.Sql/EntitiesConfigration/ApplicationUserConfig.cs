@@ -25,6 +25,9 @@ namespace Achar.Infra.Db.SqLServer.EntitiesConfigration
                 NormalizedEmail = "ADMIN@GMAIL.COM",
                 LockoutEnabled = false,
                 PhoneNumber = "09913466961",
+                FirstName = "ادمین",
+                LastName = "ادمین",
+                ProfileImageUrl = "/userassets/img/1.png",
                 SecurityStamp = Guid.NewGuid().ToString()
             },
             new ApplicationUser()
@@ -36,6 +39,9 @@ namespace Achar.Infra.Db.SqLServer.EntitiesConfigration
                 NormalizedEmail = "HOSEIN@GMAIL.COM",
                 LockoutEnabled = false,
                 PhoneNumber = "09913466961",
+                FirstName = "حسین",
+                LastName = "مصلحی",
+                ProfileImageUrl = "/userassets/img/1.png",
                 SecurityStamp = Guid.NewGuid().ToString()
             },
             new ApplicationUser()
@@ -47,6 +53,9 @@ namespace Achar.Infra.Db.SqLServer.EntitiesConfigration
                 NormalizedEmail = "JAVAD@GMAIL.COM",
                 LockoutEnabled = false,
                 PhoneNumber = "09913466961",
+                FirstName = "جواد",
+                LastName = "مرادی",
+                ProfileImageUrl = "/userassets/img/1.png",
                 SecurityStamp = Guid.NewGuid().ToString()
             },
             new ApplicationUser()
@@ -58,6 +67,9 @@ namespace Achar.Infra.Db.SqLServer.EntitiesConfigration
                 NormalizedEmail = "AREF@GMAIL.COM",
                 LockoutEnabled = false,
                 PhoneNumber = "09913466961",
+                FirstName = "عارف",
+                LastName = "بهمنی",
+                ProfileImageUrl = "/userassets/img/1.png",
                 SecurityStamp = Guid.NewGuid().ToString()
             },
             new ApplicationUser()
@@ -68,7 +80,10 @@ namespace Achar.Infra.Db.SqLServer.EntitiesConfigration
                 Email = "Saeid@gmail.com",
                 NormalizedEmail = "SAEID@GMAIL.COM",
                 LockoutEnabled = false,
-                PhoneNumber = "09377507920",
+                PhoneNumber = "09913466961",
+                FirstName = "سعید",
+                LastName = "لک‌",
+                ProfileImageUrl = "/userassets/img/1.png",
                 SecurityStamp = Guid.NewGuid().ToString()
             },
             new ApplicationUser()
@@ -79,7 +94,9 @@ namespace Achar.Infra.Db.SqLServer.EntitiesConfigration
                 Email = "Sahar@gmail.com",
                 NormalizedEmail = "SAHAR@GMAIL.COM",
                 LockoutEnabled = false,
-                PhoneNumber = "09377507920",
+                PhoneNumber = "09913466961",
+                FirstName = "سحر",
+                ProfileImageUrl = "/userassets/img/1.png",
                 SecurityStamp = Guid.NewGuid().ToString()
             },
         };

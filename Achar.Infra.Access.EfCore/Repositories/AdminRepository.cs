@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using AcharDomainCore.Contracts.Admin;
 using AcharDomainCore.Entites;
 using Microsoft.EntityFrameworkCore;
+using AcharDomainCore.Dtos;
+using AcharDomainCore.Dtos.AdminDto;
 
 namespace Achar.Infra.Access.EfCore.Repositories
 {
@@ -21,6 +23,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
 
         public async Task<int> CreateAdmin(Admin admin, CancellationToken cancellationToken)
         {
+
             await _context.Admins.AddAsync(admin, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
             return admin.Id;
@@ -36,25 +39,25 @@ namespace Achar.Infra.Access.EfCore.Repositories
             return await _context.Admins.AsNoTracking().ToListAsync(cancellationToken);
         }
 
-        public async Task<bool> UpdateAdmin(Admin admin, CancellationToken cancellationToken)
+        public async Task<bool> UpdateAdmin(AdminDto admin, CancellationToken cancellationToken)
         {
             var updateAdmin = await _context.Admins.FindAsync(admin.Id, cancellationToken);
             if (updateAdmin != null)
             {
-                updateAdmin.FirstName=admin.FirstName;
-                updateAdmin.LastName=admin.LastName;
-                updateAdmin.ProfileImageUrl=admin.ProfileImageUrl;
+                updateAdmin.ApplicationUser.FirstName = admin.FirstName;
+                updateAdmin.ApplicationUser.LastName= admin.LastName;
+                updateAdmin.ApplicationUser.ProfileImageUrl= admin.ProfileImageUrl;
                 await _context.SaveChangesAsync(cancellationToken);
                 return true;
             }
             return false;
         }
 
-        public async Task<bool> IsActiveAdmin(int id, bool delete, CancellationToken cancellationToken)
+        public async Task<bool> IsActiveAdmin(SoftDeleteDto delete, CancellationToken cancellationToken)
         {
-            var admin = await _context.Admins.FindAsync(id, cancellationToken);
+            var admin = await _context.Admins.FindAsync(delete.Id, cancellationToken);
             if (admin is null) return false;
-            admin.IsDeleted = delete;  
+            admin.IsDeleted = delete.IsDeleted;  
             await _context.SaveChangesAsync(cancellationToken);
             return true;
         }
@@ -64,7 +67,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
             var updateBalance= await _context.Admins.FindAsync(id, cancellationToken);
             if (updateBalance != null)
             {
-                updateBalance.Balance=balance;
+                updateBalance.ApplicationUser.Balance= balance;
                 await _context.SaveChangesAsync(cancellationToken);
                 return true;
             }
