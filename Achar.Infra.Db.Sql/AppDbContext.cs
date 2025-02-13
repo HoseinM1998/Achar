@@ -26,6 +26,7 @@ namespace Achar.Infra.Db.Sql
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            ApplicationUserConfig.SeedUsers(modelBuilder);
             modelBuilder.ApplyConfiguration(new AdminConfig());
             modelBuilder.ApplyConfiguration(new CategoryConfig());
             modelBuilder.ApplyConfiguration(new CityConfig());
@@ -36,9 +37,6 @@ namespace Achar.Infra.Db.Sql
             modelBuilder.ApplyConfiguration(new BidConfig());
             modelBuilder.ApplyConfiguration(new RequestConfig());
             modelBuilder.ApplyConfiguration(new SubCategoryConfig());
-
-            ApplicationUserConfig.SeedUsers(modelBuilder);
-
             base.OnModelCreating(modelBuilder);
         }
 

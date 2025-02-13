@@ -29,19 +29,21 @@ namespace Achar.Infra.Db.SqLServer.EntitiesConfigration
                 .HasMany(e => e.Comments)
                 .WithOne(c => c.Expert)
                 .HasForeignKey(c => c.ExpertId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasData(new List<Expert>
             {
                 new Expert()
                 {
                     Id = 1,
-                    ApplicationUserId = 5
+                    ApplicationUserId = 5,
+                    CityId = 1
                 },
                 new Expert()
                 {
                     Id = 2,
-                    ApplicationUserId = 6
+                    ApplicationUserId = 6,
+                    CityId = 6
                 }
             });
         }

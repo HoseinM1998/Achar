@@ -25,12 +25,12 @@ namespace Achar.Infra.Db.SqLServer.EntitiesConfigration
             builder.HasOne(x => x.Category)
                 .WithMany(y => y.SubCategories)
                 .HasForeignKey(x => x.CategoryId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasMany(x => x.HomeServices)
                 .WithOne(y => y.SubCategory)
                 .HasForeignKey(y => y.SubCategoryId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasData(
                 new SubCategory { Id = 1, Title = "نظافت و پذیرایی", Image = "/assets/img/subcategory/Tamiz-1-mage.png", CategoryId = 1, IsDeleted = false },

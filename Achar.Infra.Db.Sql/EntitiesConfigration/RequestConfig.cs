@@ -28,22 +28,22 @@ namespace Achar.Infra.Db.SqLServer.EntitiesConfigration
             builder.HasOne(x => x.Service)
                 .WithMany(y => y.Requests)
                 .HasForeignKey(x => x.ServiceId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasOne(x => x.Customer)
                 .WithMany(y => y.Requests)
                 .HasForeignKey(x => x.CustomerId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasOne(x => x.AcceptedExpert)
                 .WithMany(y => y.Requests)
                 .HasForeignKey(x => x.AcceptedExpertId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasMany(x => x.Bids)
                 .WithOne(y => y.Request)
                 .HasForeignKey(x => x.RequestId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 

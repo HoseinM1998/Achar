@@ -24,11 +24,11 @@ namespace Achar.Infra.Db.SqLServer.EntitiesConfigration
             builder.HasOne(c => c.Customer)
                 .WithMany(c => c.Comments)
                 .HasForeignKey(c => c.CustomerId) 
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.NoAction);
             builder.HasOne(c => c.Expert)
                 .WithMany(e => e.Comments)
                 .HasForeignKey(c => c.ExpertId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

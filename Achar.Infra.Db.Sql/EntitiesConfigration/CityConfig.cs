@@ -27,6 +27,11 @@ namespace Achar.Infra.Db.SqLServer.EntitiesConfigration
                 .HasForeignKey(x => x.CityId)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            builder.HasMany(x => x.Experts)
+                .WithOne(x => x.City)
+                .HasForeignKey(x => x.CityId)
+                .OnDelete(DeleteBehavior.NoAction);
+
             builder.HasData(new List<City>()
             {
                 new City() { Id = 1, Title = "تهران" },

@@ -31,13 +31,13 @@ namespace Achar.Infra.Db.SqLServer.EntitiesConfigration
                 .HasOne(x => x.SubCategory)
                 .WithMany(y => y.HomeServices)
                 .HasForeignKey(x => x.SubCategoryId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder
                 .HasMany(x => x.Requests)
                 .WithOne(y => y.Service)
                 .HasForeignKey(y => y.ServiceId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
 
 
 
