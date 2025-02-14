@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AcharDomainCore.Entites;
 
 namespace AcharDomainCore.Dtos.Request
 {
@@ -18,7 +19,7 @@ namespace AcharDomainCore.Dtos.Request
         [DisplayName("قیمت")]
         public decimal Price { get; set; }
         [DisplayName("عکس ها")]
-        public string? ImageSrc { get; set; }
+        public List<Image>? Images { get; set; } = new List<Image>();
         [DisplayName("وضعیت")]
         public StatusRequestEnum Status { get; set; }
 

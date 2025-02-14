@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\assets\img\request\" />
     <Folder Include="wwwroot\userassets\img\admin\" />
     <Folder Include="wwwroot\userassets\img\customer\" />
     <Folder Include="wwwroot\userassets\img\expert\" />

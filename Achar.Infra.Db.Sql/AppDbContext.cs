@@ -20,12 +20,26 @@ namespace Achar.Infra.Db.Sql
         {
             optionsBuilder.UseSqlServer
                 (@"Server=LAPTOP-GM2D722B; Initial Catalog=Achar; User Id=sa; Password=13771377; TrustServerCertificate=True;");
-            optionsBuilder.ConfigureWarnings(warnings =>
-                warnings.Ignore(RelationalEventId.PendingModelChangesWarning));
 
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<ApplicationUser>()
+                .HasQueryFilter(e => !e.IsDelete);
+            modelBuilder.Entity<Category>()
+                .HasQueryFilter(e => !e.IsDeleted);
+            modelBuilder.Entity<City>()
+                .HasQueryFilter(e => !e.IsDeleted);
+            modelBuilder.Entity<Comment>()
+                .HasQueryFilter(e => !e.IsDeleted);
+            modelBuilder.Entity<AcharDomainCore.Entites.HomeService>()
+                .HasQueryFilter(e => !e.IsDeleted);
+            modelBuilder.Entity<Request>()
+                .HasQueryFilter(e => !e.IsDeleted);
+            modelBuilder.Entity<SubCategory>()
+                .HasQueryFilter(e => !e.IsDeleted);
+
+
             ApplicationUserConfig.SeedUsers(modelBuilder);
             modelBuilder.ApplyConfiguration(new AdminConfig());
             modelBuilder.ApplyConfiguration(new CategoryConfig());
