@@ -15,7 +15,7 @@ namespace AcharDomainCore.Contracts.Comment
         Task<Entites.Comment> GetCommentById(int id, CancellationToken cancellationToken);
         Task<List<Entites.Comment>> GetAllComment(CancellationToken cancellationToken);
         Task<bool> AcceptComment(CommentAcceptDto commentAcceptDto,CancellationToken  cancellationToken);
-        Task<bool> IsActiveComment(SoftDeleteDto active, CancellationToken cancellationToken);
+        Task<bool> DeleteComment(SoftDeleteDto delete, CancellationToken cancellationToken);
 
     }
 }

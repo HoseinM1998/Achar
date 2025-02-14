@@ -13,10 +13,7 @@ namespace AcharDomainCore.Entites
     public class Customer
     {
         public int Id { get; set; }
-        public string? Street { get; set; }
-        public bool IsDeleted { get; set; } = false;
         public GenderEnum? Gender { get; set; }
-        public DateTime CreateAt { get; set; } = DateTime.Now;
         public int CityId { get; set; }
         public City City { get; set; }
         public List<Comment>? Comments { get; set; } = new List<Comment>();

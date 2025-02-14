@@ -17,8 +17,7 @@ namespace AcharDomainCore.Entites
         [Display(Name = "قیمت پیشنهادی")]
         public decimal BidPrice { get; set; }
         public bool IsDeleted { get; set; } = false;
-        public bool IsAccepted { get; set; } = false;
-        public bool IsRejected { get; set; } = false;
+
         [Display(Name = "تاریخ پیشنهادی")]
         public DateTime BidDate { get; set; }
         public DateTime CreateAt { get; set; } = DateTime.Now;

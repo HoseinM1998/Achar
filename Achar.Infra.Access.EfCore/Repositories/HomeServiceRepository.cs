@@ -64,7 +64,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
 
         }
 
-        public async Task<bool> IsActiveHomeService(SoftDeleteDto active, CancellationToken cancellationToken)
+        public async Task<bool> DeleteHomeService(SoftDeleteDto active, CancellationToken cancellationToken)
         {
             var homeService = await _context.HomeServices.FindAsync(active.Id, cancellationToken);
             if (homeService is null) return false;

@@ -53,11 +53,11 @@ namespace Achar.Infra.Access.EfCore.Repositories
             return false;
         }
 
-        public async Task<bool> IsActiveAdmin(SoftDeleteDto delete, CancellationToken cancellationToken)
+        public async Task<bool> DeleteAdmin(SoftDeleteDto delete, CancellationToken cancellationToken)
         {
             var admin = await _context.Admins.FindAsync(delete.Id, cancellationToken);
             if (admin is null) return false;
-            admin.IsDeleted = delete.IsDeleted;  
+            admin.ApplicationUser.IsDelete= delete.IsDeleted;  
             await _context.SaveChangesAsync(cancellationToken);
             return true;
         }

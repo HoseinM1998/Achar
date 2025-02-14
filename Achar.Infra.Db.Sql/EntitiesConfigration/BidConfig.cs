@@ -19,6 +19,9 @@ namespace Achar.Infra.Db.SqLServer.EntitiesConfigration
             builder .Property(p => p.Description)
                 .HasMaxLength(4000)
                 .IsRequired();
+            builder.Property(b => b.BidPrice)
+                .IsRequired()
+                .HasColumnType("decimal(18,2)");
 
         }
     }

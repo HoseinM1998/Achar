@@ -20,8 +20,6 @@ namespace Achar.Infra.Db.SqLServer.EntitiesConfigration
             builder.Property(x => x.IsDeleted)
                 .HasDefaultValue(false);
 
-            builder.Property(c => c.IsDeleted)
-                .IsRequired();
             builder.HasMany(x => x.Customers)
                 .WithOne(x => x.City)
                 .HasForeignKey(x => x.CityId)

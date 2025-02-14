@@ -14,13 +14,7 @@ namespace Achar.Infra.Db.SqLServer.EntitiesConfigration
         public void Configure(EntityTypeBuilder<Expert> builder)
         {
             builder.HasKey(x => x.Id);
-
-            builder
-                .Property(x => x.Street)
-                .HasMaxLength(250);
-
-            builder
-                .Property(x => x.IsActive)
+            builder.Property(x => x.IsActive)
                 .HasDefaultValue(false);
             builder.HasMany(x => x.Skills)
                 .WithMany(x => x.Experts);

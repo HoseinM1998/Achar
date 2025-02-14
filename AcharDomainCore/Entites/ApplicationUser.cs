@@ -12,9 +12,13 @@ namespace AcharDomainCore.Entites
         public Admin? Admin { get; set; }
         public Customer? Customer { get; set; }
         public Expert? Expert { get; set; }
+        public string? Street { get; set; }
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public string? ProfileImageUrl { get; set; }
         public decimal? Balance { get; set; }
+        public bool IsDelete { get; set; } = false;
+        public DateTime CreateAt { get; set; } = DateTime.Now;
+
     }
 }

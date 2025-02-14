@@ -14,9 +14,6 @@ namespace Achar.Infra.Db.SqLServer.EntitiesConfigration
         public void Configure(EntityTypeBuilder<Admin> builder)
         {
             builder.HasKey(a => a.Id);
-            builder
-                .Property(x => x.IsDeleted)
-                .HasDefaultValue(false);
 
             builder.HasData(new List<Admin>
             {

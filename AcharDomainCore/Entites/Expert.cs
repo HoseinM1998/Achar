@@ -13,13 +13,9 @@ namespace AcharDomainCore.Entites
     public class Expert
     {
         public int Id { get; set; }
-        public string? Street { get; set; }
         public int? Score { get; set; } 
-        public bool IsActive { get; set; } = false;
-        public bool IsDelete { get; set; } = false;
-
         public GenderEnum? Gender { get; set; }
-        public DateTime CreateAt { get; set; } = DateTime.Now;
+        public bool IsActive { get; set; } = false;
         public List<SubCategory>? Skills { get; set; }
         public List<Comment>? Comments { get; set; }
         public List<Bid>? Bids { get; set; } = new List<Bid>();

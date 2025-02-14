@@ -1,5 +1,6 @@
 ﻿using Achar.Infra.Db.SqLServer.EntitiesConfigration;
 using AcharDomainCore.Entites;
+using HomeService.Domain.Core.Enums;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +23,6 @@ namespace Achar.Infra.Db.Sql
             optionsBuilder.ConfigureWarnings(warnings =>
                 warnings.Ignore(RelationalEventId.PendingModelChangesWarning));
 
-
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -37,21 +37,23 @@ namespace Achar.Infra.Db.Sql
             modelBuilder.ApplyConfiguration(new BidConfig());
             modelBuilder.ApplyConfiguration(new RequestConfig());
             modelBuilder.ApplyConfiguration(new SubCategoryConfig());
+            modelBuilder.ApplyConfiguration(new ImageConfig());
+
             base.OnModelCreating(modelBuilder);
         }
 
-
-      
 
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Expert> Experts { get; set; }
         public DbSet<Bid> Bids { get; set; }
         public DbSet<Request> Requests { get; set; }
+        public DbSet<Image> Images { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<SubCategory> SubCategory { get; set; }
         public DbSet<AcharDomainCore.Entites.HomeService> HomeServices { get; set; }
         public DbSet<City> Cities { get; set; }
         public DbSet<Comment> Comments { get; set; }
+
     }
 }

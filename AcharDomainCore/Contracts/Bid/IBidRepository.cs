@@ -9,9 +9,7 @@ namespace AcharDomainCore.Contracts.Bid
         Task<bool> UpdateBid(BidUpdateDto bid, CancellationToken cancellationToken);
         Task<Entites.Bid> GetBidById(int id, CancellationToken cancellationToken);
         Task<List<Entites.Bid>> GetBids(CancellationToken cancellationToken);
-        Task<bool> IsActiveBid(SoftDeleteDto active, CancellationToken cancellationToken);
-        public Task<bool> AcceptBid(int bidId, CancellationToken cancellationToken);
-        public Task<bool> RejectBid(int bidId, CancellationToken cancellationToken);
+        Task<bool> DeleteBid(SoftDeleteDto delete, CancellationToken cancellationToken);
         public Task<bool> ChangebidStatus(BidStatusDto status, CancellationToken cancellationToken);
 
     }

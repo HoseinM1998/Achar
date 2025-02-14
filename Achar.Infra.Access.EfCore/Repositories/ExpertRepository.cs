@@ -3,6 +3,7 @@ using AcharDomainCore.Contracts.Expert;
 using AcharDomainCore.Dtos;
 using AcharDomainCore.Entites;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace Achar.Infra.Access.EfCore.Repositories
 {
@@ -14,39 +15,47 @@ namespace Achar.Infra.Access.EfCore.Repositories
             _context = context;
         }
 
-        public async Task<int> CreateCustomer(Expert expert, CancellationToken cancellationToken)
+        public async Task<int> CreateExpert(Expert expert, CancellationToken cancellationToken)
         {
             await _context.Experts.AddAsync(expert, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
             return expert.Id;
         }
 
-        public async Task<bool> UpdateCustomer(Expert expert, CancellationToken cancellationToken)
+        public async Task<bool> UpdateExpert(Expert expert, CancellationToken cancellationToken)
         {
             var customr = await _context.Experts.FindAsync(expert.Id, cancellationToken);
             if (customr is null) return false;
             customr.Gender = expert.Gender;
             customr.City = expert.City;
-            customr.Street = expert.Street;
             await _context.SaveChangesAsync(cancellationToken);
             return true;
         }
 
-        public async Task<Expert> GetCustomerById(int id, CancellationToken cancellationToken)
+        public async Task<Expert> GetExpertById(int id, CancellationToken cancellationToken)
         {
             return await _context.Experts.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
         }
 
-        public async Task<List<Expert>> GetCustomers(CancellationToken cancellationToken)
+        public async Task<List<Expert>> GetExperts(CancellationToken cancellationToken)
         {
             return await _context.Experts.AsNoTracking().ToListAsync(cancellationToken);
         }
 
-        public async Task<bool> IsActiveCustomer(SoftDeleteDto active, CancellationToken cancellationToken)
+        public async Task<bool> DeleteExpert(SoftDeleteDto active, CancellationToken cancellationToken)
         {
             var expert = await _context.Experts.FindAsync(active.Id, cancellationToken);
             if (expert is null) return false;
-            expert.IsDelete = active.IsDeleted;
+            expert.ApplicationUser.IsDelete = active.IsDeleted;
+            await _context.SaveChangesAsync(cancellationToken);
+            return true;
+        }
+
+        public async Task<bool> IActiveExpert(SoftActiveDto activeDto, CancellationToken cancellationToken)
+        {
+            var expert = await _context.Experts.FindAsync(activeDto.Id, cancellationToken);
+            if (expert is null) return false;
+            expert.IsActive = activeDto.IsActive;
             await _context.SaveChangesAsync(cancellationToken);
             return true;
         }

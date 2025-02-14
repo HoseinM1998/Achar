@@ -15,23 +15,20 @@ namespace AcharDomainCore.Entites
         public string Title { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }
-        public string? ImageSrc { get; set; }
         [DisplayName("وضعیت")]
         public StatusRequestEnum Status { get; set; }
-    
-        [DisplayName("عکس ها")]
-        public List<string>? Image { get; set; }
-        public bool IsDone { get; set; } = false;
         public bool IsDeleted { get; set; } = false;
         public DateTime CreateAt { get; set; } = DateTime.Now;
         [DisplayName("تعیین روز")]
         public DateTime RequesteForTime { get; set; } 
         public DateTime? DoneAt { get; set; }
+        [DisplayName("عکس ها")]
+        public List<Image>? Images { get; set; }
         public int CustomerId { get; set; }
         public Customer Customer { get; set; }
         public int? AcceptedExpertId { get; set; }
         public Expert? AcceptedExpert { get; set; }
-        public int ServiceId { get; set; }
+        public int HomeServiceId { get; set; }
         public HomeService Service { get; set; }
         public List<Bid>? Bids { get; set; } = new List<Bid>();
     }

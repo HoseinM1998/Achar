@@ -9,11 +9,13 @@ namespace AcharDomainCore.Contracts.Expert
 {
     public interface IExpertRepository
     {
-        Task<int> CreateCustomer(Entites.Expert expert, CancellationToken cancellationToken);
-        Task<bool> UpdateCustomer(Entites.Expert expert, CancellationToken cancellationToken);
-        Task<Entites.Expert> GetCustomerById(int id, CancellationToken cancellationToken);
-        Task<List<Entites.Expert>> GetCustomers(CancellationToken cancellationToken);
-        Task<bool> IsActiveCustomer(SoftDeleteDto active, CancellationToken cancellationToken);
+        Task<int> CreateExpert(Entites.Expert expert, CancellationToken cancellationToken);
+        Task<bool> UpdateExpert(Entites.Expert expert, CancellationToken cancellationToken);
+        Task<Entites.Expert> GetExpertById(int id, CancellationToken cancellationToken);
+        Task<List<Entites.Expert>> GetExperts(CancellationToken cancellationToken);
+        Task<bool> DeleteExpert(SoftDeleteDto delete, CancellationToken cancellationToken);
+        Task<bool> IActiveExpert(SoftActiveDto activeDto, CancellationToken cancellationToken);
+
         Task<bool> UpdateBalance(int id, decimal balance, CancellationToken cancellationToken);
     }
 }

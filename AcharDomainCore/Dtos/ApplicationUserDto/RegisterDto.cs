@@ -16,7 +16,6 @@ namespace AcharDomainCore.Dtos.ApplicationUserDto
 
         public string Password { get; set; }
         [Required(ErrorMessage = "تکرار رمزعبور الزامی می‌باشد")]
-        [Compare(nameof(Password), ErrorMessage = "رمزعبور و تایید رمزعبور باهم برابر نیستند")]
         public string ConfirmPassword { get; set; }
         public int CityId { get; set; }
         public bool IsCustomer { get; set; }

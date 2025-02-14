@@ -14,7 +14,7 @@ namespace AcharDomainCore.Contracts.City
         Task<bool> UpdateCity(CityDto city,CancellationToken cancellationToken);
         Task<Entites.City> GetCityById(int id,CancellationToken cancellationToken);
         Task<List<Entites.City>> GetAllCity(CancellationToken cancellationToken);
-        Task<bool> IsActiveCity(SoftDeleteDto active, CancellationToken cancellationToken);
+        Task<bool> DeleteCity(SoftDeleteDto delete, CancellationToken cancellationToken);
 
 
     }

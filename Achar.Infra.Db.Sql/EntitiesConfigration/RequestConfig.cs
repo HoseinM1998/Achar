@@ -27,7 +27,7 @@ namespace Achar.Infra.Db.SqLServer.EntitiesConfigration
                 .HasDefaultValue(false);
             builder.HasOne(x => x.Service)
                 .WithMany(y => y.Requests)
-                .HasForeignKey(x => x.ServiceId)
+                .HasForeignKey(x => x.HomeServiceId)
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasOne(x => x.Customer)
@@ -41,6 +41,10 @@ namespace Achar.Infra.Db.SqLServer.EntitiesConfigration
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasMany(x => x.Bids)
+                .WithOne(y => y.Request)
+                .HasForeignKey(x => x.RequestId)
+                .OnDelete(DeleteBehavior.NoAction);
+            builder.HasMany(x => x.Images)
                 .WithOne(y => y.Request)
                 .HasForeignKey(x => x.RequestId)
                 .OnDelete(DeleteBehavior.NoAction);

@@ -27,6 +27,7 @@ namespace Achar.Infra.Db.SqLServer.EntitiesConfigration
                 PhoneNumber = "09913466961",
                 FirstName = "ادمین",
                 LastName = "ادمین",
+                IsDelete = false,
                 ProfileImageUrl = "/userassets/img/1.png",
                 SecurityStamp = Guid.NewGuid().ToString()
             },
@@ -41,6 +42,7 @@ namespace Achar.Infra.Db.SqLServer.EntitiesConfigration
                 PhoneNumber = "09913466961",
                 FirstName = "حسین",
                 LastName = "مصلحی",
+                IsDelete = false,
                 ProfileImageUrl = "/userassets/img/1.png",
                 SecurityStamp = Guid.NewGuid().ToString()
             },
@@ -55,6 +57,7 @@ namespace Achar.Infra.Db.SqLServer.EntitiesConfigration
                 PhoneNumber = "09913466961",
                 FirstName = "جواد",
                 LastName = "مرادی",
+                IsDelete = false,
                 ProfileImageUrl = "/userassets/img/1.png",
                 SecurityStamp = Guid.NewGuid().ToString()
             },
@@ -69,6 +72,7 @@ namespace Achar.Infra.Db.SqLServer.EntitiesConfigration
                 PhoneNumber = "09913466961",
                 FirstName = "عارف",
                 LastName = "بهمنی",
+                IsDelete = false,
                 ProfileImageUrl = "/userassets/img/1.png",
                 SecurityStamp = Guid.NewGuid().ToString()
             },
@@ -83,6 +87,7 @@ namespace Achar.Infra.Db.SqLServer.EntitiesConfigration
                 PhoneNumber = "09913466961",
                 FirstName = "سعید",
                 LastName = "لک‌",
+                IsDelete = false,
                 ProfileImageUrl = "/userassets/img/1.png",
                 SecurityStamp = Guid.NewGuid().ToString()
             },
@@ -96,6 +101,7 @@ namespace Achar.Infra.Db.SqLServer.EntitiesConfigration
                 LockoutEnabled = false,
                 PhoneNumber = "09913466961",
                 FirstName = "سحر",
+                IsDelete = false,
                 ProfileImageUrl = "/userassets/img/1.png",
                 SecurityStamp = Guid.NewGuid().ToString()
             },

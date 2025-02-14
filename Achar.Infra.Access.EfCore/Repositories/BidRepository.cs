@@ -53,7 +53,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
 
         }
 
-        public async Task<bool> IsActiveBid(SoftDeleteDto active, CancellationToken cancellationToken)
+        public async Task<bool> DeleteBid(SoftDeleteDto active, CancellationToken cancellationToken)
         {
             var bid = await _context.Bids.FindAsync(active.Id, cancellationToken);
             if (bid is null) return false;
@@ -62,23 +62,6 @@ namespace Achar.Infra.Access.EfCore.Repositories
             return true;
         }
 
-        public async Task<bool> AcceptBid(int bidId, CancellationToken cancellationToken)
-        {
-            var bid = await _context.Bids.FindAsync(bidId, cancellationToken);
-            if (bid is null) return false;
-            bid.IsAccepted = true;
-            await _context.SaveChangesAsync(cancellationToken);
-            return true;
-        }
-
-        public async Task<bool> RejectBid(int bidId, CancellationToken cancellationToken)
-        {
-            var bid = await _context.Bids.FindAsync(bidId, cancellationToken);
-            if (bid is null) return false;
-            bid.IsRejected = true;
-            await _context.SaveChangesAsync(cancellationToken);
-            return true;
-        }
 
         public async Task<bool> ChangebidStatus(BidStatusDto status, CancellationToken cancellationToken)
         {

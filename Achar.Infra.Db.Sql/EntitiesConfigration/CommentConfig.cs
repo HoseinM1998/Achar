@@ -21,6 +21,8 @@ namespace Achar.Infra.Db.SqLServer.EntitiesConfigration
                 .IsRequired();
             builder.Property(x => x.IsDeleted)
                 .HasDefaultValue(false);
+            builder.Property(x => x.IsAccept)
+                .HasDefaultValue(false);
             builder.HasOne(c => c.Customer)
                 .WithMany(c => c.Comments)
                 .HasForeignKey(c => c.CustomerId) 
@@ -29,6 +31,7 @@ namespace Achar.Infra.Db.SqLServer.EntitiesConfigration
                 .WithMany(e => e.Comments)
                 .HasForeignKey(c => c.ExpertId)
                 .OnDelete(DeleteBehavior.NoAction);
+
         }
     }
 }

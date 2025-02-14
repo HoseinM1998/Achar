@@ -55,7 +55,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
 
         }
 
-        public async Task<bool> IsActiveCity(SoftDeleteDto active, CancellationToken cancellationToken)
+        public async Task<bool> DeleteCity(SoftDeleteDto active, CancellationToken cancellationToken)
         {
             var city = await _context.Cities.FindAsync(active.Id, cancellationToken);
             if (city is null) return false;

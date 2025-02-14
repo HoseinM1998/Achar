@@ -71,7 +71,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
             return true;
         }
 
-        public async Task<bool> IsActiveComment(SoftDeleteDto active, CancellationToken cancellationToken)
+        public async Task<bool> DeleteComment(SoftDeleteDto active, CancellationToken cancellationToken)
         {
             var comment = await _context.Comments.FindAsync(active.Id, cancellationToken);
             if (comment is null) return false;

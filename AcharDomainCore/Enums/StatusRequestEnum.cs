@@ -14,8 +14,8 @@ namespace HomeService.Domain.Core.Enums
         Success ,
         [Display(Name = "عدم مراجعه کارشناس")]
         Failed,
-        [Display(Name = "کنسل‌شد")]
-        Cancelled,
+        [Display(Name = " توسط کارشناس کنسل‌شد")]
+        CancelledByExpert,
         [Display(Name = "ردشد")]
         Rejected,
     }

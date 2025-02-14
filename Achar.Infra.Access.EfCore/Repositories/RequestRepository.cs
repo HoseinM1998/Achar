@@ -29,11 +29,10 @@ namespace Achar.Infra.Access.EfCore.Repositories
                 Title = requestDto.Title,
                 Description = requestDto.Description,
                 Price = requestDto.Price,
-                ImageSrc = requestDto.ImageSrc,
                 Status = StatusRequestEnum.AwaitingSuggestionExperts,
                 RequesteForTime = requestDto.RequesteForTime,
                 CustomerId = requestDto.CustomerId,
-                ServiceId = requestDto.ServiceId
+                HomeServiceId = requestDto.ServiceId
             };
             await _context.Requests.AddAsync(request, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
@@ -47,7 +46,6 @@ namespace Achar.Infra.Access.EfCore.Repositories
             request.Title = upRequest.Title;
             request.Description = upRequest.Description;
             request.Price = upRequest.Price;
-            request.ImageSrc = upRequest.ImageSrc;
             request.RequesteForTime = upRequest.RequesteForTime;
             await _context.SaveChangesAsync(cancellationToken);
             return true;
@@ -64,7 +62,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
             return await _context.Requests.AsNoTracking().ToListAsync(cancellationToken);
         }
 
-        public async Task<bool> IsActiveRequest(SoftDeleteDto active, CancellationToken cancellationToken)
+        public async Task<bool> DeleteRequest(SoftDeleteDto active, CancellationToken cancellationToken)
         {
             var request = await _context.Requests.FindAsync(active.Id, cancellationToken);
             if (request is null) return false;

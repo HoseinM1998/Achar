@@ -61,7 +61,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
 
         }
 
-        public async Task<bool> IsActiveCategory(SoftDeleteDto active, CancellationToken cancellationToken)
+        public async Task<bool> DeleteCategory(SoftDeleteDto active, CancellationToken cancellationToken)
         {
             var subCategory = await _context.SubCategory.FindAsync(active.Id, cancellationToken);
             if (subCategory is null) return false;

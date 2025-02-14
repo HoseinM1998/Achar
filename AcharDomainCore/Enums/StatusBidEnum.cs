@@ -15,8 +15,6 @@ namespace AcharDomainCore.Enums
         WaitingForExpert,
         [Display(Name = "توسط مشتری کنسل شد")]
         CancelledByCustomer,
-        [Display(Name = "کنسل‌شد")]
-        Cancelled ,
         [Display(Name = "ردشد")] 
         Rejected,
         [Display(Name = "با‌موفقیت انجام‌شد")]

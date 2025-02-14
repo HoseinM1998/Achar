@@ -32,7 +32,6 @@ namespace Achar.Infra.Access.EfCore.Repositories
             if (customr is null) return false;
             customr.Gender = customer.Gender;
             customr.City= customer.City;
-            customr.Street=customer.Street;
             await _context.SaveChangesAsync(cancellationToken);
             return true;
         }
@@ -48,11 +47,11 @@ namespace Achar.Infra.Access.EfCore.Repositories
 
         }
 
-        public async Task<bool> IsActiveCustomer(SoftDeleteDto active, CancellationToken cancellationToken)
+        public async Task<bool> DeleteCustomer(SoftDeleteDto active, CancellationToken cancellationToken)
         {
             var customer = await _context.Customers.FindAsync(active.Id, cancellationToken);
             if (customer is null) return false;
-            customer.IsDeleted = active.IsDeleted;
+            customer.ApplicationUser.IsDelete = active.IsDeleted;
             await _context.SaveChangesAsync(cancellationToken);
             return true;
         }
