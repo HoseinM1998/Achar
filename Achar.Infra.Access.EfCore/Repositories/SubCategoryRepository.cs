@@ -28,6 +28,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
         {
             var subCategory = new SubCategory()
             {
+                CreateAt = DateTime.Now,
                 Title = subCategoryDto.Title,
                 Image = subCategoryDto.Image,
                 CategoryId = subCategoryDto.CategoryId

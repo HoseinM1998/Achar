@@ -26,6 +26,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
         {
             var request = new Request()
             {
+                CreateAt = DateTime.Now,
                 Title = requestDto.Title,
                 Description = requestDto.Description,
                 Price = requestDto.Price,

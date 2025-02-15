@@ -26,6 +26,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
         {
             var category = new Category
             {
+                CreatedAt = DateTime.Now,
                 Title = categoryDto.Title,
                 Image = categoryDto.Image
             };

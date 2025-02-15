@@ -17,6 +17,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
 
         public async Task<int> CreateExpert(Expert expert, CancellationToken cancellationToken)
         {
+            expert.ApplicationUser.CreateAt= DateTime.Now;
             await _context.Experts.AddAsync(expert, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
             return expert.Id;

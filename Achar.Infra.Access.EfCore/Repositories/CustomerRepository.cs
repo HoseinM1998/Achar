@@ -21,6 +21,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
         }
         public async Task<int> CreateCustomer(Customer customer, CancellationToken cancellationToken)
         {
+            customer.ApplicationUser.CreateAt= DateTime.Now;
             await _context.Customers.AddAsync(customer, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
             return customer.Id;

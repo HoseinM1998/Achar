@@ -22,6 +22,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
 
         public async Task<int> CreateBid(Bid bid, CancellationToken cancellationToken)
         {
+            bid.CreateAt=DateTime.Now;
             await _context.Bids.AddAsync(bid, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
             return bid.Id;

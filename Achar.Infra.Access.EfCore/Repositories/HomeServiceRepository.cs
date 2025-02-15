@@ -26,6 +26,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
         {
             var homeService = new AcharDomainCore.Entites.HomeService()
             {
+                CreateAt = DateTime.Now,
                 Title = homeServiceDto.Title,
                 ImageSrc = homeServiceDto.ImageSrc,
                 BasePrice = homeServiceDto.BasePrice,

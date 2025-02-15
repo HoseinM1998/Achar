@@ -26,6 +26,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
         {
             var city = new City()
             {
+                CreateAt = DateTime.Now,
                 Title = cityDto.Title
             };
 

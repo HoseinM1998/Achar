@@ -20,6 +20,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
         {
             var comment = new Comment()
             {
+                CreateAt = DateTime.Now,
                 Title = commentDto.Title,
                 Description = commentDto.Description,
                 Score = commentDto.Score,
