@@ -41,6 +41,17 @@ namespace AcharDomainAppService
                    CityId= registerDto.CityId
                 };
             }
+            if (registerDto.IsCustomer)
+            {
+                var userCustomerId = user.Customer!.Id;
+                await _userManager.AddClaimAsync(user, new Claim("userCustomerId", userCustomerId.ToString()));
+            }
+
+            if (registerDto.IsExpert)
+            {
+                var userExpertId = user.Expert!.Id;
+                await _userManager.AddClaimAsync(user, new Claim("userExpertId", userExpertId.ToString()));
+            }
             var result = await _userManager.CreateAsync(user, registerDto.Password);
             if (result.Succeeded)
             {

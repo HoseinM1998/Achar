@@ -62,13 +62,19 @@ namespace Achar.Infra.Access.EfCore.Repositories
             return true;
         }
 
+        public async Task<int> RequestCount(CancellationToken cancellationToken)
+        {
+            return await _context.Requests.AsNoTracking().CountAsync(cancellationToken);
+
+        }
+
         public async Task<Request> GetRequestById(int id, CancellationToken cancellationToken)
         {
             return await _context.Requests.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
 
         }
 
-        public async Task<List<Request>> GetRequests(CancellationToken cancellationToken)
+        public async Task<List<Request?>> GetRequests(CancellationToken cancellationToken)
         {
             return await _context.Requests.AsNoTracking().ToListAsync(cancellationToken);
         }
@@ -82,12 +88,11 @@ namespace Achar.Infra.Access.EfCore.Repositories
             return true;
         }
 
-        public async Task<bool> AcceptRequestStatus(AcceptExpertDto acceptExpertDto, CancellationToken cancellationToken)
+        public async Task<bool> ChangeRequestStatus(StatusRequestDto statusRequest, CancellationToken cancellationToken)
         {
-            var acceptRequest = await _context.Requests.FindAsync(acceptExpertDto.Id, cancellationToken);
+            var acceptRequest = await _context.Requests.FindAsync(statusRequest.Id, cancellationToken);
             if (acceptRequest is null) return false;
-            acceptRequest.AcceptedExpertId = acceptExpertDto.AcceptedExpertId;
-            acceptRequest.Status = StatusRequestEnum.WaitingForExpert;
+            acceptRequest.Status = statusRequest.Status;
             await _context.SaveChangesAsync(cancellationToken);
             return true;
         }

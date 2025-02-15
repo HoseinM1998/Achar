@@ -11,7 +11,8 @@ namespace AcharDomainCore.Contracts.Admin
     public interface IAdminRepository
     {
          Task<int> CreateAdmin(Entites.Admin admin, CancellationToken cancellationToken);
-         Task<Entites.Admin> GetAdminById(int adminID,CancellationToken cancellationToken);
+         Task<int> AdminCount(CancellationToken cancellationToken);
+        Task<Entites.Admin> GetAdminById(int adminID,CancellationToken cancellationToken);
          Task<List<Entites.Admin>> GetAllAmin(CancellationToken cancellationToken);
          Task<bool> UpdateAdmin(AdminDto admin, CancellationToken cancellationToken);
          Task<bool> DeleteAdmin(SoftDeleteDto delete, CancellationToken  cancellationToken);

@@ -11,11 +11,12 @@ namespace AcharDomainCore.Contracts.Expert
     {
         Task<int> CreateExpert(Entites.Expert expert, CancellationToken cancellationToken);
         Task<bool> UpdateExpert(Entites.Expert expert, CancellationToken cancellationToken);
+        Task<int> ExpertCount(CancellationToken cancellationToken);
         Task<Entites.Expert> GetExpertById(int id, CancellationToken cancellationToken);
         Task<List<Entites.Expert>> GetExperts(CancellationToken cancellationToken);
         Task<bool> DeleteExpert(SoftDeleteDto delete, CancellationToken cancellationToken);
         Task<bool> IActiveExpert(SoftActiveDto activeDto, CancellationToken cancellationToken);
-
+        Task<List<Entites.Expert?>> GetTopExpertsByScore(CancellationToken cancellationToken);
         Task<bool> UpdateBalance(int id, decimal balance, CancellationToken cancellationToken);
     }
 }

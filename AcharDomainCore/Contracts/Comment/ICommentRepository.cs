@@ -12,8 +12,9 @@ namespace AcharDomainCore.Contracts.Comment
     {
         Task<int> CreateComment(CommentDto comment,CancellationToken cancellationToken);
         Task<bool> UpdateComment(CommentDto comment, CancellationToken cancellationToken);
+        Task<int> CommentCount(CancellationToken  cancellationToken);
         Task<Entites.Comment> GetCommentById(int id, CancellationToken cancellationToken);
-        Task<List<Entites.Comment>> GetAllComment(CancellationToken cancellationToken);
+        Task<List<Entites.Comment?>> GetAllComment(CancellationToken cancellationToken);
         Task<bool> AcceptComment(CommentAcceptDto commentAcceptDto,CancellationToken  cancellationToken);
         Task<bool> DeleteComment(SoftDeleteDto delete, CancellationToken cancellationToken);
 

@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace AcharDomainCore.Dtos.Request
 {
-    public class AcceptExpertDto
+    public class StatusRequestDto
     {
         public int Id { get; set; }
-        public int AcceptedExpertId { get; set; }
         public StatusRequestEnum Status { get; set; }
 
     }

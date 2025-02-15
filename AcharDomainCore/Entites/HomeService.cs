@@ -21,7 +21,8 @@ namespace AcharDomainCore.Entites
         public int SubCategoryId { get; set; }
         public SubCategory SubCategory { get; set; }
         public DateTime CreateAt { get; set; } = DateTime.Now;
-        public List<Request>? Requests { get; set; } = new List<Request>();  
+        public List<Request>? Requests { get; set; } = new List<Request>();
+        public List<Expert> Experts { get; set; } = new List<Expert>();
 
     }
 }

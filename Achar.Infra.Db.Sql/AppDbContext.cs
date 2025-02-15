@@ -20,7 +20,6 @@ namespace Achar.Infra.Db.Sql
         {
             optionsBuilder.UseSqlServer
                 (@"Server=LAPTOP-GM2D722B; Initial Catalog=Achar; User Id=sa; Password=13771377; TrustServerCertificate=True;");
-
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

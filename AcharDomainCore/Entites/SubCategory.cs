@@ -19,7 +19,6 @@ namespace AcharDomainCore.Entites
         public int CategoryId { get; set; }
         public Category Category { get; set; }
         public List<HomeService>? HomeServices { get; set; } = new List<HomeService>();
-        public List<Expert> Experts { get; set; } = new List<Expert>();
 
     }
 }

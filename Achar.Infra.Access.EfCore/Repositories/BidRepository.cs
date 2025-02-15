@@ -41,13 +41,19 @@ namespace Achar.Infra.Access.EfCore.Repositories
             return false;
         }
 
+        public async Task<int> BidCount(CancellationToken cancellationToken)
+        {
+            return await _context.Bids.AsNoTracking().CountAsync(cancellationToken);
+
+        }
+
         public async Task<Bid> GetBidById(int id, CancellationToken cancellationToken)
         {
             return await _context.Bids.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
 
         }
 
-        public async Task<List<Bid>> GetBids(CancellationToken cancellationToken)
+        public async Task<List<Bid?>> GetBids(CancellationToken cancellationToken)
         {
             return await _context.Bids.AsNoTracking().ToListAsync(cancellationToken);
 

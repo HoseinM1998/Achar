@@ -12,6 +12,7 @@ namespace AcharDomainCore.Contracts.HomeService
     {
         Task<int> CreateHomeService(HomeServiceDto homeService, CancellationToken cancellationToken);
         Task<bool> UpdateHomeService(HomeServiceDto homeService, CancellationToken cancellationToken);
+        Task<int> HomeServiceCount(CancellationToken cancellationToken);
         Task<Entites.HomeService> GetHomeServiceById(int id, CancellationToken cancellationToken);
         Task<List<Entites.HomeService>> GetHomeServices(CancellationToken cancellationToken);
         Task<bool> DeleteHomeService(SoftDeleteDto delete, CancellationToken cancellationToken);

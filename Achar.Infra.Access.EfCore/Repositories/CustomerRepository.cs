@@ -36,6 +36,11 @@ namespace Achar.Infra.Access.EfCore.Repositories
             return true;
         }
 
+        public async Task<int> CoustomerCount(CancellationToken cancellationToken)
+        {
+            return await _context.Customers.AsNoTracking().CountAsync(cancellationToken);
+        }
+
         public async Task<Customer> GetCustomerById(int id, CancellationToken cancellationToken)
         {
             return await _context.Customers.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id, cancellationToken);

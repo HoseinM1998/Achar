@@ -16,7 +16,7 @@ namespace AcharDomainCore.Entites
         public int? Score { get; set; } 
         public GenderEnum? Gender { get; set; }
         public bool IsActive { get; set; } = false;
-        public List<SubCategory>? Skills { get; set; }
+        public List<HomeService>? Skills { get; set; }
         public List<Comment>? Comments { get; set; }
         public List<Bid>? Bids { get; set; } = new List<Bid>();
         public List<Request>? Requests { get; set; } = new List<Request>();

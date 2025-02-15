@@ -47,6 +47,11 @@ namespace Achar.Infra.Access.EfCore.Repositories
             return true;
         }
 
+        public async Task<int> CategoryCount(CancellationToken cancellationToken)
+        {
+            return await _context.Categories.AsNoTracking().CountAsync(cancellationToken);
+        }
+
         public async Task<Category> GetCategoryById(int id, CancellationToken cancellationToken)
         {
             return await _context.Categories.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id, cancellationToken);

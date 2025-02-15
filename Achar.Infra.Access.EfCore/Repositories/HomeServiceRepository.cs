@@ -52,6 +52,11 @@ namespace Achar.Infra.Access.EfCore.Repositories
             return true;
         }
 
+        public async Task<int> HomeServiceCount(CancellationToken cancellationToken)
+        {
+            return await _context.HomeServices.AsNoTracking().CountAsync(cancellationToken);
+        }
+
         public async Task<AcharDomainCore.Entites.HomeService> GetHomeServiceById(int id, CancellationToken cancellationToken)
         {
             return await _context.HomeServices.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id, cancellationToken);

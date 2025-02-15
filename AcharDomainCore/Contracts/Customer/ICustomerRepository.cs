@@ -11,6 +11,7 @@ namespace AcharDomainCore.Contracts.Customer
     {
         Task<int> CreateCustomer(Entites.Customer customer, CancellationToken cancellationToken);
         Task<bool> UpdateCustomer(Entites.Customer customer, CancellationToken cancellationToken);
+        Task<int> CoustomerCount(CancellationToken cancellationToken);
         Task<Entites.Customer> GetCustomerById(int id, CancellationToken cancellationToken);
         Task<List<Entites.Customer>> GetCustomers(CancellationToken cancellationToken);
         Task<bool> DeleteCustomer(SoftDeleteDto delete, CancellationToken cancellationToken);

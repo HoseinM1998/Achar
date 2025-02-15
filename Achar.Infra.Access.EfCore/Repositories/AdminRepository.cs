@@ -29,6 +29,11 @@ namespace Achar.Infra.Access.EfCore.Repositories
             return admin.Id;
         }
 
+        public async Task<int> AdminCount(CancellationToken cancellationToken)
+        {
+            return await _context.Admins.AsNoTracking().CountAsync(cancellationToken);
+        }
+
         public async Task<Admin> GetAdminById(int adminID, CancellationToken cancellationToken)
         {
             return await _context.Admins.AsNoTracking().FirstOrDefaultAsync(p => p.Id == adminID, cancellationToken);

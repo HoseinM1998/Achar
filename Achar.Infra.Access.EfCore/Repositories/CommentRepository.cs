@@ -1,15 +1,9 @@
 ﻿using Achar.Infra.Db.Sql;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AcharDomainCore.Contracts.Comment;
 using AcharDomainCore.Dtos;
 using AcharDomainCore.Dtos.CommentDto;
 using AcharDomainCore.Entites;
-using AcharDomainCore.Dtos.CategoryDto;
-using AcharDomainCore.Dtos.CityDto;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace Achar.Infra.Access.EfCore.Repositories
@@ -50,13 +44,19 @@ namespace Achar.Infra.Access.EfCore.Repositories
             return true;
         }
 
+        public async Task<int> CommentCount(CancellationToken cancellationToken)
+        {
+            return await _context.Comments.AsNoTracking().CountAsync(cancellationToken);
+
+        }
+
         public async Task<Comment> GetCommentById(int id, CancellationToken cancellationToken)
         {
             return await _context.Comments.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
 
         }
 
-        public async Task<List<Comment>> GetAllComment(CancellationToken cancellationToken)
+        public async Task<List<Comment?>> GetAllComment(CancellationToken cancellationToken)
         {
             return await _context.Comments.AsNoTracking().ToListAsync(cancellationToken);
 

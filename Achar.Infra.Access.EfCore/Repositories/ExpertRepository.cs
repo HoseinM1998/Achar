@@ -32,6 +32,11 @@ namespace Achar.Infra.Access.EfCore.Repositories
             return true;
         }
 
+        public async Task<int> ExpertCount(CancellationToken cancellationToken)
+        {
+            return await _context.Experts.AsNoTracking().CountAsync(cancellationToken);
+        }
+
         public async Task<Expert> GetExpertById(int id, CancellationToken cancellationToken)
         {
             return await _context.Experts.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
@@ -58,6 +63,15 @@ namespace Achar.Infra.Access.EfCore.Repositories
             expert.IsActive = activeDto.IsActive;
             await _context.SaveChangesAsync(cancellationToken);
             return true;
+        }
+
+        public async Task<List<Expert?>> GetTopExpertsByScore(CancellationToken cancellationToken)
+        {
+            return await _context.Experts
+                .AsNoTracking()
+                .OrderByDescending(e => e.Score)
+                .Take(5) 
+                .ToListAsync(cancellationToken);
         }
 
         public async Task<bool> UpdateBalance(int id, decimal balance, CancellationToken cancellationToken)
