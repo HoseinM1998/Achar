@@ -2,12 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using AcharDomainCore.Contracts.Request;
 using AcharDomainCore.Dtos;
 using AcharDomainCore.Dtos.Request;
 using AcharDomainCore.Entites;
+using HomeService.Domain.Core.Enums;
 
 namespace AcharDomainService
 {
@@ -42,7 +44,48 @@ namespace AcharDomainService
 
 
         public async Task<bool> ChangeRequestStatus(StatusRequestDto newStatus, CancellationToken cancellationToken)
-            => await _repository.ChangeRequestStatus(newStatus, cancellationToken);
+        { 
+            var request = await _repository.GetRequestById(newStatus.Id, cancellationToken);
+
+            if (request == null)
+            {
+                return false;
+            }
+            if (request.ExpertId == null)
+            {
+                newStatus.Status = StatusRequestEnum.AwaitingSuggestionExperts; 
+            }
+
+            if (request.Bids != null)
+            {
+                newStatus.Status = StatusRequestEnum.AwaitingCustomerConfirmation;
+
+            }
+
+            if (request.DoneAt != null)
+            {
+                newStatus.Status = StatusRequestEnum.Success;
+            }
+
+            if (request.Canccell = true)
+            {
+                newStatus.Status = StatusRequestEnum.CancelledByExpert;
+            
+            }
+            else
+            {
+                newStatus.Status = StatusRequestEnum.WaitingForExpert;
+                var requet = new RequestAcceptExpertDto()
+                {
+                    Id = newStatus.Id,
+                    Bids = null
+                };
+                await _repository.AcceptExpert(requet, cancellationToken);
+            }
+            await _repository.ChangeRequestStatus(newStatus, cancellationToken);
+
+            return true;
+        }
 
     }
 }

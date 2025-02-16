@@ -38,6 +38,11 @@ namespace AcharDomainCore.Dtos.Request
         [DisplayName("شناسه کارشناس")]
         public int? ExpertId { get; set; }
         public string? ExpertName { get; set; }
+        public List<Bid>? Bids { get; set; } = new List<Bid>();
+        public DateTime? DoneAt { get; set; }
+        public bool Canccell { get; set; }=false;
+
+
 
     }
 }

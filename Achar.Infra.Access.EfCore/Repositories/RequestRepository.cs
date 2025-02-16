@@ -157,5 +157,14 @@ namespace Achar.Infra.Access.EfCore.Repositories
             await _context.SaveChangesAsync(cancellationToken);
             return true;
         }
+
+        public async Task<bool> AcceptExpert(RequestAcceptExpertDto requestDto, CancellationToken cancellationToken)
+        {
+            var acceptRequest = await _context.Requests.FindAsync(requestDto.Id, cancellationToken);
+            if (acceptRequest is null) return false;
+            acceptRequest.Bids = null;
+            await _context.SaveChangesAsync(cancellationToken);
+            return true;
+        }
     }
 }

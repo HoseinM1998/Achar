@@ -17,6 +17,8 @@ namespace AcharDomainCore.Contracts.Request
         Task<List<RequestGetDto?>> GetRequests(CancellationToken cancellationToken);
         Task<bool> DeleteRequest(SoftDeleteDto delete, CancellationToken cancellationToken);
         public Task<bool> ChangeRequestStatus(StatusRequestDto newStatus, CancellationToken cancellationToken);
+        Task<bool> AcceptExpert(RequestAcceptExpertDto requestDto, CancellationToken cancellationToken);
+
 
     }
 }
