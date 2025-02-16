@@ -39,6 +39,17 @@ namespace Achar.Infra.Access.EfCore.Repositories
             return await _context.Admins.AsNoTracking().FirstOrDefaultAsync(p => p.Id == adminID, cancellationToken);
         }
 
+        public async Task<decimal> GetBalanceAdminById(int adminID, CancellationToken cancellationToken)
+        {
+            var admin = await _context.Admins
+                .FirstOrDefaultAsync(a => a.Id == adminID, cancellationToken);
+            if (admin == null)
+            {
+                throw new KeyNotFoundException("Admin not found.");
+            }
+            return admin.ApplicationUser.Balance;
+        }
+
         public async Task<List<Admin>> GetAllAmin(CancellationToken cancellationToken)
         {
             return await _context.Admins.AsNoTracking().ToListAsync(cancellationToken);
@@ -46,9 +57,12 @@ namespace Achar.Infra.Access.EfCore.Repositories
 
         public async Task<bool> UpdateAdmin(AdminDto admin, CancellationToken cancellationToken)
         {
-            var updateAdmin = await _context.Admins.FindAsync(admin.Id, cancellationToken);
+            var updateAdmin = await _context.Admins.FirstOrDefaultAsync(x=>x.Id== admin.Id, cancellationToken);
             if (updateAdmin != null)
             {
+                updateAdmin.ApplicationUser.UserName = admin.UserName;
+                updateAdmin.ApplicationUser.Email = admin.Email;
+                updateAdmin.ApplicationUser.PhoneNumber = admin.PhoneNumber;
                 updateAdmin.ApplicationUser.FirstName = admin.FirstName;
                 updateAdmin.ApplicationUser.LastName= admin.LastName;
                 updateAdmin.ApplicationUser.ProfileImageUrl= admin.ProfileImageUrl;

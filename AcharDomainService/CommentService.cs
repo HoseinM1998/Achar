@@ -31,8 +31,12 @@ namespace AcharDomainService
         public async Task<Comment> GetCommentById(int id, CancellationToken cancellationToken)
             => await _repository.GetCommentById(id, cancellationToken);
 
-        public async Task<List<Comment?>> GetAllComment(CancellationToken cancellationToken)
+        public async Task<List<AllCommentDto?>> GetAllComment(CancellationToken cancellationToken)
             => await _repository.GetAllComment(cancellationToken);
+
+        public async Task<List<GetCommentDto>>? GetCommentsByExpertId(int expertId, CancellationToken cancellationToken)
+            => await _repository.GetCommentsByExpertId(expertId, cancellationToken);
+
 
         public async Task<bool> AcceptComment(CommentAcceptDto commentAcceptDto, CancellationToken cancellationToken)
             => await _repository.AcceptComment(commentAcceptDto, cancellationToken);

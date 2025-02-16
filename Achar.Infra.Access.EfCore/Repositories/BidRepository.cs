@@ -9,6 +9,7 @@ using AcharDomainCore.Dtos;
 using AcharDomainCore.Dtos.BidDto;
 using AcharDomainCore.Entites;
 using Microsoft.EntityFrameworkCore;
+using AcharDomainCore.Enums;
 
 namespace Achar.Infra.Access.EfCore.Repositories
 {
@@ -48,10 +49,51 @@ namespace Achar.Infra.Access.EfCore.Repositories
 
         }
 
-        public async Task<Bid> GetBidById(int id, CancellationToken cancellationToken)
+        public async Task<List<GetBidDto>> GetBidsByRequestId(int requestId, CancellationToken cancellationToken)
         {
-            return await _context.Bids.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
+            var bids = await _context.Bids
+                .Include(b => b.Expert)
+                .ThenInclude(x => x.ApplicationUser)
+                .Include(b => b.Request)
+                .ThenInclude(x => x.Customer)
+                .ThenInclude(x => x.ApplicationUser)
+                .Where(b => b.RequestId == requestId && b.Status == StatusBidEnum.WaitingForCustomerConfirmation) 
+                .Select(b => new GetBidDto
+                {
+                    Id = b.Id,
+                    Description = b.Description,
+                    BidPrice = b.BidPrice,
+                    BidDate = b.BidDate,
+                    Status = b.Status,
+                    ExpertName = b.Expert.ApplicationUser.FirstName + " " + b.Expert.ApplicationUser.LastName,
+                    RequestName = b.Request.Customer.ApplicationUser.FirstName + " " + b.Request.Customer.ApplicationUser.LastName
+                })
+                .ToListAsync(cancellationToken);
 
+            return bids;
+        }
+        public async Task<List<GetBidDto>>? GetBidsByExpertId(int expertId, CancellationToken cancellationToken)
+        {
+            var bids = await _context.Bids
+                .Include(b => b.Expert)
+                .ThenInclude(x => x.ApplicationUser)
+                .Include(b => b.Request)
+                .ThenInclude(x => x.Customer)
+                .ThenInclude(x => x.ApplicationUser)
+                .Where(b => b.ExpertId == expertId) 
+                .Select(b => new GetBidDto
+                {
+                    Id = b.Id,
+                    Description = b.Description,
+                    BidPrice = b.BidPrice,
+                    BidDate = b.BidDate,
+                    Status = b.Status,
+                    ExpertName = b.Expert.ApplicationUser.FirstName + " " + b.Expert.ApplicationUser.LastName,
+                    RequestName = b.Request.Customer.ApplicationUser.FirstName + " " + b.Request.Customer.ApplicationUser.LastName
+                })
+                .ToListAsync(cancellationToken);
+
+            return bids;
         }
 
         public async Task<List<Bid?>> GetBids(CancellationToken cancellationToken)

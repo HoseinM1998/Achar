@@ -54,13 +54,53 @@ namespace Achar.Infra.Access.EfCore.Repositories
         public async Task<Comment> GetCommentById(int id, CancellationToken cancellationToken)
         {
             return await _context.Comments.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
+        }
+
+        public async Task<List<AllCommentDto?>> GetAllComment(CancellationToken cancellationToken)
+        {
+            var comments = await _context.Comments
+                .Include(c => c.Expert)
+                .ThenInclude(c => c.ApplicationUser)
+                .Include(c => c.Customer) 
+                .ThenInclude(c => c.ApplicationUser) 
+                .Select(c => new AllCommentDto
+                {
+                    Id = c.Id,
+                    Title = c.Title,
+                    Description = c.Description,
+                    Score = c.Score,
+                    IsAccept = c.IsAccept,
+                    CreateAt = c.CreateAt,
+                    CustomerId = c.CustomerId,
+                    CustomerName = c.Customer.ApplicationUser.FirstName+" "+c.Customer.ApplicationUser.LastName, 
+                    ExpertId = c.ExpertId,
+                    ExpertName = c.Expert.ApplicationUser.FirstName + " " + c.Expert.ApplicationUser.LastName
+                })
+                .ToListAsync(cancellationToken); 
+            return comments;
 
         }
 
-        public async Task<List<Comment?>> GetAllComment(CancellationToken cancellationToken)
+        public async Task<List<GetCommentDto>>? GetCommentsByExpertId(int expertId, CancellationToken cancellationToken)
         {
-            return await _context.Comments.AsNoTracking().ToListAsync(cancellationToken);
+            var comments = await _context.Comments
+                .Include(c => c.Expert)
+                .ThenInclude(c => c.ApplicationUser)
+                .Include(c => c.Customer) 
+                .ThenInclude(c => c.ApplicationUser) 
+                .Select(c => new GetCommentDto
+                {
+                    Id = c.Id,
+                    Title = c.Title,
+                    Description = c.Description,
+                    Score = c.Score,
+                    CustomerName = c.Customer.ApplicationUser.FirstName+" "+c.Customer.ApplicationUser.LastName, 
+                    ExpertName = c.Expert.ApplicationUser.FirstName + " " + c.Expert.ApplicationUser.LastName, 
+                    CreatAt = c.CreateAt 
+                })
+                .ToListAsync(cancellationToken); 
 
+            return comments;
         }
 
         public async Task<bool> AcceptComment(CommentAcceptDto commentAcceptDto, CancellationToken cancellationToken)

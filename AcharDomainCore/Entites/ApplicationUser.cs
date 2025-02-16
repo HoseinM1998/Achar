@@ -16,7 +16,7 @@ namespace AcharDomainCore.Entites
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public string? ProfileImageUrl { get; set; }
-        public decimal? Balance { get; set; }
+        public decimal Balance { get; set; } = 0;
         public bool IsDelete { get; set; } = false;
         public DateTime CreateAt { get; set; } = DateTime.Now;
 

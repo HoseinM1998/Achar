@@ -55,13 +55,16 @@ namespace Achar.Infra.Access.EfCore.Repositories
 
         public async Task<Category> GetCategoryById(int id, CancellationToken cancellationToken)
         {
-            return await _context.Categories.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
-
+            return await _context.Categories
+                .AsNoTracking()
+                .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
         }
 
         public async Task<List<Category>> GetAllCategory(CancellationToken cancellationToken)
         {
-            return await _context.Categories.AsNoTracking().ToListAsync(cancellationToken);
+            return await _context.Categories
+                .Include(x=>x.SubCategories)
+                .AsNoTracking().ToListAsync(cancellationToken);
 
         }
 

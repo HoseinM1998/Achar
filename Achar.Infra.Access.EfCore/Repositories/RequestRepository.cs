@@ -1,16 +1,13 @@
 ﻿using Achar.Infra.Db.Sql;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using AcharDomainCore.Contracts.Request;
 using AcharDomainCore.Dtos;
 using AcharDomainCore.Dtos.Request;
 using AcharDomainCore.Entites;
-using AcharDomainCore.Dtos.HomeServiceDto;
 using HomeService.Domain.Core.Enums;
 using Microsoft.EntityFrameworkCore;
+using Azure.Core;
+using Request = AcharDomainCore.Entites.Request;
 
 namespace Achar.Infra.Access.EfCore.Repositories
 {
@@ -51,7 +48,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
             return request.Id;
         }
 
-        public async Task<bool> UpdateRequest(Request upRequest, CancellationToken cancellationToken)
+        public async Task<bool> UpdateRequest(RequestUpDto upRequest, CancellationToken cancellationToken)
         {
             var request = await _context.Requests.FindAsync(upRequest.Id, cancellationToken);
             if (request is null) return false;
@@ -59,6 +56,17 @@ namespace Achar.Infra.Access.EfCore.Repositories
             request.Description = upRequest.Description;
             request.Price = upRequest.Price;
             request.RequesteForTime = upRequest.RequesteForTime;
+            if (request.Images != null && upRequest.Images.Any())
+            {
+                var images = upRequest.Images.Select(img => new Image
+                {
+                    Title = img.Title,
+                    ImgPath = img.ImgPath,
+                    RequestId = request.Id
+                }).ToList();
+                await _context.Images.AddRangeAsync(images, cancellationToken);
+                await _context.SaveChangesAsync(cancellationToken);
+            }
             await _context.SaveChangesAsync(cancellationToken);
             return true;
         }
@@ -69,15 +77,67 @@ namespace Achar.Infra.Access.EfCore.Repositories
 
         }
 
-        public async Task<Request> GetRequestById(int id, CancellationToken cancellationToken)
+        public async Task<RequestGetDto> GetRequestById(int id, CancellationToken cancellationToken)
         {
-            return await _context.Requests.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
 
+            var request = await _context.Requests
+                .Include(r => r.Customer)
+                .ThenInclude(x=>x.ApplicationUser)
+                .Include(r => r.HomeService)
+                .Include(r => r.AcceptedExpert)
+                .ThenInclude(x=>x.ApplicationUser)
+                .Include(r => r.Images) 
+                .FirstOrDefaultAsync(r => r.Id == id, cancellationToken);
+
+            
+            return new RequestGetDto
+            {
+                Id = request.Id,
+                Title = request.Title,
+                Description = request.Description,
+                Price = request.Price,
+                Images = request.Images?.ToList() ?? new List<Image>(), 
+                Status = request.Status,
+                RequesteForTime = request.RequesteForTime,
+                CreateAt = request.CreateAt,
+                CustomerId = request.CustomerId,
+                CustomerName = request.Customer.ApplicationUser.FirstName+" "+request.Customer.ApplicationUser.LastName, 
+                ServiceId = request.HomeServiceId,
+                HomeServiceName = request.HomeService?.Title,
+                ExpertId = request.AcceptedExpertId,
+                ExpertName = request.Customer.ApplicationUser.FirstName + " " + request.Customer.ApplicationUser.LastName
+            };
         }
 
-        public async Task<List<Request?>> GetRequests(CancellationToken cancellationToken)
+        public async Task<List<RequestGetDto?>> GetRequests(CancellationToken cancellationToken)
         {
-            return await _context.Requests.AsNoTracking().ToListAsync(cancellationToken);
+            var requests = await _context.Requests
+                .Include(r => r.Customer) 
+                .ThenInclude(c => c.ApplicationUser) 
+                .Include(r => r.HomeService) 
+                .Include(r => r.AcceptedExpert) 
+                .ThenInclude(e => e.ApplicationUser) 
+                .Include(r => r.Images) 
+                .Select(r => new RequestGetDto 
+                {
+                    Id = r.Id,
+                    Title = r.Title,
+                    Description = r.Description,
+                    Price = r.Price,
+                    Images = r.Images.ToList(),
+                    Status = r.Status,
+                    RequesteForTime = r.RequesteForTime,
+                    CreateAt = r.CreateAt,
+                    CustomerId = r.CustomerId,
+                    CustomerName = r.Customer.ApplicationUser.FirstName + " " + r.Customer.ApplicationUser.LastName,
+                    ServiceId = r.HomeServiceId,
+                    HomeServiceName = r.HomeService.Title,
+                    ExpertId = r.AcceptedExpertId,
+                    ExpertName = r.Customer.ApplicationUser.FirstName + " " + r.Customer.ApplicationUser.LastName
+                  })
+                .ToListAsync(cancellationToken);
+
+            return requests;
         }
 
         public async Task<bool> DeleteRequest(SoftDeleteDto active, CancellationToken cancellationToken)

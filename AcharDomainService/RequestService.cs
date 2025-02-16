@@ -22,7 +22,7 @@ namespace AcharDomainService
         public async Task<int> CreateRequest(RequestDto requestDto, CancellationToken cancellationToken)
             => await _repository.CreateRequest(requestDto,cancellationToken);
 
-        public async Task<bool> UpdateRequest(Request request, CancellationToken cancellationToken)
+        public async Task<bool> UpdateRequest(RequestUpDto request, CancellationToken cancellationToken)
             => await _repository.UpdateRequest(request, cancellationToken);
 
 
@@ -30,10 +30,10 @@ namespace AcharDomainService
             => await _repository.RequestCount(cancellationToken);
 
 
-        public async Task<Request> GetRequestById(int id, CancellationToken cancellationToken)
+        public async Task<RequestGetDto> GetRequestById(int id, CancellationToken cancellationToken)
             => await _repository.GetRequestById(id, cancellationToken);
 
-        public async Task<List<Request?>> GetRequests(CancellationToken cancellationToken)
+        public async Task<List<RequestGetDto?>> GetRequests(CancellationToken cancellationToken)
             => await _repository.GetRequests( cancellationToken);
 
 

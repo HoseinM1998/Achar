@@ -38,8 +38,14 @@ namespace AcharDomainService
         public async Task<int> BidCount(CancellationToken cancellationToken)
             => await _repository.BidCount(cancellationToken);
 
-        public async Task<Bid> GetBidById(int id, CancellationToken cancellationToken)
-            => await _repository.GetBidById(id, cancellationToken);
+        public async Task<List<GetBidDto>>? GetBidsByRequestId(int id, CancellationToken cancellationToken)
+            => await _repository.GetBidsByRequestId(id, cancellationToken);
+
+        
+
+        public async Task<List<GetBidDto>>? GetBidsByExpertId(int expertId, CancellationToken cancellationToken)
+            => await _repository.GetBidsByExpertId(expertId, cancellationToken);
+
 
         public async Task<List<Bid?>> GetBids(CancellationToken cancellationToken)
             => await _repository.GetBids(cancellationToken);

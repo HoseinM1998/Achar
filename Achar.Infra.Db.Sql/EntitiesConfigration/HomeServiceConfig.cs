@@ -35,7 +35,7 @@ namespace Achar.Infra.Db.SqLServer.EntitiesConfigration
 
             builder
                 .HasMany(x => x.Requests)
-                .WithOne(y => y.Service)
+                .WithOne(y => y.HomeService)
                 .HasForeignKey(y => y.HomeServiceId)
                 .OnDelete(DeleteBehavior.NoAction);
 

@@ -60,13 +60,17 @@ namespace Achar.Infra.Access.EfCore.Repositories
 
         public async Task<AcharDomainCore.Entites.HomeService> GetHomeServiceById(int id, CancellationToken cancellationToken)
         {
-            return await _context.HomeServices.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
+            return await _context.HomeServices.AsNoTracking()
+                .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
 
         }
 
         public async Task<List<AcharDomainCore.Entites.HomeService>> GetHomeServices(CancellationToken cancellationToken)
         {
-            return await _context.HomeServices.AsNoTracking().ToListAsync(cancellationToken);
+            return await _context.HomeServices
+                .Include(x=>x.SubCategory)
+                .ThenInclude(x=>x.HomeServices)
+                .AsNoTracking().ToListAsync(cancellationToken);
 
         }
 

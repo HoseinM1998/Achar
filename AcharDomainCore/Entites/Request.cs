@@ -29,7 +29,7 @@ namespace AcharDomainCore.Entites
         public int? AcceptedExpertId { get; set; }
         public Expert? AcceptedExpert { get; set; }
         public int HomeServiceId { get; set; }
-        public HomeService Service { get; set; }
+        public HomeService HomeService { get; set; }
         public List<Bid>? Bids { get; set; } = new List<Bid>();
     }
 }

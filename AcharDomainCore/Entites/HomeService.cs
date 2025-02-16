@@ -22,7 +22,7 @@ namespace AcharDomainCore.Entites
         public SubCategory SubCategory { get; set; }
         public DateTime CreateAt { get; set; } = DateTime.Now;
         public List<Request>? Requests { get; set; } = new List<Request>();
-        public List<Expert> Experts { get; set; } = new List<Expert>();
+        public List<Expert>? Experts { get; set; } = new List<Expert>();
 
     }
 }

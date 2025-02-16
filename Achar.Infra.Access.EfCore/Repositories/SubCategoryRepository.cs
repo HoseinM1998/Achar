@@ -57,13 +57,17 @@ namespace Achar.Infra.Access.EfCore.Repositories
 
         public async Task<SubCategory> GetSubCategoryById(int id, CancellationToken cancellationToken)
         {
-            return await _context.SubCategory.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
+            return await _context.SubCategory
+                .Include(x=>x.HomeServices)
+                .AsNoTracking().FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
 
         }
 
         public async Task<List<SubCategory>> GetAllSubCategory(CancellationToken cancellationToken)
         {
-            return await _context.SubCategory.AsNoTracking().ToListAsync(cancellationToken);
+            return await _context.SubCategory
+                .Include(x=>x.HomeServices)
+                .AsNoTracking().ToListAsync(cancellationToken);
 
         }
 

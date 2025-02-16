@@ -25,7 +25,7 @@ namespace Achar.Infra.Db.SqLServer.EntitiesConfigration
                 .IsRequired();
             builder.Property(x => x.IsDeleted)
                 .HasDefaultValue(false);
-            builder.HasOne(x => x.Service)
+            builder.HasOne(x => x.HomeService)
                 .WithMany(y => y.Requests)
                 .HasForeignKey(x => x.HomeServiceId)
                 .OnDelete(DeleteBehavior.NoAction);
