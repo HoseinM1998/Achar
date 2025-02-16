@@ -8,11 +8,12 @@ namespace AppDomainCore.Entities.Config
 {
     public class SiteSetting
     {
-        public Connectionstring ConnectionString { get; set; }
+        public SqlConfigurations SqlConfigurations { get; set; }
 
     }
-    public class Connectionstring
+    public class SqlConfigurations
     {
-        public string SqlConnection { get; set; }
+        public string ConnectionString { get; set; }
     }
+
 }
