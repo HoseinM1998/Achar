@@ -18,7 +18,7 @@ namespace AcharDomainCore.Contracts.Expert
         Task<List<ExpertProfDto>>? GetExperts(CancellationToken cancellationToken);
         Task<bool> DeleteExpert(SoftDeleteDto delete, CancellationToken cancellationToken);
         Task<bool> IActiveExpert(SoftActiveDto activeDto, CancellationToken cancellationToken);
-        Task<List<Entites.Expert?>> GetTopExpertsByScore(CancellationToken cancellationToken);
+        Task<List<ExpertProfDto?>> GetTopExpertsByScore(CancellationToken cancellationToken);
         Task<bool> UpdateBalance(int id, decimal balance, CancellationToken cancellationToken);
     }
 }

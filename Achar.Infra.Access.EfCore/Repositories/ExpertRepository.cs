@@ -139,13 +139,31 @@ namespace Achar.Infra.Access.EfCore.Repositories
             return true;
         }
 
-        public async Task<List<Expert?>> GetTopExpertsByScore(CancellationToken cancellationToken)
+        public async Task<List<ExpertProfDto?>> GetTopExpertsByScore(CancellationToken cancellationToken)
         {
-            return await _context.Experts
-                .AsNoTracking()
+            var topExperts = await _context.Experts
+                .Include(e=>e.ApplicationUser)
+                .Include(e => e.City)
+                .Where(e => e.IsActive)
                 .OrderByDescending(e => e.Score)
-                .Take(5)
+                .Take(10) 
+                .Select(e => new ExpertProfDto
+                {
+                    Id = e.Id,
+                    FirstName = e.ApplicationUser.FirstName,
+                    LastName = e.ApplicationUser.LastName,
+                    UserName = e.ApplicationUser.UserName,
+                    Email = e.ApplicationUser.Email,
+                    ProfileImageUrl = e.ApplicationUser.ProfileImageUrl,
+                    PhoneNumber = e.ApplicationUser.PhoneNumber,
+                    Gender = e.Gender,
+                    NameCity = e.City.Title,
+                    Skills = e.Skills,
+                    IsActive = e.IsActive
+                })
                 .ToListAsync(cancellationToken);
+
+            return topExperts;
         }
 
         public async Task<bool> UpdateBalance(int id, decimal balance, CancellationToken cancellationToken)
