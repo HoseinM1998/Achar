@@ -1,0 +1,45 @@
+﻿@page
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model Achar.Endpoint.Razor.Areas.Account.Pages.LoginModel
+@{
+}
+
+<section class="gray min-vh-100 d-flex align-items-center">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-5 col-lg-8 col-md-10">
+                <div class="card shadow-lg border-0 p-4 rounded-4">
+                    <div class="text-center mb-4">
+                        <h4 class="fw-bold text-primary">ورود به حساب</h4>
+                    </div>
+
+                    <form class="submit-form" method="post">
+                        <div class="mb-3">
+                            <label asp-for="@Model.AccountLogin.UserName" class="form-label fw-semibold">نام کاربری</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-person"></i></span>
+                                <input type="text" asp-for="@Model.AccountLogin.UserName" class="form-control rounded-end">
+                            </div>
+                            <span asp-validation-for="@Model.AccountLogin.UserName" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="@Model.AccountLogin.Password" class="form-label fw-semibold">رمز عبور</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                                <input type="password" asp-for="@Model.AccountLogin.Password" class="form-control rounded-end">
+                            </div>
+                            <span asp-validation-for="@Model.AccountLogin.Password" class="text-danger"></span>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100 rounded-pill">ورود</button>
+
+                        <div class="text-center mt-3">
+                            <p>آیا تا به حال ثبت نام نکرده‌اید؟ <a asp-page="./Register" class="text-decoration-none text-success">ثبت نام</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

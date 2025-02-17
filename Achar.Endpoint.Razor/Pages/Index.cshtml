@@ -1,10 +1,23 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container text-center mt-5">
+    <h1 class="display-3 text-dark fw-bold">🎉 خوش آمدید!</h1>
+    <p class="lead text-dark mt-3" style="font-size: 1.2rem;">
+        به <strong>سایت آچار</strong> خوش آمدید! ما ارائه‌دهنده‌ی انواع خدمات از تعمیرات منزل تا خدمات تخصصی هستیم.
+        با ما، بهترین متخصصین را در سریع‌ترین زمان پیدا کنید. 🛠️✨
+    </p>
+
+
+    <img src="/assets/img/Background.png" alt="خدمات آچاره"
+         class="img-fluid mt-4 rounded shadow-lg animate-img"
+         style="width: 100%; max-width: 800px;">
+
+    <div class="mt-4">
+        <a href="/services" class="btn custom-btn-primary btn-lg">🚀 مشاهده خدمات</a>
+        <a href="/contact" class="btn custom-btn-secondary btn-lg">📞 تماس با ما</a>
+    </div>
 </div>

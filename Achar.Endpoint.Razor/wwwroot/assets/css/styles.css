@@ -16,13 +16,7 @@
 /*------------------------------------
 	Using Fonts
 ------------------------------------ */
-@font-face {
-	font-family: IRANSans;
-	src: url('fonts/IRANSansWeb/IRANSansWeb.eot');
-	src: url('fonts/IRANSansWeb/IRANSansWeb.eot') format('embedded-opentype'), url('fonts/IRANSansWeb/IRANSansWeb(FaNum.html).woff') format('woff'), url('fonts/IRANSansWeb/IRANSansWeb.ttf') format('truetype');
-	font-weight: 400;
-	font-style: normal
-}
+
 
 @font-face {
 	font-family: vazir-bold;
@@ -71,7 +65,7 @@ body {
 	background: #ffffff;
 	color:#696969;
 	font-size:14px;
-	font-family: 'IRANSans', sans-serif;
+	font-family: 'vazir-bold', sans-serif;
 	margin: 0;
 	overflow-x: hidden !important;
 	font-weight: 400;

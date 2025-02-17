@@ -5,37 +5,26 @@
 @inject UserManager<ApplicationUser> UserManager
 
 <ul class="nav-menu nav-menu-social align-to-left">
-    @if (SignInManager.IsSignedIn(User))
+    @if (!SignInManager.IsSignedIn(User))
     {
         <li>
-            @if (User.IsInRole("Expert"))
-            {
-                <a class="nav-link text-dark" asp-area="ExpertArea" asp-page="Index" title="پروفایل">@User.Identity?.Name</a>
-            }
-            else if (User.IsInRole("Customer"))
-            {
-                <a class="nav-link text-dark" asp-area="CustomerArea" asp-page="Index" title="پروفایل">@User.Identity?.Name</a>
-            }
+            <a asp-area="Account" asp-page="/Login" class="ft-bold">
+                <i class="fas fa-sign-in-alt ms-1 theme-cl"></i> ورود
+            </a>
         </li>
         <li>
-            <form class="form-inline" asp-area="Account" asp-page="Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })">
-                <button type="submit" class="nav-link btn btn-link text-dark">خروج<i class="bx bx-power-off me-2"></i></button>
+            <a asp-area="Account" asp-page="/Register" class="ft-bold">
+                <i class="fas fa-solid fa-user-plus ms-1 theme-cl"></i> ثبت‌نام
+            </a>
+        </li>
+        <li>
+            <form class="form-inline" asp-area="Account" asp-page="/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })">
+                <button type="submit" class="btn theme-cl rounded theme-bg-light ft-medium">
+                    خروج
+                </button>
             </form>
         </li>
     }
-    else
-    {
-        <li>
-            <a asp-area="Account" asp-page="Login" class="ft-bold">
-                <i class="fas fa-sign-in-alt ms-1 theme-cl"></i>ورود
-            </a>
-        </li>
-        <li>
-            <a asp-area="Account" asp-page="Register" class="ft-bold">
-                <i class="fas fa-solid fa-user-plus ms-1 theme-cl"></i> ثبت‌نام‌
-            </a>
-        </li>
-
-    }
 </ul>
+
 <!--Login modal-->

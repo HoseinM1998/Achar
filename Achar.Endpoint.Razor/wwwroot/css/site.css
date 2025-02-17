@@ -1,31 +1,124 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
+
+
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    font-family: 'Vazir', sans-serif;
+    line-height: 1.8;
 }
 
+.custom-navbar, .custom-footer {
+    font-family: 'Vazir', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6, p, a, span {
+    font-family: 'Vazir', sans-serif;
+}
+
+
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+    color: var(--bs-secondary-color);
+    text-align: end;
 }
 
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+    text-align: start;
+}
+
+
+
+.custom-navbar {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-bottom: 2px solid #007bff;
+    padding: 10px 0;
+}
+
+    .custom-navbar .navbar-brand {
+        font-weight: bold;
+        font-size: 1.3rem;
+        color: black !important;
+    }
+
+    .custom-navbar .navbar-nav .nav-link {
+        color: black !important;
+        font-weight: 500;
+        transition: all 0.3s ease-in-out;
+    }
+
+        .custom-navbar .navbar-nav .nav-link:hover {
+            color: #007bff !important;
+            text-decoration: underline;
+        }
+
+
+.custom-footer {
+    background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%) !important;
+    color: black !important;
+    border-top: 3px solid #007bff;
+    padding: 15px 0;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+
+    .custom-footer a {
+        color: black !important;
+        text-decoration: none;
+        transition: color 0.3s ease-in-out;
+    }
+
+        .custom-footer a:hover {
+            color: #007bff !important;
+        }
+
+
+
+.custom-logo {
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: black !important;
+    transition: all 0.3s ease-in-out;
+}
+
+    .custom-logo:hover {
+        transform: scale(1.05);
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+
+.logo-img {
+    height: 55px;
+    width: 55px;
+    border-radius: 50%;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease-in-out;
+    margin-left: 10px;
+}
+
+    .logo-img:hover {
+        transform: scale(1.1) rotate(3deg);
+        box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.5);
+    }
+
+.brand-text {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: black !important;
+    transition: all 0.3s ease-in-out;
 }

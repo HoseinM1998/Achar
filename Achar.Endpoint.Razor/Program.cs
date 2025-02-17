@@ -18,14 +18,8 @@ using AcharDomainService;
 using Framework;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
 
 var builder = WebApplication.CreateBuilder(args);
-
-
-
-builder.Services.AddRazorPages()
-    .AddRazorRuntimeCompilation();
 
 var congiguration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
 var siteSetting = congiguration.GetSection(nameof(SiteSetting)).Get<SiteSetting>();
@@ -37,6 +31,10 @@ builder.Services.AddDbContext<AppDbContext>(option =>
 
 
 
+builder.Services.AddControllersWithViews();
+
+builder.Services.AddRazorPages()
+    .AddRazorRuntimeCompilation();
 
 builder.Services.AddScoped<IApplicationUserAppService, ApplicationUserAppService>();
 
@@ -45,13 +43,13 @@ builder.Services.AddScoped<IAdminRepository, AdminRepository>();
 builder.Services.AddScoped<IAdminService, AdminService>();
 builder.Services.AddScoped<IAdminAppService, AdminAppService>();
 
-builder.Services.AddScoped<IBidRepository, BidRepository>();
-builder.Services.AddScoped<IBidService, BidService>();
-builder.Services.AddScoped<IBidAppService, BidAppService>();
-
 builder.Services.AddScoped<ICityRepository, CityRepository>();
 builder.Services.AddScoped<ICityService, CityService>();
 builder.Services.AddScoped<ICityAppService, CityAppService>();
+
+builder.Services.AddScoped<IBidRepository, BidRepository>();
+builder.Services.AddScoped<IBidService, BidService>();
+builder.Services.AddScoped<IBidAppService, BidAppService>();
 
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
@@ -95,9 +93,8 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole<int>>(options =>
         options.Password.RequireUppercase = false;
         options.Password.RequireLowercase = false;
     })
-    .AddRoles<IdentityRole<int>>()
-    .AddEntityFrameworkStores<AppDbContext>()
-    .AddErrorDescriber<PersianIdentityErrorDescriber>();
+    .AddErrorDescriber<PersianIdentityErrorDescriber>()
+    .AddEntityFrameworkStores<AppDbContext>();
 
 
 var app = builder.Build();

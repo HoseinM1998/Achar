@@ -7,6 +7,25 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\assets\img\request\**" />
+    <Compile Remove="wwwroot\userassets\img\admin\**" />
+    <Compile Remove="wwwroot\userassets\img\customer\**" />
+    <Compile Remove="wwwroot\userassets\img\expert\**" />
+    <Content Remove="wwwroot\assets\img\request\**" />
+    <Content Remove="wwwroot\userassets\img\admin\**" />
+    <Content Remove="wwwroot\userassets\img\customer\**" />
+    <Content Remove="wwwroot\userassets\img\expert\**" />
+    <EmbeddedResource Remove="wwwroot\assets\img\request\**" />
+    <EmbeddedResource Remove="wwwroot\userassets\img\admin\**" />
+    <EmbeddedResource Remove="wwwroot\userassets\img\customer\**" />
+    <EmbeddedResource Remove="wwwroot\userassets\img\expert\**" />
+    <None Remove="wwwroot\assets\img\request\**" />
+    <None Remove="wwwroot\userassets\img\admin\**" />
+    <None Remove="wwwroot\userassets\img\customer\**" />
+    <None Remove="wwwroot\userassets\img\expert\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Achar.Endpoint.API\Achar.Endpoint.Api.csproj" />
     <ProjectReference Include="..\Achar.Infra.Access.EfCore\Achar.Infra.Access.EfCore.csproj" />
     <ProjectReference Include="..\Achar.Infra.Db.Sql\Achar.Infra.Db.SqLServer.csproj" />
@@ -17,11 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\Areas\Admin\Page\" />
-    <Folder Include="wwwroot\assets\img\request\" />
-    <Folder Include="wwwroot\userassets\img\admin\" />
-    <Folder Include="wwwroot\userassets\img\customer\" />
-    <Folder Include="wwwroot\userassets\img\expert\" />
+    <Folder Include="Areas\Admin\" />
   </ItemGroup>
 
   <ItemGroup>
