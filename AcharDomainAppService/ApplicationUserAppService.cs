@@ -13,6 +13,7 @@ namespace AcharDomainAppService
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
+
         public ApplicationUserAppService(SignInManager<ApplicationUser> signInManager,
             UserManager<ApplicationUser> userManager)
         {
@@ -20,6 +21,7 @@ namespace AcharDomainAppService
             _userManager = userManager;
 
         }
+
         public async Task<List<IdentityError>> Register(RegisterDto registerDto, CancellationToken cancellationToken)
         {
             var role = string.Empty;
@@ -33,14 +35,16 @@ namespace AcharDomainAppService
                     CityId = registerDto.CityId
                 };
             }
+
             if (registerDto.IsExpert)
             {
                 role = "Expert";
                 user.Expert = new Expert()
                 {
-                   CityId= registerDto.CityId
+                    CityId = registerDto.CityId
                 };
             }
+
             if (registerDto.IsCustomer)
             {
                 var userCustomerId = user.Customer!.Id;
@@ -52,19 +56,26 @@ namespace AcharDomainAppService
                 var userExpertId = user.Expert!.Id;
                 await _userManager.AddClaimAsync(user, new Claim("userExpertId", userExpertId.ToString()));
             }
+
             var result = await _userManager.CreateAsync(user, registerDto.Password);
             if (result.Succeeded)
             {
                 await _userManager.AddToRoleAsync(user, role);
             }
+
             return (List<IdentityError>)result.Errors;
         }
 
 
-        public async Task<IdentityResult> Login(LoginDto login)
+        public async Task<IdentityResult> Login(string username, string password)
         {
-            var result = await _signInManager.PasswordSignInAsync(login.UserName, login.Password, true, lockoutOnFailure: false);
-            return result.Succeeded ? IdentityResult.Success : IdentityResult.Failed();
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            {
+                return IdentityResult.Failed(new IdentityError { Description = "نام کاربری یا رمز عبور نمی‌تواند خالی باشد." });
+            }
+
+            var result = await _signInManager.PasswordSignInAsync(username, password, isPersistent: false, lockoutOnFailure: false);
+            return result.Succeeded ? IdentityResult.Success : IdentityResult.Failed(new IdentityError { Description = "نام کاربری یا رمز عبور نادرست است." });
         }
     }
 }

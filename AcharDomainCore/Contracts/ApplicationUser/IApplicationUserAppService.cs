@@ -10,7 +10,7 @@ namespace AcharDomainCore.Contracts.ApplicationUser
 {
     public interface IApplicationUserAppService
     {   Task<List<IdentityError>> Register(RegisterDto registerDto, CancellationToken cancellationToken);
-        Task<IdentityResult> Login(LoginDto login);
+        Task<IdentityResult> Login(string username, string password);
 
     }
 }

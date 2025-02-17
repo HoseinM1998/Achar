@@ -30,7 +30,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
 
         public async Task<bool> UpdateCustomer(CustomerDto customer, CancellationToken cancellationToken)
         {
-            var customr = await _context.Customers.Include(c => c.ApplicationUser) // لود کردن ApplicationUser
+            var customr = await _context.Customers.Include(c => c.ApplicationUser) 
                 .FirstOrDefaultAsync(x => x.Id == customer.Id, cancellationToken);
             if (customr is null) return false;
             customr.Gender = customer.Gender;
@@ -64,9 +64,9 @@ namespace Achar.Infra.Access.EfCore.Repositories
         public async Task<CustomerProfDto> GetCustomerById(int id, CancellationToken cancellationToken)
         {
             var customer = await _context.Customers
-                .Include(c => c.ApplicationUser) // لود کردن ApplicationUser
-                .Include(c => c.City) // لود کردن City (اگر نیاز است)
-                .FirstOrDefaultAsync(c => c.Id == id, cancellationToken); // پیدا کردن مشتری بر اساس id
+                .Include(c => c.ApplicationUser) 
+                .Include(c => c.City) 
+                .FirstOrDefaultAsync(c => c.Id == id, cancellationToken); 
 
             return new CustomerProfDto
             {

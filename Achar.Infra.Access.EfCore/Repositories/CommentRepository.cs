@@ -98,7 +98,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
                     ExpertName = c.Expert.ApplicationUser.FirstName + " " + c.Expert.ApplicationUser.LastName, 
                     CreatAt = c.CreateAt 
                 })
-                .ToListAsync(cancellationToken); 
+                .ToListAsync(cancellationToken);
 
             return comments;
         }

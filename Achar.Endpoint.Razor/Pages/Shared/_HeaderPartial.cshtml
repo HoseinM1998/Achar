@@ -1,0 +1,74 @@
+﻿<!-- Top header  -->
+<!-- ============================================================== -->
+<!-- Start Navigation -->
+<div class="header header-light dark-text">
+    <div class="container">
+        <nav id="navigation" class="navigation navigation-landscape">
+            <div class="nav-header">
+                <a class="nav-brand" href="#">
+                    <img src="/assets/img/" class="logo" alt="" />
+                </a>
+                <div class="nav-toggle"></div>
+                <div class="mobile_nav">
+                    <ul>
+                        <li>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#login" class="theme-cl fs-lg">
+                                <i class="lni lni-user"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="add-listing.html" class="crs_yuo12 w-auto text-white theme-bg">
+                                <span class="embos_45"><i class="fas fa-plus ms-2"></i>افزودن آگهی</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="nav-menus-wrapper" style="transition-property: none;">
+                <ul class="nav-menu">
+
+                    <li class="active">
+                        <a asp-page="Index">صفحه اصلی</a>
+                        @* <ul class="nav-dropdown nav-submenu">
+                            <li><a asp-page="Index">مجددا صفحه اصلی</a></li>
+                        </ul> *@
+                    </li>
+                    @if (User.IsInRole("Customer"))
+                    {
+                        <li>
+                            <a href="javascript:void(0);">پنل کاربری</a>
+                            <ul class="nav-dropdown nav-submenu">
+                                <li><a asp-page="MyRequests"><i class="lni lni-files ms-2"></i>آگهی های من</a></li>
+                                <li><a asp-page="Index"><i class="lni lni-add-files ms-2"></i>افزودن آگهی</a></li>
+                                <li><a asp-page="Profile"><i class="lni lni-user ms-2"></i>حساب من </a></li>
+                                @* <li><a asp-page="ChangePassword"><i class="lni lni-lock-alt ms-2"></i>تغییر رمز عبور</a></li> *@
+                            </ul>
+                        </li>
+                    }
+                    @if (User.IsInRole("Expert"))
+                    {
+                        <li>
+                            <a href="javascript:void(0);">پنل کاربری</a>
+                            <ul class="nav-dropdown nav-submenu">
+                                <li><a asp-page="MyProposals"><i class="lni lni-files ms-2"></i>پیشنهادهای من</a></li>
+                                <li><a asp-page="Requests"><i class="lni lni-files ms-2"></i>لیست درخواست‌ها</a></li>
+                                <li><a asp-page="Profile"><i class="lni lni-user ms-2"></i>حساب من </a></li>
+                                @* <li><a asp-page="ChangePassword"><i class="lni lni-lock-alt ms-2"></i>تغییر رمز عبور</a></li> *@
+                            </ul>
+                        </li>
+                    }
+                </ul>
+
+                <ul class="nav-menu nav-menu-social align-to-left">
+
+                    <partial name="_LoginPartial" />
+
+                    <li class="add-listing">
+                        <h6 href="add-listing.html">
+                        </h6>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</div>

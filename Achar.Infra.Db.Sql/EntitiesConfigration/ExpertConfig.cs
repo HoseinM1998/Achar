@@ -31,12 +31,14 @@ namespace Achar.Infra.Db.SqLServer.EntitiesConfigration
                 {
                     Id = 1,
                     ApplicationUserId = 5,
+                    IsActive = true,
                     CityId = 1
                 },
                 new Expert()
                 {
                     Id = 2,
                     ApplicationUserId = 6,
+                    IsActive = true,
                     CityId = 6
                 }
             });

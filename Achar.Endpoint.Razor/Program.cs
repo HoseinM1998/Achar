@@ -5,6 +5,7 @@ using AcharDomainCore.Contracts.Admin;
 using AcharDomainCore.Contracts.ApplicationUser;
 using AcharDomainCore.Contracts.Bid;
 using AcharDomainCore.Contracts.Category;
+using AcharDomainCore.Contracts.City;
 using AcharDomainCore.Contracts.Comment;
 using AcharDomainCore.Contracts.Customer;
 using AcharDomainCore.Contracts.Expert;
@@ -12,8 +13,8 @@ using AcharDomainCore.Contracts.HomeService;
 using AcharDomainCore.Contracts.Request;
 using AcharDomainCore.Contracts.SubCategory;
 using AcharDomainCore.Entites;
+using AcharDomainCore.Entites.Config;
 using AcharDomainService;
-using AppDomainCore.Entities.Config;
 using Framework;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -22,10 +23,20 @@ using Microsoft.Identity.Client;
 var builder = WebApplication.CreateBuilder(args);
 
 
-builder.Services.AddControllersWithViews();
 
 builder.Services.AddRazorPages()
     .AddRazorRuntimeCompilation();
+
+var congiguration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+var siteSetting = congiguration.GetSection(nameof(SiteSetting)).Get<SiteSetting>();
+builder.Services.AddSingleton(siteSetting);
+
+builder.Services.AddDbContext<AppDbContext>(option =>
+    option.UseSqlServer(siteSetting.ConnectionString.SqlConnection)
+);
+
+
+
 
 builder.Services.AddScoped<IApplicationUserAppService, ApplicationUserAppService>();
 
@@ -37,6 +48,10 @@ builder.Services.AddScoped<IAdminAppService, AdminAppService>();
 builder.Services.AddScoped<IBidRepository, BidRepository>();
 builder.Services.AddScoped<IBidService, BidService>();
 builder.Services.AddScoped<IBidAppService, BidAppService>();
+
+builder.Services.AddScoped<ICityRepository, CityRepository>();
+builder.Services.AddScoped<ICityService, CityService>();
+builder.Services.AddScoped<ICityAppService, CityAppService>();
 
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
@@ -68,16 +83,7 @@ builder.Services.AddScoped<IHomeServiceService, HomeServiceService>();
 
 
 
-var configuration = new ConfigurationBuilder()
-    .AddJsonFile("appsettings.json")
-    .Build();
 
-var siteSettings = configuration.GetSection(nameof(SiteSetting)).Get<SiteSetting>();
-builder.Services.AddSingleton(siteSettings);
-
-builder.Services.AddDbContext<AppDbContext>(
-    options => options.UseSqlServer(siteSettings.SqlConfigurations.ConnectionString)
-);
 
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole<int>>(options =>
@@ -89,8 +95,9 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole<int>>(options =>
         options.Password.RequireUppercase = false;
         options.Password.RequireLowercase = false;
     })
-    .AddErrorDescriber<PersianIdentityErrorDescriber>()
-    .AddEntityFrameworkStores<AppDbContext>();
+    .AddRoles<IdentityRole<int>>()
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddErrorDescriber<PersianIdentityErrorDescriber>();
 
 
 var app = builder.Build();
