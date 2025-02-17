@@ -1,0 +1,111 @@
+﻿@using Framework
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" class="rtl">
+
+<!-- Mirrored from demo.rayanik.com/modiran/light/dashboard.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 11 Jan 2025 13:56:28 GMT -->
+<head>
+    <title>قالب مدیریتی مدیران</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="قالب مدیریت ایرانی مدیران ">
+    <meta name="keywords" content="قالب مدیریت, قالب داشبورد, قالب ادمین, قالب مدیران, قالب مدیریت راستچین , قالب ایرانی مدیریت, پوسته مدیریت, قالب ادمین داشبورد سایت, قالب مدیریتی, مدیران, قالب مدیریت مدیران, پنل مدیریت, پنل مدیریت مدرن, قالب ادمین متریال, قالب مدیریت بوت استرپ, قالب ادمین بوتسترپ, قالب ادمین سایت, پوسته مدیریتی ایرانی, قالب مدیرتی مدیران ایرانی, بهترین قالب مدیریت, قالب مدیریت ریسپانسیو, قالب مدیریت ارزان, قالب admin">
+    <meta name="fontiran.com:license" content="NE29X">
+    <link rel="shortcut icon" href="~/AdminTemplate/images/favicon.png">
+
+    <!-- BEGIN CSS -->
+    <link href="~/AdminTemplate/plugins/bootstrap/bootstrap5/css/bootstrap.rtl.min.css" rel="stylesheet">
+    <link href="~/AdminTemplate/plugins/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
+    <link href="~/AdminTemplate/plugins/simple-line-icons/css/simple-line-icons.min.css" rel="stylesheet">
+    <link href="~/AdminTemplate/plugins/font-awesome/css/all.min.css" rel="stylesheet">
+    <link href="~/AdminTemplate/plugins/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet">
+    <link href="~/AdminTemplate/plugins/switchery/dist/switchery.min.css" rel="stylesheet">
+    <link href="~/AdminTemplate/plugins/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet">
+    <link href="~/AdminTemplate/plugins/paper-ripple/dist/paper-ripple.min.css" rel="stylesheet">
+    <link href="~/AdminTemplate/plugins/iCheck/skins/square/_all.css" rel="stylesheet">
+    <link href="~/AdminTemplate/css/style.css" rel="stylesheet">
+    <link href="~/AdminTemplate/css/colors.css" rel="stylesheet">
+    <!-- END CSS -->
+    <!-- BEGIN PAGE CSS -->
+    <link href="~/AdminTemplate/plugins/morris.js/morris.css" rel="stylesheet">
+    <link href="~/AdminTemplate/plugins/persian-datepicker/css/persian-datepicker.css" rel="stylesheet">
+    <link href="~/AdminTemplate/css/effects.css" rel="stylesheet">
+    
+    <link href="~/AdminTemplate/plugins/data-table/DataTables-1.10.16/css/jquery.dataTables.css" rel="stylesheet">
+
+    <!-- END PAGE CSS -->
+</head>
+<body class="active-ripple theme-darkpurple fix-header sidebar-extra bg-1">
+
+
+    @await Html.PartialAsync("_Header")
+
+    <!-- BEGIN WRAPPER -->
+
+    <div id="wrapper">
+
+        <!-- BEGIN SIDEBAR -->
+        @await Html.PartialAsync("_Sidebar")
+        <!-- END SIDEBAR -->
+        <!-- BEGIN PAGE CONTENT -->
+        <div id="page-content">
+            <div id="inner-content">
+                <div class="row">
+                    <!-- BEGIN BREADCRUMB -->
+                    <div class="col-md-12">
+                        <div class="breadcrumb-box shadow">
+                            <ul class="breadcrumb">
+                                <li><a href="#">@ViewData["Title"]</a></li>
+                            </ul>
+                            <div class="breadcrumb-left">
+                                @DateTime.Now.ToPersianString("dddd, dd MMMM,yyyy")
+                                <i class="icon-calendar"></i>
+                            </div><!-- /.breadcrumb-left -->
+                        </div><!-- /.breadcrumb-box -->
+                    </div><!-- /.col-md-12 -->
+                    <!-- END BREADCRUMB -->
+
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="row">
+                                @RenderBody()
+                              
+                            </div>
+
+                        </div><!-- /.row -->
+
+                    </div><!-- /.col-md-12 -->
+                </div><!-- /.row -->
+            </div><!-- /#inner-content -->
+        </div><!-- /#page-content -->
+        <!-- END PAGE CONTENT -->
+
+    </div><!-- /#wrapper -->
+    <!-- END WRAPPER -->
+    @await Html.PartialAsync("_Footer")
+    <!-- BEGIN SETTING -->
+    @await Html.PartialAsync("_Setting")
+
+    <!-- END SETTING -->
+    <!-- BEGIN JS -->
+    <script src="~/AdminTemplate/plugins/jquery/dist/jquery-3.6.1.min.js"></script>
+    <script src="~/AdminTemplate/plugins/bootstrap/bootstrap5/js/bootstrap.bundle.min.js"></script>
+    <script src="~/AdminTemplate/plugins/metisMenu/dist/metisMenu.min.js"></script>
+    <script src="~/AdminTemplate/plugins/paper-ripple/dist/PaperRipple.min.js"></script>
+    <script src="~/AdminTemplate/plugins/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="~/AdminTemplate/plugins/sweetalert2/dist/sweetalert2.min.js"></script>
+    <script src="~/AdminTemplate/plugins/screenfull/dist/screenfull.min.js"></script>
+    <script src="~/AdminTemplate/plugins/iCheck/icheck.min.js"></script>
+    <script src="~/AdminTemplate/plugins/switchery/dist/switchery.js"></script>
+<script src="~/AdminTemplate/js/core.js"></script>
+
+<!-- BEGIN PAGE JAVASCRIPT -->
+ 
+<!-- END PAGE JAVASCRIPT -->    
+
+@await RenderSectionAsync("Scripts", required: false)
+    <!-- BEGIN PAGE JAVASCRIPT -->
+    <!-- END PAGE JAVASCRIPT -->
+</body>
+
+</html>

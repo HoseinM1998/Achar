@@ -96,7 +96,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
             return expert.ApplicationUser.Balance;
         }
 
-        public async Task<List<ExpertProfDto>>? GetExperts(CancellationToken cancellationToken)
+        public async Task<List<ExpertProfDto?>>? GetExperts(CancellationToken cancellationToken)
         {
             var experts = await _context.Experts
                 .Include(e => e.ApplicationUser)
@@ -114,7 +114,9 @@ namespace Achar.Infra.Access.EfCore.Repositories
                     Gender = e.Gender,
                     NameCity = e.City.Title,
                     Skills = e.Skills.ToList(),
-                    IsActive = e.IsActive
+                    IsActive = e.IsActive,
+                    Balance = e.ApplicationUser.Balance
+
                 })
                 .ToListAsync(cancellationToken);
             return experts;

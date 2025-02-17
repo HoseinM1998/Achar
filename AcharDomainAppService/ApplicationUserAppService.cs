@@ -13,60 +13,79 @@ namespace AcharDomainAppService
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IPasswordHasher<ApplicationUser> _passwordHasher;
+
 
         public ApplicationUserAppService(SignInManager<ApplicationUser> signInManager,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            IPasswordHasher<ApplicationUser> passwordHasher)
         {
             _signInManager = signInManager;
             _userManager = userManager;
+            _passwordHasher = passwordHasher;
+
 
         }
 
-        public async Task<List<IdentityError>> Register(RegisterDto registerDto, CancellationToken cancellationToken)
+        public async Task<List<IdentityError>> Register(RegisterDto accountRegisterDto,CancellationToken cancellationToken)
         {
             var role = string.Empty;
-            var user = new ApplicationUser();
-            user.UserName = registerDto.UserName;
-            if (registerDto.IsCustomer)
-            {
-                role = "Customer";
-                user.Customer = new Customer()
-                {
-                    CityId = registerDto.CityId
-                };
-            }
 
-            if (registerDto.IsExpert)
+            var user = CreateUser();
+
+            user.UserName = accountRegisterDto.UserName;
+
+            if (accountRegisterDto.IsExpert)
             {
                 role = "Expert";
                 user.Expert = new Expert()
                 {
-                    CityId = registerDto.CityId
+                    CityId = accountRegisterDto.CityId,
+                };
+            }
+            else
+            {
+                role = "Customer";
+                user.Customer = new Customer()
+                {
+                    CityId = accountRegisterDto.CityId,
                 };
             }
 
-            if (registerDto.IsCustomer)
+            var result = await _userManager.CreateAsync(user, accountRegisterDto.Password);
+
+            if (accountRegisterDto.IsExpert)
             {
+
+                var userExpertId = user.Expert!.Id;
+                await _userManager.AddClaimAsync(user, new Claim("userExpertId", userExpertId.ToString()));
+            }
+            else
+            {
+
                 var userCustomerId = user.Customer!.Id;
                 await _userManager.AddClaimAsync(user, new Claim("userCustomerId", userCustomerId.ToString()));
             }
 
-            if (registerDto.IsExpert)
-            {
-                var userExpertId = user.Expert!.Id;
-                await _userManager.AddClaimAsync(user, new Claim("userExpertId", userExpertId.ToString()));
-            }
-
-            var result = await _userManager.CreateAsync(user, registerDto.Password);
             if (result.Succeeded)
-            {
                 await _userManager.AddToRoleAsync(user, role);
-            }
 
             return (List<IdentityError>)result.Errors;
         }
 
-
+        private ApplicationUser CreateUser()
+        {
+            try
+            {
+                return Activator.CreateInstance<ApplicationUser>();
+            }
+            catch
+            {
+                throw new InvalidOperationException($"Can't create an instance of '{nameof(ApplicationUser)}'. " +
+                                                    $"Ensure that '{nameof(ApplicationUser)}' is not an abstract class and has a parameterless constructor, or alternatively " +
+                                                    $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
+            }
+        }
         public async Task<IdentityResult> Login(string username, string password)
         {
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
@@ -77,6 +96,30 @@ namespace AcharDomainAppService
             var result = await _signInManager.PasswordSignInAsync(username, password, isPersistent: false, lockoutOnFailure: false);
             return result.Succeeded ? IdentityResult.Success : IdentityResult.Failed(new IdentityError { Description = "نام کاربری یا رمز عبور نادرست است." });
         }
+
+
+        public async Task<List<IdentityError>> AdminRegister(RegisterDto accountAdminRegisterDto)
+        {
+            var user = CreateUser();
+
+            user.UserName = accountAdminRegisterDto.UserName;
+
+            user.Admin = new Admin()
+            {
+              
+            };
+
+            var result = await _userManager.CreateAsync(user, accountAdminRegisterDto.Password);
+
+            var userAdminId = user.Admin!.Id;
+            await _userManager.AddClaimAsync(user, new Claim("userAdminId", userAdminId.ToString()));
+
+            if (result.Succeeded)
+                await _userManager.AddToRoleAsync(user, "Admin");
+
+            return (List<IdentityError>)result.Errors;
+        }
+
     }
 }
 

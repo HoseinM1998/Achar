@@ -1,0 +1,134 @@
+﻿@page
+@model Achar.Endpoint.Razor.Areas.Admin.Pages.IndexModel
+@{
+    ViewData["Title"] = "پیشخوان";
+}
+
+
+<div class="col-lg-12">
+    <div class="portlet box shadow">
+        <div class="portlet-heading">
+            <div class="portlet-title">
+                <h3 class="title">
+                    آمار
+                </h3>
+            </div><!-- /.portlet-title -->
+        </div><!-- /.portlet-heading -->
+        <div class="portlet-body">
+            <div class="row">
+                <!-- Admin Count -->
+                <div class="col-lg-3 col-6">
+                    <div class="stat-box use-cyan shadow">
+                        <a href="#">
+                            <div class="stat">
+                                <div class="counter-down"><div class="num">@Model.CountAdmin</div></div>
+                                <div class="h3">مدیران</div>
+                            </div><!-- /.stat -->
+                            <div class="visual">
+                                <i class="icon-people"></i>
+                            </div><!-- /.visual -->
+                        </a>
+                    </div><!-- /.stat-box -->
+                </div><!-- /.col-lg-3 -->
+                <!-- Experts Count -->
+                <div class="col-lg-3 col-6">
+                    <div class="stat-box use-blue shadow">
+                        <a href="#">
+                            <div class="stat">
+                                <div class="counter-down"><div class="num">@Model.CountExperts</div></div>
+                                <div class="h3">کارشناسان</div>
+                            </div><!-- /.stat -->
+                            <div class="visual">
+                                <i class="icon-user"></i>
+                            </div><!-- /.visual -->
+                        </a>
+                    </div><!-- /.stat-box -->
+                </div><!-- /.col-lg-3 -->
+                <!-- Customers Count -->
+                <div class="col-lg-3 col-6">
+                    <div class="stat-box use-green shadow">
+                        <a href="#">
+                            <div class="stat">
+                                <div class="counter-down"><div class="num">@Model.CountCustomers</div></div>
+                                <div class="h3">مشتریان</div>
+                            </div><!-- /.stat -->
+                            <div class="visual">
+                                <i class="icon-diamond"></i>
+                            </div><!-- /.visual -->
+                        </a>
+                    </div><!-- /.stat-box -->
+                </div><!-- /.col-lg-3 -->
+                <!-- Categories Count -->
+                <div class="col-lg-3 col-6">
+                    <div class="stat-box use-purple shadow">
+                        <a href="#">
+                            <div class="stat">
+                                <div class="counter-down"><div class="num">@Model.CountCategories</div></div>
+                                <div class="h3">دسته بندی ها</div>
+                            </div><!-- /.stat -->
+                            <div class="visual">
+                                <i class="icon-present"></i>
+                            </div><!-- /.visual -->
+                        </a>
+                    </div><!-- /.stat-box -->
+                </div><!-- /.col-lg-3 -->
+                <!-- Subcategories Count -->
+                <div class="col-lg-3 col-6">
+                    <div class="stat-box use-orange shadow">
+                        <a href="#">
+                            <div class="stat">
+                                <div class="counter-down"><div class="num">@Model.CountSubCategories</div></div>
+                                <div class="h3">زیرمجموعه ها</div>
+                            </div><!-- /.stat -->
+                            <div class="visual">
+                                <i class="icon-cogs"></i>
+                            </div><!-- /.visual -->
+                        </a>
+                    </div><!-- /.stat-box -->
+                </div><!-- /.col-lg-3 -->
+                <!-- Home Services Count -->
+                <div class="col-lg-3 col-6">
+                    <div class="stat-box use-teal shadow">
+                        <a href="#">
+                            <div class="stat">
+                                <div class="counter-down"><div class="num">@Model.CountHomeServices</div></div>
+                                <div class="h3">خدمات خانگی</div>
+                            </div><!-- /.stat -->
+                            <div class="visual">
+                                <i class="icon-home"></i>
+                            </div><!-- /.visual -->
+                        </a>
+                    </div><!-- /.stat-box -->
+                </div><!-- /.col-lg-3 -->
+                <!-- Comments Count -->
+                <div class="col-lg-3 col-6">
+                    <div class="stat-box use-red shadow">
+                        <a href="#">
+                            <div class="stat">
+                                <div class="counter-down"><div class="num">@Model.CountComments</div></div>
+                                <div class="h3">نظرات</div>
+                            </div><!-- /.stat -->
+                            <div class="visual">
+                                <i class="icon-comments"></i>
+                            </div><!-- /.visual -->
+                        </a>
+                    </div><!-- /.stat-box -->
+                </div><!-- /.col-lg-3 -->
+                <!-- Requests Count -->
+                <div class="col-lg-3 col-6">
+                    <div class="stat-box use-brown shadow">
+                        <a href="#">
+                            <div class="stat">
+                                <div class="counter-down"><div class="num">@Model.CountRequests</div></div>
+                                <div class="h3">درخواست ها</div>
+                            </div><!-- /.stat -->
+                            <div class="visual">
+                                <i class="icon-paperclip"></i>
+                            </div><!-- /.visual -->
+                        </a>
+                    </div><!-- /.stat-box -->
+                </div><!-- /.col-lg-3 -->
+            </div>
+        </div><!-- /.portlet-body -->
+    </div><!-- /.portlet -->
+</div><!-- /.col-lg-12 -->

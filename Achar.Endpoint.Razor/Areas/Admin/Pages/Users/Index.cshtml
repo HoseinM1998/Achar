@@ -1,0 +1,177 @@
+﻿@page
+@model Achar.Endpoint.Razor.Areas.Admin.Pages.Users.IndexModel
+@{
+    ViewData["Title"] = "آچار > مدیریت کاربران > لیست کاربران";
+}
+<div class="col-lg-12">
+    <div class="portlet box shadow">
+        <div class="portlet-heading">
+            <div class="portlet-title">
+                <h3 class="title">
+                    کاربران
+                </h3>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="top-buttons-box mb-2">
+                <a class="btn btn-success" asp-page="Create">
+                    <i class="icon-plus"></i>
+                    افزودن
+                    <div class="paper-ripple">
+                        <div class="paper-ripple__background"></div>
+                        <div class="paper-ripple__waves"></div>
+                    </div>
+                </a>
+            </div>
+
+
+            <div class="row mb-4">
+                <h4>مدیرها</h4>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-striped" id="admin-table">
+                        <thead>
+                            <tr>
+                                <th class="p-low"><input type="checkbox" id="btn-check-all-toggle"></th>
+                                <th>#</th>
+                                <th>پروفایل</th>
+                                <th>نام</th>
+                                <th>نام خانوادگی</th>
+                                <th>نام کاربری</th>
+                                <th>موبایل</th>
+                                <th>ایمیل</th>
+                                <th>موجودی</th>
+                                <th>عملیات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var admin in @Model.Admin)
+                            {
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>@admin.Id</td>
+                                    <td><img style="border-radius: 50%" src="@(string.IsNullOrEmpty(admin.ApplicationUser.ProfileImageUrl) ? "~/AdminTemplate/images/user/placeholder.jpg" : admin.ApplicationUser.ProfileImageUrl)" width="80" height="80" /></td>
+                                    <td>@admin.ApplicationUser.FirstName</td>
+                                    <td>@admin.ApplicationUser.LastName</td>
+                                    <td>@admin.ApplicationUser.UserName</td>
+                                    <td>@admin.ApplicationUser.PhoneNumber</td>
+                                    <td>@admin.ApplicationUser.Email</td>
+                                    <td>@admin.ApplicationUser.Balance</td>
+                                    <td>
+                                        <a asp-page="Update" asp-route-Id="@admin.Id" class="btn btn-info">ویرایش</a>
+                                        <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" onclick="setDeleteLink('@admin.Id')">حذف</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <h4>مشتریان</h4>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-striped" id="customer-table">
+                        <thead>
+                            <tr>
+                                <th class="p-low"><input type="checkbox" id="btn-check-all-toggle"></th>
+                                <th>#</th>
+                                <th>پروفایل</th>
+                                <th>نام</th>
+                                <th>نام خانوادگی</th>
+                                <th>نام کاربری</th>
+                                <th>موبایل</th>
+                                <th>ایمیل</th>
+                                <th>شهر</th>
+                                <th>موجودی</th>
+                                <th>عملیات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var customer in @Model.Customer)
+                            {
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>@customer.Id</td>
+                                    <td><img style="border-radius: 50%" src="@(string.IsNullOrEmpty(customer.ProfileImageUrl) ? "~/AdminTemplate/images/user/placeholder.jpg" : customer.ProfileImageUrl)" width="80" height="80" /></td>
+                                    <td>@customer.FirstName</td>
+                                    <td>@customer.LastName</td>
+                                    <td>@customer.UserName</td>
+                                    <td>@customer.PhoneNumber</td>
+                                    <td>@customer.Email</td>
+                                    <td>@customer.NameCity</td>
+                                    <td>@customer.Balance</td>
+                                    <td>
+                                        <a asp-page="Update" asp-route-Id="@customer.Id" class="btn btn-info">ویرایش</a>
+                                        <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" onclick="setDeleteLink('@customer.Id')">حذف</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <h4>کارشناسان</h4>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>شناسه</th>
+                                <th>عکس</th>
+                                <th>نام</th>
+                                <th>نام خانوادگی</th>
+                                <th>نام کاربری</th>
+                                <th>ایمیل</th>
+                                <th>شماره تلفن</th>
+                                <th>جنسیت</th>
+                                <th>شهر</th>
+                                <th>وضعیت</th>
+                                <th>موجودی</th>
+                                <th>عملیات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var expert in Model.Expert)
+                            {
+                                <tr>
+                                    <td>@expert.Id</td>
+                                    <td><img style="border-radius: 50%" src="@(string.IsNullOrEmpty(expert.ProfileImageUrl) ? "~/AdminTemplate/images/user/placeholder.jpg" : expert.ProfileImageUrl)" width="80" height="80" /></td>
+                                    <td>@expert.FirstName</td>
+                                    <td>@expert.LastName</td>
+                                    <td>@expert.UserName</td>
+                                    <td>@expert.Email</td>
+                                    <td>@expert.PhoneNumber</td>
+                                    <td>@expert.Gender</td>
+                                    <td>@expert.NameCity</td>
+                                    <td>@(expert.IsActive ? "فعال" : "غیرفعال")</td>
+                                    <td>@expert.Balance</td>
+                                    <td>
+                                        <a href="@Url.Page("Edit", new { id = expert.Id })" class="btn btn-info">ویرایش</a>
+                                        <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" onclick="setDeleteLink('@expert.Id')">حذف</a>
+                                        <button type="button" class="btn @(expert.IsActive ? "btn-warning" : "btn-success")" data-toggle="modal" data-target="#activeModal" data-id="@expert.Id" data-isactive="@(expert.IsActive)">
+                                            @(expert.IsActive ? "غیرفعال کردن" : "فعال کردن")
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="~/AdminTemplate/plugins/data-table/js/jquery.dataTables.min.js"></script>
+    <script src="~/AdminTemplate/js/pages/datatable.js"></script>
+
+    <script>
+        function setDeleteLink(userId) {
+            var deleteUrl = '@Url.Page("Delete", new { id = "__id__" })'.replace('__id__', userId);
+            document.getElementById('deleteConfirmBtn').href = deleteUrl;
+        }
+    </script>
+}

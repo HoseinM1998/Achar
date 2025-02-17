@@ -21,7 +21,7 @@ namespace Achar.Endpoint.Razor.Areas.Account.Pages
         {
         }
 
-        public async Task<IActionResult> OnPostAsync(LoginDto accountLogin, string returnUrl = null)
+        public async Task<IActionResult> OnPost(LoginDto accountLogin, string returnUrl = null)
         {
             if (!ModelState.IsValid)
                 return Page();
@@ -32,13 +32,13 @@ namespace Achar.Endpoint.Razor.Areas.Account.Pages
                     return LocalRedirect(returnUrl);
 
                 if (User.IsInRole("Admin"))
-                    return LocalRedirect("/AdminArea/Index");
+                    return LocalRedirect("/Admin/Index");
 
                 if (User.IsInRole("Expert"))
-                    return LocalRedirect("/ExpertArea/Index");
+                    return LocalRedirect("/Expert/Index");
 
                 if (User.IsInRole("Customer"))
-                    return LocalRedirect("/CustomerArea/Index");
+                    return LocalRedirect("/Customer/Index");
             }
 
             ModelState.AddModelError(string.Empty, "??? ?????? ?? ???? ???? ?????? ???");

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using AcharDomainCore.Contracts.Admin;
+using AcharDomainCore.Contracts.Bid;
 using AcharDomainCore.Dtos;
 using AcharDomainCore.Dtos.AdminDto;
 using AcharDomainCore.Entites;
@@ -12,9 +14,21 @@ namespace AcharDomainAppService
 {
     public class AdminAppService:IAdminAppService
     {
-        public Task<int> AdminCount(CancellationToken cancellationToken)
+        private readonly IAdminService _service;
+        public AdminAppService(IAdminService service)
         {
-            throw new NotImplementedException();
+            _service = service;
+        }
+        public async Task<int> AdminCount(CancellationToken cancellationToken)
+        {
+            try
+            {
+                return await _service.AdminCount( cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error CreateBid: {ex.Message}");
+            }
         }
 
         public Task<Admin> GetAdminById(int adminID, CancellationToken cancellationToken)
@@ -27,9 +41,16 @@ namespace AcharDomainAppService
             throw new NotImplementedException();
         }
 
-        public Task<List<Admin>> GetAllAmin(CancellationToken cancellationToken)
+        public async Task<List<Admin>> GetAllAmin(CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await _service.GetAllAmin(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error CreateBid: {ex.Message}");
+            }
         }
 
         public Task<bool> UpdateAdmin(AdminDto admin, CancellationToken cancellationToken)

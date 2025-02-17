@@ -1,16 +1,14 @@
-﻿using System;
+﻿using HomeService.Domain.Core.Enums;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AcharDomainCore.Entites;
-using HomeService.Domain.Core.Enums;
 
-namespace AcharDomainCore.Dtos.ExpertDto
+namespace AcharDomainCore.Dtos.CustomerDto
 {
-    public class ExpertProfDto
+    public class CustomerGetAll
     {
         public int Id { get; set; }
         public string? FirstName { get; set; }
@@ -25,11 +23,6 @@ namespace AcharDomainCore.Dtos.ExpertDto
         public GenderEnum? Gender { get; set; }
         [DisplayName(" شهر")]
         public string NameCity { get; set; }
-        [DisplayName(" مهارت ها")]
-        public List<Entites.HomeService>? Skills { get; set; }
-        public bool IsActive { get; set; }
         public decimal Balance { get; set; }
-
-
     }
 }

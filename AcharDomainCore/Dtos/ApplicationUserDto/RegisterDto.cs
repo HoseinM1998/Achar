@@ -16,8 +16,9 @@ namespace AcharDomainCore.Dtos.ApplicationUserDto
         public string Password { get; set; }
         public string ConfirmPassword { get; set; }
         public int CityId { get; set; }
-        public bool IsCustomer { get; set; }
         public bool IsExpert { get; set; }
+
+
 
 
     }

@@ -14,7 +14,7 @@ namespace AcharDomainCore.Contracts.Customer
         Task<int> CoustomerCount(CancellationToken cancellationToken);
         Task<decimal> GetBalanceCustomerById(int CustomerId, CancellationToken cancellationToken);
         Task<CustomerProfDto> GetCustomerById(int id, CancellationToken cancellationToken);
-        Task<List<Entites.Customer>> GetCustomers(CancellationToken cancellationToken);
+        Task<List<CustomerGetAll>> GetCustomers(CancellationToken cancellationToken);
         Task<bool> DeleteCustomer(SoftDeleteDto delete, CancellationToken cancellationToken);
         Task<bool> UpdateBalance(int id, decimal balance, CancellationToken cancellationToken);
     }

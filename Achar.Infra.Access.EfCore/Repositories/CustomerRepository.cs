@@ -83,9 +83,27 @@ namespace Achar.Infra.Access.EfCore.Repositories
 
         }
 
-        public async Task<List<Customer>> GetCustomers(CancellationToken cancellationToken)
+        public async Task<List<CustomerGetAll?>> GetCustomers(CancellationToken cancellationToken)
         {
-            return await _context.Customers.AsNoTracking().ToListAsync(cancellationToken);
+            var customer = await _context.Customers
+                .Include(e => e.ApplicationUser)
+                .Include(e => e.City)
+                .Select(e => new CustomerGetAll()
+                {
+                    Id = e.Id,
+                    FirstName = e.ApplicationUser.FirstName,
+                    LastName = e.ApplicationUser.LastName,
+                    UserName = e.ApplicationUser.UserName,
+                    Email = e.ApplicationUser.Email,
+                    ProfileImageUrl = e.ApplicationUser.ProfileImageUrl,
+                    PhoneNumber = e.ApplicationUser.PhoneNumber,
+                    Gender = e.Gender,
+                    NameCity = e.City.Title,
+                    Balance = e.ApplicationUser.Balance
+
+                })
+                .ToListAsync(cancellationToken);
+            return customer;
 
         }
 

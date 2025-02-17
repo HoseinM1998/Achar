@@ -35,7 +35,7 @@ namespace AcharDomainService
             => await _repository.GetCustomerById(id, cancellationToken);
 
 
-        public async Task<List<Customer>> GetCustomers(CancellationToken cancellationToken)
+        public async Task<List<CustomerGetAll>> GetCustomers(CancellationToken cancellationToken)
             => await _repository.GetCustomers(cancellationToken);
 
 

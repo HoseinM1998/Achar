@@ -50,9 +50,9 @@ namespace Achar.Infra.Access.EfCore.Repositories
             return admin.ApplicationUser.Balance;
         }
 
-        public async Task<List<Admin>> GetAllAmin(CancellationToken cancellationToken)
+        public async Task<List<Admin?>> GetAllAmin(CancellationToken cancellationToken)
         {
-            return await _context.Admins.AsNoTracking().ToListAsync(cancellationToken);
+            return await _context.Admins.Include(x=>x.ApplicationUser).AsNoTracking().ToListAsync(cancellationToken);
         }
 
         public async Task<bool> UpdateAdmin(AdminDto admin, CancellationToken cancellationToken)

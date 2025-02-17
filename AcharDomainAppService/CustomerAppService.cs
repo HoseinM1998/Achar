@@ -67,7 +67,7 @@ namespace AcharDomainAppService
             }
         }
 
-        public async Task<List<Customer>> GetCustomers(CancellationToken cancellationToken)
+        public async Task<List<CustomerGetAll>> GetCustomers(CancellationToken cancellationToken)
         {
             try
             {

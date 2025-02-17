@@ -44,14 +44,10 @@
                             </select>
                         </div>
 
-                        <div class="d-flex justify-content-between mb-3">
-                            <div class="form-check">
-                                <input asp-for="@Model.AccountRegister.IsCustomer" id="customer" class="form-check-input" type="checkbox" checked>
-                                <label for="customer" class="form-check-label">مشتری</label>
-                            </div>
-                            <div class="form-check">
-                                <input asp-for="@Model.AccountRegister.IsExpert" id="expert" class="form-check-input" type="checkbox">
-                                <label for="expert" class="form-check-label">کارشناس</label>
+                        <div class="sign-controls form-group">
+                            <div class="custom-control custom-checkbox">
+                                <input id="IsVisitor" asp-for="@Model.AccountRegister.IsExpert" type="checkbox" class="custom-control-input">
+                                <label class="custom-control-label" for="IsVisitor">متخصص هستید؟</label>
                             </div>
                         </div>
 
