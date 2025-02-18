@@ -1,0 +1,183 @@
+﻿@page
+@model Achar.Endpoint.Razor.Areas.Admin.Pages.Category.ListCategoryModel
+@{
+    ViewData["Title"] = "مدیریت دسته‌بندی‌ها";
+    Layout = "_Layout";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="card shadow-lg border-0 p-4 rounded-4 mb-4">
+    <div class="text-center mb-4">
+        <h4 class="fw-bold text-primary">اضافه کردن دسته‌بندی جدید</h4>
+    </div>
+
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createCategoryModal">
+        اضافه کردن دسته‌بندی جدید
+    </button>
+
+    <!-- Create Category Modal -->
+    <div class="modal fade" id="createCategoryModal" tabindex="-1" aria-labelledby="createCategoryModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createCategoryModalLabel">اضافه کردن دسته‌بندی جدید</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" enctype="multipart/form-data" asp-page-handler="CreateCategory">
+                        <div class="mb-3">
+                            <label asp-for="NewCategory.Title" class="form-label fw-semibold">عنوان</label>
+                            <input type="text" asp-for="NewCategory.Title" class="form-control">
+                            <span asp-validation-for="NewCategory.Title" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="NewCategory.Image" class="form-label fw-semibold">عکس</label>
+                            <input type="file" asp-for="NewCategory.Image" class="form-control">
+                            <span asp-validation-for="NewCategory.Image" class="text-danger"></span>
+                        </div>
+
+                        <button type="submit" class="btn btn-success w-100 rounded-pill">اضافه کردن</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>شناسه</th>
+            <th>عنوان</th>
+            <th>عکس</th>
+            <th>تاریخ ایجاد</th>
+            <th>عملیات</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var category in Model.Categories)
+        {
+            <tr>
+                <td>@category.Id</td>
+                <td>@category.Title</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(category.Image))
+                    {
+                        <div class="image-background">
+                            <img src="@category.Image" alt="Category Image" width="50" height="50" />
+                        </div>
+                    }
+                    else
+                    {
+                        <span>بدون عکس</span>
+                    }
+                </td>
+                <td>@category.CreatedAt.ToString("yyyy-MM-dd")</td>
+                <td>
+                    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#updateCategoryModal-@category.Id">
+                        ویرایش
+                    </button>
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteCategoryModal-@category.Id">
+                        حذف
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Update Category Modal Template -->
+@foreach (var category in Model.Categories)
+{
+    <div class="modal fade" id="updateCategoryModal-@category.Id" tabindex="-1" aria-labelledby="updateCategoryModalLabel-@category.Id" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updateCategoryModalLabel-@category.Id">ویرایش دسته‌بندی</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" enctype="multipart/form-data" asp-page-handler="UpCategory">
+                        <input type="hidden" asp-for="NewCategory.Id" value="@category.Id" />
+                        <div class="mb-3">
+                            <label asp-for="NewCategory.Title" class="form-label fw-semibold">عنوان</label>
+                            <input type="text" asp-for="NewCategory.Title" class="form-control" value="@category.Title">
+                            <span asp-validation-for="NewCategory.Title" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="NewCategory.Image" class="form-label fw-semibold">عکس</label>
+                            <input type="file" asp-for="NewCategory.Image" class="form-control">
+                            <span asp-validation-for="NewCategory.Image" class="text-danger"></span>
+                        </div>
+
+                        <button type="submit" class="btn btn-success w-100 rounded-pill">ذخیره</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteCategoryModal-@category.Id" tabindex="-1" aria-labelledby="deleteCategoryModalLabel-@category.Id" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteCategoryModalLabel-@category.Id">تأیید حذف</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    آیا مطمئن هستید که می‌خواهید این دسته‌بندی را حذف کنید؟
+                </div>
+                <div class="modal-footer">
+                    <form method="post" asp-page-handler="DeleteCategory" style="display:inline;">
+                        <input type="hidden" asp-for="Delete.Id" value="@category.Id" />
+                        <button type="submit" class="btn btn-danger">حذف</button>
+                    </form>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">لغو</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<style>
+    .gray {
+        background-color: #f8f9fa;
+    }
+
+    .card {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .rounded-4 {
+        border-radius: 1rem;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border: none;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+    .rounded-pill {
+        border-radius: 50rem;
+    }
+
+    .form-label {
+        margin-bottom: 0.5rem;
+    }
+
+    .image-background {
+        background-color: #000;
+        display: inline-block;
+        padding: 5px;
+        border-radius: 5px;
+    }
+</style>
+

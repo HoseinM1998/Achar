@@ -18,7 +18,7 @@
 <h3>حذف تسک</h3>
 
 <div>
-    <h4>آیا از حذف این تسک اطمینان دارید؟</h4>
+    <h4>آیا از حذف این کاربر اطمینان دارید؟</h4>
     <form method="post" asp-page-handler="Delete" asp-route-id="@Model.delete.Id" asp-route-userType="@ViewData["UserType"]">
         <button type="submit" class="btn btn-danger btn-sm">حذف</button>
         <a href="@Url.Page("/Account/Users/Index")" class="btn btn-secondary btn-sm">بازگشت</a>

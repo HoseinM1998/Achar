@@ -4,7 +4,7 @@
 @{
 }
 
-<section class="gray min-vh-100 d-flex align-items-center">
+<section class="gray min-vh-100 d-flex align-items-center justify-content-center" style="padding-top: 50px;">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-xl-5 col-lg-8 col-md-10">
@@ -17,8 +17,8 @@
                         <div class="mb-3">
                             <label asp-for="@Model.AccountLogin.UserName" class="form-label fw-semibold">نام کاربری</label>
                             <div class="input-group">
-                                <span class="input-group-text"><i class="bi bi-person"></i></span>
-                                <input type="text" asp-for="@Model.AccountLogin.UserName" class="form-control rounded-end">
+                                <span class="input-group-text border-0"><i class="bi bi-person"></i></span>
+                                <input type="text" asp-for="@Model.AccountLogin.UserName" class="form-control">
                             </div>
                             <span asp-validation-for="@Model.AccountLogin.UserName" class="text-danger"></span>
                         </div>
@@ -26,8 +26,8 @@
                         <div class="mb-3">
                             <label asp-for="@Model.AccountLogin.Password" class="form-label fw-semibold">رمز عبور</label>
                             <div class="input-group">
-                                <span class="input-group-text"><i class="bi bi-lock"></i></span>
-                                <input type="password" asp-for="@Model.AccountLogin.Password" class="form-control rounded-end">
+                                <span class="input-group-text border-0"><i class="bi bi-lock"></i></span>
+                                <input type="password" asp-for="@Model.AccountLogin.Password" class="form-control">
                             </div>
                             <span asp-validation-for="@Model.AccountLogin.Password" class="text-danger"></span>
                         </div>
@@ -43,3 +43,45 @@
         </div>
     </div>
 </section>
+
+<style>
+    .gray {
+        background-color: #f8f9fa;
+    }
+
+    .card {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .rounded-4 {
+        border-radius: 1rem;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border: none;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+    .rounded-pill {
+        border-radius: 50rem;
+    }
+
+    .input-group-text {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .form-label {
+        margin-bottom: 0.5rem;
+    }
+
+    .input-group-text {
+        border: none;
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+    }
+</style>
