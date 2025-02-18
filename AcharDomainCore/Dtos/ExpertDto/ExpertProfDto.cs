@@ -28,6 +28,8 @@ namespace AcharDomainCore.Dtos.ExpertDto
         public string NameCity { get; set; }
         [DisplayName(" مهارت ها")]
         public List<Entites.HomeService>? Skills { get; set; }
+        public List<int>? ServiceIds { get; set; }
+
         public bool IsActive { get; set; }
         public decimal Balance { get; set; }
         public int CityId { get; set; }

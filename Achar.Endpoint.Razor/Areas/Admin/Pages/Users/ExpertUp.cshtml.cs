@@ -7,6 +7,7 @@ using AcharDomainCore.Entites;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -30,13 +31,20 @@ namespace Achar.Endpoint.Razor.Areas.Admin.Pages.Users
         [BindProperty]
         public List<City> Cities { get; set; }
         [BindProperty]
-        public List<AcharDomainCore.Entites.HomeService> Skills { get; set; }
+        public List<int> ServiceIds { get; set; } = new(); 
+
+        public List<AcharDomainCore.Entites.HomeService> Services { get; set; }
 
         public async Task OnGet(int id, CancellationToken cancellationToken)
         {
             UpExpert = await _expertAppService.GetExpertById(id, cancellationToken);
             Cities = await _cityAppService.GetAllCity(cancellationToken);
-            Skills = await _homeAppService.GetHomeServices(cancellationToken);
+            Services = await _homeAppService.GetHomeServices(cancellationToken);
+
+            if (UpExpert != null && UpExpert.Skills != null)
+            {
+                ServiceIds = UpExpert.Skills.Select(s => s.Id).ToList();
+            }
         }
 
         public async Task<IActionResult> OnPostUpdate(CancellationToken cancellationToken)

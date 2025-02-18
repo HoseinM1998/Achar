@@ -16,7 +16,7 @@ namespace AcharDomainCore.Contracts.Admin
         Task<decimal> GetBalanceAdminById(int adminID, CancellationToken cancellationToken);
         Task<List<Entites.Admin?>> GetAllAmin(CancellationToken cancellationToken);
          Task<bool> UpdateAdmin(AdminProfDto admin, CancellationToken cancellationToken);
-         Task<bool> DeleteAdmin(SoftDeleteDto delete, CancellationToken  cancellationToken);
+         Task<bool> DeleteAdmin(int id, CancellationToken  cancellationToken);
          Task<bool> UpdateBalance(int id,decimal  balance, CancellationToken cancellationToken);
 
     }

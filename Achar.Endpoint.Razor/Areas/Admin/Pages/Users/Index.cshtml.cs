@@ -52,23 +52,24 @@ namespace Achar.Endpoint.Razor.Areas.Admin.Pages.Users
         }
 
 
-  
-
-        public async Task<IActionResult> ToggleActive(SoftActiveDto active, CancellationToken cancellationToken)
+        public async Task<IActionResult> OnPostChangeExpertStatusAsync(int id, bool isActive, CancellationToken cancellationToken)
         {
-            if (active == null || active.Id <= 0)
+            if (id <= 0)
             {
-                return RedirectToAction("Index");
+                return RedirectToPage();
+            }
+            var activeDto = new SoftActiveDto
+            {
+                Id = id,
+                IsActive = isActive
+            };
+            var expert = await _expertAppService.IActiveExpert(activeDto, cancellationToken);
+            if (!expert)
+            {
+                return RedirectToPage();
             }
 
-            var expert = await _expertAppService.IActiveExpert(active, cancellationToken);
-            if (expert != null)
-            {
-                return RedirectToAction("Index");
-            }
-
-            return RedirectToAction("Index");
-
+            return RedirectToPage("Index");
 
         }
     }

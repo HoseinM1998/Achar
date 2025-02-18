@@ -39,7 +39,7 @@ namespace AcharDomainService
             => await _repository.GetCustomers(cancellationToken);
 
 
-        public async Task<bool> DeleteCustomer(SoftDeleteDto delete, CancellationToken cancellationToken)
+        public async Task<bool> DeleteCustomer(int delete, CancellationToken cancellationToken)
             => await _repository.DeleteCustomer(delete, cancellationToken);
 
 

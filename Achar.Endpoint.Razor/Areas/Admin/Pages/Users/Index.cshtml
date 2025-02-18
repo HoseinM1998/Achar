@@ -56,7 +56,7 @@
                                 <tr>
                                     <td><input type="checkbox"></td>
                                     <td>@admin.Id</td>
-                                    <td><img style="border-radius: 50%" src="@(string.IsNullOrEmpty(admin.ApplicationUser.ProfileImageUrl) ? "~/AdminTemplate/images/user/placeholder.jpg" : admin.ApplicationUser.ProfileImageUrl)" width="80" height="80" /></td>
+                                    <td><img style="border-radius: 50%" src="@(string.IsNullOrEmpty(admin.ApplicationUser.ProfileImageUrl) ?  "~/userassets/img/1.png" : admin.ApplicationUser.ProfileImageUrl)" width="80" height="80" /></td>
                                     <td>@admin.ApplicationUser.FirstName</td>
                                     <td>@admin.ApplicationUser.LastName</td>
                                     <td>@admin.ApplicationUser.UserName</td>
@@ -99,7 +99,7 @@
                                 <tr>
                                     <td><input type="checkbox"></td>
                                     <td>@customer.Id</td>
-                                    <td><img style="border-radius: 50%" src="@(string.IsNullOrEmpty(customer.ProfileImageUrl) ? "~/AdminTemplate/images/user/placeholder.jpg" : customer.ProfileImageUrl)" width="80" height="80" /></td>
+                                    <td><img style="border-radius: 50%" src="@(string.IsNullOrEmpty(customer.ProfileImageUrl) ?  "~/userassets/img/1.png" : customer.ProfileImageUrl)" width="80" height="80" /></td>
                                     <td>@customer.FirstName</td>
                                     <td>@customer.LastName</td>
                                     <td>@customer.UserName</td>
@@ -135,6 +135,7 @@
                                 <th>شهر</th>
                                 <th>وضعیت</th>
                                 <th>موجودی</th>
+                                <th>مهارت ها</th>
                                 <th>عملیات</th>
                             </tr>
                         </thead>
@@ -143,7 +144,7 @@
                             {
                                 <tr>
                                     <td>@expert.Id</td>
-                                    <td><img style="border-radius: 50%" src="@(string.IsNullOrEmpty(expert.ProfileImageUrl) ? "~/AdminTemplate/images/user/placeholder.jpg" : expert.ProfileImageUrl)" width="80" height="80" /></td>
+                                    <td><img style="border-radius: 50%" src="@(string.IsNullOrEmpty(expert.ProfileImageUrl) ? "~/userassets/img/1.png" : expert.ProfileImageUrl)" width="80" height="80" /></td>
                                     <td>@expert.FirstName</td>
                                     <td>@expert.LastName</td>
                                     <td>@expert.UserName</td>
@@ -154,11 +155,32 @@
                                     <td>@(expert.IsActive ? "فعال" : "غیرفعال")</td>
                                     <td>@expert.Balance</td>
                                     <td>
-                                        <a asp-page="ExpertUp" asp-route-id="@expert.Id"  class="btn btn-info">ویرایش</a>
+                                        @if (expert.Skills != null && expert.Skills.Any())
+                                        {
+                                            <ul>
+                                                @foreach (var skill in expert.Skills)
+                                                {
+                                                    <li>@skill.Title</li>
+                                                }
+                                            </ul>
+                                        }
+                                        else
+                                        {
+                                            <span>بدون مهارت</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <a asp-page="ExpertUp" asp-route-id="@expert.Id" class="btn btn-info">ویرایش</a>
                                         <a asp-page="DeleteUser" asp-route-id="@expert.Id" asp-route-userType="Expert" class="btn btn-danger">حذف</a>
-                                        <button type="button" class="btn @(expert.IsActive ? "btn-warning" : "btn-success")" data-toggle="modal" data-target="#activeModal" data-id="@expert.Id" data-isactive="@(expert.IsActive)">
-                                            @(expert.IsActive ? "غیرفعال کردن" : "فعال کردن")
-                                        </button>
+                                        <form method="post" asp-page-handler="ChangeExpertStatus" style="display:inline;">
+                                            <input type="hidden" name="id" value="@expert.Id" />
+                                            <input type="hidden" name="isActive" value="@(expert.IsActive ? "false" : "true")" />
+                                            <button type="submit" class="btn @(expert.IsActive ? "btn-warning" : "btn-success")">
+                                                @(expert.IsActive ? "غیرفعال کردن" : "فعال کردن")
+                                            </button>
+                                        </form>
+
+
                                     </td>
                                 </tr>
                             }

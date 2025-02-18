@@ -50,7 +50,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
 
         public async Task<bool> UpdateRequest(RequestUpDto upRequest, CancellationToken cancellationToken)
         {
-            var request = await _context.Requests.FindAsync(upRequest.Id, cancellationToken);
+            var request = await _context.Requests.FirstOrDefaultAsync(x=>x.Id==upRequest.Id, cancellationToken);
             if (request is null) return false;
             request.Title = upRequest.Title;
             request.Description = upRequest.Description;
@@ -142,7 +142,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
 
         public async Task<bool> DeleteRequest(SoftDeleteDto active, CancellationToken cancellationToken)
         {
-            var request = await _context.Requests.FindAsync(active.Id, cancellationToken);
+            var request = await _context.Requests.FirstOrDefaultAsync(x=>x.Id==active.Id, cancellationToken);
             if (request is null) return false;
             request.IsDeleted = active.IsDeleted;
             await _context.SaveChangesAsync(cancellationToken);
@@ -151,7 +151,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
 
         public async Task<bool> ChangeRequestStatus(StatusRequestDto statusRequest, CancellationToken cancellationToken)
         {
-            var acceptRequest = await _context.Requests.FindAsync(statusRequest.Id, cancellationToken);
+            var acceptRequest = await _context.Requests.FirstOrDefaultAsync(x=>x.Id==statusRequest.Id, cancellationToken);
             if (acceptRequest is null) return false;
             acceptRequest.Status = statusRequest.Status;
             await _context.SaveChangesAsync(cancellationToken);
@@ -160,7 +160,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
 
         public async Task<bool> AcceptExpert(RequestAcceptExpertDto requestDto, CancellationToken cancellationToken)
         {
-            var acceptRequest = await _context.Requests.FindAsync(requestDto.Id, cancellationToken);
+            var acceptRequest = await _context.Requests.FirstOrDefaultAsync(x=>x.Id==requestDto.Id, cancellationToken);
             if (acceptRequest is null) return false;
             acceptRequest.Bids = null;
             await _context.SaveChangesAsync(cancellationToken);

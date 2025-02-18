@@ -87,18 +87,18 @@ namespace Achar.Infra.Access.EfCore.Repositories
             return false;
         }
 
-        public async Task<bool> DeleteAdmin(SoftDeleteDto delete, CancellationToken cancellationToken)
+        public async Task<bool> DeleteAdmin(int id, CancellationToken cancellationToken)
         {
-            var admin = await _context.Admins.FindAsync(delete.Id, cancellationToken);
+            var admin = await _context.Admins.Include(x => x.ApplicationUser).FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
             if (admin is null) return false;
-            admin.ApplicationUser.IsDelete= delete.IsDeleted;  
+            admin.ApplicationUser.IsDelete= true;  
             await _context.SaveChangesAsync(cancellationToken);
             return true;
         }
 
         public async Task<bool> UpdateBalance(int id, decimal balance, CancellationToken cancellationToken)
         {
-            var updateBalance= await _context.Admins.FindAsync(id, cancellationToken);
+            var updateBalance= await _context.Admins.Include(x => x.ApplicationUser).FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
             if (updateBalance != null)
             {
                 updateBalance.ApplicationUser.Balance= balance;

@@ -79,11 +79,11 @@ namespace AcharDomainAppService
             }
         }
 
-        public async Task<bool> DeleteExpert(SoftDeleteDto delete, CancellationToken cancellationToken)
+        public async Task<bool> DeleteExpert(int id, CancellationToken cancellationToken)
         {
             try
             {
-                return await _service.DeleteExpert(delete, cancellationToken);
+                return await _service.DeleteExpert(id, cancellationToken);
             }
             catch (Exception ex)
             {

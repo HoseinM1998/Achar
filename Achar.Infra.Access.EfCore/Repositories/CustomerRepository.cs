@@ -78,7 +78,9 @@ namespace Achar.Infra.Access.EfCore.Repositories
                 ProfileImageUrl = customer.ApplicationUser.ProfileImageUrl,
                 PhoneNumber = customer.ApplicationUser.PhoneNumber,
                 Gender = customer.Gender,
-                Namecity = customer.City.Title
+                Namecity = customer.City.Title,
+                ApplictaionUserId = customer.ApplicationUserId
+
             };
 
         }
@@ -107,18 +109,18 @@ namespace Achar.Infra.Access.EfCore.Repositories
 
         }
 
-        public async Task<bool> DeleteCustomer(SoftDeleteDto active, CancellationToken cancellationToken)
+        public async Task<bool> DeleteCustomer(int id, CancellationToken cancellationToken)
         {
-            var customer = await _context.Customers.FindAsync(active.Id, cancellationToken);
+            var customer = await _context.Customers.Include(x => x.ApplicationUser).FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
             if (customer is null) return false;
-            customer.ApplicationUser.IsDelete = active.IsDeleted;
+            customer.ApplicationUser.IsDelete = true;
             await _context.SaveChangesAsync(cancellationToken);
             return true;
         }
 
         public async Task<bool> UpdateBalance(int id, decimal balance, CancellationToken cancellationToken)
         {
-            var customer = await _context.Customers.FindAsync(id, cancellationToken);
+            var customer = await _context.Customers.Include(x => x.ApplicationUser).FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
             if (customer is null) return false;
             customer.ApplicationUser.Balance = balance;
             await _context.SaveChangesAsync(cancellationToken);

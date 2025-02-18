@@ -59,7 +59,6 @@
         <div class="help-block"></div>
     </div>
 
-    </div>
 
     <div class="form-group">
         <label asp-for="UpExpert.PhoneNumber" class="control-label"></label>
@@ -82,16 +81,16 @@
         <span asp-validation-for="UpExpert.NameCity" class="text-danger"></span>
     </div>
 
-    <div class="form-group">
-        <label asp-for="UpExpert.Skills" class="control-label"></label>
-        <select asp-for="UpExpert.Skills" class="form-control" multiple="multiple">
-            @foreach (var skill in Model.Skills)
+    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+        <label class="mb-1">مهارت ها</label>
+        <select asp-for="@Model.UpExpert.ServiceIds" class="js-example-basic-multiple form-control" multiple="multiple">
+            @foreach (var service in Model.Services)
             {
-                <option value="@skill.Id" selected="@Model.UpExpert?.Skills != null && Model.UpExpert.Skills.Any(s => s.Id == skill.Id)">@skill.Title</option>
+                <option value="@service.Id">@service.Title</option>
             }
         </select>
-        <span asp-validation-for="UpExpert.Skills" class="text-danger"></span>
     </div>
+
 
     <div class="form-group">
         <label asp-for="UpExpert.Balance" class="control-label"></label>
@@ -111,3 +110,17 @@
 
     <button type="submit" class="btn btn-primary">ذخیره</button>
 </form>
+
+    
+@section Scripts {
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.js-example-basic-multiple').select2({
+                placeholder: "انتخاب مهارت‌ها",
+                width: '100%'
+            });
+        });
+    </script>
+}

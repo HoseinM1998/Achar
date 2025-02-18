@@ -36,7 +36,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
 
         public async Task<bool> UpdateComment(CommentDto commentDto, CancellationToken cancellationToken)
         {
-            var comment = await _context.Comments.FindAsync(commentDto.Id, cancellationToken);
+            var comment = await _context.Comments.FirstOrDefaultAsync(x=>x.Id==commentDto.Id, cancellationToken);
             if (comment is null) return false;
             comment.Title = commentDto.Title;
             comment.Description = commentDto.Description;
@@ -105,7 +105,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
 
         public async Task<bool> AcceptComment(CommentAcceptDto commentAcceptDto, CancellationToken cancellationToken)
         {
-            var comment = await _context.Comments.FindAsync(commentAcceptDto.Id, cancellationToken);
+            var comment = await _context.Comments.FirstOrDefaultAsync(x=>x.Id==commentAcceptDto.Id, cancellationToken);
             if (comment is null) return false;
             comment.IsAccept = commentAcceptDto.IsAccept;
             await _context.SaveChangesAsync(cancellationToken);
@@ -114,7 +114,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
 
         public async Task<bool> DeleteComment(SoftDeleteDto active, CancellationToken cancellationToken)
         {
-            var comment = await _context.Comments.FindAsync(active.Id, cancellationToken);
+            var comment = await _context.Comments.FirstOrDefaultAsync(x=>x.Id==active.Id, cancellationToken);
             if (comment is null) return false;
             comment.IsDeleted = active.IsDeleted;
             await _context.SaveChangesAsync(cancellationToken);

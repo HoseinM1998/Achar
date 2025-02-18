@@ -79,7 +79,7 @@ namespace AcharDomainAppService
             }
         }
 
-        public async Task<bool> DeleteCustomer(SoftDeleteDto delete, CancellationToken cancellationToken)
+        public async Task<bool> DeleteCustomer(int delete, CancellationToken cancellationToken)
         {
             try
             {

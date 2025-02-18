@@ -45,15 +45,17 @@ namespace Achar.Endpoint.Razor.Areas.Admin.Pages.Users
         }
 
         public async Task<IActionResult> OnPostDeleteAsync(SoftDeleteDto delete, string userType, CancellationToken cancellationToken)
+
         {
+
             if (string.IsNullOrEmpty(userType))
             {
                 return BadRequest("نوع کاربر مشخص نشده است");
             }
-
+           
             if (userType == "Admin")
             {
-                var admin = await _adminAppService.DeleteAdmin(delete, cancellationToken);
+                var admin = await _adminAppService.DeleteAdmin(delete.Id, cancellationToken);
                 if (admin == null)
                 {
                     return NotFound();
@@ -61,7 +63,7 @@ namespace Achar.Endpoint.Razor.Areas.Admin.Pages.Users
             }
             else if (userType == "Customer")
             {
-                var customer = await _customerAppService.DeleteCustomer(delete, cancellationToken);
+                var customer = await _customerAppService.DeleteCustomer(delete.Id, cancellationToken);
                 if (customer == null)
                 {
                     return NotFound();
@@ -69,7 +71,7 @@ namespace Achar.Endpoint.Razor.Areas.Admin.Pages.Users
             }
             else if (userType == "Expert")
             {
-                var expert = await _expertAppService.DeleteExpert(delete, cancellationToken);
+                var expert = await _expertAppService.DeleteExpert(delete.Id, cancellationToken);
                 if (expert == null)
                 {
                     return NotFound();
@@ -80,7 +82,8 @@ namespace Achar.Endpoint.Razor.Areas.Admin.Pages.Users
                 return BadRequest("نوع کاربر نامعتبر است");
             }
 
-            return RedirectToPage();
+            return RedirectToPage("Index");
+
         }
     }
 }

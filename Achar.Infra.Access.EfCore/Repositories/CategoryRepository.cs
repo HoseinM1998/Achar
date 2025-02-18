@@ -39,7 +39,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
 
         public async Task<bool> UpdateCategory(CategoryDto categoryDto, CancellationToken cancellationToken)
         {
-            var category = await _context.Categories.FindAsync(categoryDto.Id, cancellationToken);
+            var category = await _context.Categories.FirstOrDefaultAsync(x=>x.Id==categoryDto.Id, cancellationToken);
             if (category is null) return false;
             category.Title = categoryDto.Title;
             category.Image = categoryDto.Image;
@@ -76,7 +76,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
 
         public async Task<bool> DeleteCategory(SoftDeleteDto active, CancellationToken cancellationToken)
         {
-            var category = await _context.Categories.FindAsync(active.Id, cancellationToken);
+            var category = await _context.Categories.FirstOrDefaultAsync(x=>x.Id==active.Id, cancellationToken);
             if (category is null) return false;
             category.IsDeleted = active.IsDeleted;
             await _context.SaveChangesAsync(cancellationToken);

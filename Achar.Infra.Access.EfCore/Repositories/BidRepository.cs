@@ -31,7 +31,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
 
         public async Task<bool> UpdateBid(BidUpdateDto updatebid, CancellationToken cancellationToken)
         {
-            var updateBid = await _context.Bids.FindAsync(updatebid.Id, cancellationToken);
+            var updateBid = await _context.Bids.FirstOrDefaultAsync(x=>x.Id==updatebid.Id, cancellationToken);
             if (updateBid != null)
             {
                 updateBid.Description=updatebid.Description;
@@ -104,7 +104,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
 
         public async Task<bool> DeleteBid(SoftDeleteDto active, CancellationToken cancellationToken)
         {
-            var bid = await _context.Bids.FindAsync(active.Id, cancellationToken);
+            var bid = await _context.Bids.FirstOrDefaultAsync(x=>x.Id==active.Id, cancellationToken);
             if (bid is null) return false;
             bid.IsDeleted = active.IsDeleted;
             await _context.SaveChangesAsync(cancellationToken);
@@ -114,7 +114,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
 
         public async Task<bool> ChangebidStatus(BidStatusDto status, CancellationToken cancellationToken)
         {
-            var bid = await _context.Bids.FindAsync(status.Id, cancellationToken);
+            var bid = await _context.Bids.FirstOrDefaultAsync(x=>x.Id==status.Id, cancellationToken);
             if (bid is null) return false;
             bid.Status = status.Status;
             await _context.SaveChangesAsync(cancellationToken);

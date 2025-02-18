@@ -41,7 +41,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
 
         public async Task<bool> UpdateSubCategory(SubCategoryDto subCategoryDto, CancellationToken cancellationToken)
         {
-            var subCategory = await _context.SubCategory.FindAsync(subCategoryDto.Id, cancellationToken);
+            var subCategory = await _context.SubCategory.FirstOrDefaultAsync(x=>x.Id==subCategoryDto.Id, cancellationToken);
             if (subCategory is null) return false;
             subCategory.Title = subCategoryDto.Title;
             subCategory.Image = subCategoryDto.Image;
@@ -73,7 +73,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
 
         public async Task<bool> DeleteCategory(SoftDeleteDto active, CancellationToken cancellationToken)
         {
-            var subCategory = await _context.SubCategory.FindAsync(active.Id, cancellationToken);
+            var subCategory = await _context.SubCategory.FirstOrDefaultAsync(x=>x.Id==active.Id, cancellationToken);
             if (subCategory is null) return false;
             subCategory.IsDeleted = active.IsDeleted;
             await _context.SaveChangesAsync(cancellationToken);

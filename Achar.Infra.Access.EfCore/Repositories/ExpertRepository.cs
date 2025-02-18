@@ -35,6 +35,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
             {
                 return false;
             }
+
             existingExpert.Gender = expert.Gender;
             existingExpert.CityId = expert.CityId;
             existingExpert.ApplicationUser.UserName = expert.UserName;
@@ -44,18 +45,32 @@ namespace Achar.Infra.Access.EfCore.Repositories
             existingExpert.ApplicationUser.ProfileImageUrl = expert.ProfileImageUrl;
             existingExpert.ApplicationUser.FirstName = expert.FirstName;
             existingExpert.ApplicationUser.LastName = expert.LastName;
-            foreach (var skill in expert.Skills)
+
+            if (existingExpert.Skills == null)
             {
-                var existingSkill = await _context.HomeServices.FindAsync(skill.Id, cancellationToken);
-                if (existingSkill != null)
+                existingExpert.Skills = new List<AcharDomainCore.Entites.HomeService>();
+            }
+
+            existingExpert.Skills.Clear();
+
+            if (expert.ServiceIds != null)
+            {
+                foreach (var serviceId in expert.ServiceIds)
                 {
-                    existingExpert.Skills.Add(existingSkill);
+                    var service = await _context.HomeServices
+                        .FirstOrDefaultAsync(x => x.Id == serviceId, cancellationToken);
+
+                    if (service != null)
+                    {
+                        existingExpert.Skills.Add(service);
+                    }
                 }
             }
+
             await _context.SaveChangesAsync(cancellationToken);
             return true;
         }
-        
+
 
         public async Task<int> ExpertCount(CancellationToken cancellationToken)
         {
@@ -123,18 +138,18 @@ namespace Achar.Infra.Access.EfCore.Repositories
 
         }
 
-        public async Task<bool> DeleteExpert(SoftDeleteDto active, CancellationToken cancellationToken)
+        public async Task<bool> DeleteExpert(int id, CancellationToken cancellationToken)
         {
-            var expert = await _context.Experts.FindAsync(active.Id, cancellationToken);
+            var expert = await _context.Experts.Include(x=>x.ApplicationUser).FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
             if (expert is null) return false;
-            expert.ApplicationUser.IsDelete = active.IsDeleted;
+            expert.ApplicationUser.IsDelete = true;
             await _context.SaveChangesAsync(cancellationToken);
             return true;
         }
 
         public async Task<bool> IActiveExpert(SoftActiveDto activeDto, CancellationToken cancellationToken)
         {
-            var expert = await _context.Experts.FindAsync(activeDto.Id, cancellationToken);
+            var expert = await _context.Experts.Include(x => x.ApplicationUser).FirstOrDefaultAsync(x => x.Id == activeDto.Id, cancellationToken);
             if (expert is null) return false;
             expert.IsActive = activeDto.IsActive;
             await _context.SaveChangesAsync(cancellationToken);
@@ -170,7 +185,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
 
         public async Task<bool> UpdateBalance(int id, decimal balance, CancellationToken cancellationToken)
         {
-            var expert = await _context.Experts.FindAsync(id, cancellationToken);
+            var expert = await _context.Experts.Include(x => x.ApplicationUser).FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
             if (expert is null) return false;
             expert.ApplicationUser.Balance = balance;
             await _context.SaveChangesAsync(cancellationToken);

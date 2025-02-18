@@ -39,8 +39,8 @@ namespace AcharDomainService
             => await _repository.UpdateAdmin(admin, cancellationToken);
 
 
-        public async Task<bool> DeleteAdmin(SoftDeleteDto delete, CancellationToken cancellationToken)
-            => await _repository.DeleteAdmin(delete, cancellationToken);
+        public async Task<bool> DeleteAdmin(int id, CancellationToken cancellationToken)
+            => await _repository.DeleteAdmin(id, cancellationToken);
 
 
         public async Task<bool> UpdateBalance(int id, decimal balance, CancellationToken cancellationToken)

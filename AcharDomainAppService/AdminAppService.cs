@@ -79,11 +79,11 @@ namespace AcharDomainAppService
             }
         }
 
-        public async Task<bool> DeleteAdmin(SoftDeleteDto delete, CancellationToken cancellationToken)
+        public async Task<bool> DeleteAdmin(int id, CancellationToken cancellationToken)
         {
             try
             {
-                return await _service.DeleteAdmin(delete,cancellationToken);
+                return await _service.DeleteAdmin(id,cancellationToken);
             }
             catch (Exception ex)
             {

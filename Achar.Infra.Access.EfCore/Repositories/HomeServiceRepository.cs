@@ -68,15 +68,13 @@ namespace Achar.Infra.Access.EfCore.Repositories
         public async Task<List<AcharDomainCore.Entites.HomeService>> GetHomeServices(CancellationToken cancellationToken)
         {
             return await _context.HomeServices
-                .Include(x=>x.SubCategory)
-                .ThenInclude(x=>x.HomeServices)
                 .AsNoTracking().ToListAsync(cancellationToken);
 
         }
 
         public async Task<bool> DeleteHomeService(SoftDeleteDto active, CancellationToken cancellationToken)
         {
-            var homeService = await _context.HomeServices.FindAsync(active.Id, cancellationToken);
+            var homeService = await _context.HomeServices.FirstOrDefaultAsync(x=>x.Id==active.Id, cancellationToken);
             if (homeService is null) return false;
             homeService.IsDeleted = active.IsDeleted;
             await _context.SaveChangesAsync(cancellationToken);

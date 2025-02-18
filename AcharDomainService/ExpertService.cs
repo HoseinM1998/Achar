@@ -38,8 +38,8 @@ namespace AcharDomainService
             => await _repository.GetExperts( cancellationToken);
 
 
-        public async Task<bool> DeleteExpert(SoftDeleteDto delete, CancellationToken cancellationToken)
-            => await _repository.DeleteExpert(delete, cancellationToken);
+        public async Task<bool> DeleteExpert(int id, CancellationToken cancellationToken)
+            => await _repository.DeleteExpert(id, cancellationToken);
 
 
         public async Task<bool> IActiveExpert(SoftActiveDto activeDto, CancellationToken cancellationToken)

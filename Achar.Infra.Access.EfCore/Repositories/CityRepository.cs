@@ -38,7 +38,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
 
         public async Task<bool> UpdateCity(CityDto cityDto, CancellationToken cancellationToken)
         {
-            var city = await _context.Cities.FindAsync(cityDto.Id, cancellationToken);
+            var city = await _context.Cities.FirstOrDefaultAsync(x=>x.Id==cityDto.Id, cancellationToken);
             if (city is null) return false;
             city.Title = cityDto.Title;
             await _context.SaveChangesAsync(cancellationToken);
@@ -58,7 +58,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
 
         public async Task<bool> DeleteCity(SoftDeleteDto active, CancellationToken cancellationToken)
         {
-            var city = await _context.Cities.FindAsync(active.Id, cancellationToken);
+            var city = await _context.Cities.FirstOrDefaultAsync(x=>x.Id==active.Id, cancellationToken);
             if (city is null) return false;
             city.IsDeleted = active.IsDeleted;
             await _context.SaveChangesAsync(cancellationToken);
