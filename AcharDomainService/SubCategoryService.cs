@@ -34,7 +34,7 @@ namespace AcharDomainService
             => await _repository.GetSubCategoryById(id, cancellationToken);
 
 
-        public async Task<List<SubCategory>> GetAllSubCategory(CancellationToken cancellationToken)
+        public async Task<List<SubCategoryDto>> GetAllSubCategory(CancellationToken cancellationToken)
             => await _repository.GetAllSubCategory(cancellationToken);
 
 

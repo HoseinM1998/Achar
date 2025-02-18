@@ -103,7 +103,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
                     NameCity = e.City.Title,
                     Balance = e.ApplicationUser.Balance
 
-                })
+                }).AsNoTracking()
                 .ToListAsync(cancellationToken);
             return customer;
 

@@ -63,12 +63,20 @@ namespace Achar.Infra.Access.EfCore.Repositories
 
         }
 
-        public async Task<List<SubCategory>> GetAllSubCategory(CancellationToken cancellationToken)
+        public async Task<List<SubCategoryDto>> GetAllSubCategory(CancellationToken cancellationToken)
         {
             return await _context.SubCategory
-                .Include(x=>x.HomeServices)
-                .AsNoTracking().ToListAsync(cancellationToken);
-
+   
+                .Select(e => new SubCategoryDto()
+                {
+                    Id = e.Id,
+                    Title = e.Title,
+                    Image = e.Image,
+                    CategoryId = e.CategoryId,
+                    CategoryName = e.Category.Title,
+                    CreateAt = e.CreateAt
+                }).AsNoTracking()
+                .ToListAsync(cancellationToken);
         }
 
         public async Task<bool> DeleteCategory(SoftDeleteDto active, CancellationToken cancellationToken)

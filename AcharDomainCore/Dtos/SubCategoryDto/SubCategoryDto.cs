@@ -11,9 +11,11 @@ namespace AcharDomainCore.Dtos.SubCategoryDto
     {
         public int Id { get; set; }
         [Display(Name = "عنوان")]
-        [Required(ErrorMessage = "وارد کردن عنوان اجباری است")]
         public string Title { get; set; }
         public string? Image { get; set; }
+        [Required(ErrorMessage = "لطفاً دسته‌بندی را انتخاب کنید.")]
         public int CategoryId { get; set; }
+        public string CategoryName { get; set; }
+        public DateTime CreateAt { get; set; }
     }
 }

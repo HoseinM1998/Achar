@@ -35,7 +35,7 @@
                     <!-- City Selection (This will be hidden for Admin role) -->
                     <div class="form-group mb-4" id="citySelection">
                         <label for="CityId" class="fw-semibold">انتخاب شهر محل سکونت</label>
-                        <select class="form-select" asp-for="@Model.User.CityId" id="CityId">
+                        <select class="form-select" asp-for="@Model.User.CityId" id="CityId" required>
                             @foreach (var item in Model.Cities)
                             {
                                 <option value="@item.Id">@item.Title</option>

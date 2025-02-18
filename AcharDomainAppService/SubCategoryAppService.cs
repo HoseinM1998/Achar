@@ -68,7 +68,7 @@ namespace AcharDomainAppService
             }
         }
 
-        public async Task<List<SubCategory>> GetAllSubCategory(CancellationToken cancellationToken)
+        public async Task<List<SubCategoryDto>> GetAllSubCategory(CancellationToken cancellationToken)
         {
             try
             {
