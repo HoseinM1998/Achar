@@ -11,7 +11,7 @@ namespace AcharDomainCore.Contracts.Customer
     public interface ICustomerRepository
     {
         Task<int> CreateCustomer(Entites.Customer customer, CancellationToken cancellationToken);
-        Task<bool> UpdateCustomer(CustomerDto customer, CancellationToken cancellationToken);
+        Task<bool> UpdateCustomer(CustomerProfDto customer, CancellationToken cancellationToken);
         Task<int> CoustomerCount(CancellationToken cancellationToken);
         Task<decimal> GetBalanceCustomerById(int CustomerId, CancellationToken cancellationToken);
         Task<CustomerProfDto> GetCustomerById(int id, CancellationToken cancellationToken);

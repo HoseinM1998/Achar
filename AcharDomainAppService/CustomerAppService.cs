@@ -19,7 +19,7 @@ namespace AcharDomainAppService
             _service = service;
         }
 
-        public async Task<bool> UpdateCustomer(CustomerDto customer, CancellationToken cancellationToken)
+        public async Task<bool> UpdateCustomer(CustomerProfDto customer, CancellationToken cancellationToken)
         {
             try
             {

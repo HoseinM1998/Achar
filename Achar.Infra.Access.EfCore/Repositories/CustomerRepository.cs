@@ -28,7 +28,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
             return customer.Id;
         }
 
-        public async Task<bool> UpdateCustomer(CustomerDto customer, CancellationToken cancellationToken)
+        public async Task<bool> UpdateCustomer(CustomerProfDto customer, CancellationToken cancellationToken)
         {
             var customr = await _context.Customers.Include(c => c.ApplicationUser) 
                 .FirstOrDefaultAsync(x => x.Id == customer.Id, cancellationToken);

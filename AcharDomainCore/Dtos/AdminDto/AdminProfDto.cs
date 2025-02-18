@@ -21,6 +21,7 @@ namespace AcharDomainCore.Dtos.AdminDto
         public string? ProfileImageUrl { get; set; }
         [DisplayName("شماره تلفن")]
         public string? PhoneNumber { get; set; }
+        public decimal Balance { get; set; }
 
     }
 }

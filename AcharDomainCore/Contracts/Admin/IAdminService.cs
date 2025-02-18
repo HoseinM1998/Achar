@@ -11,10 +11,10 @@ namespace AcharDomainCore.Contracts.Admin
     public interface IAdminService
     {
         Task<int> AdminCount(CancellationToken cancellationToken);
-        Task<Entites.Admin> GetAdminById(int adminID, CancellationToken cancellationToken);
+        Task<AdminProfDto> GetAdminById(int adminID, CancellationToken cancellationToken);
         Task<decimal> GetBalanceAdminById(int adminID, CancellationToken cancellationToken);
         Task<List<Entites.Admin>> GetAllAmin(CancellationToken cancellationToken);
-        Task<bool> UpdateAdmin(AdminDto admin, CancellationToken cancellationToken);
+        Task<bool> UpdateAdmin(AdminProfDto admin, CancellationToken cancellationToken);
         Task<bool> DeleteAdmin(SoftDeleteDto delete, CancellationToken cancellationToken);
         Task<bool> UpdateBalance(int id, decimal balance, CancellationToken cancellationToken);
     }

@@ -16,6 +16,7 @@ namespace AcharDomainCore.Dtos.ExpertDto
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public string UserName { get; set; }
+        public string? Street { get; set; }
         public string? Email { get; set; }
         [DisplayName(" عکس پروفایل")]
         public string? ProfileImageUrl { get; set; }
@@ -29,6 +30,7 @@ namespace AcharDomainCore.Dtos.ExpertDto
         public List<Entites.HomeService>? Skills { get; set; }
         public bool IsActive { get; set; }
         public decimal Balance { get; set; }
+        public int CityId { get; set; }
 
 
     }

@@ -10,7 +10,7 @@ namespace AcharDomainCore.Contracts.Customer
 {
     public interface ICustomerAppService
     {
-        Task<bool> UpdateCustomer(CustomerDto customer, CancellationToken cancellationToken);
+        Task<bool> UpdateCustomer(CustomerProfDto customer, CancellationToken cancellationToken);
         Task<int> CoustomerCount(CancellationToken cancellationToken);
         Task<decimal> GetBalanceCustomerById(int CustomerId, CancellationToken cancellationToken);
         Task<CustomerProfDto> GetCustomerById(int id, CancellationToken cancellationToken);

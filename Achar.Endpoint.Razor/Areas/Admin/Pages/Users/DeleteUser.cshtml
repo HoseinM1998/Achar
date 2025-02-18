@@ -1,0 +1,28 @@
+﻿@page "{id}"
+@model Achar.Endpoint.Razor.Areas.Admin.Pages.Users.DeleteUserModel
+
+@{
+    ViewData["Title"] = "حذف کاربر";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="alert alert-warning">
+    <strong>اخطار:</strong> قبل از حذف کاربر، لطفاً مطمئن شوید که قصد حذف این کاربر را دارید.
+</div>
+
+@{
+    ViewData["Title"] = "حذف تسک";
+}
+
+<h3>حذف تسک</h3>
+
+<div>
+    <h4>آیا از حذف این تسک اطمینان دارید؟</h4>
+    <form method="post" asp-page="/Users/DeleteUser" asp-route-id="@Request.Query["id"]">
+        <button type="submit" class="btn btn-danger btn-sm">حذف</button>
+        <a href="@Url.Page("/Account/Users/Index")" class="btn btn-secondary btn-sm">بازگشت</a>
+    </form>
+
+
+</div>

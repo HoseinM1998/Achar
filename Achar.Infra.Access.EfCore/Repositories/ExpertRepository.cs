@@ -24,7 +24,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
             return expert.Id;
         }
 
-        public async Task<bool> UpdateExpert(ExpertDto expert, CancellationToken cancellationToken)
+        public async Task<bool> UpdateExpert(ExpertProfDto expert, CancellationToken cancellationToken)
         {
             var existingExpert = await _context.Experts
                 .Include(e => e.ApplicationUser)

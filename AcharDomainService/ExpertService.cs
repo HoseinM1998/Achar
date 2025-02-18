@@ -19,7 +19,7 @@ namespace AcharDomainService
             _repository = repository;
         }
 
-        public async Task<bool> UpdateExpert(ExpertDto expert, CancellationToken cancellationToken)
+        public async Task<bool> UpdateExpert(ExpertProfDto expert, CancellationToken cancellationToken)
             => await _repository.UpdateExpert(expert, cancellationToken);
 
         public async Task<int> ExpertCount(CancellationToken cancellationToken)

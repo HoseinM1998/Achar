@@ -16,14 +16,21 @@
             <div class="top-buttons-box mb-2">
                 <a class="btn btn-success" asp-page="Create">
                     <i class="icon-plus"></i>
-                    افزودن
+                    افزودن کاربر
+                    <div class="paper-ripple">
+                        <div class="paper-ripple__background"></div>
+                        <div class="paper-ripple__waves"></div>
+                    </div>
+                </a>
+                <a class="btn btn-success" asp-page="CreateAdmin">
+                    <i class="icon-plus"></i>
+                    افزودن مدیر
                     <div class="paper-ripple">
                         <div class="paper-ripple__background"></div>
                         <div class="paper-ripple__waves"></div>
                     </div>
                 </a>
             </div>
-
 
             <div class="row mb-4">
                 <h4>مدیرها</h4>
@@ -57,8 +64,8 @@
                                     <td>@admin.ApplicationUser.Email</td>
                                     <td>@admin.ApplicationUser.Balance</td>
                                     <td>
-                                        <a asp-page="Update" asp-route-Id="@admin.Id" class="btn btn-info">ویرایش</a>
-                                        <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" onclick="setDeleteLink('@admin.Id')">حذف</a>
+                                        <a asp-page="AdminUp" asp-route-id="@admin.Id"  class="btn btn-info">ویرایش</a>
+                                        <a asp-page="DeleteUser" asp-route-id="@admin.Id" asp-route-userType="Admin" class="btn btn-danger">حذف</a>
                                     </td>
                                 </tr>
                             }
@@ -101,8 +108,8 @@
                                     <td>@customer.NameCity</td>
                                     <td>@customer.Balance</td>
                                     <td>
-                                        <a asp-page="Update" asp-route-Id="@customer.Id" class="btn btn-info">ویرایش</a>
-                                        <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" onclick="setDeleteLink('@customer.Id')">حذف</a>
+                                        <a asp-page="CustomerUp" asp-route-id="@customer.Id"  class="btn btn-info">ویرایش</a>
+                                        <a asp-page="DeleteUser" asp-route-id="@customer.Id" asp-route-userType="Customer" class="btn btn-danger">حذف</a>
                                     </td>
                                 </tr>
                             }
@@ -147,8 +154,8 @@
                                     <td>@(expert.IsActive ? "فعال" : "غیرفعال")</td>
                                     <td>@expert.Balance</td>
                                     <td>
-                                        <a href="@Url.Page("Edit", new { id = expert.Id })" class="btn btn-info">ویرایش</a>
-                                        <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" onclick="setDeleteLink('@expert.Id')">حذف</a>
+                                        <a asp-page="ExpertUp" asp-route-id="@expert.Id"  class="btn btn-info">ویرایش</a>
+                                        <a asp-page="DeleteUser" asp-route-id="@expert.Id" asp-route-userType="Expert" class="btn btn-danger">حذف</a>
                                         <button type="button" class="btn @(expert.IsActive ? "btn-warning" : "btn-success")" data-toggle="modal" data-target="#activeModal" data-id="@expert.Id" data-isactive="@(expert.IsActive)">
                                             @(expert.IsActive ? "غیرفعال کردن" : "فعال کردن")
                                         </button>
@@ -167,11 +174,4 @@
 {
     <script src="~/AdminTemplate/plugins/data-table/js/jquery.dataTables.min.js"></script>
     <script src="~/AdminTemplate/js/pages/datatable.js"></script>
-
-    <script>
-        function setDeleteLink(userId) {
-            var deleteUrl = '@Url.Page("Delete", new { id = "__id__" })'.replace('__id__', userId);
-            document.getElementById('deleteConfirmBtn').href = deleteUrl;
-        }
-    </script>
 }

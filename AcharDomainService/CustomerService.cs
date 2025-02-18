@@ -19,7 +19,7 @@ namespace AcharDomainService
             _repository = repository;
         }
 
-        public async Task<bool> UpdateCustomer(CustomerDto customer, CancellationToken cancellationToken)
+        public async Task<bool> UpdateCustomer(CustomerProfDto customer, CancellationToken cancellationToken)
             => await _repository.UpdateCustomer(customer, cancellationToken);
 
         

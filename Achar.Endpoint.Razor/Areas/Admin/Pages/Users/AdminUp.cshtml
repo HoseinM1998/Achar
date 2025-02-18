@@ -1,0 +1,73 @@
+﻿@page
+@model Achar.Endpoint.Razor.Areas.Admin.Pages.Users.AdminUpModel
+@{
+    ViewData["Title"] = "‌ صفحه بروز رسانی کاربران آچار ";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form method="post" enctype="multipart/form-data" asp-page-handler="Update">
+    <h3>به‌روزرسانی اطلاعات ادمین</h3>
+    <input type="hidden" asp-for="UpAdmin.Id" />
+
+    <div class="form-group">
+        <label asp-for="UpAdmin.FirstName" class="control-label"></label>
+        <input asp-for="UpAdmin.FirstName" class="form-control" value="@Model.UpAdmin?.FirstName" />
+        <span asp-validation-for="UpAdmin.FirstName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="UpAdmin.LastName" class="control-label"></label>
+        <input asp-for="UpAdmin.LastName" class="form-control" value="@Model.UpAdmin?.LastName" />
+        <span asp-validation-for="UpAdmin.LastName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="UpAdmin.UserName" class="control-label"></label>
+        <input asp-for="UpAdmin.UserName" class="form-control" value="@Model.UpAdmin?.UserName" />
+        <span asp-validation-for="UpAdmin.UserName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="UpAdmin.Email" class="control-label"></label>
+        <input asp-for="UpAdmin.Email" class="form-control" value="@Model.UpAdmin?.Email" />
+        <span asp-validation-for="UpAdmin.Email" class="text-danger"></span>
+    </div>
+
+    <div class="form-group relative">
+        <input asp-for="UpAdmin.ProfileImageUrl" type="file" class="form-control" />
+        <label>آپلود عکس</label>
+        <div class="input-group round">
+            <input type="text" class="form-control file-input" placeholder="برای آپلود کلیک کنید" />
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-success">
+                    <i class="icon-picture"></i>
+                    آپلود عکس
+                    <div class="paper-ripple">
+                        <div class="paper-ripple__background"></div>
+                        <div class="paper-ripple__waves"></div>
+                    </div>
+                </button>
+            </span>
+        </div>
+        <div class="help-block"></div>
+        @if (Model.UpAdmin?.ProfileImageUrl != null)
+        {
+            <img src="@Model.UpAdmin.ProfileImageUrl" alt="Profile Image" style="max-width: 150px; margin-top: 10px;" />
+        }
+    </div>
+
+    <div class="form-group">
+        <label asp-for="UpAdmin.PhoneNumber" class="control-label"></label>
+        <input asp-for="UpAdmin.PhoneNumber" class="form-control" value="@Model.UpAdmin?.PhoneNumber" />
+        <span asp-validation-for="UpAdmin.PhoneNumber" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="UpAdmin.Balance" class="control-label"></label>
+        <input asp-for="UpAdmin.Balance" class="form-control" value="@Model.UpAdmin?.Balance" />
+        <span asp-validation-for="UpAdmin.Balance" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">ذخیره</button>
+</form>

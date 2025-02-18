@@ -17,6 +17,8 @@ namespace AcharDomainCore.Dtos.CustomerDto
         public string? LastName { get; set; }
         public string UserName { get; set; }
         public string? Email { get; set; }
+        public string? Street { get; set; }
+
         [DisplayName(" عکس پروفایل")]
         public string? ProfileImageUrl { get; set; }
         [DisplayName("شماره تلفن")]
@@ -26,6 +28,8 @@ namespace AcharDomainCore.Dtos.CustomerDto
         public GenderEnum? Gender { get; set; }
         [DisplayName(" شهر")]
         public string Namecity { get; set; }
+        public decimal Balance { get; set; }
+        public int CityId { get; set; }
 
     }
 }

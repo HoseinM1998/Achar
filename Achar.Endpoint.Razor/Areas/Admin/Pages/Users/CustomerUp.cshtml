@@ -1,0 +1,99 @@
+﻿@page
+@model Achar.Endpoint.Razor.Areas.Admin.Pages.Users.CustomerUpModel
+@{
+    ViewData["Title"] = " صفحه بروز رسانی کاربران آچار ";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form method="post" enctype="multipart/form-data" asp-page-handler="Update">
+    <h3>به‌روزرسانی اطلاعات مشتری</h3>
+    <input type="hidden" asp-for="UpCustomer.Id" />
+
+    <div class="form-group">
+        <label asp-for="UpCustomer.FirstName" class="control-label"></label>
+        <input asp-for="UpCustomer.FirstName" class="form-control" value="@Model.UpCustomer?.FirstName" />
+        <span asp-validation-for="UpCustomer.FirstName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="UpCustomer.LastName" class="control-label"></label>
+        <input asp-for="UpCustomer.LastName" class="form-control" value="@Model.UpCustomer?.LastName" />
+        <span asp-validation-for="UpCustomer.LastName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="UpCustomer.UserName" class="control-label"></label>
+        <input asp-for="UpCustomer.UserName" class="form-control" value="@Model.UpCustomer?.UserName" />
+        <span asp-validation-for="UpCustomer.UserName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="UpCustomer.Email" class="control-label"></label>
+        <input asp-for="UpCustomer.Email" class="form-control" value="@Model.UpCustomer?.Email" />
+        <span asp-validation-for="UpCustomer.Email" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="UpCustomer.Street" class="control-label"></label>
+        <input asp-for="UpCustomer.Street" class="form-control" value="@Model.UpCustomer?.Street" />
+        <span asp-validation-for="UpCustomer.Street" class="text-danger"></span>
+    </div>
+
+    <div class="form-group relative">
+        <input asp-for="UpCustomer.ProfileImageUrl" type="file" class="form-control">
+        <label>آپلود عکس</label>
+        <div class="input-group round">
+            <input type="text" class="form-control file-input" placeholder="برای آپلود کلیک کنید">
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-success">
+                    <i class="icon-picture"></i>
+                    آپلود عکس
+                    <div class="paper-ripple">
+                        <div class="paper-ripple__background"></div>
+                        <div class="paper-ripple__waves"></div>
+                    </div>
+                </button>
+            </span>
+        </div><!-- /.input-group -->
+        <div class="help-block"></div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="UpCustomer.PhoneNumber" class="control-label"></label>
+        <input asp-for="UpCustomer.PhoneNumber" class="form-control" value="@Model.UpCustomer?.PhoneNumber" />
+        <span asp-validation-for="UpCustomer.PhoneNumber" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="UpCustomer.Gender" class="control-label"></label>
+        <select asp-for="UpCustomer.Gender" class="form-control">
+            <option value="0" selected="@Model.UpCustomer?.Gender == GenderEnum.Male">آقا</option>
+            <option value="1" selected="@Model.UpCustomer?.Gender == GenderEnum.Female">خانم</option>
+        </select>
+        <span asp-validation-for="UpCustomer.Gender" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="UpCustomer.Namecity" class="control-label"></label>
+        <input asp-for="UpCustomer.Namecity" class="form-control" value="@Model.UpCustomer?.Namecity" />
+        <span asp-validation-for="UpCustomer.Namecity" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="UpCustomer.Balance" class="control-label"></label>
+        <input asp-for="UpCustomer.Balance" class="form-control" value="@Model.UpCustomer?.Balance" />
+        <span asp-validation-for="UpCustomer.Balance" class="text-danger"></span>
+    </div>
+    <div class="form-group mb-4" id="citySelection">
+        <label for="CityId" class="fw-semibold">انتخاب شهر محل سکونت</label>
+        <select class="form-select" asp-for="UpCustomer.CityId" id="CityId">
+            @foreach (var item in Model.CityList)
+            {
+                <option value="@item.Id" selected="@Model.UpCustomer?.CityId == item.Id">@item.Title</option>
+            }
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">ذخیره</button>
+</form>

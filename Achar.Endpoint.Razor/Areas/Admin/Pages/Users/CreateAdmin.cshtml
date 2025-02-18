@@ -1,0 +1,50 @@
+﻿@page
+@model Achar.Endpoint.Razor.Areas.Admin.Pages.Users.CreateAdminModel
+@{
+}
+@{
+    ViewData["Title"] = "آچار > مدیریت کاربران > ایجاد مدیر";
+}
+
+<div class="col-lg-12">
+    <div class="portlet box shadow">
+        <div class="portlet-heading">
+            <div class="portlet-title">
+                <h3 class="title">
+                    ایجاد مدیر جدید
+                </h3>
+            </div><!-- /.portlet-title -->
+        </div><!-- /.portlet-heading -->
+        <div class="portlet-body">
+            <form enctype="multipart/form-data" id="simple-form" role="form" method="post">
+                <div class="form-body">
+                    <!-- UserName Field -->
+                    <div class="form-group mb-4">
+                        <label for="UserName" class="fw-semibold">نام کاربری</label>
+                        <div class="input-group">
+                            <input asp-for="User.UserName" class="form-control" type="text" placeholder="نام کاربری" id="UserName" />
+                        </div>
+                    </div>
+
+                    <!-- Password Field -->
+                    <div class="form-group mb-4">
+                        <label for="Password" class="fw-semibold">کلمه عبور</label>
+                        <div class="input-group">
+                            <input asp-for="User.Password" class="form-control" type="password" placeholder="کلمه عبور" id="Password" />
+                        </div>
+                    </div>
+                    <!-- Form Actions -->
+                    <div class="form-actions d-flex justify-content-between">
+                        <button type="submit" class="btn btn-success">
+                            <i class="icon-check"></i>
+                            ذخیره
+                        </button>
+                        <a asp-page="Index" class="btn btn-warning">
+                            بازگشت
+                        </a>
+                    </div>
+                </div><!-- /.form-body -->
+            </form>
+        </div><!-- /.portlet-body -->
+    </div><!-- /.portlet -->
+</div><!-- /.col-lg-12 -->

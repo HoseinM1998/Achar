@@ -1,0 +1,113 @@
+﻿@page
+@model Achar.Endpoint.Razor.Areas.Admin.Pages.Users.ExpertUpModel
+@{
+    ViewData["Title"] = " صفحه بروز رسانی کاربران آچار ";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form method="post" enctype="multipart/form-data" asp-page-handler="Update">
+    <h3>به‌روزرسانی اطلاعات کارشناس</h3>
+    <input type="hidden" asp-for="UpExpert.Id" />
+
+    <div class="form-group">
+        <label asp-for="UpExpert.FirstName" class="control-label"></label>
+        <input asp-for="UpExpert.FirstName" class="form-control" value="@Model.UpExpert?.FirstName" />
+        <span asp-validation-for="UpExpert.FirstName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="UpExpert.LastName" class="control-label"></label>
+        <input asp-for="UpExpert.LastName" class="form-control" value="@Model.UpExpert?.LastName" />
+        <span asp-validation-for="UpExpert.LastName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="UpExpert.UserName" class="control-label"></label>
+        <input asp-for="UpExpert.UserName" class="form-control" value="@Model.UpExpert?.UserName" />
+        <span asp-validation-for="UpExpert.UserName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="UpExpert.Street" class="control-label"></label>
+        <input asp-for="UpExpert.Street" class="form-control" value="@Model.UpExpert?.Street" />
+        <span asp-validation-for="UpExpert.Street" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="UpExpert.Email" class="control-label"></label>
+        <input asp-for="UpExpert.Email" class="form-control" value="@Model.UpExpert?.Email" />
+        <span asp-validation-for="UpExpert.Email" class="text-danger"></span>
+    </div>
+
+    <    <div class="form-group relative">
+        <input asp-for="UpExpert.ProfileImageUrl" type="file" class="form-control">
+        <label>آپلود عکس</label>
+        <div class="input-group round">
+            <input type="text" class="form-control file-input" placeholder="برای آپلود کلیک کنید">
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-success">
+                    <i class="icon-picture"></i>
+                    آپلود عکس
+                    <div class="paper-ripple">
+                        <div class="paper-ripple__background"></div>
+                        <div class="paper-ripple__waves"></div>
+                    </div>
+                </button>
+            </span>
+        </div><!-- /.input-group -->
+        <div class="help-block"></div>
+    </div>
+
+    </div>
+
+    <div class="form-group">
+        <label asp-for="UpExpert.PhoneNumber" class="control-label"></label>
+        <input asp-for="UpExpert.PhoneNumber" class="form-control" value="@Model.UpExpert?.PhoneNumber" />
+        <span asp-validation-for="UpExpert.PhoneNumber" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="UpExpert.Gender" class="control-label"></label>
+        <select asp-for="UpExpert.Gender" class="form-control">
+            <option value="0" selected="@Model.UpExpert?.Gender == GenderEnum.Male">آقا</option>
+            <option value="1" selected="@Model.UpExpert?.Gender == GenderEnum.Female">خانم</option>
+        </select>
+        <span asp-validation-for="UpExpert.Gender" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="UpExpert.NameCity" class="control-label"></label>
+        <input asp-for="UpExpert.NameCity" class="form-control" value="@Model.UpExpert?.NameCity" />
+        <span asp-validation-for="UpExpert.NameCity" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="UpExpert.Skills" class="control-label"></label>
+        <select asp-for="UpExpert.Skills" class="form-control" multiple="multiple">
+            @foreach (var skill in Model.Skills)
+            {
+                <option value="@skill.Id" selected="@Model.UpExpert?.Skills != null && Model.UpExpert.Skills.Any(s => s.Id == skill.Id)">@skill.Title</option>
+            }
+        </select>
+        <span asp-validation-for="UpExpert.Skills" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="UpExpert.Balance" class="control-label"></label>
+        <input asp-for="UpExpert.Balance" class="form-control" value="@Model.UpExpert?.Balance" />
+        <span asp-validation-for="UpExpert.Balance" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-4" id="citySelection">
+        <label for="CityId" class="fw-semibold">انتخاب شهر محل سکونت</label>
+        <select class="form-select" asp-for="UpExpert.CityId" id="CityId">
+            @foreach (var item in Model.Cities)
+            {
+                <option value="@item.Id" selected="@Model.UpExpert?.CityId == item.Id">@item.Title</option>
+            }
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">ذخیره</button>
+</form>

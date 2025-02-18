@@ -31,14 +31,28 @@ namespace AcharDomainAppService
             }
         }
 
-        public Task<Admin> GetAdminById(int adminID, CancellationToken cancellationToken)
+        public async Task<AdminProfDto> GetAdminById(int adminID, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await _service.GetAdminById(adminID,cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error GetAdminById: {ex.Message}");
+            }
         }
 
-        public Task<decimal> GetBalanceAdminById(int adminID, CancellationToken cancellationToken)
+        public async Task<decimal> GetBalanceAdminById(int adminID, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await _service.GetBalanceAdminById(adminID,cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error GetBalanceAdminById: {ex.Message}");
+            }
         }
 
         public async Task<List<Admin>> GetAllAmin(CancellationToken cancellationToken)
@@ -49,23 +63,44 @@ namespace AcharDomainAppService
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error CreateBid: {ex.Message}");
+                throw new Exception($"Error GetAllAmin: {ex.Message}");
             }
         }
 
-        public Task<bool> UpdateAdmin(AdminDto admin, CancellationToken cancellationToken)
+        public async Task<bool> UpdateAdmin(AdminProfDto admin, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await _service.UpdateAdmin(admin,cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error UpdateAdmin: {ex.Message}");
+            }
         }
 
-        public Task<bool> DeleteAdmin(SoftDeleteDto delete, CancellationToken cancellationToken)
+        public async Task<bool> DeleteAdmin(SoftDeleteDto delete, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await _service.DeleteAdmin(delete,cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error DeleteAdmin: {ex.Message}");
+            }
         }
 
-        public Task<bool> UpdateBalance(int id, decimal balance, CancellationToken cancellationToken)
+        public async Task<bool> UpdateBalance(int id, decimal balance, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await _service.UpdateBalance(id,balance,cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error UpdateBalance: {ex.Message}");
+            }
         }
     }
 }

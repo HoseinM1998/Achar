@@ -52,22 +52,7 @@ namespace Achar.Endpoint.Razor.Areas.Admin.Pages.Users
         }
 
 
-        public async Task<IActionResult> OnPostDeleteAsync(SoftDeleteDto delete, CancellationToken cancellationToken)
-        {
-
-
-            var admin = await _adminAppService.DeleteAdmin(delete, cancellationToken);
-            var customer = await _customerAppService.DeleteCustomer(delete, cancellationToken);
-            var expert = await _expertAppService.DeleteExpert(delete, cancellationToken);
-
-
-            if (admin == null && customer == null && expert == null)
-            {
-                return NotFound();
-            }
-            return RedirectToPage();
-        }
-
+  
 
         public async Task<IActionResult> ToggleActive(SoftActiveDto active, CancellationToken cancellationToken)
         {

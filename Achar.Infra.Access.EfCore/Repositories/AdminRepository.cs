@@ -34,9 +34,24 @@ namespace Achar.Infra.Access.EfCore.Repositories
             return await _context.Admins.AsNoTracking().CountAsync(cancellationToken);
         }
 
-        public async Task<Admin> GetAdminById(int adminID, CancellationToken cancellationToken)
+        public async Task<AdminProfDto> GetAdminById(int adminID, CancellationToken cancellationToken)
         {
-            return await _context.Admins.AsNoTracking().FirstOrDefaultAsync(p => p.Id == adminID, cancellationToken);
+            var admin = await _context.Admins
+                .Include(e => e.ApplicationUser)
+                .FirstOrDefaultAsync(e => e.Id == adminID, cancellationToken);
+
+            return new AdminProfDto()
+            {
+                Id = admin.Id,
+                FirstName = admin.ApplicationUser.FirstName,
+                LastName = admin.ApplicationUser.LastName,
+                UserName = admin.ApplicationUser.UserName,
+                Email = admin.ApplicationUser.Email,
+                ProfileImageUrl = admin.ApplicationUser.ProfileImageUrl,
+                PhoneNumber = admin.ApplicationUser.PhoneNumber,
+                Balance = admin.ApplicationUser.Balance,
+
+            };
         }
 
         public async Task<decimal> GetBalanceAdminById(int adminID, CancellationToken cancellationToken)
@@ -55,7 +70,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
             return await _context.Admins.Include(x=>x.ApplicationUser).AsNoTracking().ToListAsync(cancellationToken);
         }
 
-        public async Task<bool> UpdateAdmin(AdminDto admin, CancellationToken cancellationToken)
+        public async Task<bool> UpdateAdmin(AdminProfDto admin, CancellationToken cancellationToken)
         {
             var updateAdmin = await _context.Admins.FirstOrDefaultAsync(x=>x.Id== admin.Id, cancellationToken);
             if (updateAdmin != null)

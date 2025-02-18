@@ -19,7 +19,7 @@ namespace AcharDomainAppService
             _service = service;
         }
 
-        public async Task<bool> UpdateExpert(ExpertDto expert, CancellationToken cancellationToken)
+        public async Task<bool> UpdateExpert(ExpertProfDto expert, CancellationToken cancellationToken)
         {
             try
             {

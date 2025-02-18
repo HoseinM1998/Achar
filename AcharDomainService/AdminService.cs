@@ -23,7 +23,7 @@ namespace AcharDomainService
             => await _repository.AdminCount( cancellationToken);
 
 
-        public async Task<Admin> GetAdminById(int adminID, CancellationToken cancellationToken)
+        public async Task<AdminProfDto> GetAdminById(int adminID, CancellationToken cancellationToken)
             => await _repository.GetAdminById(adminID, cancellationToken);
 
 
@@ -35,7 +35,7 @@ namespace AcharDomainService
             => await _repository.GetAllAmin(cancellationToken);
 
 
-        public async Task<bool> UpdateAdmin(AdminDto admin, CancellationToken cancellationToken)
+        public async Task<bool> UpdateAdmin(AdminProfDto admin, CancellationToken cancellationToken)
             => await _repository.UpdateAdmin(admin, cancellationToken);
 
 
