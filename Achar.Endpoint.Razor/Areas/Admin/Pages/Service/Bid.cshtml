@@ -1,4 +1,110 @@
 ﻿@page
+@using System.ComponentModel.DataAnnotations
 @model Achar.Endpoint.Razor.Areas.Admin.Pages.Service.BidModel
 @{
+    ViewData["Title"] = "مدیریت پیشنهادها";
+    Layout = "_Layout";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="card shadow-lg border-0 p-4 rounded-4 mb-4">
+    <div class="text-center mb-4">
+        <h4 class="fw-bold text-primary">مدیریت پیشنهادها</h4>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>شناسه</th>
+                <th>توضیحات</th>
+                <th>قیمت پیشنهادی</th>
+                <th>تاریخ پیشنهادی</th>
+                <th>وضعیت</th>
+                <th>عملیات</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var bid in Model.Bids)
+            {
+                <tr>
+                    <td>@bid.Id</td>
+                    <td>@bid.Description</td>
+                    <td>@bid.BidPrice</td>
+                    <td>@bid.BidDate.ToShortDateString()</td>
+                    <td>@DisplayEnum(bid.Status)</td>
+                    <td>
+                        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#changeStatusModal-@bid.Id">
+                            تغییر وضعیت
+                        </button>
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteBidModal-@bid.Id">
+                            حذف
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@foreach (var bid in Model.Bids)
+{
+    <div class="modal fade" id="changeStatusModal-@bid.Id" tabindex="-1" aria-labelledby="changeStatusModalLabel-@bid.Id" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="changeStatusModalLabel-@bid.Id">تغییر وضعیت پیشنهاد</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" asp-page-handler="ChangeStatusBid">
+                        <input type="hidden" asp-for="Status.Id" value="@bid.Id" />
+                        <div class="mb-3">
+                            <label asp-for="Status.Status" class="form-label fw-semibold">وضعیت</label>
+                            <select class="form-control" asp-for="Status.Status">
+                                <option value="WaitingForCustomerConfirmation">درانتظار تایید مشتری</option>
+                                <option value="WaitingForExpert">درانتظار مراجعه متخصص</option>
+                                <option value="CancelledByCustomer">توسط مشتری کنسل شد</option>
+                                <option value="Rejected">ردشد</option>
+                                <option value="Success">با‌موفقیت انجام‌شد</option>
+                            </select>
+                            <span asp-validation-for="Status.Status" class="text-danger"></span>
+                        </div>
+                        <button type="submit" class="btn btn-success w-100 rounded-pill">ذخیره</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteBidModal-@bid.Id" tabindex="-1" aria-labelledby="deleteBidModalLabel-@bid.Id" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteBidModalLabel-@bid.Id">تأیید حذف</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    آیا مطمئن هستید که می‌خواهید این پیشنهاد را حذف کنید؟
+                </div>
+                <div class="modal-footer">
+                    <form method="post" asp-page-handler="DeleteBid" style="display:inline;">
+                        <input type="hidden" asp-for="Delete.Id" value="@bid.Id" />
+                        <button type="submit" class="btn btn-danger">حذف</button>
+                    </form>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">لغو</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@functions {
+    public string DisplayEnum(Enum enumValue)
+    {
+        var field = enumValue.GetType().GetField(enumValue.ToString());
+        var attribute = (DisplayAttribute)field.GetCustomAttributes(typeof(DisplayAttribute), false).FirstOrDefault();
+
+        return attribute?.GetName() ?? enumValue.ToString();
+    }
 }

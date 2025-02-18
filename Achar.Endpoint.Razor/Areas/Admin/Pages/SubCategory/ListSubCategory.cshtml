@@ -1,7 +1,7 @@
-﻿@@page
-@model Achar.Endpoint.Razor.Areas.Admin.Pages.HomeService.ListHomeServiceModel
+﻿@page
+@model Achar.Endpoint.Razor.Areas.Admin.Pages.SubCategory.ListSubCategoryModel
 @{
-    ViewData["Title"] = "مدیریت خدمات";
+    ViewData["Title"] = "مدیریت زیر دسته‌بندی‌ها";
     Layout = "_Layout";
 }
 
@@ -9,59 +9,38 @@
 
 <div class="card shadow-lg border-0 p-4 rounded-4 mb-4">
     <div class="text-center mb-4">
-        <h4 class="fw-bold text-primary">اضافه کردن خدمات جدید</h4>
+        <h4 class="fw-bold text-primary">اضافه کردن زیر دسته‌بندی جدید</h4>
     </div>
-
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createCategoryModal">
-        اضافه کردن خدمات جدید
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createSubCategoryModal">
+        اضافه کردن زیر دسته‌بندی جدید
     </button>
 
-    <div class="modal fade" id="createCategoryModal" tabindex="-1" aria-labelledby="createCategoryModalLabel" aria-hidden="true">
+    <div class="modal fade" id="createSubCategoryModal" tabindex="-1" aria-labelledby="createSubCategoryModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="createCategoryModalLabel">اضافه کردن خدمات جدید</h5>
+                    <h5 class="modal-title" id="createSubCategoryModalLabel">اضافه کردن زیر دسته‌بندی جدید</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form method="post" enctype="multipart/form-data" asp-page-handler="CreateService">
+                    <form method="post" enctype="multipart/form-data" asp-page-handler="CreateCategory">
                         <div class="mb-3">
-                            <label asp-for="NewHomeService.Title" class="form-label fw-semibold">عنوان</label>
-                            <input type="text" asp-for="NewHomeService.Title" class="form-control">
-                            <span asp-validation-for="NewHomeService.Title" class="text-danger"></span>
+                            <label asp-for="NewSubCategory.Title" class="form-label fw-semibold">عنوان</label>
+                            <input type="text" asp-for="NewSubCategory.Title" class="form-control">
+                            <span asp-validation-for="NewSubCategory.Title" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <label asp-for="NewHomeService.SubCategoryId" class="control-label"></label>
-                            <select asp-for="NewHomeService.SubCategoryId" class="form-control" asp-items="Model.SubCategories.Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Title })" required>
+                            <label asp-for="NewSubCategory.CategoryId" class="control-label"></label>
+                            <select asp-for="NewSubCategory.CategoryId" class="form-control" asp-items="Model.Categories.Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Title })" required>
                                 <option value="">-- انتخاب دسته‌بندی --</option>
                             </select>
-                            <span asp-validation-for="NewHomeService.SubCategoryId" class="text-danger"></span>
+                            <span asp-validation-for="NewSubCategory.CategoryId" class="text-danger"></span>
                         </div>
-
                         <div class="mb-3">
-                            <label asp-for="NewHomeService.ImageSrc" class="form-label fw-semibold">عکس</label>
-                            <input type="file" asp-for="NewHomeService.ImageSrc" class="form-control">
-                            <span asp-validation-for="NewHomeService.ImageSrc" class="text-danger"></span>
+                            <label asp-for="NewSubCategory.Image" class="form-label fw-semibold">عکس</label>
+                            <input type="file" asp-for="NewSubCategory.Image" class="form-control">
+                            <span asp-validation-for="NewSubCategory.Image" class="text-danger"></span>
                         </div>
-
-                        <div class="mb-3">
-                            <label asp-for="NewHomeService.BasePrice" class="form-label fw-semibold">قیمت پایه</label>
-                            <input type="number" asp-for="NewHomeService.BasePrice" class="form-control">
-                            <span asp-validation-for="NewHomeService.BasePrice" class="text-danger"></span>
-                        </div>
-
-                        <div class="mb-3">
-                            <label asp-for="NewHomeService.ShortDescription" class="form-label fw-semibold">توضیحات کوتاه</label>
-                            <textarea asp-for="NewHomeService.ShortDescription" class="form-control"></textarea>
-                            <span asp-validation-for="NewHomeService.ShortDescription" class="text-danger"></span>
-                        </div>
-
-                        <div class="mb-3">
-                            <label asp-for="NewHomeService.Description" class="form-label fw-semibold">توضیحات</label>
-                            <textarea asp-for="NewHomeService.Description" class="form-control"></textarea>
-                            <span asp-validation-for="NewHomeService.Description" class="text-danger"></span>
-                        </div>
-
                         <button type="submit" class="btn btn-success w-100 rounded-pill">اضافه کردن</button>
                     </form>
                 </div>
@@ -75,26 +54,24 @@
         <tr>
             <th>شناسه</th>
             <th>عنوان</th>
+            <th>دسته‌بندی</th>
             <th>عکس</th>
-            <th>قیمت پایه</th>
-            <th>توضیحات کوتاه</th>
-            <th>توضیحات</th>
             <th>تاریخ ایجاد</th>
-            <th>شناسه زیر دسته‌بندی</th>
             <th>عملیات</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var homeService in Model.HomeServices)
+        @foreach (var subCategory in Model.SubCategories)
         {
             <tr>
-                <td>@homeService.Id</td>
-                <td>@homeService.Title</td>
+                <td>@subCategory.Id</td>
+                <td>@subCategory.Title</td>
+                <td>@subCategory.CategoryName</td>
                 <td>
-                    @if (!string.IsNullOrEmpty(homeService.ImageSrc))
+                    @if (!string.IsNullOrEmpty(subCategory.Image))
                     {
                         <div class="image-background">
-                            <img src="@homeService.ImageSrc" alt="homeService Image" width="50" height="50" />
+                            <img src="@subCategory.Image" alt="SubCategory Image" width="50" height="50" />
                         </div>
                     }
                     else
@@ -102,17 +79,12 @@
                         <span>بدون عکس</span>
                     }
                 </td>
-                <td>@homeService.BasePrice</td>
-                <td>@homeService.ShortDescription</td>
-                <td>@homeService.Description</td>
-                <td>@homeService.CreateAt.ToString("yyyy-MM-dd")</td>
-                <td>@homeService.SubCategoryId</td>
-
+                <td>@subCategory.CreateAt.ToString("yyyy-MM-dd")</td>
                 <td>
-                    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#updateCategoryModal-@homeService.Id">
+                    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#updateSubCategoryModal-@subCategory.Id">
                         ویرایش
                     </button>
-                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteCategoryModal-@homeService.Id">
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteSubCategoryModal-@subCategory.Id">
                         حذف
                     </button>
                 </td>
@@ -121,57 +93,35 @@
     </tbody>
 </table>
 
-
-@foreach (var homeService in Model.HomeServices)
+@foreach (var subCategory in Model.SubCategories)
 {
-    <div class="modal fade" id="updateCategoryModal-@homeService.Id" tabindex="-1" aria-labelledby="updateCategoryModalLabel-@homeService.Id" aria-hidden="true">
+    <div class="modal fade" id="updateSubCategoryModal-@subCategory.Id" tabindex="-1" aria-labelledby="updateSubCategoryModalLabel-@subCategory.Id" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="updateCategoryModalLabel-@homeService.Id">ویرایش خدمات</h5>
+                    <h5 class="modal-title" id="updateSubCategoryModalLabel-@subCategory.Id">ویرایش زیر دسته‌بندی</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form method="post" enctype="multipart/form-data" asp-page-handler="UpService">
-                        <input type="hidden" asp-for="NewHomeService.Id" value="@homeService.Id" />
+                    <form method="post" enctype="multipart/form-data" asp-page-handler="UpCategory">
+                        <input type="hidden" asp-for="NewSubCategory.Id" value="@subCategory.Id" />
                         <div class="mb-3">
-                            <label asp-for="NewHomeService.Title" class="form-label fw-semibold">عنوان</label>
-                            <input type="text" asp-for="NewHomeService.Title" class="form-control" value="@homeService.Title">
-                            <span asp-validation-for="NewHomeService.Title" class="text-danger"></span>
+                            <label asp-for="NewSubCategory.Title" class="form-label fw-semibold">عنوان</label>
+                            <input type="text" asp-for="NewSubCategory.Title" class="form-control" value="@subCategory.Title">
+                            <span asp-validation-for="NewSubCategory.Title" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <label asp-for="NewHomeService.SubCategoryId" class="control-label"></label>
-                            <select asp-for="NewHomeService.SubCategoryId" class="form-control" asp-items="Model.SubCategories.Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Title })" required>
+                            <label asp-for="NewSubCategory.CategoryId" class="control-label"></label>
+                            <select asp-for="NewSubCategory.CategoryId" class="form-control" asp-items="Model.Categories.Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Title })" required>
                                 <option value="">-- انتخاب دسته‌بندی --</option>
                             </select>
-                            <span asp-validation-for="NewHomeService.SubCategoryId" class="text-danger"></span>
+                            <span asp-validation-for="NewSubCategory.CategoryId" class="text-danger"></span>
                         </div>
-
                         <div class="mb-3">
-                            <label asp-for="NewHomeService.ImageSrc" class="form-label fw-semibold">عکس</label>
-                            <input type="file" asp-for="NewHomeService.ImageSrc" class="form-control">
-                            <span asp-validation-for="NewHomeService.ImageSrc" class="text-danger"></span>
+                            <label asp-for="NewSubCategory.Image" class="form-label fw-semibold">عکس</label>
+                            <input type="file" asp-for="NewSubCategory.Image" class="form-control">
+                            <span asp-validation-for="NewSubCategory.Image" class="text-danger"></span>
                         </div>
-
-                        <!-- اضافه کردن فیلدهای جدید -->
-                        <div class="mb-3">
-                            <label asp-for="NewHomeService.BasePrice" class="form-label fw-semibold">قیمت پایه</label>
-                            <input type="number" asp-for="NewHomeService.BasePrice" class="form-control" value="@homeService.BasePrice">
-                            <span asp-validation-for="NewHomeService.BasePrice" class="text-danger"></span>
-                        </div>
-
-                        <div class="mb-3">
-                            <label asp-for="NewHomeService.ShortDescription" class="form-label fw-semibold">توضیحات کوتاه</label>
-                            <textarea asp-for="NewHomeService.ShortDescription" class="form-control">@homeService.ShortDescription</textarea>
-                            <span asp-validation-for="NewHomeService.ShortDescription" class="text-danger"></span>
-                        </div>
-
-                        <div class="mb-3">
-                            <label asp-for="NewHomeService.Description" class="form-label fw-semibold">توضیحات</label>
-                            <textarea asp-for="NewHomeService.Description" class="form-control">@homeService.Description</textarea>
-                            <span asp-validation-for="NewHomeService.Description" class="text-danger"></span>
-                        </div>
-
                         <button type="submit" class="btn btn-success w-100 rounded-pill">ذخیره</button>
                     </form>
                 </div>
@@ -179,19 +129,19 @@
         </div>
     </div>
 
-    <div class="modal fade" id="deleteCategoryModal-@homeService.Id" tabindex="-1" aria-labelledby="deleteCategoryModalLabel-@homeService.Id" aria-hidden="true">
+    <div class="modal fade" id="deleteSubCategoryModal-@subCategory.Id" tabindex="-1" aria-labelledby="deleteSubCategoryModalLabel-@subCategory.Id" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="deleteCategoryModalLabel-@homeService.Id">تأیید حذف</h5>
+                    <h5 class="modal-title" id="deleteSubCategoryModalLabel-@subCategory.Id">تأیید حذف</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    آیا مطمئن هستید که می‌خواهید این خدمات را حذف کنید؟
+                    آیا مطمئن هستید که می‌خواهید این زیر دسته‌بندی را حذف کنید؟
                 </div>
                 <div class="modal-footer">
-                    <form method="post" asp-page-handler="DeleteService" style="display:inline;">
-                        <input type="hidden" asp-for="Delete.Id" value="@homeService.Id" />
+                    <form method="post" asp-page-handler="DeleteCategory" style="display:inline;">
+                        <input type="hidden" asp-for="Delete.Id" value="@subCategory.Id" />
                         <button type="submit" class="btn btn-danger">حذف</button>
                     </form>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">لغو</button>
@@ -199,15 +149,6 @@
             </div>
         </div>
     </div>
-}
-
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-    <!-- بارگذاری کتابخانه‌های jQuery و Bootstrap -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 }
 
 <style>
@@ -228,9 +169,9 @@
         border: none;
     }
 
-        .btn-primary:hover {
-            background-color: #0056b3;
-        }
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
 
     .rounded-pill {
         border-radius: 50rem;
@@ -247,7 +188,3 @@
         border-radius: 5px;
     }
 </style>
-
-
-
-

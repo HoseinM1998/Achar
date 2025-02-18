@@ -3,33 +3,51 @@
         <ul class="metismenu" id="side-menu">
             <li class="open active conditional-bg">
                 <a href="#" class="dropdown-toggle">
-                    <i class="icon-home"></i>
+                    <i class="fas fa-wrench"></i>
                     <span>آچار</span>
                 </a>
                 <ul>
                     <a href="@Url.Content("~/Admin/Users/Index")" class="">
-                        <i class="icon-home"></i>
+                        <i class="fas fa-users"></i>
                         <span>کاربران</span>
                     </a>
                 </ul>
-                <li>
-                    <a href="@Url.Content(" Category/ListCategory")" class="">
-                        <i class="icon-home"></i>
-                        <span>دسته بندی ها </span>
-                    </a>
-                </li>
-                <li>
-                    <a href="@Url.Content(" SubCategory/ListSubCategory")" class="">
-                        <i class="icon-home"></i>
-                        <span>زیر دسته بندی ها </span>
-                    </a>
-                </li>
-                <li>
-                    <a href="@Url.Content(" HomeService/ListHomeService")" class="">
-                        <i class="icon-home"></i>
-                        <span>خدمات </span>
-                    </a>
-                </li>
+            <li>
+                <a href="@Url.Content("Category/ListCategory")" class="">
+                    <i class="fas fa-list"></i>
+                    <span>دسته بندی ها</span>
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Content("SubCategory/ListSubCategory")" class="">
+                    <i class="fas fa-list-alt"></i>
+                    <span>زیر دسته بندی ها</span>
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Content("HomeService/ListHomeService")" class="">
+                    <i class="fas fa-concierge-bell"></i>
+                    <span>خدمات</span>
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Content("Service/Request")" class="">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span>درخواست های مشتری</span>
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Content("Service/Bid")" class="">
+                    <i class="fas fa-gavel"></i>
+                    <span>پیشنهاد های کارشناس</span>
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Content("Service/Comment")" class="">
+                    <i class="fas fa-comments"></i>
+                    <span>کامنت ها</span>
+                </a>
+            </li>
             </li>
         </ul><!-- /#side-menu -->
     </div><!-- /.side-menu-container -->

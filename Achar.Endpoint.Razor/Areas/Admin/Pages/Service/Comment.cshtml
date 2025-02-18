@@ -1,4 +1,98 @@
 ﻿@page
 @model Achar.Endpoint.Razor.Areas.Admin.Pages.Service.CommentModel
 @{
+    ViewData["Title"] = "مدیریت نظرات";
+    Layout = "_Layout";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="card shadow-lg border-0 p-4 rounded-4 mb-4">
+    <div class="text-center mb-4">
+        <h4 class="fw-bold text-primary">مدیریت نظرات</h4>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>شناسه</th>
+                <th>عنوان</th>
+                <th>توضیحات</th>
+                <th>امتیاز</th>
+                <th>تاریخ ایجاد</th>
+                <th>وضعیت</th>
+                <th>عملیات</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var comment in Model.Comments)
+            {
+                <tr>
+                    <td>@comment.Id</td>
+                    <td>@comment.Title</td>
+                    <td>@comment.Description</td>
+                    <td>@comment.Score</td>
+                    <td>@comment.CreateAt.ToString("yyyy-MM-dd")</td>
+                    <td>@(comment.IsAccept ? "فعال" : "غیر فعال")</td>
+                    <td>
+                        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#changeStatusModal-@comment.Id">
+                            تغییر وضعیت
+                        </button>
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteCommentModal-@comment.Id">
+                            حذف
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@foreach (var comment in Model.Comments)
+{
+    <div class="modal fade" id="changeStatusModal-@comment.Id" tabindex="-1" aria-labelledby="changeStatusModalLabel-@comment.Id" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="changeStatusModalLabel-@comment.Id">تغییر وضعیت نظر</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" asp-page-handler="ActiveComment">
+                        <input type="hidden" asp-for="Status.Id" value="@comment.Id" />
+                        <div class="mb-3">
+                            <label asp-for="Status.IsAccept" class="form-label fw-semibold">وضعیت</label>
+                            <select class="form-control" asp-for="Status.IsAccept">
+                                <option value="true">فعال</option>
+                                <option value="false">غیر فعال</option>
+                            </select>
+                            <span asp-validation-for="Status.IsAccept" class="text-danger"></span>
+                        </div>
+                        <button type="submit" class="btn btn-success w-100 rounded-pill">ذخیره</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteCommentModal-@comment.Id" tabindex="-1" aria-labelledby="deleteCommentModalLabel-@comment.Id" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteCommentModalLabel-@comment.Id">تأیید حذف</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    آیا مطمئن هستید که می‌خواهید این نظر را حذف کنید؟
+                </div>
+                <div class="modal-footer">
+                    <form method="post" asp-page-handler="DeleteComment" style="display:inline;">
+                        <input type="hidden" asp-for="Delete.Id" value="@comment.Id" />
+                        <button type="submit" class="btn btn-danger">حذف</button>
+                    </form>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">لغو</button>
+                </div>
+            </div>
+        </div>
+    </div>
 }
