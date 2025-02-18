@@ -1,4 +1,272 @@
 ﻿@page
-@model Achar.Endpoint.Razor.Areas.Admin.Pages.Category.ListHomeServiceModel
+@model Achar.Endpoint.Razor.Areas.Admin.Pages.HomeService.ListHomeServiceModel
 @{
+    ViewData["Title"] = "مدیریت خدمات";
+    Layout = "_Layout";
 }
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="card shadow-lg border-0 p-4 rounded-4 mb-4">
+    <div class="text-center mb-4">
+        <h4 class="fw-bold text-primary">اضافه کردن خدمات جدید</h4>
+    </div>
+
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createCategoryModal">
+        اضافه کردن خدمات جدید
+    </button>
+
+    <div class="modal fade" id="createCategoryModal" tabindex="-1" aria-labelledby="createCategoryModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createCategoryModalLabel">اضافه کردن خدمات جدید</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" enctype="multipart/form-data" asp-page-handler="CreateService">
+                        <div class="mb-3">
+                            <label asp-for="NewHomeService.Title" class="form-label fw-semibold">عنوان</label>
+                            <input type="text" asp-for="NewHomeService.Title" class="form-control">
+                            <span asp-validation-for="NewHomeService.Title" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="NewHomeService.SubCategoryId" class="control-label"></label>
+                            <select asp-for="NewHomeService.SubCategoryId" class="form-control" asp-items="Model.SubCategories.Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Title })" required>
+                                <option value="">-- انتخاب دسته‌بندی --</option>
+                            </select>
+                            <span asp-validation-for="NewHomeService.SubCategoryId" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="NewHomeService.ImageSrc" class="form-label fw-semibold">عکس</label>
+                            <input type="file" asp-for="NewHomeService.ImageSrc" class="form-control">
+                            <span asp-validation-for="NewHomeService.ImageSrc" class="text-danger"></span>
+                        </div>
+
+                        <!-- اضافه کردن فیلدهای جدید -->
+                        <div class="mb-3">
+                            <label asp-for="NewHomeService.BasePrice" class="form-label fw-semibold">قیمت پایه</label>
+                            <input type="number" asp-for="NewHomeService.BasePrice" class="form-control">
+                            <span asp-validation-for="NewHomeService.BasePrice" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="NewHomeService.ShortDescription" class="form-label fw-semibold">توضیحات کوتاه</label>
+                            <textarea asp-for="NewHomeService.ShortDescription" class="form-control"></textarea>
+                            <span asp-validation-for="NewHomeService.ShortDescription" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="NewHomeService.Description" class="form-label fw-semibold">توضیحات</label>
+                            <textarea asp-for="NewHomeService.Description" class="form-control"></textarea>
+                            <span asp-validation-for="NewHomeService.Description" class="text-danger"></span>
+                        </div>
+
+                        <button type="submit" class="btn btn-success w-100 rounded-pill">اضافه کردن</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>شناسه</th>
+            <th>عنوان</th>
+            <th>عکس</th>
+            <th>قیمت پایه</th>
+            <th>توضیحات کوتاه</th>
+            <th>توضیحات</th>
+            <th>تاریخ ایجاد</th>
+            <th>نام زیردسته‌بندی</th>
+            <th>عملیات</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var homeService in Model.HomeServices)
+        {
+            <tr>
+                <td>@homeService.Id</td>
+                <td>@homeService.Title</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(homeService.ImageSrc))
+                    {
+                        <div class="image-background">
+                            <img src="@homeService.ImageSrc" alt="homeService Image" width="50" height="50" />
+                        </div>
+                    }
+                    else
+                    {
+                        <span>بدون عکس</span>
+                    }
+                </td>
+                <td>@homeService.BasePrice</td>
+                <td>@homeService.ShortDescription</td>
+                <td>@homeService.Description</td>
+                <td>@homeService.CreateAt.ToString("yyyy-MM-dd")</td>
+                <td>@homeService.CategoryName</td>
+
+                <td>
+                    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#updateCategoryModal-@homeService.Id">
+                        ویرایش
+                    </button>
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteCategoryModal-@homeService.Id">
+                        حذف
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@foreach (var homeService in Model.HomeServices)
+{
+    <div class="modal fade" id="updateCategoryModal-@homeService.Id" tabindex="-1" aria-labelledby="updateCategoryModalLabel-@homeService.Id" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updateCategoryModalLabel-@homeService.Id">ویرایش خدمات</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" enctype="multipart/form-data" asp-page-handler="UpService">
+                        <input type="hidden" asp-for="NewHomeService.Id" value="@homeService.Id" />
+                        <div class="mb-3">
+                            <label asp-for="NewHomeService.Title" class="form-label fw-semibold">عنوان</label>
+                            <input type="text" asp-for="NewHomeService.Title" class="form-control" value="@homeService.Title">
+                            <span asp-validation-for="NewHomeService.Title" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="NewHomeService.SubCategoryId" class="control-label"></label>
+                            <select asp-for="NewHomeService.SubCategoryId" class="form-control" asp-items="Model.SubCategories.Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Title })" required>
+                                <option value="">-- انتخاب دسته‌بندی --</option>
+                            </select>
+                            <span asp-validation-for="NewHomeService.SubCategoryId" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="NewHomeService.ImageSrc" class="form-label fw-semibold">عکس</label>
+                            <input type="file" asp-for="NewHomeService.ImageSrc" class="form-control">
+                            <span asp-validation-for="NewHomeService.ImageSrc" class="text-danger"></span>
+                        </div>
+
+
+                        <div class="mb-3">
+                            <label asp-for="NewHomeService.BasePrice" class="form-label fw-semibold">قیمت پایه</label>
+                            <input type="number" asp-for="NewHomeService.BasePrice" class="form-control" value="@homeService.BasePrice">
+                            <span asp-validation-for="NewHomeService.BasePrice" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="NewHomeService.ShortDescription" class="form-label fw-semibold">توضیحات کوتاه</label>
+                            <textarea asp-for="NewHomeService.ShortDescription" class="form-control">@homeService.ShortDescription</textarea>
+                            <span asp-validation-for="NewHomeService.ShortDescription" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="NewHomeService.Description" class="form-label fw-semibold">توضیحات</label>
+                            <textarea asp-for="NewHomeService.Description" class="form-control">@homeService.Description</textarea>
+                            <span asp-validation-for="NewHomeService.Description" class="text-danger"></span>
+                        </div>
+
+                        <button type="submit" class="btn btn-success w-100 rounded-pill">ذخیره</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteCategoryModal-@homeService.Id" tabindex="-1" aria-labelledby="deleteCategoryModalLabel-@homeService.Id" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteCategoryModalLabel-@homeService.Id">تأیید حذف</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    آیا مطمئن هستید که می‌خواهید این خدمات را حذف کنید؟
+                </div>
+                <div class="modal-footer">
+                    <form method="post" asp-page-handler="DeleteService" style="display:inline;">
+                        <input type="hidden" asp-for="Delete.Id" value="@homeService.Id" />
+                        <button type="submit" class="btn btn-danger">حذف</button>
+                    </form>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">لغو</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <!-- بارگذاری کتابخانه‌های jQuery و Bootstrap -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+}
+<style>
+    .gray {
+        background-color: #f8f9fa;
+    }
+
+    .card {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .rounded-4 {
+        border-radius: 1rem;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border: none;
+    }
+
+        .btn-primary:hover {
+            background-color: <style>
+    .gray {
+        background-color: #f8f9fa;
+    }
+
+    .card {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .rounded-4 {
+        border-radius: 1rem;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border: none;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+    .rounded-pill {
+        border-radius: 50rem;
+    }
+
+    .form-label {
+        margin-bottom: 0.5rem;
+    }
+
+    .image-background {
+        background-color: #000;
+        display: inline-block;
+        padding: 5px;
+        border-radius: 5px;
+    }
+</style>
+
+
+
+

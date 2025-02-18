@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AcharDomainCore.Dtos.HomeServiceDto;
 
 namespace Achar.Endpoint.Razor.Areas.Admin.Pages.Users
 {
@@ -33,7 +34,7 @@ namespace Achar.Endpoint.Razor.Areas.Admin.Pages.Users
         [BindProperty]
         public List<int> ServiceIds { get; set; } = new(); 
 
-        public List<AcharDomainCore.Entites.HomeService> Services { get; set; }
+        public List<HomeServiceDto> Services { get; set; }
 
         public async Task OnGet(int id, CancellationToken cancellationToken)
         {

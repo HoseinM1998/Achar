@@ -36,7 +36,7 @@
 
                         <div class="mb-3">
                             <label class="fw-semibold">انتخاب شهر محل سکونت</label>
-                            <select class="form-select" asp-for="@Model.AccountRegister.CityId">
+                            <select class="form-select" asp-for="@Model.AccountRegister.CityId" required>
                                 @foreach (var item in Model.Cities)
                                 {
                                     <option value="@item.Id">@item.Title</option>

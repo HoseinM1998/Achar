@@ -55,7 +55,7 @@ namespace AcharDomainAppService
             }
         }
 
-        public async Task<AcharDomainCore.Entites.HomeService> GetHomeServiceById(int id, CancellationToken cancellationToken)
+        public async Task<HomeServiceDto> GetHomeServiceById(int id, CancellationToken cancellationToken)
         {
             try
             {
@@ -67,7 +67,7 @@ namespace AcharDomainAppService
             }
         }
 
-        public async Task<List<AcharDomainCore.Entites.HomeService>> GetHomeServices(CancellationToken cancellationToken)
+        public async Task<List<HomeServiceDto>> GetHomeServices(CancellationToken cancellationToken)
         {
             try
             {

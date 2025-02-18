@@ -16,7 +16,6 @@
         اضافه کردن دسته‌بندی جدید
     </button>
 
-    <!-- Create Category Modal -->
     <div class="modal fade" id="createCategoryModal" tabindex="-1" aria-labelledby="createCategoryModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -88,7 +87,6 @@
     </tbody>
 </table>
 
-<!-- Update Category Modal Template -->
 @foreach (var category in Model.Categories)
 {
     <div class="modal fade" id="updateCategoryModal-@category.Id" tabindex="-1" aria-labelledby="updateCategoryModalLabel-@category.Id" aria-hidden="true">
@@ -120,7 +118,6 @@
         </div>
     </div>
 
-    <!-- Delete Confirmation Modal -->
     <div class="modal fade" id="deleteCategoryModal-@category.Id" tabindex="-1" aria-labelledby="deleteCategoryModalLabel-@category.Id" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">

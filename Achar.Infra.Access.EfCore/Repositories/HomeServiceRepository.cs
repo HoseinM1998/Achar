@@ -10,6 +10,8 @@ using AcharDomainCore.Dtos.HomeServiceDto;
 using AcharDomainCore.Dtos.CityDto;
 using AcharDomainCore.Entites;
 using Microsoft.EntityFrameworkCore;
+using AcharDomainCore.Dtos.SubCategoryDto;
+using AcharDomainCore.Dtos.ExpertDto;
 
 namespace Achar.Infra.Access.EfCore.Repositories
 {
@@ -58,17 +60,43 @@ namespace Achar.Infra.Access.EfCore.Repositories
             return await _context.HomeServices.AsNoTracking().CountAsync(cancellationToken);
         }
 
-        public async Task<AcharDomainCore.Entites.HomeService> GetHomeServiceById(int id, CancellationToken cancellationToken)
+        public async Task<HomeServiceDto> GetHomeServiceById(int id, CancellationToken cancellationToken)
         {
-            return await _context.HomeServices.AsNoTracking()
-                .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
+            var homeService = await _context.HomeServices
+                .FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
+
+            return new HomeServiceDto
+            {
+                Id = homeService.Id,
+                Title = homeService.Title,
+                ImageSrc = homeService.ImageSrc,
+                BasePrice = homeService.BasePrice,
+                Description = homeService.Description,
+                ShortDescription = homeService.ShortDescription,
+                SubCategoryId = homeService.SubCategoryId,
+                CreateAt = homeService.CreateAt,
+                CategoryName = homeService.SubCategory.Title
+            }; 
 
         }
 
-        public async Task<List<AcharDomainCore.Entites.HomeService>> GetHomeServices(CancellationToken cancellationToken)
+        public async Task<List<HomeServiceDto>> GetHomeServices(CancellationToken cancellationToken)
         {
             return await _context.HomeServices
-                .AsNoTracking().ToListAsync(cancellationToken);
+
+                .Select(e => new HomeServiceDto()
+                {
+                    Id = e.Id,
+                    Title = e.Title,
+                    ImageSrc = e.ImageSrc,
+                    Description = e.Description,
+                    ShortDescription = e.ShortDescription,
+                    BasePrice = e.BasePrice,
+                    SubCategoryId = e.SubCategoryId,
+                    CategoryName = e.SubCategory.Title,
+                    CreateAt = e.CreateAt
+                }).AsNoTracking()
+                .ToListAsync(cancellationToken);
 
         }
 
