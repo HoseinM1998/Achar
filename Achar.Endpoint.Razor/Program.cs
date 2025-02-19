@@ -1,3 +1,4 @@
+﻿using Achar.Endpoint.Razor.Middleware;
 using Achar.Infra.Access.EfCore.Repositories;
 using Achar.Infra.Db.Sql;
 using AcharDomainAppService;
@@ -10,6 +11,7 @@ using AcharDomainCore.Contracts.Comment;
 using AcharDomainCore.Contracts.Customer;
 using AcharDomainCore.Contracts.Expert;
 using AcharDomainCore.Contracts.HomeService;
+using AcharDomainCore.Contracts.Image;
 using AcharDomainCore.Contracts.Request;
 using AcharDomainCore.Contracts.SubCategory;
 using AcharDomainCore.Entites;
@@ -18,8 +20,35 @@ using AcharDomainService;
 using Framework;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
+
+
+//Log.Logger = new LoggerConfiguration()
+//    .WriteTo.Console()
+//    .CreateLogger();
+
 
 var builder = WebApplication.CreateBuilder(args);
+
+
+
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Information()
+    .WriteTo.Console()
+    .WriteTo.Seq("http://localhost:5341", apiKey: "81g7sJguN5KRaJbWkyBs")
+    .CreateLogger();
+builder.Host.UseSerilog((context, config) =>
+{
+    config.WriteTo.Console();
+    config.WriteTo.Seq("http://localhost:5341", apiKey: "81g7sJguN5KRaJbWkyBs");
+});
+
+Log.Information("سلام خوش اومدید");
+
+//builder.Services.AddSerilog();
+
+
+
 
 var congiguration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
 var siteSetting = congiguration.GetSection(nameof(SiteSetting)).Get<SiteSetting>();
@@ -39,9 +68,13 @@ builder.Services.AddRazorPages()
 builder.Services.AddScoped<IApplicationUserAppService, ApplicationUserAppService>();
 
 
+
 builder.Services.AddScoped<IAdminRepository, AdminRepository>();
 builder.Services.AddScoped<IAdminService, AdminService>();
 builder.Services.AddScoped<IAdminAppService, AdminAppService>();
+
+builder.Services.AddScoped<IImageService, ImageService>();
+
 
 builder.Services.AddScoped<ICityRepository, CityRepository>();
 builder.Services.AddScoped<ICityService, CityService>();
@@ -97,6 +130,27 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole<int>>(options =>
     .AddEntityFrameworkStores<AppDbContext>();
 
 
+
+
+
+//builder.Host.ConfigureLogging(o => {
+//    o.ClearProviders();
+//    o.AddSerilog();
+//}).UseSerilog((context, config) =>
+//{
+//    config.WriteTo.Console();
+//    config.WriteTo.Seq("http://localhost:5341", apiKey: "81g7sJguN5KRaJbWkyBs");
+//});
+
+//builder.Services.AddSerilog();
+
+//Log.Information("Application starting");
+
+
+
+
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -106,12 +160,15 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+app.UseErrorLogging();
+app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
 
 app.UseRouting();
 
 app.UseAuthorization();
+
 
 app.MapStaticAssets();
 app.MapRazorPages()

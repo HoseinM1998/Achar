@@ -5,6 +5,21 @@
     Layout = "_Layout";
 }
 
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Success"]
+    </div>
+}
+
+
 <h2>@ViewData["Title"]</h2>
 
 <div class="card shadow-lg border-0 p-4 rounded-4 mb-4">
@@ -32,9 +47,9 @@
                         </div>
 
                         <div class="mb-3">
-                            <label asp-for="NewCategory.Image" class="form-label fw-semibold">عکس</label>
-                            <input type="file" asp-for="NewCategory.Image" class="form-control">
-                            <span asp-validation-for="NewCategory.Image" class="text-danger"></span>
+                            <label asp-for="NewCategory.ImageFile" class="form-label fw-semibold">عکس</label>
+                            <input type="file" asp-for="NewCategory.ImageFile" class="form-control">
+                            <span asp-validation-for="NewCategory.ImageFile" class="text-danger"></span>
                         </div>
 
                         <button type="submit" class="btn btn-success w-100 rounded-pill">اضافه کردن</button>
@@ -106,9 +121,9 @@
                         </div>
 
                         <div class="mb-3">
-                            <label asp-for="NewCategory.Image" class="form-label fw-semibold">عکس</label>
-                            <input type="file" asp-for="NewCategory.Image" class="form-control">
-                            <span asp-validation-for="NewCategory.Image" class="text-danger"></span>
+                            <label asp-for="NewCategory.ImageFile" class="form-label fw-semibold">عکس</label>
+                            <input type="file" asp-for="NewCategory.ImageFile" class="form-control">
+                            <span asp-validation-for="NewCategory.ImageFile" class="text-danger"></span>
                         </div>
 
                         <button type="submit" class="btn btn-success w-100 rounded-pill">ذخیره</button>

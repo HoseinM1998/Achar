@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AcharDomainCore.Entites;
 using HomeService.Domain.Core.Enums;
+using Microsoft.AspNetCore.Http;
 
 namespace AcharDomainCore.Dtos.CustomerDto
 {
@@ -31,6 +32,8 @@ namespace AcharDomainCore.Dtos.CustomerDto
         public decimal Balance { get; set; }
         public int CityId { get; set; }
         public int? ApplictaionUserId { get; set; }
+        public IFormFile? ImageFile { get; set; }
+
 
 
     }

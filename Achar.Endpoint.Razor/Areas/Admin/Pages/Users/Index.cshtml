@@ -3,6 +3,21 @@
 @{
     ViewData["Title"] = "آچار > مدیریت کاربران > لیست کاربران";
 }
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Success"]
+    </div>
+}
+
+
 <div class="col-lg-12">
     <div class="portlet box shadow">
         <div class="portlet-heading">

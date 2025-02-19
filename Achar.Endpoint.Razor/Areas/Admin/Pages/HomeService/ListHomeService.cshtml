@@ -5,6 +5,21 @@
     Layout = "_Layout";
 }
 
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Success"]
+    </div>
+}
+
+
+
 <h2>@ViewData["Title"]</h2>
 
 <div class="card shadow-lg border-0 p-4 rounded-4 mb-4">
@@ -39,9 +54,9 @@
                         </div>
 
                         <div class="mb-3">
-                            <label asp-for="NewHomeService.ImageSrc" class="form-label fw-semibold">عکس</label>
-                            <input type="file" asp-for="NewHomeService.ImageSrc" class="form-control">
-                            <span asp-validation-for="NewHomeService.ImageSrc" class="text-danger"></span>
+                            <label asp-for="NewHomeService.ImageFile" class="form-label fw-semibold">عکس</label>
+                            <input type="file" asp-for="NewHomeService.ImageFile" class="form-control">
+                            <span asp-validation-for="NewHomeService.ImageFile" class="text-danger"></span>
                         </div>
 
                         <!-- اضافه کردن فیلدهای جدید -->
@@ -148,9 +163,9 @@
                         </div>
 
                         <div class="mb-3">
-                            <label asp-for="NewHomeService.ImageSrc" class="form-label fw-semibold">عکس</label>
-                            <input type="file" asp-for="NewHomeService.ImageSrc" class="form-control">
-                            <span asp-validation-for="NewHomeService.ImageSrc" class="text-danger"></span>
+                            <label asp-for="NewHomeService.ImageFile" class="form-label fw-semibold">عکس</label>
+                            <input type="file" asp-for="NewHomeService.ImageFile" class="form-control">
+                            <span asp-validation-for="NewHomeService.ImageFile" class="text-danger"></span>
                         </div>
 
 

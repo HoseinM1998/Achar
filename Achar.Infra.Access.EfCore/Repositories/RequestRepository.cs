@@ -34,17 +34,17 @@ namespace Achar.Infra.Access.EfCore.Repositories
             };
             await _context.Requests.AddAsync(request, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
-            if (requestDto.Images != null && requestDto.Images.Any())
-            {
-                var images = requestDto.Images.Select(img => new Image
-                {
-                    Title = img.Title,
-                    ImgPath = img.ImgPath,
-                    RequestId = request.Id 
-                }).ToList();
-                await _context.Images.AddRangeAsync(images, cancellationToken);
-                await _context.SaveChangesAsync(cancellationToken); 
-            }
+            //if (requestDto.Images != null && requestDto.Images.Any())
+            //{
+            //    var images = requestDto.Images.Select(img => new Image
+            //    {
+            //        Title = img.Title,
+            //        ImgPath = img.ImgPath,
+            //        RequestId = request.Id 
+            //    }).ToList();
+            //    await _context.Images.AddRangeAsync(images, cancellationToken);
+            //    await _context.SaveChangesAsync(cancellationToken); 
+            //}
             return request.Id;
         }
 
@@ -56,17 +56,17 @@ namespace Achar.Infra.Access.EfCore.Repositories
             request.Description = upRequest.Description;
             request.Price = upRequest.Price;
             request.RequesteForTime = upRequest.RequesteForTime;
-            if (request.Images != null && upRequest.Images.Any())
-            {
-                var images = upRequest.Images.Select(img => new Image
-                {
-                    Title = img.Title,
-                    ImgPath = img.ImgPath,
-                    RequestId = request.Id
-                }).ToList();
-                await _context.Images.AddRangeAsync(images, cancellationToken);
-                await _context.SaveChangesAsync(cancellationToken);
-            }
+            //if (request.Images != null && upRequest.Images.Any())
+            //{
+            //    var images = upRequest.Images.Select(img => new Image
+            //    {
+            //        Title = img.Title,
+            //        ImgPath = img.ImgPath,
+            //        RequestId = request.Id
+            //    }).ToList();
+            //    await _context.Images.AddRangeAsync(images, cancellationToken);
+            //    await _context.SaveChangesAsync(cancellationToken);
+            //}
             await _context.SaveChangesAsync(cancellationToken);
             return true;
         }

@@ -40,25 +40,11 @@
         <span asp-validation-for="UpExpert.Email" class="text-danger"></span>
     </div>
 
-    <    <div class="form-group relative">
-        <input asp-for="UpExpert.ProfileImageUrl" type="file" class="form-control">
-        <label>آپلود عکس</label>
-        <div class="input-group round">
-            <input type="text" class="form-control file-input" placeholder="برای آپلود کلیک کنید">
-            <span class="input-group-btn">
-                <button type="button" class="btn btn-success">
-                    <i class="icon-picture"></i>
-                    آپلود عکس
-                    <div class="paper-ripple">
-                        <div class="paper-ripple__background"></div>
-                        <div class="paper-ripple__waves"></div>
-                    </div>
-                </button>
-            </span>
-        </div><!-- /.input-group -->
-        <div class="help-block"></div>
+    <div class="mb-3">
+        <label asp-for="UpExpert.ImageFile" class="form-label fw-semibold">عکس</label>
+        <input type="file" asp-for="UpExpert.ImageFile" class="form-control">
+        <span asp-validation-for="UpExpert.ImageFile" class="text-danger"></span>
     </div>
-
 
     <div class="form-group">
         <label asp-for="UpExpert.PhoneNumber" class="control-label"></label>
@@ -73,12 +59,6 @@
             <option value="1" selected="@Model.UpExpert?.Gender == GenderEnum.Female">خانم</option>
         </select>
         <span asp-validation-for="UpExpert.Gender" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="UpExpert.NameCity" class="control-label"></label>
-        <input asp-for="UpExpert.NameCity" class="form-control" value="@Model.UpExpert?.NameCity" />
-        <span asp-validation-for="UpExpert.NameCity" class="text-danger"></span>
     </div>
 
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
@@ -97,7 +77,11 @@
         <input asp-for="UpExpert.Balance" class="form-control" value="@Model.UpExpert?.Balance" />
         <span asp-validation-for="UpExpert.Balance" class="text-danger"></span>
     </div>
-
+    <div class="form-group">
+        <label asp-for="UpExpert.NameCity" class="control-label"></label>
+        <p class="form-control-plaintext">@Model.UpExpert?.NameCity</p>
+        <span asp-validation-for="UpExpert.NameCity" class="text-danger"></span>
+    </div>
     <div class="form-group mb-4" id="citySelection">
         <label for="CityId" class="fw-semibold">انتخاب شهر محل سکونت</label>
         <select class="form-select" asp-for="UpExpert.CityId" id="CityId">

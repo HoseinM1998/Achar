@@ -1,10 +1,14 @@
-using AcharDomainAppService;
+﻿using AcharDomainAppService;
 using AcharDomainCore.Contracts.ApplicationUser;
 using AcharDomainCore.Contracts.City;
 using AcharDomainCore.Dtos.ApplicationUserDto;
 using AcharDomainCore.Entites;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Achar.Endpoint.Razor.Areas.Admin.Pages.Users
 {
@@ -12,11 +16,13 @@ namespace Achar.Endpoint.Razor.Areas.Admin.Pages.Users
     {
         private readonly IApplicationUserAppService _applicationUserAppService;
         private readonly ICityAppService _cityAppService;
+        private readonly ILogger<CreateModel> _logger;
 
-        public CreateModel(IApplicationUserAppService applicationUserAppService, ICityAppService cityAppService)
+        public CreateModel(IApplicationUserAppService applicationUserAppService, ICityAppService cityAppService, ILogger<CreateModel> logger)
         {
             _applicationUserAppService = applicationUserAppService;
             _cityAppService = cityAppService;
+            _logger = logger;
         }
 
         [BindProperty]
@@ -32,7 +38,17 @@ namespace Achar.Endpoint.Razor.Areas.Admin.Pages.Users
 
         public async Task<IActionResult> OnPost(CancellationToken cancellationToken)
         {
-            await _applicationUserAppService.Register(User, cancellationToken);
+            try
+            {
+                await _applicationUserAppService.Register(User, cancellationToken);
+                TempData["Success"] = "کاربر با موفقیت ایجاد شد.";
+                _logger.LogInformation("کاربر با موفقیت ایجاد شد. UserId: {UserName} در زمان: {Time}", User.UserName, DateTime.UtcNow.ToLongTimeString());
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "خطا در انجام عملیات";
+                _logger.LogError(ex, "خطا در ایجاد کاربر. در زمان: {Time}", DateTime.UtcNow.ToLongTimeString());
+            }
             return RedirectToPage("Index");
         }
     }

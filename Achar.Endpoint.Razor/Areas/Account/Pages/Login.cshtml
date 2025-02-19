@@ -3,6 +3,20 @@
 @model Achar.Endpoint.Razor.Areas.Account.Pages.LoginModel
 @{
 }
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Success"]
+    </div>
+}
+
+
 
 <section class="gray min-vh-100 d-flex align-items-center justify-content-center" style="padding-top: 50px;">
     <div class="container">

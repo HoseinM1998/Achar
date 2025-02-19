@@ -14,7 +14,7 @@ namespace AcharDomainService
             {
                 fileName = Guid.NewGuid().ToString() +
                            ContentDispositionHeaderValue.Parse(FormFile.ContentDisposition).FileName.Trim('"');
-                filePath = Path.Combine($"wwwroot/~/UserTemplate/images/{folderName}", fileName);
+                filePath = Path.Combine("wwwroot", "assets","img", folderName, fileName);
                 try
                 {
                     using (var stream = System.IO.File.Create(filePath))
@@ -26,7 +26,7 @@ namespace AcharDomainService
                 {
                     throw new Exception("Upload files operation failed");
                 }
-                return $"/~/assets/img/request/{folderName}/{fileName}";
+                return $"/assets/img/{folderName}/{fileName}";
             }
             else
                 fileName = "";

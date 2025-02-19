@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AcharDomainCore.Entites;
 using HomeService.Domain.Core.Enums;
+using Microsoft.AspNetCore.Http;
 
 namespace AcharDomainCore.Dtos.AdminDto
 {
@@ -22,6 +23,8 @@ namespace AcharDomainCore.Dtos.AdminDto
         [DisplayName("شماره تلفن")]
         public string? PhoneNumber { get; set; }
         public decimal Balance { get; set; }
+        public IFormFile? ImageFile { get; set; }
+
 
     }
 }

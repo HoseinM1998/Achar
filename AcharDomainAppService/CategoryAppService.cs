@@ -9,21 +9,29 @@ using AcharDomainCore.Dtos;
 using AcharDomainCore.Dtos.CategoryDto;
 using AcharDomainCore.Entites;
 using System.Security.Cryptography;
+using AcharDomainCore.Contracts.Image;
 
 namespace AcharDomainAppService
 {
     public class CategoryAppService:ICategoryAppService
     {
         private readonly ICategoryService _service;
-        public CategoryAppService(ICategoryService service)
+        private readonly IImageService _imageService;
+
+        public CategoryAppService(ICategoryService service, IImageService imageService)
         {
             _service = service;
+            _imageService = imageService;
         }
 
         public async Task<int> CreateCategory(CategoryDto category, CancellationToken cancellationToken)
         {
             try
             {
+                //if (category.ImageFile is not null)
+                //{
+                //    category.Image = await _imageService.UploadImage(category.ImageFile!, "category", cancellationToken);
+                //}
                 return await _service.CreateCategory(category, cancellationToken);
             }
             catch (Exception ex)
@@ -36,6 +44,11 @@ namespace AcharDomainAppService
         {
             try
             {
+                if (category.ImageFile is not null)
+                {
+                    category.Image = await _imageService.UploadImage(category.ImageFile!, "category", cancellationToken);
+                }
+
                 return await _service.UpdateCategory(category, cancellationToken);
             }
             catch (Exception ex)

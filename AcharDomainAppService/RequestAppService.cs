@@ -14,15 +14,26 @@ namespace AcharDomainAppService
     public class RequestAppService : IRequestAppService
     {
         private readonly IRequestService _service;
-        public RequestAppService(IRequestService service)
+        private readonly IImageService _imageService;
+
+        public RequestAppService(IRequestService service, IImageService imageService)
         {
             _service = service;
+            _imageService = imageService;
         }
 
         public async Task<int> CreateRequest(RequestDto requestDto, CancellationToken cancellationToken)
         {
             try
             {
+                //if (requestDto.Images is not null)
+                //{
+                //    foreach (var image in requestDto.Images)
+                //    {
+                //        var imagePath = await _imageService.UploadImage(image, "requesst", cancellationToken);
+                //    }
+                //}
+
                 return await _service.CreateRequest(requestDto, cancellationToken);
             }
             catch (Exception ex)

@@ -10,16 +10,20 @@ using AcharDomainCore.Dtos.CategoryDto;
 using AcharDomainCore.Entites;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
+using Microsoft.Extensions.Logging;
 
 namespace Achar.Infra.Access.EfCore.Repositories
 {
     public class CategoryRepository : ICategoryRepository
     {
         private readonly AppDbContext _context;
+        private readonly ILogger<CategoryRepository> _logger;
 
-        public CategoryRepository(AppDbContext context)
+
+        public CategoryRepository(AppDbContext context, ILogger<CategoryRepository> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         public async Task<int> CreateCategory(CategoryDto categoryDto, CancellationToken cancellationToken)

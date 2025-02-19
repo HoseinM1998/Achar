@@ -9,21 +9,29 @@ using AcharDomainCore.Dtos;
 using AcharDomainCore.Dtos.SubCategoryDto;
 using AcharDomainCore.Entites;
 using AcharDomainCore.Dtos.Request;
+using AcharDomainCore.Contracts.Image;
 
 namespace AcharDomainAppService
 {
     public class SubCategoryAppService : ISubCategoryAppService
     {
         private readonly ISubCategoryService _service;
-        public SubCategoryAppService(ISubCategoryService service)
+        private readonly IImageService _imageService;
+
+        public SubCategoryAppService(ISubCategoryService service, IImageService imageService)
         {
             _service = service;
+            _imageService = imageService;
         }
 
         public async Task<int> CreateSubCategory(SubCategoryDto subCategoryDto, CancellationToken cancellationToken)
         {
             try
             {
+                if (subCategoryDto.ImageFile is not null)
+                {
+                    subCategoryDto.Image = await _imageService.UploadImage(subCategoryDto.ImageFile!, "category", cancellationToken);
+                }
                 return await _service.CreateSubCategory(subCategoryDto, cancellationToken);
             }
             catch (Exception ex)
@@ -36,6 +44,10 @@ namespace AcharDomainAppService
         {
             try
             {
+                if (subCategoryDto.ImageFile is not null)
+                {
+                    subCategoryDto.Image = await _imageService.UploadImage(subCategoryDto.ImageFile!, "category", cancellationToken);
+                }
                 return await _service.UpdateSubCategory(subCategoryDto, cancellationToken);
             }
             catch (Exception ex)

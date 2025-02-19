@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AcharDomainCore.Contracts.Admin;
 using AcharDomainCore.Contracts.Bid;
+using AcharDomainCore.Contracts.Image;
 using AcharDomainCore.Dtos;
 using AcharDomainCore.Dtos.AdminDto;
 using AcharDomainCore.Entites;
@@ -15,14 +16,19 @@ namespace AcharDomainAppService
     public class AdminAppService:IAdminAppService
     {
         private readonly IAdminService _service;
-        public AdminAppService(IAdminService service)
+        private readonly IImageService _imageService;
+
+        public AdminAppService(IAdminService service, IImageService imageService)
         {
             _service = service;
+            _imageService = imageService;
+
         }
         public async Task<int> AdminCount(CancellationToken cancellationToken)
         {
             try
             {
+
                 return await _service.AdminCount( cancellationToken);
             }
             catch (Exception ex)
@@ -71,6 +77,10 @@ namespace AcharDomainAppService
         {
             try
             {
+                if (admin.ImageFile is not null)
+                {
+                    admin.ProfileImageUrl = await _imageService.UploadImage(admin.ImageFile!, "user", cancellationToken);
+                }
                 return await _service.UpdateAdmin(admin,cancellationToken);
             }
             catch (Exception ex)

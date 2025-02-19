@@ -40,23 +40,10 @@
         <span asp-validation-for="UpCustomer.Street" class="text-danger"></span>
     </div>
 
-    <div class="form-group relative">
-        <input asp-for="UpCustomer.ProfileImageUrl" type="file" class="form-control">
-        <label>آپلود عکس</label>
-        <div class="input-group round">
-            <input type="text" class="form-control file-input" placeholder="برای آپلود کلیک کنید">
-            <span class="input-group-btn">
-                <button type="button" class="btn btn-success">
-                    <i class="icon-picture"></i>
-                    آپلود عکس
-                    <div class="paper-ripple">
-                        <div class="paper-ripple__background"></div>
-                        <div class="paper-ripple__waves"></div>
-                    </div>
-                </button>
-            </span>
-        </div><!-- /.input-group -->
-        <div class="help-block"></div>
+    <div class="mb-3">
+        <label asp-for="UpCustomer.ImageFile" class="form-label fw-semibold">عکس</label>
+        <input type="file" asp-for="UpCustomer.ImageFile" class="form-control">
+        <span asp-validation-for="UpCustomer.ImageFile" class="text-danger"></span>
     </div>
 
     <div class="form-group">
@@ -75,15 +62,14 @@
     </div>
 
     <div class="form-group">
-        <label asp-for="UpCustomer.Namecity" class="control-label"></label>
-        <input asp-for="UpCustomer.Namecity" class="form-control" value="@Model.UpCustomer?.Namecity" />
-        <span asp-validation-for="UpCustomer.Namecity" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
         <label asp-for="UpCustomer.Balance" class="control-label"></label>
         <input asp-for="UpCustomer.Balance" class="form-control" value="@Model.UpCustomer?.Balance" />
         <span asp-validation-for="UpCustomer.Balance" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="UpCustomer.Namecity" class="control-label"></label>
+        <p class="form-control-plaintext">@Model.UpCustomer?.Namecity</p>
+        <span asp-validation-for="UpCustomer.Namecity" class="text-danger"></span>
     </div>
     <div class="form-group mb-4" id="citySelection">
         <label for="CityId" class="fw-semibold">انتخاب شهر محل سکونت</label>

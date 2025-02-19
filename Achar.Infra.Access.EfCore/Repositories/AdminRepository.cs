@@ -72,7 +72,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
 
         public async Task<bool> UpdateAdmin(AdminProfDto admin, CancellationToken cancellationToken)
         {
-            var updateAdmin = await _context.Admins.FirstOrDefaultAsync(x=>x.Id== admin.Id, cancellationToken);
+            var updateAdmin = await _context.Admins.Include(x=>x.ApplicationUser).FirstOrDefaultAsync(x=>x.Id== admin.Id, cancellationToken);
             if (updateAdmin != null)
             {
                 updateAdmin.ApplicationUser.UserName = admin.UserName;

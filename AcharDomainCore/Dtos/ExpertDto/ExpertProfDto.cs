@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AcharDomainCore.Entites;
 using HomeService.Domain.Core.Enums;
+using Microsoft.AspNetCore.Http;
 
 namespace AcharDomainCore.Dtos.ExpertDto
 {
@@ -33,6 +34,8 @@ namespace AcharDomainCore.Dtos.ExpertDto
         public bool IsActive { get; set; }
         public decimal Balance { get; set; }
         public int CityId { get; set; }
+        public IFormFile? ImageFile { get; set; }
+
 
 
     }

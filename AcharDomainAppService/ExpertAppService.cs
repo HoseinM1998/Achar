@@ -8,21 +8,29 @@ using System.Threading.Tasks;
 using AcharDomainCore.Dtos;
 using AcharDomainCore.Dtos.ExpertDto;
 using AcharDomainCore.Entites;
+using AcharDomainCore.Contracts.Image;
 
 namespace AcharDomainAppService
 {
     public class ExpertAppService : IExpertAppService
     {
         private readonly IExpertService _service;
-        public ExpertAppService(IExpertService service)
+        private readonly IImageService _imageService;
+
+        public ExpertAppService(IExpertService service,IImageService imageService)
         {
             _service = service;
+            _imageService = imageService;
         }
 
         public async Task<bool> UpdateExpert(ExpertProfDto expert, CancellationToken cancellationToken)
         {
             try
             {
+                if (expert.ImageFile is not null)
+                {
+                    expert.ProfileImageUrl = await _imageService.UploadImage(expert.ImageFile!, "user", cancellationToken);
+                }
                 return await _service.UpdateExpert(expert, cancellationToken);
             }
             catch (Exception ex)

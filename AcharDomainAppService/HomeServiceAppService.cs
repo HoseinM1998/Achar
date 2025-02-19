@@ -8,21 +8,30 @@ using AcharDomainCore.Contracts.HomeService;
 using AcharDomainCore.Dtos;
 using AcharDomainCore.Dtos.HomeServiceDto;
 using AcharDomainCore.Entites;
+using AcharDomainCore.Contracts.Image;
+using AcharDomainCore.Dtos.SubCategoryDto;
 
 namespace AcharDomainAppService
 {
     public class HomeServiceAppService : IHomeServiceAppService
     {
         private readonly IHomeServiceService _service;
-        public HomeServiceAppService(IHomeServiceService service)
+        private readonly IImageService _imageService;
+
+        public HomeServiceAppService(IHomeServiceService service, IImageService imageService)
         {
             _service = service;
+            _imageService = imageService;
         }
 
         public async Task<int> CreateHomeService(HomeServiceDto homeService, CancellationToken cancellationToken)
         {
             try
             {
+                if (homeService.ImageFile is not null)
+                {
+                    homeService.ImageSrc = await _imageService.UploadImage(homeService.ImageFile!, "category", cancellationToken);
+                }
                 return await _service.CreateHomeService(homeService, cancellationToken);
             }
             catch (Exception ex)
@@ -35,6 +44,10 @@ namespace AcharDomainAppService
         {
             try
             {
+                if (homeService.ImageFile is not null)
+                {
+                    homeService.ImageSrc = await _imageService.UploadImage(homeService.ImageFile!, "category", cancellationToken);
+                }
                 return await _service.UpdateHomeService(homeService, cancellationToken);
             }
             catch (Exception ex)

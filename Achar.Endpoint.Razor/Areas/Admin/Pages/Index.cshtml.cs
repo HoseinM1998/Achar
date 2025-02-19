@@ -1,4 +1,4 @@
-using AcharDomainCore.Contracts.Admin;
+﻿using AcharDomainCore.Contracts.Admin;
 using AcharDomainCore.Contracts.Category;
 using AcharDomainCore.Contracts.Comment;
 using AcharDomainCore.Contracts.Customer;
@@ -24,6 +24,7 @@ namespace Achar.Endpoint.Razor.Areas.Admin.Pages
         private readonly IHomeServiceAppService _homeServiceAppService;
         private readonly ICommentAppService _commentAppService;
         private readonly IRequestAppService _requestAppService;
+        private readonly ILogger<IndexModel> _logger;
 
         public IndexModel(
                    IAdminAppService adminAppService,
@@ -33,7 +34,9 @@ namespace Achar.Endpoint.Razor.Areas.Admin.Pages
                    ISubCategoryAppService subCategoryAppService,
                    IHomeServiceAppService homeServiceAppService,
                    ICommentAppService commentAppService,
-                   IRequestAppService requestAppService)
+                   IRequestAppService requestAppService,
+                   ILogger<IndexModel> logger)
+
         {
             _adminAppService = adminAppService;
             _expertAppService = expertAppService;
@@ -43,6 +46,7 @@ namespace Achar.Endpoint.Razor.Areas.Admin.Pages
             _homeServiceAppService = homeServiceAppService;
             _commentAppService = commentAppService;
             _requestAppService = requestAppService;
+            _logger = logger;
         }
 
         [BindProperty]
@@ -64,14 +68,23 @@ namespace Achar.Endpoint.Razor.Areas.Admin.Pages
 
         public async Task OnGet(CancellationToken cancellationToken)
         {
-            CountAdmin = await _adminAppService.AdminCount(cancellationToken);
-            CountExperts = await _expertAppService.ExpertCount(cancellationToken);
-            CountCustomers = await _customerAppService.CoustomerCount(cancellationToken);
-            CountCategories = await _categoryAppService.CategoryCount(cancellationToken);
-            CountSubCategories = await _subCategoryAppService.SubCategoryCount(cancellationToken);
-            CountHomeServices = await _homeServiceAppService.HomeServiceCount(cancellationToken);
-            CountComments = await _commentAppService.CommentCount(cancellationToken);
-            CountRequests = await _requestAppService.RequestCount(cancellationToken);
+            try
+            {
+                CountAdmin = await _adminAppService.AdminCount(cancellationToken);
+                CountExperts = await _expertAppService.ExpertCount(cancellationToken);
+                CountCustomers = await _customerAppService.CoustomerCount(cancellationToken);
+                CountCategories = await _categoryAppService.CategoryCount(cancellationToken);
+                CountSubCategories = await _subCategoryAppService.SubCategoryCount(cancellationToken);
+                CountHomeServices = await _homeServiceAppService.HomeServiceCount(cancellationToken);
+                CountComments = await _commentAppService.CommentCount(cancellationToken);
+                CountRequests = await _requestAppService.RequestCount(cancellationToken);
+
+                _logger.LogInformation("تعدادها با موفقیت بازیابی شدند زمان  {Time}", DateTime.UtcNow.ToLongTimeString());
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "خطا در بازیابی تعدادها. زمان: {Time}", DateTime.UtcNow.ToLongTimeString());
+            }
         }
 
 

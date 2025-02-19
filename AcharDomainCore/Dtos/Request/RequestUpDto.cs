@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AcharDomainCore.Entites;
+using Microsoft.AspNetCore.Http;
 
 namespace AcharDomainCore.Dtos.Request
 {
@@ -18,7 +19,8 @@ namespace AcharDomainCore.Dtos.Request
         [DisplayName("قیمت")]
         public decimal Price { get; set; }
         [DisplayName("عکس ها")]
-        public List<Image>? Images { get; set; } = new List<Image>();
+        public List<IFormFile>? Images { get; set; }
+
         [DisplayName("تغییر روز")]
         public DateTime RequesteForTime { get; set; }
 

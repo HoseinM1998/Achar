@@ -8,21 +8,30 @@ using AcharDomainCore.Contracts.Customer;
 using AcharDomainCore.Dtos;
 using AcharDomainCore.Dtos.CustomerDto;
 using AcharDomainCore.Entites;
+using AcharDomainCore.Contracts.Image;
 
 namespace AcharDomainAppService
 {
     public class CustomerAppService : ICustomerAppService
     {
         private readonly ICustomerService _service;
-        public CustomerAppService(ICustomerService service)
+        private readonly IImageService _imageService;
+
+        public CustomerAppService(ICustomerService service, IImageService imageService)
         {
             _service = service;
+            _imageService = imageService;
+
         }
 
         public async Task<bool> UpdateCustomer(CustomerProfDto customer, CancellationToken cancellationToken)
         {
             try
             {
+                if (customer.ImageFile is not null)
+                {
+                    customer.ProfileImageUrl = await _imageService.UploadImage(customer.ImageFile!, "user", cancellationToken);
+                }
                 return await _service.UpdateCustomer(customer, cancellationToken);
             }
             catch (Exception ex)

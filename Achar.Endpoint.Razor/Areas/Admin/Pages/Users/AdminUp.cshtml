@@ -4,6 +4,20 @@
     ViewData["Title"] = "‌ صفحه بروز رسانی کاربران آچار ";
 }
 
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Success"]
+    </div>
+}
+
+
 <h2>@ViewData["Title"]</h2>
 
 <form method="post" enctype="multipart/form-data" asp-page-handler="Update">
@@ -34,27 +48,10 @@
         <span asp-validation-for="UpAdmin.Email" class="text-danger"></span>
     </div>
 
-    <div class="form-group relative">
-        <input asp-for="UpAdmin.ProfileImageUrl" type="file" class="form-control" />
-        <label>آپلود عکس</label>
-        <div class="input-group round">
-            <input type="text" class="form-control file-input" placeholder="برای آپلود کلیک کنید" />
-            <span class="input-group-btn">
-                <button type="button" class="btn btn-success">
-                    <i class="icon-picture"></i>
-                    آپلود عکس
-                    <div class="paper-ripple">
-                        <div class="paper-ripple__background"></div>
-                        <div class="paper-ripple__waves"></div>
-                    </div>
-                </button>
-            </span>
-        </div>
-        <div class="help-block"></div>
-        @if (Model.UpAdmin?.ProfileImageUrl != null)
-        {
-            <img src="@Model.UpAdmin.ProfileImageUrl" alt="Profile Image" style="max-width: 150px; margin-top: 10px;" />
-        }
+    <div class="mb-3">
+        <label asp-for="UpAdmin.ImageFile" class="form-label fw-semibold">عکس</label>
+        <input type="file" asp-for="UpAdmin.ImageFile" class="form-control">
+        <span asp-validation-for="UpAdmin.ImageFile" class="text-danger"></span>
     </div>
 
     <div class="form-group">

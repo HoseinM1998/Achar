@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -15,5 +16,7 @@ namespace AcharDomainCore.Dtos.CategoryDto
         public string Title { get; set; }
         [Display(Name = "عکس")]
         public string Image { get; set; }
+        public IFormFile? ImageFile { get; set; }
+
     }
 }
