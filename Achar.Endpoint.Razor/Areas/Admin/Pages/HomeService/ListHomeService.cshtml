@@ -174,7 +174,6 @@
                             <input type="number" asp-for="NewHomeService.BasePrice" class="form-control" value="@homeService.BasePrice">
                             <span asp-validation-for="NewHomeService.BasePrice" class="text-danger"></span>
                         </div>
-
                         <div class="mb-3">
                             <label asp-for="NewHomeService.ShortDescription" class="form-label fw-semibold">توضیحات کوتاه</label>
                             <textarea asp-for="NewHomeService.ShortDescription" class="form-control">@homeService.ShortDescription</textarea>
@@ -186,6 +185,7 @@
                             <textarea asp-for="NewHomeService.Description" class="form-control">@homeService.Description</textarea>
                             <span asp-validation-for="NewHomeService.Description" class="text-danger"></span>
                         </div>
+
 
                         <button type="submit" class="btn btn-success w-100 rounded-pill">ذخیره</button>
                     </form>

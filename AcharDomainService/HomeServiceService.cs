@@ -16,32 +16,65 @@ namespace AcharDomainService
         private readonly IHomeServiceRepository _repository;
         private readonly ILogger<HomeServiceService> _logger;
 
-        public HomeServiceService(IHomeServiceRepository repository)
+        public HomeServiceService(IHomeServiceRepository repository, ILogger<HomeServiceService> logger)
         {
             _repository = repository;
+            _logger = logger;
         }
 
         public async Task<int> CreateHomeService(HomeServiceDto homeService, CancellationToken cancellationToken)
-            => await _repository.CreateHomeService(homeService, cancellationToken);
+        {
+            var homeServiceId = await _repository.CreateHomeService(homeService, cancellationToken);
+            _logger.LogInformation("لایه سرویس: خدمات ایجاد شد با شناسه: {HomeServiceId} زمان {Time}", homeServiceId, DateTime.Now.ToLongTimeString());
+            return homeServiceId;
+        }
 
         public async Task<bool> UpdateHomeService(HomeServiceDto homeService, CancellationToken cancellationToken)
-            => await _repository.UpdateHomeService(homeService, cancellationToken);
-
+        {
+            var result = await _repository.UpdateHomeService(homeService, cancellationToken);
+            if (!result)
+            {
+                return false;
+            }
+            return true;
+        }
 
         public async Task<int> HomeServiceCount(CancellationToken cancellationToken)
-            => await _repository.HomeServiceCount(cancellationToken);
-
+        {
+            var count = await _repository.HomeServiceCount(cancellationToken);
+            return count;
+        }
 
         public async Task<HomeServiceDto> GetHomeServiceById(int id, CancellationToken cancellationToken)
-            => await _repository.GetHomeServiceById(id,cancellationToken);
-
+        {
+            var homeService = await _repository.GetHomeServiceById(id, cancellationToken);
+            if (homeService is null)
+            {
+                _logger.LogError("لایه سرویس: خدمات با شناسه: {HomeServiceId} پیدا نشد زمان {Time}", id, DateTime.Now.ToLongTimeString());
+                throw new Exception("خدمات پیدا نشد.");
+            }
+            _logger.LogInformation("لایه سرویس: خدمات با شناسه: {HomeServiceId} با موفقیت دریافت شد زمان {Time}", id, DateTime.Now.ToLongTimeString());
+            return homeService;
+        }
 
         public async Task<List<HomeServiceDto>> GetHomeServices(CancellationToken cancellationToken)
-            => await _repository.GetHomeServices(cancellationToken);
-
+        {
+            var homeServices = await _repository.GetHomeServices(cancellationToken);
+            _logger.LogInformation("لایه سرویس: تعداد خدمات دریافت شده: {Count} زمان {Time}", homeServices.Count, DateTime.Now.ToLongTimeString());
+            return homeServices;
+        }
 
         public async Task<bool> DeleteHomeService(SoftDeleteDto delete, CancellationToken cancellationToken)
-            => await _repository.DeleteHomeService(delete,cancellationToken);
+        {
+            var result = await _repository.DeleteHomeService(delete, cancellationToken);
+            if (!result)
+            {
+                _logger.LogError("لایه سرویس: حذف خدمات با شناسه: {HomeServiceId} ناموفق بود زمان {Time}", delete.Id, DateTime.Now.ToLongTimeString());
+                return false;
+            }
+            _logger.LogInformation("لایه سرویس: خدمات با شناسه: {HomeServiceId} با موفقیت حذف شد زمان {Time}", delete.Id, DateTime.Now.ToLongTimeString());
+            return true;
+        }
 
     }
 }

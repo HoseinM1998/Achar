@@ -26,10 +26,10 @@ namespace Achar.Infra.Access.EfCore.Repositories
 
         public async Task<int> CreateAdmin(Admin admin, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("ایجاد ادمین با شناسه: {AdminId}زمان{Time}", admin.Id, DateTime.UtcNow.ToLongTimeString());
+            _logger.LogInformation("ایجاد ادمین با شناسه: {AdminId}زمان{Time}", admin.Id, DateTime.Now.ToLongTimeString());
             await _context.Admins.AddAsync(admin, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
-            _logger.LogInformation("ادمین ایجاد شد با شناسه: {AdminId}زمان{Time} ", admin.Id, DateTime.UtcNow.ToLongTimeString());
+            _logger.LogInformation("ادمین ایجاد شد با شناسه: {AdminId}زمان{Time} ", admin.Id, DateTime.Now.ToLongTimeString());
             return admin.Id;
         }
 
@@ -98,7 +98,8 @@ namespace Achar.Infra.Access.EfCore.Repositories
                 updateAdmin.ApplicationUser.PhoneNumber = admin.PhoneNumber;
                 updateAdmin.ApplicationUser.FirstName = admin.FirstName;
                 updateAdmin.ApplicationUser.LastName = admin.LastName;
-                updateAdmin.ApplicationUser.ProfileImageUrl = admin.ProfileImageUrl;
+                updateAdmin.ApplicationUser.ProfileImageUrl = admin.ProfileImageUrl ?? updateAdmin.ApplicationUser.ProfileImageUrl;
+                _context.Admins.Update(updateAdmin);
                 await _context.SaveChangesAsync(cancellationToken);
                 _logger.LogInformation("ادمین با شناسه: {AdminID}  لایه ریپازیتوری با موفقیت بروزرسانی شدزمان{Time} ", admin.Id);
                 return true;

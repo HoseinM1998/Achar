@@ -21,16 +21,16 @@ html {
 
 body {
     margin-bottom: 60px;
-    font-family: 'Vazir', sans-serif;
+    font-family: IranSans, tahoma;
     line-height: 1.8;
 }
 
 .custom-navbar, .custom-footer {
-    font-family: 'Vazir', sans-serif;
+    font-family: IranSans, tahoma;
 }
 
 h1, h2, h3, h4, h5, h6, p, a, span {
-    font-family: 'Vazir', sans-serif;
+    font-family: IranSans, tahoma;
 }
 
 

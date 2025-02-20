@@ -50,7 +50,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
             existingExpert.ApplicationUser.Email = expert.Email;
             existingExpert.ApplicationUser.PhoneNumber = expert.PhoneNumber;
             existingExpert.ApplicationUser.Street = expert.Street;
-            existingExpert.ApplicationUser.ProfileImageUrl = expert.ProfileImageUrl;
+            existingExpert.ApplicationUser.ProfileImageUrl = expert.ProfileImageUrl is null ? existingExpert.ApplicationUser.ProfileImageUrl:expert.ProfileImageUrl;
             existingExpert.ApplicationUser.FirstName = expert.FirstName;
             existingExpert.ApplicationUser.LastName = expert.LastName;
 
@@ -75,6 +75,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
                 }
             }
 
+            _context.Experts.Update(existingExpert);
             await _context.SaveChangesAsync(cancellationToken);
             _logger.LogInformation("کارشناس با موفقیا اپدیت شد با شناسه: {ExpertId} زمان {Time}", expert.Id, DateTime.UtcNow.ToLongTimeString());
             return true;

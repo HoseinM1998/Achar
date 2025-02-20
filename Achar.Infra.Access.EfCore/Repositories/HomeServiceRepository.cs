@@ -21,15 +21,17 @@ namespace Achar.Infra.Access.EfCore.Repositories
         private readonly AppDbContext _context;
         private readonly ILogger<HomeServiceRepository> _logger;
 
-        public HomeServiceRepository(AppDbContext context)
+        public HomeServiceRepository(AppDbContext context,ILogger<HomeServiceRepository> logger)
         {
             _context = context;
+            _logger = logger;
+            
         }
 
 
         public async Task<int> CreateHomeService(HomeServiceDto homeServiceDto, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("ایجاد خدمت خانگی با عنوان: {Title} زمان {Time}", homeServiceDto.Title, DateTime.UtcNow.ToLongTimeString());
+            _logger.LogInformation("ایجاد خدمت خانگی با عنوان: {Title} زمان {Time}", homeServiceDto.Title, DateTime.Now.ToLongTimeString());
             var homeService = new AcharDomainCore.Entites.HomeService()
             {
                 CreateAt = DateTime.Now,
@@ -42,46 +44,45 @@ namespace Achar.Infra.Access.EfCore.Repositories
             };
             await _context.HomeServices.AddAsync(homeService, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
-            _logger.LogInformation("خدمات  ایجاد شد با شناسه: {HomeServiceId} زمان {Time}", homeService.Id, DateTime.UtcNow.ToLongTimeString());
+            _logger.LogInformation("خدمات  ایجاد شد با شناسه: {HomeServiceId} زمان {Time}", homeService.Id, DateTime.Now.ToLongTimeString());
             return homeService.Id;
         }
 
         public async Task<bool> UpdateHomeService(HomeServiceDto homeServiceDto, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("بروزرسانی خدمات  با شناسه: {HomeServiceId} زمان {Time}", homeServiceDto.Id, DateTime.UtcNow.ToLongTimeString());
             var homeService = await _context.HomeServices.FirstOrDefaultAsync(x => x.Id == homeServiceDto.Id, cancellationToken);
             if (homeService is null)
             {
-                _logger.LogWarning("خدمات  با شناسه: {HomeServiceId} پیدا نشد زمان {Time}", homeServiceDto.Id, DateTime.UtcNow.ToLongTimeString());
+                _logger.LogWarning("خدمات  با شناسه: {HomeServiceId} پیدا نشد زمان {Time}", homeServiceDto.Id, DateTime.Now.ToLongTimeString());
                 return false;
             }
             homeService.Title = homeServiceDto.Title;
-            homeService.ImageSrc = homeServiceDto.ImageSrc;
+            homeService.ImageSrc = homeServiceDto.ImageSrc ?? homeService.ImageSrc;
             homeService.BasePrice = homeServiceDto.BasePrice;
             homeService.ShortDescription = homeServiceDto.ShortDescription;
             homeService.Description = homeServiceDto.Description;
             homeService.SubCategoryId = homeServiceDto.SubCategoryId;
+            _context.HomeServices.Update(homeService);
             await _context.SaveChangesAsync(cancellationToken);
-            _logger.LogInformation("خدمات  با شناسه: {HomeServiceId} با موفقیت بروزرسانی شد زمان {Time}", homeServiceDto.Id, DateTime.UtcNow.ToLongTimeString());
+            _logger.LogInformation("خدمات  با شناسه: {HomeServiceId} با موفقیت بروزرسانی شد زمان {Time}", homeServiceDto.Id, DateTime.Now.ToLongTimeString());
             return true;
         }
 
         public async Task<int> HomeServiceCount(CancellationToken cancellationToken)
         {
-            _logger.LogInformation("دریافت تعداد خدمات  زمان {Time}", DateTime.UtcNow.ToLongTimeString());
             return await _context.HomeServices.AsNoTracking().CountAsync(cancellationToken);
         }
 
         public async Task<HomeServiceDto> GetHomeServiceById(int id, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("دریافت خدمات  با شناسه: {HomeServiceId} زمان {Time}", id, DateTime.UtcNow.ToLongTimeString());
+            _logger.LogInformation("دریافت خدمات  با شناسه: {HomeServiceId} زمان {Time}", id, DateTime.Now.ToLongTimeString());
             var homeService = await _context.HomeServices.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
             if (homeService is null)
             {
-                _logger.LogWarning("خدمات  با شناسه: {HomeServiceId} پیدا نشد زمان {Time}", id, DateTime.UtcNow.ToLongTimeString());
+                _logger.LogWarning("خدمات  با شناسه: {HomeServiceId} پیدا نشد زمان {Time}", id, DateTime.Now.ToLongTimeString());
                 throw new Exception("خدمات  پیدا نشد.");
             }
-            _logger.LogInformation("خدمات  با شناسه: {HomeServiceId} با موفقیت دریافت شد زمان {Time}", id, DateTime.UtcNow.ToLongTimeString());
+            _logger.LogInformation("خدمات  با شناسه: {HomeServiceId} با موفقیت دریافت شد زمان {Time}", id, DateTime.Now.ToLongTimeString());
             return new HomeServiceDto
             {
                 Id = homeService.Id,
@@ -98,7 +99,6 @@ namespace Achar.Infra.Access.EfCore.Repositories
 
         public async Task<List<HomeServiceDto>> GetHomeServices(CancellationToken cancellationToken)
         {
-            _logger.LogInformation("دریافت تمامی خدمات  زمان {Time}", DateTime.UtcNow.ToLongTimeString());
             var homeServices = await _context.HomeServices
                 .Select(e => new HomeServiceDto()
                 {
@@ -112,22 +112,21 @@ namespace Achar.Infra.Access.EfCore.Repositories
                     CategoryName = e.SubCategory.Title,
                     CreateAt = e.CreateAt
                 }).AsNoTracking().ToListAsync(cancellationToken);
-            _logger.LogInformation("تعداد خدمات  دریافت شده: {Count} زمان {Time}", homeServices.Count, DateTime.UtcNow.ToLongTimeString());
             return homeServices;
         }
 
         public async Task<bool> DeleteHomeService(SoftDeleteDto active, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("حذف خدمات  با شناسه: {HomeServiceId} زمان {Time}", active.Id, DateTime.UtcNow.ToLongTimeString());
+            _logger.LogInformation("حذف خدمات  با شناسه: {HomeServiceId} زمان {Time}", active.Id, DateTime.Now.ToLongTimeString());
             var homeService = await _context.HomeServices.FirstOrDefaultAsync(x => x.Id == active.Id, cancellationToken);
             if (homeService is null)
             {
-                _logger.LogWarning("خدمات  با شناسه: {HomeServiceId} پیدا نشد زمان {Time}", active.Id, DateTime.UtcNow.ToLongTimeString());
+                _logger.LogWarning("خدمات  با شناسه: {HomeServiceId} پیدا نشد زمان {Time}", active.Id, DateTime.Now.ToLongTimeString());
                 return false;
             }
             homeService.IsDeleted = active.IsDeleted;
             await _context.SaveChangesAsync(cancellationToken);
-            _logger.LogInformation("خدمات  با شناسه: {HomeServiceId} به حالت حذف شده تغییر یافت زمان {Time}", active.Id, DateTime.UtcNow.ToLongTimeString());
+            _logger.LogInformation("خدمات  با شناسه: {HomeServiceId} به حالت حذف شده تغییر یافت زمان {Time}", active.Id, DateTime.Now.ToLongTimeString());
             return true;
         }
 

@@ -51,9 +51,10 @@ namespace Achar.Infra.Access.EfCore.Repositories
             customr.ApplicationUser.Email = customer.Email;
             customr.ApplicationUser.PhoneNumber = customer.PhoneNumber;
             customr.ApplicationUser.Street = customer.Street;
-            customr.ApplicationUser.ProfileImageUrl = customer.ProfileImageUrl;
+            customr.ApplicationUser.ProfileImageUrl = customer.ProfileImageUrl is null ? customr.ApplicationUser.ProfileImageUrl: customer.ProfileImageUrl;
             customr.ApplicationUser.FirstName = customer.FirstName;
             customr.ApplicationUser.LastName = customer.LastName;
+            _context.Customers.Update(customr);
             await _context.SaveChangesAsync(cancellationToken);
             _logger.LogInformation("مشتری با شناسه: {CustomerId} با موفقیت بروزرسانی شد زمان {Time}", customer.Id, DateTime.UtcNow.ToLongTimeString());
             return true;

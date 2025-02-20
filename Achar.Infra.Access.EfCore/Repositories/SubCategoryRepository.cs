@@ -54,8 +54,9 @@ namespace Achar.Infra.Access.EfCore.Repositories
                 return false;
             }
             subCategory.Title = subCategoryDto.Title;
-            subCategory.Image = subCategoryDto.Image;
+            subCategory.Image = subCategoryDto.Image ?? subCategory.Image;
             subCategory.CategoryId = subCategoryDto.CategoryId;
+            _context.SubCategory.Update(subCategory);
             await _context.SaveChangesAsync(cancellationToken);
             _logger.LogInformation("زیر دسته بندی با شناسه: {SubCategoryId} با موفقیت بروزرسانی شد زمان {Time}", subCategoryDto.Id, DateTime.UtcNow.ToLongTimeString());
             return true;
