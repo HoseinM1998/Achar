@@ -20,11 +20,11 @@ namespace AcharDomainAppService
         private readonly IImageService _imageService;
         private readonly ILogger<SubCategoryAppService> _logger;
 
-
-        public SubCategoryAppService(ISubCategoryService service, IImageService imageService)
+        public SubCategoryAppService(ISubCategoryService service, IImageService imageService, ILogger<SubCategoryAppService> logger)
         {
             _service = service;
             _imageService = imageService;
+            _logger = logger;
         }
 
         public async Task<int> CreateSubCategory(SubCategoryDto subCategoryDto, CancellationToken cancellationToken)
@@ -39,6 +39,7 @@ namespace AcharDomainAppService
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "لایه اپ سرویس: خطا در ایجاد زیر دسته: {Message} زمان {Time}", ex.Message, DateTime.Now.ToLongTimeString());
                 throw new Exception($"Error CreateSubCategory: {ex.Message}");
             }
         }
@@ -55,6 +56,7 @@ namespace AcharDomainAppService
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "لایه اپ سرویس: خطا در به‌روزرسانی زیر دسته: {Message} زمان {Time}", ex.Message, DateTime.Now.ToLongTimeString());
                 throw new Exception($"Error UpdateSubCategory: {ex.Message}");
             }
         }
@@ -63,10 +65,11 @@ namespace AcharDomainAppService
         {
             try
             {
-                return await _service.SubCategoryCount( cancellationToken);
+                return await _service.SubCategoryCount(cancellationToken);
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "لایه اپ سرویس: خطا در شمارش زیر دسته: {Message} زمان {Time}", ex.Message, DateTime.Now.ToLongTimeString());
                 throw new Exception($"Error SubCategoryCount: {ex.Message}");
             }
         }
@@ -79,6 +82,7 @@ namespace AcharDomainAppService
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "لایه اپ سرویس: خطا در دریافت زیر دسته بر اساس شناسه: {Message} زمان {Time}", ex.Message, DateTime.Now.ToLongTimeString());
                 throw new Exception($"Error GetSubCategoryById: {ex.Message}");
             }
         }
@@ -87,10 +91,11 @@ namespace AcharDomainAppService
         {
             try
             {
-                return await _service.GetAllSubCategory( cancellationToken);
+                return await _service.GetAllSubCategory(cancellationToken);
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "لایه اپ سرویس: خطا در دریافت تمامی زیر دسته‌ها: {Message} زمان {Time}", ex.Message, DateTime.Now.ToLongTimeString());
                 throw new Exception($"Error GetAllSubCategory: {ex.Message}");
             }
         }
@@ -103,6 +108,7 @@ namespace AcharDomainAppService
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "لایه اپ سرویس: خطا در حذف دسته: {Message} زمان {Time}", ex.Message, DateTime.Now.ToLongTimeString());
                 throw new Exception($"Error DeleteCategory: {ex.Message}");
             }
         }

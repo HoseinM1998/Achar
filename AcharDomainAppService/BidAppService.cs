@@ -13,37 +13,43 @@ using Microsoft.Extensions.Logging;
 
 namespace AcharDomainAppService
 {
-    public class BidAppService:IBidAppService
+    public class BidAppService : IBidAppService
     {
         private readonly IBidService _service;
         private readonly ILogger<BidAppService> _logger;
 
-        public BidAppService(IBidService service)
+        public BidAppService(IBidService service, ILogger<BidAppService> logger)
         {
             _service = service;
+            _logger = logger;
         }
 
         public async Task<int> CreateBid(Bid bid, CancellationToken cancellationToken)
         {
             try
             {
-                return await _service.CreateBid(bid, cancellationToken);
+                var bidId = await _service.CreateBid(bid, cancellationToken);
+                _logger.LogInformation("لایه اپ سرویس: ایجاد پیشنهاد با شناسه: {BidId} زمان {Time}", bidId, DateTime.Now.ToLongTimeString());
+                return bidId;
             }
             catch (Exception ex)
             {
+                _logger.LogError("لایه اپ سرویس: خطا در ایجاد پیشنهاد زمان {Time}: {Message}", DateTime.Now.ToLongTimeString(), ex.Message);
                 throw new Exception($"Error CreateBid: {ex.Message}");
             }
-
         }
 
         public async Task<bool> UpdateBid(BidUpdateDto bid, CancellationToken cancellationToken)
         {
             try
             {
-                return await _service.UpdateBid(bid, cancellationToken);
+                var result = await _service.UpdateBid(bid, cancellationToken);
+                _logger.LogInformation("لایه اپ سرویس: بروزرسانی پیشنهاد با شناسه: {BidId} زمان {Time}", bid.Id, DateTime.Now.ToLongTimeString());
+                return result;
             }
             catch (Exception ex)
             {
+                _logger.LogError("لایه اپ سرویس: خطا در بروزرسانی پیشنهاد با شناسه: {BidId} زمان {Time}: {Message}", bid.Id, DateTime.Now.ToLongTimeString(), ex.Message);
                 throw new Exception($"Error UpdateBid: {ex.Message}");
             }
         }
@@ -52,47 +58,58 @@ namespace AcharDomainAppService
         {
             try
             {
-                return await _service.BidCount( cancellationToken);
+                var count = await _service.BidCount(cancellationToken);
+                _logger.LogInformation("لایه اپ سرویس: تعداد پیشنهاد‌ها دریافت شد: {Count} زمان {Time}", count, DateTime.Now.ToLongTimeString());
+                return count;
             }
             catch (Exception ex)
             {
+                _logger.LogError("لایه اپ سرویس: خطا در دریافت تعداد پیشنهاد‌ها زمان {Time}: {Message}", DateTime.Now.ToLongTimeString(), ex.Message);
                 throw new Exception($"Error BidCount: {ex.Message}");
             }
         }
 
-        public async Task<List<GetBidDto>>? GetBidsByRequestId(int id, CancellationToken cancellationToken)
+        public async Task<List<GetBidDto>> GetBidsByRequestId(int id, CancellationToken cancellationToken)
         {
             try
             {
-                return await _service.GetBidsByRequestId(id, cancellationToken);
+                var bids = await _service.GetBidsByRequestId(id, cancellationToken);
+                _logger.LogInformation("لایه اپ سرویس: دریافت پیشنهاد‌ها با شناسه درخواست: {RequestId} زمان {Time}", id, DateTime.Now.ToLongTimeString());
+                return bids;
             }
             catch (Exception ex)
             {
+                _logger.LogError("لایه اپ سرویس: خطا در دریافت پیشنهاد‌ها با شناسه درخواست: {RequestId} زمان {Time}: {Message}", id, DateTime.Now.ToLongTimeString(), ex.Message);
                 throw new Exception($"Error GetBidsByRequestId: {ex.Message}");
             }
         }
 
-        public async Task<List<GetBidDto>>? GetBidsByExpertId(int expertId, CancellationToken cancellationToken)
+        public async Task<List<GetBidDto>> GetBidsByExpertId(int expertId, CancellationToken cancellationToken)
         {
             try
             {
-                return await _service.GetBidsByExpertId(expertId, cancellationToken);
+                var bids = await _service.GetBidsByExpertId(expertId, cancellationToken);
+                _logger.LogInformation("لایه اپ سرویس: دریافت پیشنهاد‌ها با شناسه کارشناس: {ExpertId} زمان {Time}", expertId, DateTime.Now.ToLongTimeString());
+                return bids;
             }
             catch (Exception ex)
             {
+                _logger.LogError("لایه اپ سرویس: خطا در دریافت پیشنهاد‌ها با شناسه کارشناس: {ExpertId} زمان {Time}: {Message}", expertId, DateTime.Now.ToLongTimeString(), ex.Message);
                 throw new Exception($"Error GetBidsByExpertId: {ex.Message}");
             }
-
         }
 
         public async Task<List<Bid?>> GetBids(CancellationToken cancellationToken)
         {
             try
             {
-                return await _service.GetBids( cancellationToken);
+                var bids = await _service.GetBids(cancellationToken);
+                _logger.LogInformation("لایه اپ سرویس: تعداد پیشنهاد‌های دریافت شده: {Count} زمان {Time}", bids.Count, DateTime.Now.ToLongTimeString());
+                return bids;
             }
             catch (Exception ex)
             {
+                _logger.LogError("لایه اپ سرویس: خطا در دریافت پیشنهاد‌ها زمان {Time}: {Message}", DateTime.Now.ToLongTimeString(), ex.Message);
                 throw new Exception($"Error GetBids: {ex.Message}");
             }
         }
@@ -101,10 +118,13 @@ namespace AcharDomainAppService
         {
             try
             {
-                return await _service.DeleteBid(delete, cancellationToken);
+                var result = await _service.DeleteBid(delete, cancellationToken);
+                _logger.LogInformation("لایه اپ سرویس: حذف پیشنهاد با شناسه: {BidId} زمان {Time}", delete.Id, DateTime.Now.ToLongTimeString());
+                return result;
             }
             catch (Exception ex)
             {
+                _logger.LogError("لایه اپ سرویس: خطا در حذف پیشنهاد با شناسه: {BidId} زمان {Time}: {Message}", delete.Id, DateTime.Now.ToLongTimeString(), ex.Message);
                 throw new Exception($"Error DeleteBid: {ex.Message}");
             }
         }
@@ -113,10 +133,13 @@ namespace AcharDomainAppService
         {
             try
             {
-                return await _service.ChangebidStatus(status, cancellationToken);
+                var result = await _service.ChangebidStatus(status, cancellationToken);
+                _logger.LogInformation("لایه اپ سرویس: تغییر وضعیت پیشنهاد با شناسه: {BidId} زمان {Time}", status.Id, DateTime.Now.ToLongTimeString());
+                return result;
             }
             catch (Exception ex)
             {
+                _logger.LogError("لایه اپ سرویس: خطا در تغییر وضعیت پیشنهاد با شناسه: {BidId} زمان {Time}: {Message}", status.Id, DateTime.Now.ToLongTimeString(), ex.Message);
                 throw new Exception($"Error ChangebidStatus: {ex.Message}");
             }
         }

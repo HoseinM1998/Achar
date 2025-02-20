@@ -2,6 +2,7 @@
 using Achar.Infra.Access.EfCore.Repositories;
 using Achar.Infra.Db.Sql;
 using AcharDomainAppService;
+using AcharDomainAppService.AcharDomainAppService;
 using AcharDomainCore.Contracts.Admin;
 using AcharDomainCore.Contracts.ApplicationUser;
 using AcharDomainCore.Contracts.Bid;
