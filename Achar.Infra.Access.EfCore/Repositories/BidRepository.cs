@@ -11,6 +11,7 @@ using AcharDomainCore.Entites;
 using Microsoft.EntityFrameworkCore;
 using AcharDomainCore.Enums;
 using Microsoft.Extensions.Logging;
+using System.Net.NetworkInformation;
 
 namespace Achar.Infra.Access.EfCore.Repositories
 {
@@ -55,10 +56,14 @@ namespace Achar.Infra.Access.EfCore.Repositories
         public async Task<int> BidCount(CancellationToken cancellationToken)
         {
             _logger.LogInformation("دریافت تعداد پیشنهادها زمان {Time}", DateTime.UtcNow.ToLongTimeString());
-            var count = await _context.Bids.AsNoTracking().CountAsync(cancellationToken);
+            var count = await _context.Bids
+                .AsNoTracking()
+                .Where(bid => bid.IsDeleted == false)
+                .CountAsync(cancellationToken);
             _logger.LogInformation("تعداد پیشنهادها: {Count} زمان {Time}", count, DateTime.UtcNow.ToLongTimeString());
             return count;
         }
+
 
         public async Task<List<GetBidDto>> GetBidsByRequestId(int requestId, CancellationToken cancellationToken)
         {
@@ -110,6 +115,28 @@ namespace Achar.Infra.Access.EfCore.Repositories
             return bids;
         }
 
+        public async Task<GetBidDto?> GetBidById(int id, CancellationToken cancellationToken)
+        {
+            var bid = await _context.Bids
+                .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+            if (bid == null)
+            {
+                _logger.LogError("پیشنهاد یافت نشد: {BidId} {Time}", id, DateTime.UtcNow.ToLongTimeString());
+                return null;
+            }
+
+            var bidDto = new GetBidDto
+            {
+                Id = bid.Id,
+                Status = bid.Status,
+                ExpertId = bid.ExpertId,
+                RequestId = bid.RequestId
+            };
+            return bidDto;
+        }
+
+
+
         public async Task<List<Bid?>> GetBids(CancellationToken cancellationToken)
         {
             _logger.LogInformation("دریافت تمامی پیشنهادها زمان {Time}", DateTime.UtcNow.ToLongTimeString());
@@ -146,6 +173,29 @@ namespace Achar.Infra.Access.EfCore.Repositories
             await _context.SaveChangesAsync(cancellationToken);
             _logger.LogInformation("وضعیت پیشنهاد با شناسه: {BidId} به {Status} تغییر یافت زمان {Time}", status.Id, status.Status, DateTime.UtcNow.ToLongTimeString());
             return true;
+        }
+
+        public async Task<GetBidDto?> GetBidById(int? id, CancellationToken cancellationToken)
+
+        {
+            var bid = await _context.Bids
+                .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+
+            if (bid == null)
+            {
+                return null;
+            }
+
+            var bidDto = new GetBidDto
+            {
+                Id = bid.Id,
+                Status = bid.Status,
+                RequestId = bid.RequestId ,
+            
+           
+            };
+
+            return bidDto;
         }
     }
 }

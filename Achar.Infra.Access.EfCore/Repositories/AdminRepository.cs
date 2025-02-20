@@ -35,11 +35,14 @@ namespace Achar.Infra.Access.EfCore.Repositories
 
         public async Task<int> AdminCount(CancellationToken cancellationToken)
         {
-            _logger.LogInformation("لایه ریپازیتوری دریافت تعداد ادمین‌هازمان{Time} ", DateTime.UtcNow.ToLongTimeString());
-            var count = await _context.Admins.AsNoTracking().CountAsync(cancellationToken);
-            _logger.LogInformation("لایه ریپازیتوری تعداد ادمین‌ها: {Count}", count, DateTime.UtcNow.ToLongTimeString());
+            _logger.LogInformation("لایه ریپازیتوری دریافت تعداد ادمین‌ها زمان {Time}", DateTime.UtcNow.ToLongTimeString());
+            var count = await _context.Admins
+                .AsNoTracking()
+                .Where(admin => admin.ApplicationUser.IsDelete == false)
+                .CountAsync(cancellationToken);
             return count;
         }
+
 
         public async Task<AdminProfDto> GetAdminById(int adminID, CancellationToken cancellationToken)
         {

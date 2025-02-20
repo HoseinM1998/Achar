@@ -12,7 +12,8 @@ namespace AcharDomainCore.Contracts.Bid
         Task<List<GetBidDto>>? GetBidsByExpertId(int expertId, CancellationToken cancellationToken);
         Task<List<Entites.Bid?>> GetBids(CancellationToken cancellationToken);
         Task<bool> DeleteBid(SoftDeleteDto delete, CancellationToken cancellationToken);
-        public Task<bool> ChangebidStatus(BidStatusDto status, CancellationToken cancellationToken);
+        Task<bool> ChangebidStatus(BidStatusDto status, CancellationToken cancellationToken);
+        Task<GetBidDto?> GetBidById(int? id, CancellationToken cancellationToken);
 
     }
 }

@@ -60,13 +60,20 @@ namespace Achar.Infra.Access.EfCore.Repositories
             return true;
         }
 
+
         public async Task<int> CoustomerCount(CancellationToken cancellationToken)
         {
             _logger.LogInformation("دریافت تعداد مشتری‌ها زمان {Time}", DateTime.UtcNow.ToLongTimeString());
-            var count = await _context.Customers.AsNoTracking().CountAsync(cancellationToken);
+            var count = await _context.Customers
+                .AsNoTracking()
+                .Include(customer => customer.ApplicationUser)
+                .Where(customer => customer.ApplicationUser.IsDelete == false)
+                .CountAsync(cancellationToken);
             _logger.LogInformation("تعداد مشتری‌ها: {Count} زمان {Time}", count, DateTime.UtcNow.ToLongTimeString());
             return count;
         }
+
+
 
         public async Task<decimal> GetBalanceCustomerById(int CustomerId, CancellationToken cancellationToken)
         {

@@ -61,7 +61,10 @@ namespace Achar.Infra.Access.EfCore.Repositories
         public async Task<int> CategoryCount(CancellationToken cancellationToken)
         {
             _logger.LogInformation("دریافت تعداد دسته‌ها زمان {Time}", DateTime.UtcNow.ToLongTimeString());
-            var count = await _context.Categories.AsNoTracking().CountAsync(cancellationToken);
+            var count = await _context.Categories
+                .AsNoTracking()
+                .Where(category => category.IsDeleted == false)
+                .CountAsync(cancellationToken);
             _logger.LogInformation("تعداد دسته‌ها: {Count} زمان {Time}", count, DateTime.UtcNow.ToLongTimeString());
             return count;
         }

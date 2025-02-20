@@ -70,7 +70,13 @@ namespace Achar.Infra.Access.EfCore.Repositories
 
         public async Task<int> HomeServiceCount(CancellationToken cancellationToken)
         {
-            return await _context.HomeServices.AsNoTracking().CountAsync(cancellationToken);
+            _logger.LogInformation("دریافت تعداد خدمات  زمان {Time}", DateTime.UtcNow.ToLongTimeString());
+            var count = await _context.HomeServices
+                .AsNoTracking()
+                .Where(homeService => homeService.IsDeleted == false)
+                .CountAsync(cancellationToken);
+            _logger.LogInformation("تعداد  خانگی: {Count} زمان {Time}", count, DateTime.UtcNow.ToLongTimeString());
+            return count;
         }
 
         public async Task<HomeServiceDto> GetHomeServiceById(int id, CancellationToken cancellationToken)

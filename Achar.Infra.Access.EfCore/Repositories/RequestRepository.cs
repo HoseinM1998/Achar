@@ -64,8 +64,14 @@ namespace Achar.Infra.Access.EfCore.Repositories
         public async Task<int> RequestCount(CancellationToken cancellationToken)
         {
             _logger.LogInformation("دریافت تعداد درخواست‌ها زمان {Time}", DateTime.UtcNow.ToLongTimeString());
-            return await _context.Requests.AsNoTracking().CountAsync(cancellationToken);
+            var count = await _context.Requests
+                .AsNoTracking()
+                .Where(request => request.IsDeleted == false)
+                .CountAsync(cancellationToken);
+            _logger.LogInformation("تعداد درخواست‌ها: {Count} زمان {Time}", count, DateTime.UtcNow.ToLongTimeString());
+            return count;
         }
+
 
         public async Task<RequestGetDto> GetRequestById(int id, CancellationToken cancellationToken)
         {

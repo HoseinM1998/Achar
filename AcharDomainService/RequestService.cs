@@ -70,11 +70,6 @@ namespace AcharDomainService
                 newStatus.Status = StatusRequestEnum.Success;
             }
 
-            if (request.Canccell = true)
-            {
-                newStatus.Status = StatusRequestEnum.CancelledByExpert;
-            
-            }
             else
             {
                 newStatus.Status = StatusRequestEnum.WaitingForExpert;

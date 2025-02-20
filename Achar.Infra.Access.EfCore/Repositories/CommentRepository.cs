@@ -58,10 +58,14 @@ namespace Achar.Infra.Access.EfCore.Repositories
         public async Task<int> CommentCount(CancellationToken cancellationToken)
         {
             _logger.LogInformation("دریافت تعداد نظرات زمان {Time}", DateTime.UtcNow.ToLongTimeString());
-            var count = await _context.Comments.AsNoTracking().CountAsync(cancellationToken);
+            var count = await _context.Comments
+                .AsNoTracking()
+                .Where(comment => comment.IsDeleted == false)
+                .CountAsync(cancellationToken);
             _logger.LogInformation("تعداد نظرات: {Count} زمان {Time}", count, DateTime.UtcNow.ToLongTimeString());
             return count;
         }
+
 
         public async Task<Comment> GetCommentById(int id, CancellationToken cancellationToken)
         {

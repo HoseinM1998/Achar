@@ -12,7 +12,9 @@ namespace HomeService.Domain.Core.Enums
         WaitingForExpert,
         [Display(Name = "با‌موفقیت انجام‌شد")]
         Success ,
-        [Display(Name = " توسط کارشناس کنسل‌شد")]
-        CancelledByExpert
+        [Display(Name = " توسط مشتری کنسل‌شد")]
+        CancelledByCustomer,
+        [Display(Name = "توسط کارشناس کنسل شد")]
+        CancelledByExpert,
     }
 }

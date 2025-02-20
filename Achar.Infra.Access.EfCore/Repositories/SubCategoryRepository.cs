@@ -65,7 +65,12 @@ namespace Achar.Infra.Access.EfCore.Repositories
         public async Task<int> SubCategoryCount(CancellationToken cancellationToken)
         {
             _logger.LogInformation("دریافت تعداد زیر دسته بندی‌ها زمان {Time}", DateTime.UtcNow.ToLongTimeString());
-            return await _context.SubCategory.AsNoTracking().CountAsync(cancellationToken);
+            var count = await _context.SubCategory
+                .AsNoTracking()
+                .Where(subCategory => subCategory.IsDeleted == false)
+                .CountAsync(cancellationToken);
+            _logger.LogInformation("تعداد زیر دسته‌بندی‌ها: {Count} زمان {Time}", count, DateTime.UtcNow.ToLongTimeString());
+            return count;
         }
 
         public async Task<SubCategory> GetSubCategoryById(int id, CancellationToken cancellationToken)

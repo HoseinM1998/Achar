@@ -13,11 +13,13 @@ namespace AcharDomainCore.Enums
         WaitingForCustomerConfirmation = 1,
         [Display(Name = "درانتظار مراجعه متخصص")]
         WaitingForExpert,
-        [Display(Name = "توسط مشتری کنسل شد")]
-        CancelledByCustomer,
+        [Display(Name = "توسط کارشناس کنسل شد")]
+        CancelledByExpert,
         [Display(Name = "ردشد")] 
         Rejected,
         [Display(Name = "با‌موفقیت انجام‌شد")]
-        Success
+        Success,
+        [Display(Name = " توسط مشتری کنسل‌شد")]
+        CancelledByCustomer
     }
 }

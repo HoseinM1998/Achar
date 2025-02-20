@@ -84,7 +84,13 @@ namespace Achar.Infra.Access.EfCore.Repositories
 
         public async Task<int> ExpertCount(CancellationToken cancellationToken)
         {
-            return await _context.Experts.AsNoTracking().CountAsync(cancellationToken);
+            _logger.LogInformation("دریافت تعداد متخصص‌ها زمان {Time}", DateTime.UtcNow.ToLongTimeString());
+            var count = await _context.Experts
+                .AsNoTracking()
+                .Where(expert => expert.ApplicationUser.IsDelete == false)
+                .CountAsync(cancellationToken);
+            _logger.LogInformation("تعداد متخصص‌ها: {Count} زمان {Time}", count, DateTime.UtcNow.ToLongTimeString());
+            return count;
         }
 
         public async Task<ExpertProfDto?> GetExpertById(int id, CancellationToken cancellationToken)
