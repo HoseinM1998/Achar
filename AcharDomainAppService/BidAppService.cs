@@ -99,7 +99,7 @@ namespace AcharDomainAppService
             }
         }
 
-        public async Task<List<Bid?>> GetBids(CancellationToken cancellationToken)
+        public async Task<List<GetBidDto?>> GetBids(CancellationToken cancellationToken)
         {
             try
             {

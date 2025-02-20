@@ -27,8 +27,9 @@ namespace AcharDomainCore.Dtos.BidDto
 
         [Display(Name = " نام مشتری")]
         public string RequestName { get; set; }
+        public string? CustomerName { get; set; }
+
         public int? ExpertId { get; set; }
         public int? RequestId { get; set; }
-        public bool CanccelRequest { get; set; } = false;
     }
 }

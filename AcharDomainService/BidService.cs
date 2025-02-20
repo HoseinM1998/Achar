@@ -9,6 +9,7 @@ using AcharDomainCore.Dtos;
 using AcharDomainCore.Dtos.BidDto;
 using AcharDomainCore.Entites;
 using AcharDomainCore.Enums;
+using HomeService.Domain.Core.Enums;
 using Microsoft.Extensions.Logging;
 
 namespace AcharDomainService
@@ -44,19 +45,63 @@ namespace AcharDomainService
         public async Task<List<GetBidDto>>? GetBidsByRequestId(int id, CancellationToken cancellationToken)
             => await _repository.GetBidsByRequestId(id, cancellationToken);
 
-        
+
 
         public async Task<List<GetBidDto>>? GetBidsByExpertId(int expertId, CancellationToken cancellationToken)
             => await _repository.GetBidsByExpertId(expertId, cancellationToken);
 
 
-        public async Task<List<Bid?>> GetBids(CancellationToken cancellationToken)
+        public async Task<List<GetBidDto?>> GetBids(CancellationToken cancellationToken)
             => await _repository.GetBids(cancellationToken);
 
         public async Task<bool> DeleteBid(SoftDeleteDto delete, CancellationToken cancellationToken)
             => await _repository.DeleteBid(delete, cancellationToken);
 
         public async Task<bool> ChangebidStatus(BidStatusDto status, CancellationToken cancellationToken)
-            => await _repository.ChangebidStatus(status, cancellationToken);
+        {
+            var bid = await _repository.GetBidById(status.Id, cancellationToken);
+            if (bid == null)
+            {
+                return false;
+            }
+
+            var request = bid.Request;
+            if (request == null)
+            {
+                return false;
+            }
+
+            if (request.AcceptedExpertId == null)
+            {
+                status.Status = StatusBidEnum.WaitingForCustomerConfirmation;
+            }
+            else if (request.AcceptedExpertId == bid.ExpertId)
+            {
+                if (request.DoneAt != null)
+                {
+                    status.Status = StatusBidEnum.Success;
+                }
+                else if (request.Status == StatusRequestEnum.CancelledByCustomer)
+                {
+                    status.Status = StatusBidEnum.CancelledByCustomer;
+                }
+                else if (request.Status == StatusRequestEnum.CancelledByExpert)
+                {
+                    status.Status = StatusBidEnum.CancelledByExpert;
+                }
+                else
+                {
+                    status.Status = StatusBidEnum.WaitingForExpert;
+                }
+            }
+            else
+            {
+                status.Status = StatusBidEnum.Rejected;
+            }
+
+            await _repository.ChangebidStatus(status, cancellationToken);
+            return true;
+        }
+
     }
 }

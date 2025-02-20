@@ -33,6 +33,9 @@
             <tr>
                 <th>شناسه</th>
                 <th>توضیحات</th>
+                <th>نام متخصص</th>
+                <th>عنولن درخواست</th>
+                <th>نام مشتری</th>
                 <th>قیمت پیشنهادی</th>
                 <th>تاریخ پیشنهادی</th>
                 <th>وضعیت</th>
@@ -45,6 +48,9 @@
                 <tr>
                     <td>@bid.Id</td>
                     <td>@bid.Description</td>
+                    <td>@bid.ExpertName</td>
+                    <td>@bid.RequestName</td>
+                    <td>@bid.CustomerName</td>
                     <td>@bid.BidPrice</td>
                     <td>@bid.BidDate.ToShortDateString()</td>
                     <td>@DisplayEnum(bid.Status)</td>

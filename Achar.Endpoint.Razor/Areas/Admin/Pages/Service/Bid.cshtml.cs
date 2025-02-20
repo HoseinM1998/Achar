@@ -27,7 +27,7 @@ namespace Achar.Endpoint.Razor.Areas.Admin.Pages.Service
         }
 
         [BindProperty]
-        public List<Bid> Bids { get; set; }
+        public List<GetBidDto> Bids { get; set; }
 
         [BindProperty]
         public SoftDeleteDto Delete { get; set; }
