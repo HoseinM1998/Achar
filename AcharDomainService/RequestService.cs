@@ -10,12 +10,15 @@ using AcharDomainCore.Dtos;
 using AcharDomainCore.Dtos.Request;
 using AcharDomainCore.Entites;
 using HomeService.Domain.Core.Enums;
+using Microsoft.Extensions.Logging;
 
 namespace AcharDomainService
 {
     public class RequestService : IRequestService
     {
         private readonly IRequestRepository _repository;
+        private readonly ILogger<RequestService> _logger;
+
         public RequestService(IRequestRepository repository)
         {
             _repository = repository;

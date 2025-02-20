@@ -10,6 +10,7 @@ using AcharDomainCore.Dtos.HomeServiceDto;
 using AcharDomainCore.Entites;
 using AcharDomainCore.Contracts.Image;
 using AcharDomainCore.Dtos.SubCategoryDto;
+using Microsoft.Extensions.Logging;
 
 namespace AcharDomainAppService
 {
@@ -17,6 +18,8 @@ namespace AcharDomainAppService
     {
         private readonly IHomeServiceService _service;
         private readonly IImageService _imageService;
+        private readonly ILogger<HomeServiceAppService> _logger;
+
 
         public HomeServiceAppService(IHomeServiceService service, IImageService imageService)
         {

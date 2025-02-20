@@ -8,12 +8,15 @@ using AcharDomainCore.Contracts.SubCategory;
 using AcharDomainCore.Dtos;
 using AcharDomainCore.Dtos.SubCategoryDto;
 using AcharDomainCore.Entites;
+using Microsoft.Extensions.Logging;
 
 namespace AcharDomainService
 {
     public class SubCategoryService : ISubCategoryService
     {
         private readonly ISubCategoryRepository _repository;
+        private readonly ILogger<SubCategoryService> _logger;
+
         public SubCategoryService(ISubCategoryRepository repository)
         {
             _repository = repository;

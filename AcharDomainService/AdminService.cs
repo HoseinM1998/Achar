@@ -8,12 +8,15 @@ using AcharDomainCore.Contracts.Admin;
 using AcharDomainCore.Dtos;
 using AcharDomainCore.Dtos.AdminDto;
 using AcharDomainCore.Entites;
+using Microsoft.Extensions.Logging;
 
 namespace AcharDomainService
 {
     public class AdminService : IAdminService
     {
         private readonly IAdminRepository _repository;
+        private readonly ILogger<AdminService> _logger;
+
         public AdminService(IAdminRepository repository)
         {
             _repository = repository;

@@ -8,6 +8,7 @@ using AcharDomainCore.Contracts.Request;
 using AcharDomainCore.Dtos;
 using AcharDomainCore.Dtos.Request;
 using Microsoft.AspNetCore.Http.Internal;
+using Microsoft.Extensions.Logging;
 
 namespace AcharDomainAppService
 {
@@ -15,6 +16,8 @@ namespace AcharDomainAppService
     {
         private readonly IRequestService _service;
         private readonly IImageService _imageService;
+        private readonly ILogger<RequestAppService> _logger;
+
 
         public RequestAppService(IRequestService service, IImageService imageService)
         {

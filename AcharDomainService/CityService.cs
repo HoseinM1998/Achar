@@ -8,12 +8,15 @@ using AcharDomainCore.Contracts.City;
 using AcharDomainCore.Dtos;
 using AcharDomainCore.Dtos.CityDto;
 using AcharDomainCore.Entites;
+using Microsoft.Extensions.Logging;
 
 namespace AcharDomainService
 {
     public class CityService:ICityService
     {
         private readonly ICityRepository _repository;
+        private readonly ILogger<CityService> _logger;
+
         public CityService(ICityRepository repository)
         {
             _repository = repository;

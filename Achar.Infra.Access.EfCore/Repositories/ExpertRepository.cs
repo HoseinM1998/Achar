@@ -5,22 +5,30 @@ using AcharDomainCore.Entites;
 using Microsoft.EntityFrameworkCore;
 using System;
 using AcharDomainCore.Dtos.ExpertDto;
+using Microsoft.Extensions.Logging;
 
 namespace Achar.Infra.Access.EfCore.Repositories
 {
     public class ExpertRepository : IExpertRepository
     {
         private readonly AppDbContext _context;
-        public ExpertRepository(AppDbContext context)
+        private readonly ILogger<ExpertRepository> _logger;
+
+        public ExpertRepository(AppDbContext context, ILogger<ExpertRepository> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         public async Task<int> CreateExpert(Expert expert, CancellationToken cancellationToken)
         {
+
+            _logger.LogInformation("ایجاد کارشناس با شناسه: {ExpertId} زمان {Time}", expert.Id, DateTime.UtcNow.ToLongTimeString());
             expert.ApplicationUser.CreateAt = DateTime.Now;
             await _context.Experts.AddAsync(expert, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
+            _logger.LogInformation("کارشناس ایجاد شد با شناسه: {ExpertId} زمان {Time}", expert.Id, DateTime.UtcNow.ToLongTimeString());
+            return expert.Id;
             return expert.Id;
         }
 
@@ -68,6 +76,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
             }
 
             await _context.SaveChangesAsync(cancellationToken);
+            _logger.LogInformation("کارشناس با موفقیا اپدیت شد با شناسه: {ExpertId} زمان {Time}", expert.Id, DateTime.UtcNow.ToLongTimeString());
             return true;
         }
 
@@ -80,7 +89,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
         public async Task<ExpertProfDto?> GetExpertById(int id, CancellationToken cancellationToken)
         {
             var expert = await _context.Experts
-                .Include(e => e.ApplicationUser) 
+                .Include(e => e.ApplicationUser)
                 .Include(e => e.City)
                 .Include(e => e.Skills)
                 .FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
@@ -98,6 +107,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
                 NameCity = expert.City.Title,
                 Skills = expert.Skills?.ToList() ?? new List<AcharDomainCore.Entites.HomeService>()
             };
+
         }
 
         public async Task<decimal> GetBalanceExpertById(int expertId, CancellationToken cancellationToken)
@@ -108,6 +118,8 @@ namespace Achar.Infra.Access.EfCore.Repositories
             {
                 throw new KeyNotFoundException("Admin not found.");
             }
+            _logger.LogInformation("موجودی کارشناس  با شناسه: {ExpertId},{Balance} زمان {Time}", expert.Id,expert.ApplicationUser.Balance, DateTime.UtcNow.ToLongTimeString());
+
             return expert.ApplicationUser.Balance;
         }
 
@@ -134,16 +146,19 @@ namespace Achar.Infra.Access.EfCore.Repositories
 
                 })
                 .ToListAsync(cancellationToken);
+            _logger.LogInformation("لیست کارشناس ها:  زمان {Time}", DateTime.UtcNow.ToLongTimeString());
+
             return experts;
 
         }
 
         public async Task<bool> DeleteExpert(int id, CancellationToken cancellationToken)
         {
-            var expert = await _context.Experts.Include(x=>x.ApplicationUser).FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+            var expert = await _context.Experts.Include(x => x.ApplicationUser).FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
             if (expert is null) return false;
             expert.ApplicationUser.IsDelete = true;
             await _context.SaveChangesAsync(cancellationToken);
+            _logger.LogInformation("کارشناس با موفقیا حذف شد با شناسه: {ExpertId} زمان {Time}", expert.Id, DateTime.UtcNow.ToLongTimeString());
             return true;
         }
 
@@ -153,17 +168,18 @@ namespace Achar.Infra.Access.EfCore.Repositories
             if (expert is null) return false;
             expert.IsActive = activeDto.IsActive;
             await _context.SaveChangesAsync(cancellationToken);
+            _logger.LogInformation("وضعیت کارشناس باموفقیت تغییر کرد با شناسه: {ExpertId} زمان {Time}", expert.Id, DateTime.UtcNow.ToLongTimeString());
             return true;
         }
 
         public async Task<List<ExpertProfDto?>> GetTopExpertsByScore(CancellationToken cancellationToken)
         {
             var topExperts = await _context.Experts
-                .Include(e=>e.ApplicationUser)
+                .Include(e => e.ApplicationUser)
                 .Include(e => e.City)
                 .Where(e => e.IsActive)
                 .OrderByDescending(e => e.Score)
-                .Take(10) 
+                .Take(10)
                 .Select(e => new ExpertProfDto
                 {
                     Id = e.Id,
@@ -189,6 +205,8 @@ namespace Achar.Infra.Access.EfCore.Repositories
             if (expert is null) return false;
             expert.ApplicationUser.Balance = balance;
             await _context.SaveChangesAsync(cancellationToken);
+            _logger.LogInformation("موجودی کارشناس با موفقیا اپدیت شد با شناسه:{Ba;ance} {ExpertId} زمان {Time}",expert.ApplicationUser.Balance, expert.Id, DateTime.UtcNow.ToLongTimeString());
+
             return true;
         }
     }

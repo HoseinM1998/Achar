@@ -8,12 +8,15 @@ using AcharDomainCore.Contracts.City;
 using AcharDomainCore.Dtos;
 using AcharDomainCore.Dtos.CityDto;
 using AcharDomainCore.Entites;
+using Microsoft.Extensions.Logging;
 
 namespace AcharDomainAppService
 {
     public class CityAppService :ICityAppService
     {
         private readonly ICityService _service;
+        private readonly ILogger<CityAppService> _logger;
+
         public CityAppService(ICityService service)
         {
             _service = service;

@@ -9,12 +9,15 @@ using AcharDomainCore.Dtos;
 using AcharDomainCore.Dtos.BidDto;
 using AcharDomainCore.Entites;
 using AcharDomainCore.Enums;
+using Microsoft.Extensions.Logging;
 
 namespace AcharDomainService
 {
     public class BidService : IBidService
     {
         private readonly IBidRepository _repository;
+        private readonly ILogger<BidService> _logger;
+
         public BidService(IBidRepository repository)
         {
             _repository = repository;

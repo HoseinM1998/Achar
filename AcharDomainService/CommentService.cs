@@ -8,12 +8,15 @@ using AcharDomainCore.Contracts.Comment;
 using AcharDomainCore.Dtos;
 using AcharDomainCore.Dtos.CommentDto;
 using AcharDomainCore.Entites;
+using Microsoft.Extensions.Logging;
 
 namespace AcharDomainService
 {
     public class CommentService : ICommentService
     {
         private readonly ICommentRepository _repository;
+        private readonly ILogger<CommentService> _logger;
+
         public CommentService(ICommentRepository repository)
         {
             _repository = repository;

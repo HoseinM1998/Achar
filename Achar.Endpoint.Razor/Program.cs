@@ -27,25 +27,32 @@ using Serilog;
 //    .WriteTo.Console()
 //    .CreateLogger();
 
-
 var builder = WebApplication.CreateBuilder(args);
-
-
-
-Log.Logger = new LoggerConfiguration()
-    .MinimumLevel.Information()
-    .WriteTo.Console()
-    .WriteTo.Seq("http://localhost:5341", apiKey: "81g7sJguN5KRaJbWkyBs")
-    .CreateLogger();
-builder.Host.UseSerilog((context, config) =>
+builder.Host.ConfigureLogging(o => {
+    o.ClearProviders();
+    o.AddSerilog();
+}).UseSerilog((context, config) =>
 {
     config.WriteTo.Console();
     config.WriteTo.Seq("http://localhost:5341", apiKey: "81g7sJguN5KRaJbWkyBs");
 });
 
-Log.Information("سلام خوش اومدید");
-
 //builder.Services.AddSerilog();
+
+
+
+//Log.Logger = new LoggerConfiguration()
+//    .MinimumLevel.Information()
+//    .WriteTo.Console()
+//    .WriteTo.Seq("http://localhost:5341", apiKey: "81g7sJguN5KRaJbWkyBs")
+//    .CreateLogger();
+//builder.Host.UseSerilog((context, config) =>
+//{
+//    config.WriteTo.Console();
+//    config.WriteTo.Seq("http://localhost:5341", apiKey: "81g7sJguN5KRaJbWkyBs");
+//});
+//builder.Services.AddSerilog();
+
 
 
 
@@ -128,23 +135,6 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole<int>>(options =>
     })
     .AddErrorDescriber<PersianIdentityErrorDescriber>()
     .AddEntityFrameworkStores<AppDbContext>();
-
-
-
-
-
-//builder.Host.ConfigureLogging(o => {
-//    o.ClearProviders();
-//    o.AddSerilog();
-//}).UseSerilog((context, config) =>
-//{
-//    config.WriteTo.Console();
-//    config.WriteTo.Seq("http://localhost:5341", apiKey: "81g7sJguN5KRaJbWkyBs");
-//});
-
-//builder.Services.AddSerilog();
-
-//Log.Information("Application starting");
 
 
 

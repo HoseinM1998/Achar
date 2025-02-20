@@ -22,7 +22,7 @@
                     <div class="form-group mb-4">
                         <label for="UserName" class="fw-semibold">نام کاربری</label>
                         <div class="input-group">
-                            <input asp-for="User.UserName" class="form-control" type="text" placeholder="نام کاربری" id="UserName" />
+                            <input asp-for="User.UserName" class="form-control" type="text" placeholder="نام کاربری" id="UserName" required="نام کاربری اجباری است">
                         </div>
                     </div>
 
@@ -30,7 +30,7 @@
                     <div class="form-group mb-4">
                         <label for="Password" class="fw-semibold">کلمه عبور</label>
                         <div class="input-group">
-                            <input asp-for="User.Password" class="form-control" type="password" placeholder="کلمه عبور" id="Password" />
+                            <input asp-for="User.Password" class="form-control" type="password" placeholder="کلمه عبور" id="Password" required="رمز عبور اجباری است">
                         </div>
                     </div>
                     <!-- Form Actions -->

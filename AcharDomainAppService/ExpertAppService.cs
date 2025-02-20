@@ -9,6 +9,7 @@ using AcharDomainCore.Dtos;
 using AcharDomainCore.Dtos.ExpertDto;
 using AcharDomainCore.Entites;
 using AcharDomainCore.Contracts.Image;
+using Microsoft.Extensions.Logging;
 
 namespace AcharDomainAppService
 {
@@ -16,6 +17,8 @@ namespace AcharDomainAppService
     {
         private readonly IExpertService _service;
         private readonly IImageService _imageService;
+        private readonly ILogger<ExpertAppService> _logger;
+
 
         public ExpertAppService(IExpertService service,IImageService imageService)
         {

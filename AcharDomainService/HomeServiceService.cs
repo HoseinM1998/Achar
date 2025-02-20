@@ -7,12 +7,15 @@ using System.Threading.Tasks;
 using AcharDomainCore.Contracts.HomeService;
 using AcharDomainCore.Dtos;
 using AcharDomainCore.Dtos.HomeServiceDto;
+using Microsoft.Extensions.Logging;
 
 namespace AcharDomainService
 {
     public class HomeServiceService : IHomeServiceService
     {
         private readonly IHomeServiceRepository _repository;
+        private readonly ILogger<HomeServiceService> _logger;
+
         public HomeServiceService(IHomeServiceRepository repository)
         {
             _repository = repository;

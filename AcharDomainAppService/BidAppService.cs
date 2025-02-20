@@ -9,12 +9,15 @@ using AcharDomainCore.Dtos;
 using AcharDomainCore.Dtos.BidDto;
 using AcharDomainCore.Entites;
 using System.Security.Cryptography;
+using Microsoft.Extensions.Logging;
 
 namespace AcharDomainAppService
 {
     public class BidAppService:IBidAppService
     {
         private readonly IBidService _service;
+        private readonly ILogger<BidAppService> _logger;
+
         public BidAppService(IBidService service)
         {
             _service = service;

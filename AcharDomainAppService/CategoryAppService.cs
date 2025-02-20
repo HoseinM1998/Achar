@@ -10,6 +10,7 @@ using AcharDomainCore.Dtos.CategoryDto;
 using AcharDomainCore.Entites;
 using System.Security.Cryptography;
 using AcharDomainCore.Contracts.Image;
+using Microsoft.Extensions.Logging;
 
 namespace AcharDomainAppService
 {
@@ -17,6 +18,7 @@ namespace AcharDomainAppService
     {
         private readonly ICategoryService _service;
         private readonly IImageService _imageService;
+        private readonly ILogger<CategoryAppService> _logger;
 
         public CategoryAppService(ICategoryService service, IImageService imageService)
         {

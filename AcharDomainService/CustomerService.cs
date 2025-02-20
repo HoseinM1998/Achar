@@ -8,12 +8,15 @@ using AcharDomainCore.Contracts.Customer;
 using AcharDomainCore.Dtos;
 using AcharDomainCore.Dtos.CustomerDto;
 using AcharDomainCore.Entites;
+using Microsoft.Extensions.Logging;
 
 namespace AcharDomainService
 {
     public class CustomerService:ICustomerService
     {
         private readonly ICustomerRepository _repository;
+        private readonly ILogger<AdminService> _logger;
+
         public CustomerService(ICustomerRepository repository)
         {
             _repository = repository;

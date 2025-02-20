@@ -9,6 +9,7 @@ using AcharDomainCore.Dtos;
 using AcharDomainCore.Dtos.CustomerDto;
 using AcharDomainCore.Entites;
 using AcharDomainCore.Contracts.Image;
+using Microsoft.Extensions.Logging;
 
 namespace AcharDomainAppService
 {
@@ -16,6 +17,8 @@ namespace AcharDomainAppService
     {
         private readonly ICustomerService _service;
         private readonly IImageService _imageService;
+        private readonly ILogger<CustomerAppService> _logger;
+
 
         public CustomerAppService(ICustomerService service, IImageService imageService)
         {

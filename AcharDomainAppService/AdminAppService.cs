@@ -10,6 +10,7 @@ using AcharDomainCore.Contracts.Image;
 using AcharDomainCore.Dtos;
 using AcharDomainCore.Dtos.AdminDto;
 using AcharDomainCore.Entites;
+using Microsoft.Extensions.Logging;
 
 namespace AcharDomainAppService
 {
@@ -17,6 +18,8 @@ namespace AcharDomainAppService
     {
         private readonly IAdminService _service;
         private readonly IImageService _imageService;
+        private readonly ILogger<AdminAppService> _logger;
+
 
         public AdminAppService(IAdminService service, IImageService imageService)
         {

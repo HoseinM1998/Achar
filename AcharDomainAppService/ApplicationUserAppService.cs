@@ -4,6 +4,7 @@ using AcharDomainCore.Contracts.ApplicationUser;
 using AcharDomainCore.Dtos.ApplicationUserDto;
 using AcharDomainCore.Entites;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 using System.Security.Claims;
 using System.Threading;
 
@@ -14,6 +15,7 @@ namespace AcharDomainAppService
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IPasswordHasher<ApplicationUser> _passwordHasher;
+        private readonly ILogger<ApplicationUserAppService> _logger;
 
 
         public ApplicationUserAppService(SignInManager<ApplicationUser> signInManager,

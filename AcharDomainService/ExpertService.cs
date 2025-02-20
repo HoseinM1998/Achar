@@ -8,12 +8,15 @@ using AcharDomainCore.Contracts.Expert;
 using AcharDomainCore.Dtos;
 using AcharDomainCore.Dtos.ExpertDto;
 using AcharDomainCore.Entites;
+using Microsoft.Extensions.Logging;
 
 namespace AcharDomainService
 {
     public class ExpertService :IExpertService
     {
         private readonly IExpertRepository _repository;
+        private readonly ILogger<ExpertService> _logger;
+
         public ExpertService(IExpertRepository repository)
         {
             _repository = repository;
