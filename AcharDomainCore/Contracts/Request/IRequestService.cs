@@ -15,7 +15,13 @@ namespace AcharDomainCore.Contracts.Request
         Task<int> RequestCount(CancellationToken cancellationToken);
         Task<RequestGetDto> GetRequestById(int id, CancellationToken cancellationToken);
         Task<List<RequestGetDto?>> GetRequests(CancellationToken cancellationToken);
+        Task<List<RequestGetDto?>> GetCustomerRequests(int customerId, CancellationToken cancellationToken);
+
         Task<bool> DeleteRequest(SoftDeleteDto delete, CancellationToken cancellationToken);
         public Task<bool> ChangeRequestStatus(StatusRequestDto newStatus, CancellationToken cancellationToken);
+        Task<bool> AcceptExpert(int id, int expertId, CancellationToken cancellationToken);
+        Task<bool> DoneRequest(int requestId, CancellationToken cancellationToken);
+        Task<bool> CancellRequest(int requestId, CancellationToken cancellationToken);
+
     }
 }

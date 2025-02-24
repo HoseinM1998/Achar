@@ -1,0 +1,132 @@
+﻿<!DOCTYPE html>
+<html lang="fa">
+
+<head>
+    <!-- Meta Data -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewData["Title"]</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="~/assets/img/logo.jpg">
+    <link href="~/assets/css/styles.css" rel="stylesheet">
+
+
+    <link type="text/css" rel="stylesheet" href="~/calendar-dist/jalalidatepicker.min.css" />
+    <script type="text/javascript" src="~/calendar-dist/jalalidatepicker.min.js"></script>
+</head>
+
+
+<body dir="rtl">
+
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader"></div>
+
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+
+        <!-- ============================================================== -->
+        <!-- Top header  -->
+        <!-- ============================================================== -->
+        <!-- Start Navigation -->
+        <div class="header header-light dark-text">
+            <div class="container">
+                <nav id="navigation" class="navigation navigation-landscape">
+                    <div class="nav-header">
+                        <a class="nav-brand" asp-page="Index" asp-area="">
+                            <img src="~/assets/img/logo.jpg" style="height:43px" />
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <!-- End Navigation -->
+        <div class="clearfix"></div>
+
+        <!-- ======================= dashboard Detail ======================== -->
+        <div class="goodup-dashboard-wrap gray px-4 py-5">
+            <a class="mobNavigation" data-bs-toggle="collapse" href="#MobNav" role="button" aria-expanded="false" aria-controls="MobNav">
+                <i class="fas fa-bars ms-2"></i>منو
+            </a>
+            <div class="collapse" id="MobNav">
+                <div class="goodup-dashboard-nav sticky-top">
+                    <div class="goodup-dashboard-inner">
+                        <ul data-submenu-title="منو">
+                            <li class="@ViewData["Dashboard"]"><a href="Index"><i class="lni lni-dashboard ms-2"></i>داشبورد</a></li>
+                            <li class="@ViewData["ListRequest"]"><a href="ListRequest"><i class="lni lni-files ms-2"></i>آگهی های من</a></li>
+                            <li class="@ViewData["Request"]"><a href="Request"><i class="lni lni-add-files ms-2"></i>افزودن آگهی</a></li>
+                        </ul>
+                        <ul data-submenu-title="حساب کاربری">
+                            <li class="@ViewData["UpdateProf"]"><a href="UpdateProf"><i class="lni lni-user ms-2"></i>ویرایش پروفایل </a></li>
+                            <li class="@ViewData["ChangePass"]"><a asp-page=""><i class="lni lni-lock-alt ms-2"></i>تغییر رمز عبور</a></li>
+                            <li>
+                                <form class="form-inline" asp-area="Account" asp-page="Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })">
+                                    <button type="submit" class="nav-link btn btn-link text-dark">خروج<i class="bx bx-power-off me-2"></i></button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="goodup-dashboard-content">
+                <div class="dashboard-widg-bar d-block">
+                    <div class="row">
+                        @RenderBody()
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- =====================  == dashboard Detail End ======================== -->
+        <!-- ======================= All Types Listing ======================== -->
+
+        <footer class="light-footer skin-light-footer style-2">
+            <div class="footer-bottom br-top">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-12 col-md-12 text-center">
+                            <p class="mb-0">© آیدو سرویس</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <a id="tops-button" class="top-scroll" title="Back to top" href="#">
+            <i class="ti-arrow-up"></i>
+        </a>
+
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <script src="~/assets/js/jquery.min.js"></script>
+    <script src="~/assets/js/popper.min.js"></script>
+    <script src="~/assets/js/bootstrap.min.js"></script>
+    <script src="~/assets/js/slick.js"></script>
+    <script src="~/assets/js/jquery.magnific-popup.min.js"></script>
+    <script src="~/assets/js/dropzone.js"></script>
+    <script src="~/assets/js/counterup.js"></script>
+    <script src="~/assets/js/lightbox.js"></script>
+    <script src="~/assets/js/moment.min.js"></script>
+    <script src="~/assets/js/daterangepicker.js"></script>
+    <script src="~/assets/js/lightbox.js"></script>
+    <script src="~/assets/js/jQuery.style.switcher.js"></script>
+    <script src="~/assets/js/custom.js"></script>
+
+    <!-- ============================================================== -->
+    <!-- This page plugins -->
+    <!-- ============================================================== -->
+</body>
+
+
+@await RenderSectionAsync("Scripts", required: false)
+</html>

@@ -1,4 +1,4 @@
-﻿@using AcharDomainCore.Entites
+﻿@* @using AcharDomainCore.Entites
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @inject SignInManager<ApplicationUser> SignInManager
@@ -13,7 +13,7 @@
             </a>
         </li>
         <li>
-            <a asp-area="Account" asp-page="/Register" class="ft-bold">
+            <a asp-page="/Register" class="ft-bold">
                 <i class="fas fa-solid fa-user-plus ms-1 theme-cl"></i> ثبت‌نام
             </a>
         </li>
@@ -28,3 +28,71 @@
 </ul>
 
 <!--Login modal-->
+
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] | سایت آچار</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Achar.Endpoint.Razor.styles.css" asp-append-version="true" />
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg custom-navbar shadow-sm">
+            <div class="container">
+                <a class="navbar-brand d-flex align-items-center custom-logo" asp-area="" asp-page="/Index">
+                    <img src="~/assets/img/logo.jpg" alt="لوگوی آچار" class="logo-img">
+                    <span class="brand-text">سایت آچار</span>
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                   <ul class="navbar-nav me-auto">
+       <li class="nav-item">
+           <a class="nav-link text-white" asp-area="Account" asp-page="/Login">
+               <i class="fas fa-sign-in-alt me-2"></i> ورود
+           </a>
+       </li>
+       <li class="nav-item">
+           <a class="nav-link text-white" asp-area="" asp-page="/Register">
+               <i class="fas fa-user-plus me-2"></i> ثبت نام
+           </a>
+       </li>
+   </ul>
+
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container mt-4">
+        <main role="main" class="pb-4">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="custom-footer py-3 mt-5">
+        <div class="container text-center">
+            <p>&copy; 2025 - سایت آچار</p>
+            <p>
+                <a class="text-white" asp-area="" asp-page="/Privacy">حریم خصوصی</a> |
+                <a class="text-white" asp-area="" asp-page="/Contact">تماس با ما</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html> *@

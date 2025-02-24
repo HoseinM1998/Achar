@@ -41,6 +41,9 @@ namespace AcharDomainService
         public async Task<List<RequestGetDto?>> GetRequests(CancellationToken cancellationToken)
             => await _repository.GetRequests( cancellationToken);
 
+        public async Task<List<RequestGetDto?>> GetCustomerRequests(int customerId, CancellationToken cancellationToken)
+            => await _repository.GetCustomerRequests(customerId,cancellationToken);
+
 
         public async Task<bool> DeleteRequest(SoftDeleteDto delete, CancellationToken cancellationToken)
             => await _repository.DeleteRequest(delete, cancellationToken);
@@ -78,12 +81,21 @@ namespace AcharDomainService
                     Id = newStatus.Id,
                     Bids = null
                 };
-                await _repository.AcceptExpert(requet, cancellationToken);
+                await _repository.AcceptExpert(requet.Id, requet.ExpertId,cancellationToken);
             }
             await _repository.ChangeRequestStatus(newStatus, cancellationToken);
 
             return true;
         }
 
+        public async Task<bool> AcceptExpert(int id, int expertId, CancellationToken cancellationToken)
+            => await _repository.AcceptExpert(id,expertId, cancellationToken);
+
+
+        public async Task<bool> DoneRequest(int requestId, CancellationToken cancellationToken)
+            => await _repository.DoneRequest(requestId, cancellationToken);
+
+        public async Task<bool> CancellRequest(int requestId, CancellationToken cancellationToken)
+            => await _repository.CancellRequest(requestId, cancellationToken);
     }
 }

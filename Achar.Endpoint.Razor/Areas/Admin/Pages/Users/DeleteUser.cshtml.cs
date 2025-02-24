@@ -5,6 +5,7 @@ using AcharDomainCore.Contracts.Expert;
 using AcharDomainCore.Dtos;
 using AcharDomainCore.Dtos.CustomerDto;
 using AcharDomainCore.Dtos.ExpertDto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
@@ -13,8 +14,11 @@ using System.Threading.Tasks;
 
 namespace Achar.Endpoint.Razor.Areas.Admin.Pages.Users
 {
+    [Authorize(Roles = "Admin")]
+
     public class DeleteUserModel : PageModel
     {
+
         private readonly IApplicationUserAppService _applicationUserAppService;
         private readonly IAdminAppService _adminAppService;
         private readonly ICustomerAppService _customerAppService;

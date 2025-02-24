@@ -105,6 +105,23 @@ namespace Achar.Infra.Access.EfCore.Repositories
             return subCategories;
         }
 
+        public async Task<List<SubCategoryDto?>> GetAllSubCategoryByCategory(int category, CancellationToken cancellationToken)
+        {
+            var subCategories = await _context.SubCategory
+                .Where(e => e.CategoryId == category)
+                .Select(e => new SubCategoryDto()
+                {
+                    Id = e.Id,
+                    Title = e.Title,
+                    Image = e.Image,
+                    CategoryId = e.CategoryId,
+                    CategoryName = e.Category.Title,
+                    CreateAt = e.CreateAt
+                }).AsNoTracking().ToListAsync(cancellationToken);
+            return subCategories;
+        }
+
+
         public async Task<bool> DeleteCategory(SoftDeleteDto active, CancellationToken cancellationToken)
         {
             _logger.LogInformation("حذف زیر دسته بندی با شناسه: {SubCategoryId} زمان {Time}", active.Id, DateTime.UtcNow.ToLongTimeString());

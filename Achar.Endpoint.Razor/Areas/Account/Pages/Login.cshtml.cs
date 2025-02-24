@@ -27,11 +27,11 @@ namespace Achar.Endpoint.Razor.Areas.Account.Pages
         public async Task<IActionResult> OnPost(LoginDto accountLogin)
         {
             if (!ModelState.IsValid)
-                return Page();
+                return RedirectToPage("./Login");
+
             var succeededLogin = await _accountAppServices.Login(accountLogin.UserName, accountLogin.Password);
             if (succeededLogin.Succeeded)
             {
-
                 if (User.IsInRole("Admin"))
                 {
                     _logger.LogInformation("Admin sucsses login{Time}", DateTime.UtcNow.ToLongTimeString());
@@ -53,14 +53,15 @@ namespace Achar.Endpoint.Razor.Areas.Account.Pages
                     return LocalRedirect("/Customer/Index");
 
                 }
-                else
-                {
-                    TempData["Error"] = "نام کاربری یا رمز عبور نادرست است";
-                    return RedirectToPage("/User/Login");
-                }
             }
-            _logger.LogError("username ana password isvalid");
-            return Page();
+            else
+            {
+                TempData["ErrorMessage"] = "نام کاربری یا رمز عبور نادرست است";
+                return RedirectToPage("./Login");
+            }
+            _logger.LogError("username and password is invalid");
+            return RedirectToPage("./Login");
         }
+
     }
 }

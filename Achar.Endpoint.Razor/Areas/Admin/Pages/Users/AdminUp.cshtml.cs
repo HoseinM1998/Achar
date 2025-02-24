@@ -1,6 +1,7 @@
 ﻿using AcharDomainCore.Contracts.Admin;
 using AcharDomainCore.Contracts.ApplicationUser;
 using AcharDomainCore.Dtos.AdminDto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
@@ -9,8 +10,11 @@ using System.Threading.Tasks;
 
 namespace Achar.Endpoint.Razor.Areas.Admin.Pages.Users
 {
+    [Authorize(Roles = "Admin")]
+
     public class AdminUpModel : PageModel
     {
+
         private readonly IApplicationUserAppService _applicationUserAppService;
         private readonly IAdminAppService _adminAppService;
         private readonly ILogger<AdminUpModel> _logger;

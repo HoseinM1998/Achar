@@ -10,9 +10,12 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Achar.Endpoint.Razor.Areas.Admin.Pages.Service
 {
+    [Authorize(Roles = "Admin")]
+
     public class RequestModel : PageModel
     {
         private readonly IRequestAppService _requestAppService;

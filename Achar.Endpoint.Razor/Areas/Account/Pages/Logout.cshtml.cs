@@ -7,13 +7,17 @@ namespace Achar.Endpoint.Razor.Areas.Account.Pages
 {
     public class LogoutModel(SignInManager<ApplicationUser> signInManager) : PageModel
     {
-        private readonly SignInManager<ApplicationUser> _signInManager = signInManager;
-
-        public async Task<IActionResult> OnGet()
+        //private readonly SignInManager<ApplicationUser> _signInManager = signInManager;
+        public void OnGet()
         {
-            await _signInManager.SignOutAsync();
 
-            return RedirectToPage("Index");
+        }
+
+        public async Task<IActionResult> OnPost()
+        {
+            await signInManager.SignOutAsync();
+
+            return RedirectToPage("/Index");
         }
 
     }

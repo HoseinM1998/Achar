@@ -95,7 +95,6 @@
             <th>قیمت پایه</th>
             <th>توضیحات کوتاه</th>
             <th>توضیحات</th>
-            <th>تاریخ ایجاد</th>
             <th>نام زیردسته‌بندی</th>
             <th>عملیات</th>
         </tr>
@@ -121,7 +120,6 @@
                 <td>@homeService.BasePrice</td>
                 <td>@homeService.ShortDescription</td>
                 <td>@homeService.Description</td>
-                <td>@homeService.CreateAt.ToString("yyyy-MM-dd")</td>
                 <td>@homeService.CategoryName</td>
 
                 <td>
@@ -219,10 +217,8 @@
 
 @section Scripts {
     @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <partial name="_ValidationScriptsPartial" />
+  }
 }
 <style>
     .gray {
@@ -280,7 +276,4 @@
         border-radius: 5px;
     }
 </style>
-
-
-
 

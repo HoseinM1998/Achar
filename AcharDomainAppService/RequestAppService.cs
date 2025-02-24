@@ -81,6 +81,18 @@ namespace AcharDomainAppService
             }
         }
 
+        public async Task<List<RequestGetDto?>> GetCustomerRequests(int customerId, CancellationToken cancellationToken)
+        {
+            try
+            {
+                return await _service.GetCustomerRequests(customerId, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error GetRequestById: {ex.Message}");
+            }
+        }
+
         public async Task<List<RequestGetDto?>> GetRequests(CancellationToken cancellationToken)
         {
             try
@@ -114,6 +126,42 @@ namespace AcharDomainAppService
             catch (Exception ex)
             {
                 throw new Exception($"Error UploadImage: {ex.Message}");
+            }
+        }
+
+        public async Task<bool> AcceptExpert(int id, int expertId, CancellationToken cancellationToken)
+        {
+            try
+            {
+                return await _service.AcceptExpert(id,expertId, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error AcceptExpert: {ex.Message}");
+            }
+        }
+
+        public async Task<bool> DoneRequest(int requestId, CancellationToken cancellationToken)
+        {
+            try
+            {
+                return await _service.DoneRequest(requestId, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error DoneRequest: {ex.Message}");
+            }
+        }
+
+        public async Task<bool> CancellRequest(int requestId, CancellationToken cancellationToken)
+        {
+            try
+            {
+                return await _service.CancellRequest(requestId, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error DoneRequest: {ex.Message}");
             }
         }
     }

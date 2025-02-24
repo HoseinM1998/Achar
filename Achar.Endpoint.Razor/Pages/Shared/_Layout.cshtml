@@ -1,44 +1,111 @@
 ﻿<!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] | سایت آچار</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Achar.Endpoint.Razor.styles.css" asp-append-version="true" />
-    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet" type="text/css" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-</head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-lg custom-navbar shadow-sm">
-            <div class="container">
-                <a class="navbar-brand d-flex align-items-center custom-logo" asp-area="" asp-page="/Index">
-                    <img src="~/assets/img/logo.jpg" alt="لوگوی آچار" class="logo-img">
-                    <span class="brand-text">سایت آچار</span>
-                </a>
+    <!-- Meta Data -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Goodup - قالب ثبت آگهی و دایرکتوری HTML</title>
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav me-auto">
-                        <li class="nav-item">
-                            <a class="nav-link text-white" asp-area="Account" asp-page="/Login">
-                                <i class="fas fa-sign-in-alt me-2"></i> ورود
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" asp-area="" asp-page="/Register">
-                                <i class="fas fa-user-plus me-2"></i> ثبت نام
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="~/assets/img/favicon.png">
+
+    <!-- Custom CSS -->
+    <link href="~/assets/css/styles.css" rel="stylesheet">
+</head>
+
+
+<body dir="rtl">
+
+	<!-- ============================================================== -->
+	<!-- Preloader - style you can find in spinners.css -->
+	<!-- ============================================================== -->
+    <div class="preloader"></div>
+
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+
+        <!-- ============================================================== -->
+        <!-- Top header  -->
+        <!-- ============================================================== -->
+        <!-- Start Navigation -->
+        <div class="header header-light dark-text">
+            <div class="container">
+                <nav id="navigation" class="navigation navigation-landscape">
+                    <div class="nav-header">
+                        <a class="nav-brand" href="#">
+                            <img src="~/assets/img/logo.jpg" class="logo" alt="" style="width: 50px; height: auto;" />
+                        </a>
+
+                    </div>
+                    <div class="nav-menus-wrapper" style="transition-property: none;">
+                        <ul class="nav-menu">
+
+                            <li class="active">
+                                <a href="javascript:void(0);">صفحه اصلی</a>
+                                <ul class="nav-dropdown nav-submenu">
+                                    <li><a asp-page="/Index">صفحه اصلی</a></li>
+                                    <li><a asp-page="/SubCategory"> زیر دسته بندی</a></li>
+                                    <li><a asp-page="/HomeService"> خدمات</a></li>
+                                </ul>
+                            </li>
+
+                            <li>
+                                <a href="javascript:void(0);">آگهی</a>
+                                <ul class="nav-dropdown nav-submenu">
+                                    <li>
+                                        <a href="javascript:void(0);">جزئیات</a>
+                                        <ul class="nav-dropdown nav-submenu">
+                                            <li><a href="single-listing-detail-1.html">نسخه 1</a></li>
+                                            <li><a href="single-listing-detail-2.html">نسخه 2</a></li>
+                                            <li><a href="single-listing-detail-3.html">نسخه 3</a></li>
+                                            <li><a href="single-listing-detail-4.html">نسخه 4</a></li>
+                                            <li><a href="single-listing-detail-5.html">نسخه 5</a></li>
+                                            <li><a href="single-listing-detail-6.html">نسخه 6</a></li>
+                                            <li><a href="single-listing-detail-7.html">نسخه 7</a></li>
+                                            <li><a href="single-listing-detail-8.html">نسخه 8</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li>
+                                <a href="javascript:void(0);">صفحات</a>
+                                <ul class="nav-dropdown nav-submenu">
+                                    <li><a href="blog.html">وبلاگ</a></li>
+                                    <li><a href="about-us.html">درباره ما</a></li>
+                                    <li><a href="contact.html">تماس با ما</a></li>
+                                    <li><a href="checkout.html">تسویه حساب</a></li>
+                                    <li><a href="pricing.html">پکیج های قیمت گذاری</a></li>
+                                    <li><a href="signup.html">ثبت نام</a></li>
+                                    <li><a href="login.html">ورود</a></li>
+                                    <li><a href="privacy.html">شرایط و قوانین</a></li>
+                                    <li><a href="faq.html">سوالات متداول</a></li>
+                                    <li><a href="404.html">صفحه 404</a></li>
+                                </ul>
+                            </li>
+
+                        </ul>
+
+                        <ul class="navbar-nav me-auto" style="display: flex; flex-direction: row;">
+                            <li class="nav-item" style="margin-right: 1rem;">
+                                <a class="nav-link text-dark" asp-area="Account" asp-page="/Login" style="color: #000;">
+                                    <i class="fas fa-sign-in-alt me-2"></i> ورود
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Register" style="color: #000;">
+                                    <i class="fas fa-user-plus me-2"></i> ثبت نام
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
             </div>
-        </nav>
-    </header>
+        </div>
+    </div>
 
     <div class="container mt-4">
         <main role="main" class="pb-4">
@@ -46,20 +113,119 @@
         </main>
     </div>
 
-    <footer class="custom-footer py-3 mt-5">
-        <div class="container text-center">
-            <p>&copy; 2025 - سایت آچار</p>
-            <p>
-                <a class="text-white" asp-area="" asp-page="/Privacy">حریم خصوصی</a> |
-                <a class="text-white" asp-area="" asp-page="/Contact">تماس با ما</a>
-            </p>
+    <!-- ============================ Footer Start ================================== -->
+    <footer class="light-footer skin-light-footer style-2">
+        <div class="footer-middle">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                        <div class="footer_widget">
+                            <img src="assets/img/logo.jpg" class="img-footer small mb-2" alt="" />
+
+                            <div class="address mt-2">
+                                ایران، تهران، میدان آزادی جنب مترو شادمان<br> کوچه شکوفه پلاک 8
+                            </div>
+                            <div class="address mt-3">
+                                09320000000<br>support@Goodup.com
+                            </div>
+                            <div class="address mt-2">
+                                <ul class="list-inline">
+                                    <li class="list-inline-item"><a href="#" class="theme-cl"><i class="lni lni-facebook-filled"></i></a></li>
+                                    <li class="list-inline-item"><a href="#" class="theme-cl"><i class="lni lni-twitter-filled"></i></a></li>
+                                    <li class="list-inline-item"><a href="#" class="theme-cl"><i class="lni lni-youtube"></i></a></li>
+                                    <li class="list-inline-item"><a href="#" class="theme-cl"><i class="lni lni-instagram-filled"></i></a></li>
+                                    <li class="list-inline-item"><a href="#" class="theme-cl"><i class="lni lni-linkedin-original"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12">
+                        <div class="footer_widget">
+                            <h4 class="widget_title">راهنمای سایت</h4>
+                            <ul class="footer-menu">
+                                <li><a href="#">لیست آگهی</a></li>
+                                <li><a href="#">لیست آگهی دهنده</a></li>
+                                <li><a href="#">افزودن آگهی</a></li>
+                                <li><a href="#">تماس با ما</a></li>
+                                <li><a href="#">پیشخوان</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12">
+                        <div class="footer_widget">
+                            <h4 class="widget_title">حساب کاربری</h4>
+                            <ul class="footer-menu">
+                                <li><a href="#">سایر دسته بندی</a></li>
+                                <li><a href="#">لینک پرداخت</a></li>
+                                <li><a href="#">لیست علاقه مندی</a></li>
+                                <li><a href="#">تنظیمات</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12">
+                        <div class="footer_widget">
+                            <h4 class="widget_title">درباره شرکت</h4>
+                            <ul class="footer-menu">
+                                <li><a href="#">درباره ما</a></li>
+                                <li><a href="#">وظایف ما</a></li>
+                                <li><a href="#">کارشناسان</a></li>
+                                <li><a href="#">پکیج ها</a></li>
+                                <li><a href="#">پروفایل من</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12">
+                        <div class="footer_widget">
+                            <h4 class="widget_title">لینک های مفید</h4>
+                            <ul class="footer-menu">
+                                <li><a href="#">نقشه سایت</a></li>
+                                <li><a href="#">حریم شخصی</a></li>
+                                <li><a href="#">تماس با ما</a></li>
+                                <li><a href="#">سوالات متداول</a></li>
+                                <li><a href="#">قوانین سایت</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom br-top">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-12 col-md-12 text-center">
+                        <p class="mb-0">© 2022 Goodup ارائه شده در سایت <a href="https://rtl-theme.com/">راست چین</a></p>
+                    </div>
+                </div>
+            </div>
         </div>
     </footer>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <script src="~/assets/js/jquery.min.js"></script>
+    <script src="~/assets/js/popper.min.js"></script>
+    <script src="~/assets/js/bootstrap.min.js"></script>
+    <script src="~/assets/js/slick.js"></script>
+    <script src="~/assets/js/jquery.magnific-popup.min.js"></script>
+    <script src="~/assets/js/dropzone.js"></script>
+    <script src="~/assets/js/counterup.js"></script>
+    <script src="~/assets/js/lightbox.js"></script>
+    <script src="~/assets/js/moment.min.js"></script>
+    <script src="~/assets/js/daterangepicker.js"></script>
+    <script src="~/assets/js/lightbox.js"></script>
+    <script src="~/assets/js/jQuery.style.switcher.js"></script>
+    <script src="~/assets/js/custom.js"></script>
+    <!-- ============================================================== -->
+    <!-- This page plugins -->
+    <!-- ============================================================== -->
     @await RenderSectionAsync("Scripts", required: false)
-</body>
-</html>
+    </body>
+
+    </html>

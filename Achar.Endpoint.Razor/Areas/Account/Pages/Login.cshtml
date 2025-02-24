@@ -3,16 +3,11 @@
 @model Achar.Endpoint.Razor.Areas.Account.Pages.LoginModel
 @{
 }
+
 @if (TempData["ErrorMessage"] != null)
 {
     <div class="alert alert-danger">
         @TempData["ErrorMessage"]
-    </div>
-}
-@if (TempData["Success"] != null)
-{
-    <div class="alert alert-success">
-        @TempData["Success"]
     </div>
 }
 
@@ -28,6 +23,8 @@
                     </div>
 
                     <form class="submit-form" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger p-3 rounded bg-light" role="alert"></div>
+
                         <div class="mb-3">
                             <label asp-for="@Model.AccountLogin.UserName" class="form-label fw-semibold">نام کاربری</label>
                             <div class="input-group">
@@ -99,3 +96,6 @@
         padding-right: 0.75rem;
     }
 </style>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

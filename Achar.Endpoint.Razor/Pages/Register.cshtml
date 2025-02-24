@@ -3,6 +3,12 @@
 @{
     Layout = "_Layout";
 }
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
 
 <section class="gray min-vh-100 d-flex align-items-center justify-content-center" style="padding-top: 50px;">
     <div class="container">
@@ -32,6 +38,14 @@
                                 <input type="password" asp-for="@Model.AccountRegister.Password" class="form-control">
                             </div>
                             <span asp-validation-for="@Model.AccountRegister.Password" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="@Model.AccountRegister.ConfirmPassword" class="form-label fw-semibold">تکرار رمز عبور</label>
+                            <div class="input-group">
+                                <span class="input-group-text border-0"><i class="bi bi-lock"></i></span>
+                                <input type="password" asp-for="@Model.AccountRegister.ConfirmPassword" class="form-control">
+                            </div>
+                            <span asp-validation-for="@Model.AccountRegister.ConfirmPassword" class="text-danger"></span>
                         </div>
 
                         <div class="mb-3">
@@ -115,4 +129,5 @@
             });
         });
     </script>
+    <partial name="_ValidationScriptsPartial" />
 }

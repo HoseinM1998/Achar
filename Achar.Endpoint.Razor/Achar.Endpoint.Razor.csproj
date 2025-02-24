@@ -7,19 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="wwwroot\assets\img\request\**" />
     <Compile Remove="wwwroot\userassets\img\admin\**" />
     <Compile Remove="wwwroot\userassets\img\customer\**" />
     <Compile Remove="wwwroot\userassets\img\expert\**" />
-    <Content Remove="wwwroot\assets\img\request\**" />
     <Content Remove="wwwroot\userassets\img\admin\**" />
     <Content Remove="wwwroot\userassets\img\customer\**" />
     <Content Remove="wwwroot\userassets\img\expert\**" />
-    <EmbeddedResource Remove="wwwroot\assets\img\request\**" />
     <EmbeddedResource Remove="wwwroot\userassets\img\admin\**" />
     <EmbeddedResource Remove="wwwroot\userassets\img\customer\**" />
     <EmbeddedResource Remove="wwwroot\userassets\img\expert\**" />
-    <None Remove="wwwroot\assets\img\request\**" />
     <None Remove="wwwroot\userassets\img\admin\**" />
     <None Remove="wwwroot\userassets\img\customer\**" />
     <None Remove="wwwroot\userassets\img\expert\**" />
@@ -50,8 +46,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Areas\Expert\Pages\" />
     <Folder Include="wwwroot\assets\img\requesst\" />
-    <Folder Include="wwwroot\assets\img\user\" />
+    <Folder Include="wwwroot\assets\img\request\" />
   </ItemGroup>
 
 </Project>

@@ -100,6 +100,18 @@ namespace AcharDomainAppService
             }
         }
 
+        public async Task<List<SubCategoryDto?>> GetAllSubCategoryByCategory(int category, CancellationToken cancellationToken)
+        {
+            try
+            {
+                return await _service.GetAllSubCategoryByCategory(category,cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error GetAllSubCategory: {ex.Message}");
+            }
+        }
+
         public async Task<bool> DeleteCategory(SoftDeleteDto delete, CancellationToken cancellationToken)
         {
             try

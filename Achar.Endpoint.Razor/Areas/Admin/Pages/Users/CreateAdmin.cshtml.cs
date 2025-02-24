@@ -2,6 +2,7 @@
 using AcharDomainCore.Contracts.City;
 using AcharDomainCore.Dtos.ApplicationUserDto;
 using AcharDomainCore.Entites;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
@@ -10,6 +11,8 @@ using System.Threading.Tasks;
 
 namespace Achar.Endpoint.Razor.Areas.Admin.Pages.Users
 {
+    [Authorize(Roles = "Admin")]
+
     public class CreateAdminModel : PageModel
     {
         private readonly IApplicationUserAppService _applicationUserAppService;

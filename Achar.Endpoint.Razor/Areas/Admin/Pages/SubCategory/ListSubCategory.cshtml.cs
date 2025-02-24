@@ -2,11 +2,14 @@
 using AcharDomainCore.Contracts.SubCategory;
 using AcharDomainCore.Dtos;
 using AcharDomainCore.Dtos.SubCategoryDto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Achar.Endpoint.Razor.Areas.Admin.Pages.SubCategory
 {
+    [Authorize(Roles = "Admin")]
+
     public class ListSubCategoryModel : PageModel
     {
         private readonly ISubCategoryAppService _subCategoryAppService;

@@ -28,7 +28,7 @@ namespace AcharDomainCore.Dtos.CustomerDto
         [DisplayName(" جنسیت")]
         public GenderEnum? Gender { get; set; }
         [DisplayName(" شهر")]
-        public string Namecity { get; set; }
+        public string? Namecity { get; set; }
         public decimal Balance { get; set; }
         public int CityId { get; set; }
         public int? ApplictaionUserId { get; set; }

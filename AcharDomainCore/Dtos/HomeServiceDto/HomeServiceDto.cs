@@ -24,8 +24,8 @@ namespace AcharDomainCore.Dtos.HomeServiceDto
         public string? Description { get; set; }
         [Display(Name = " شناسه دسته بندی")]
         public int SubCategoryId { get; set; }
-        public string CategoryName { get; set; }
-        public DateTime CreateAt { get; set; }
+        public string? CategoryName { get; set; }
+        public DateTime? CreateAt { get; set; }
         public IFormFile? ImageFile { get; set; }
 
 

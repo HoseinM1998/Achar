@@ -15,6 +15,7 @@ namespace AcharDomainCore.Contracts.SubCategory
         Task<int> SubCategoryCount(CancellationToken cancellationToken);
         Task<Entites.SubCategory> GetSubCategoryById(int id, CancellationToken cancellationToken);
         Task<List<SubCategoryDto?>> GetAllSubCategory(CancellationToken cancellationToken);
+        Task<List<SubCategoryDto?>> GetAllSubCategoryByCategory(int category, CancellationToken cancellationToken);
         Task<bool> DeleteCategory(SoftDeleteDto delete, CancellationToken cancellationToken);
     }
 }

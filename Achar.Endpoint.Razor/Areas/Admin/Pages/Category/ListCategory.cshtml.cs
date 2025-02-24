@@ -3,6 +3,7 @@ using AcharDomainCore.Contracts.Category;
 using AcharDomainCore.Dtos;
 using AcharDomainCore.Dtos.CategoryDto;
 using AcharDomainCore.Entites;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Serilog;
@@ -10,6 +11,8 @@ using Serilog;
 
 namespace Achar.Endpoint.Razor.Areas.Admin.Pages.Category
 {
+    [Authorize(Roles = "Admin")]
+
     public class ListCategoryModel : PageModel
     {
         private readonly ICategoryAppService _categoryAppService;

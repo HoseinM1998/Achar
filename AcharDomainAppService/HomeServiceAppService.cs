@@ -115,6 +115,19 @@ namespace AcharDomainAppService
             }
         }
 
+        public async Task<List<HomeServiceDto?>> GetAllGetHomeServicesBySubCategory(int subCategory, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await _service.GetAllGetHomeServicesBySubCategory(subCategory,cancellationToken);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error GetHomeServices: {ex.Message}");
+            }
+        }
+
         public async Task<bool> DeleteHomeService(SoftDeleteDto delete, CancellationToken cancellationToken)
         {
             try
@@ -129,6 +142,12 @@ namespace AcharDomainAppService
                 _logger.LogError(ex, "لایه اپ سرویس: خطا در حذف خدمات: {Message} زمان {Time}", ex.Message, DateTime.Now.ToLongTimeString());
                 throw new Exception($"Error DeleteHomeService: {ex.Message}");
             }
+        }
+
+        public async Task<List<HomeServiceGetDto>> GetHomeServiceRequest(CancellationToken cancellationToken)
+        {
+            var result = await _service.GetHomeServiceRequest(cancellationToken);
+            return result;
         }
     }
 }

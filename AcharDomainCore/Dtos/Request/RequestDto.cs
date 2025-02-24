@@ -30,8 +30,13 @@ namespace AcharDomainCore.Dtos.Request
 
         [DisplayName("شناسه مشتری")]
         public int CustomerId { get; set; }
+        public string? CustomerName { get; set; }
         [DisplayName("شناسه خدمات")]
         public int ServiceId { get; set; }
+        public string? ServiceName { get; set; }
+        public DateTime CreateAt { get; set; } = DateTime.Now;
+        [DisplayName("تعیین روز")]
+        public DateTime? DoneAt { get; set; }
 
     }
 }

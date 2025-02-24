@@ -12,9 +12,12 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AcharDomainCore.Dtos.HomeServiceDto;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Achar.Endpoint.Razor.Areas.Admin.Pages.Users
 {
+    [Authorize(Roles = "Admin")]
+
     public class ExpertUpModel : PageModel
     {
         private readonly IExpertAppService _expertAppService;

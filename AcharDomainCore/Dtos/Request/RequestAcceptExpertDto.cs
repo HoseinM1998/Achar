@@ -10,6 +10,7 @@ namespace AcharDomainCore.Dtos.Request
     public class RequestAcceptExpertDto
     {
         public int Id { get; set; }
+        public int ExpertId { get; set; }
         public List<Bid>? Bids { get; set; } = new List<Bid>();
     }
 }

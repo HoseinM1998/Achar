@@ -10,28 +10,114 @@
         @TempData["ErrorMessage"]
     </div>
 }
-@if (TempData["Success"] != null)
-{
-    <div class="alert alert-success">
-        @TempData["Success"]
-    </div>
-}
 
 
-<div class="container text-center mt-5">
-    <h1 class="display-3 text-dark fw-bold">🎉 خوش آمدید!</h1>
-    <p class="lead text-dark mt-3" style="font-size: 1.2rem;">
-        به <strong>سایت آچار</strong> خوش آمدید! ما ارائه‌دهنده‌ی انواع خدمات از تعمیرات منزل تا خدمات تخصصی هستیم.
-        با ما، بهترین متخصصین را در سریع‌ترین زمان پیدا کنید. 🛠️✨
-    </p>
+<div class="home-banner margin-bottom-0" style="background:#f41b3b url('@Url.Content("~/assets/img/Background.png")') no-repeat;" data-overlay="5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-11 col-lg-12 col-md-12 col-sm-12 col-12">
 
+                <div class="banner_caption text-center mb-5">
+                    <h1 class="banner_title ft-bold mb-1">سایت خدمات منزل آچار</h1>
+                    <p class="fs-md ft-medium">متخصصین را از ما بخواهید</p>
+                </div>
 
-    <img src="/assets/img/Background.png" alt="خدمات آچاره"
-         class="img-fluid mt-4 rounded shadow-lg animate-img"
-         style="width: 100%; max-width: 800px;">
+                <form class="main-search-wrap fl-wrap half-column">
+                    <div class="main-search-item">
+                        <span class="search-tag">سرویس</span>
+                        <input type="text" class="form-control radius" placeholder="مثلا برقکاری، کارواش" />
+                    </div>
+                    <div class="main-search-item">
+                        <span class="search-tag">موقعیت</span>
+                        <input type="text" class="form-control" placeholder="مثلا تهران" />
+                    </div>
+                    <div class="main-search-button">
+                        <button class="btn full-width theme-bg text-white" type="button">جستجو<i class="fas fa-search"></i></button>
+                    </div>
+                </form>
 
-    <div class="mt-4">
-        <a href="/services" class="btn custom-btn-primary btn-lg">🚀 مشاهده خدمات</a>
-        <a href="/contact" class="btn custom-btn-secondary btn-lg">📞 تماس با ما</a>
+            </div>
+        </div>
     </div>
 </div>
+
+<section class="space min gray">
+    <div class="container">
+
+        <div class="row justify-content-center">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <div class="sec_title position-relative text-center mb-5">
+                    <h6 class="theme-cl">دسته بندی های محبوب</h6>
+                    <h4 class="ft-bold">انتخاب دسته بندی انتخابی شما</h4>
+                </div>
+            </div>
+        </div>
+        <div class="row align-items-center flex-wrap">
+            @foreach (var category in Model.Categories)
+            {
+                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-6">
+                    <div class="cats-wrap text-center">
+                        <a href="/ListSubCategory?category=@category.Id" class="Goodup-catg-wrap">
+                            <div class="Goodup-catg-icon">
+                                @if (!string.IsNullOrEmpty(category.Image))
+                                {
+                                    <img src="@category.Image" class="img-fluid" alt="Category Image" width="50" height="50" />
+                                }
+                                else
+                                {
+                                    <span>بدون عکس</span>
+                                }
+                            </div>
+                            <div class="Goodup-catg-caption">
+                                <h4 class="fs-md mb-0 ft-medium m-catrio">@category.Title</h4>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+
+    </div>
+</section>
+
+
+
+
+
+
+<!-- ============================ Search Tag & Filter End ================================== -->
+<!-- ============================ Main Section End ================================== -->
+<!-- ======================= Newsletter Start ============================ -->
+<section class="space bg-cover" style="background:#03343b url(assets/img/landing-bg.png) no-repeat;">
+    <div class="container py-5">
+
+        <div class="row justify-content-center">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <div class="sec_title position-relative text-center mb-5">
+                    <h6 class="text-light">عضویت در خبرنامه</h6>
+                    <h3 class="ft-bold text-light">دریافت به روز رسانی ها و پیشنهادات پیشرفته</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="row align-items-center justify-content-center">
+            <div class="col-xl-7 col-lg-10 col-md-12 col-sm-12 col-12">
+                <form class="bg-white rounded p-1">
+                    <div class="row no-gutters">
+                        <div class="col-xl-9 col-lg-9 col-md-8 col-sm-8 col-8">
+                            <div class="form-group mb-0 position-relative">
+                                <input type="text" class="form-control b-0" placeholder="ایمیل خود را وارد کنید...">
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 col-4">
+                            <div class="form-group mb-0 position-relative">
+                                <button class="btn full-width btn-height bg-dark text-white fs-md" type="button">عضویت</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</section>

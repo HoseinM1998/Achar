@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 using AcharDomainCore.Contracts.HomeService;
 using AcharDomainCore.Dtos;
 using AcharDomainCore.Dtos.HomeServiceDto;
+using AcharDomainCore.Dtos.SubCategoryDto;
 using Microsoft.Extensions.Logging;
+using AcharDomainCore.Entites;
 
 namespace AcharDomainService
 {
@@ -64,6 +66,13 @@ namespace AcharDomainService
             return homeServices;
         }
 
+        public async Task<List<HomeServiceDto?>> GetAllGetHomeServicesBySubCategory(int subCategory, CancellationToken cancellationToken)
+        {
+            var homeServices = await _repository.GetAllGetHomeServicesBySubCategory(subCategory, cancellationToken);
+            return homeServices;
+        }
+
+
         public async Task<bool> DeleteHomeService(SoftDeleteDto delete, CancellationToken cancellationToken)
         {
             var result = await _repository.DeleteHomeService(delete, cancellationToken);
@@ -76,5 +85,10 @@ namespace AcharDomainService
             return true;
         }
 
+        public async Task<List<HomeServiceGetDto>> GetHomeServiceRequest(CancellationToken cancellationToken)
+        {
+            var homeServices = await _repository.GetHomeServiceRequest(cancellationToken);
+            return homeServices;
+        }
     }
 }

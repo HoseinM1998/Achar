@@ -40,6 +40,8 @@ namespace AcharDomainService
         public async Task<List<SubCategoryDto>> GetAllSubCategory(CancellationToken cancellationToken)
             => await _repository.GetAllSubCategory(cancellationToken);
 
+        public async Task<List<SubCategoryDto?>> GetAllSubCategoryByCategory(int category, CancellationToken cancellationToken)
+            => await _repository.GetAllSubCategoryByCategory(category,cancellationToken);
 
         public async Task<bool> DeleteCategory(SoftDeleteDto delete, CancellationToken cancellationToken)
             => await _repository.DeleteCategory(delete, cancellationToken);

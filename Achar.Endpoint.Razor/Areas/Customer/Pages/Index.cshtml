@@ -1,0 +1,41 @@
+﻿@page
+@model Achar.Endpoint.Razor.Areas.Customer.Pages.IndexModel
+@{
+    Layout = "_LayoutCustomer";
+    ViewData["Dashboard"] = "active";
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Success"]
+    </div>
+}
+
+<div class="dashboard-tlbar d-block mb-5">
+    <div class="row">
+        <div class="colxl-12 col-lg-12 col-md-12">
+            <h3 class="breadcrumb-item"><a href="#" class="theme-cl">داشبورد</a></h3>
+            <br>
+            <h6 class="ft-medium fs-4">سلام @Model.Customer.UserName</h6>
+            <h6 class="ft-medium fs-4">نام: @Model.Customer.FirstName</h6>
+            <h6 class="ft-medium fs-4">نام خانوادگی: @Model.Customer.LastName</h6>
+            <h6 class="ft-medium fs-4">موجودی: @Model.Customer.Balance</h6>
+
+            @if (!string.IsNullOrEmpty(Model.Customer.ProfileImageUrl))
+            {
+                <img src="@Model.Customer.ProfileImageUrl" alt="Profile Image" class="img-thumbnail" style="width: 150px; height: 150px;">
+            }
+            else
+            {
+                <p>عکس پروفایل یافت نشد.</p>
+            }
+        </div>
+    </div>
+</div>

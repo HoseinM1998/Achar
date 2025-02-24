@@ -7,11 +7,15 @@ using AcharDomainCore.Dtos.HomeServiceDto;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Serilog;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Achar.Endpoint.Razor.Areas.Admin.Pages.HomeService
 {
+    [Authorize(Roles = "Admin")]
+
     public class ListHomeServiceModel : PageModel
     {
+
         private readonly IHomeServiceAppService _homeServiceAppService;
         private readonly ISubCategoryAppService _subCategoryAppService;
         private readonly ILogger<IndexModel> _logger;

@@ -1,9 +1,11 @@
-﻿using Achar.Infra.Db.Sql;
+﻿using System.Security.Cryptography.X509Certificates;
+using Achar.Infra.Db.Sql;
 
 using AcharDomainCore.Contracts.Request;
 using AcharDomainCore.Dtos;
 using AcharDomainCore.Dtos.Request;
 using AcharDomainCore.Entites;
+using AcharDomainCore.Enums;
 using HomeService.Domain.Core.Enums;
 using Microsoft.EntityFrameworkCore;
 using Azure.Core;
@@ -141,6 +143,43 @@ namespace Achar.Infra.Access.EfCore.Repositories
             return requests;
         }
 
+        public async Task<List<RequestGetDto?>> GetCustomerRequests(int customerId, CancellationToken cancellationToken)
+        {
+            var requests = await _context.Requests
+                .Where(r => r.CustomerId == customerId)
+                .Include(r => r.Customer)
+                .ThenInclude(c => c.ApplicationUser)
+                .Include(r => r.HomeService)
+                .Include(r => r.AcceptedExpert)
+                .ThenInclude(e => e.ApplicationUser)
+                .Include(r => r.Images)
+                .Include(r=>r.Bids)
+                .ThenInclude(r=>r.Expert)
+                .ThenInclude(r => r.ApplicationUser)
+                .Select(r => new RequestGetDto
+                {
+                    Id = r.Id,
+                    Title = r.Title,
+                    Description = r.Description,
+                    Price = r.Price,
+                    Images = r.Images.ToList(),
+                    Status = r.Status,
+                    RequesteForTime = r.RequesteForTime,
+                    CreateAt = r.CreateAt,
+                    CustomerId = r.CustomerId,
+                    CustomerName = r.Customer.ApplicationUser.FirstName + " " + r.Customer.ApplicationUser.LastName,
+                    ServiceId = r.HomeServiceId,
+                    HomeServiceName = r.HomeService.Title,
+                    ExpertId = r.AcceptedExpertId,
+                    ExpertName = r.AcceptedExpert.ApplicationUser.FirstName + " " + r.AcceptedExpert.ApplicationUser.LastName,
+                    Bids = r.Bids.ToList()
+
+                })
+                .ToListAsync(cancellationToken);
+            return requests;
+        }
+
+
         public async Task<bool> DeleteRequest(SoftDeleteDto active, CancellationToken cancellationToken)
         {
             _logger.LogInformation("حذف درخواست با شناسه: {RequestId} زمان {Time}", active.Id, DateTime.UtcNow.ToLongTimeString());
@@ -171,20 +210,64 @@ namespace Achar.Infra.Access.EfCore.Repositories
             return true;
         }
 
-        public async Task<bool> AcceptExpert(RequestAcceptExpertDto requestDto, CancellationToken cancellationToken)
+        public async Task<bool> AcceptExpert(int id, int expertId, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("تأیید کارشناس برای درخواست با شناسه: {RequestId} زمان {Time}", requestDto.Id, DateTime.UtcNow.ToLongTimeString());
-            var acceptRequest = await _context.Requests.FirstOrDefaultAsync(x => x.Id == requestDto.Id, cancellationToken);
+            var acceptRequest = await _context.Requests.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
             if (acceptRequest is null)
             {
-                _logger.LogWarning("درخواست با شناسه: {RequestId} پیدا نشد زمان {Time}", requestDto.Id, DateTime.UtcNow.ToLongTimeString());
                 return false;
             }
+
             acceptRequest.Bids = null;
+            acceptRequest.AcceptedExpertId = expertId;
+            acceptRequest.Status = StatusRequestEnum.WaitingForExpert;
+
+            var bid = await _context.Bids.FirstOrDefaultAsync(x => x.RequestId == id, cancellationToken); // Corrected to use expertId instead of acceptRequest.AcceptedExpertId
+            if (bid is null || bid.ExpertId != expertId)
+            {
+                return false;
+            }
+            bid.Status = StatusBidEnum.WaitingForExpert;
             await _context.SaveChangesAsync(cancellationToken);
-            _logger.LogInformation("کارشناس برای درخواست با شناسه: {RequestId} با موفقیت تأیید شد زمان {Time}", requestDto.Id, DateTime.UtcNow.ToLongTimeString());
             return true;
         }
 
+
+        public async Task<bool> DoneRequest(int requestId, CancellationToken cancellationToken)
+        {
+            var acceptRequest = await _context.Requests.FirstOrDefaultAsync(x => x.Id == requestId, cancellationToken);
+            if (acceptRequest is null)
+            {
+                return false;
+            }
+            acceptRequest.Status = StatusRequestEnum.Success;
+            acceptRequest.DoneAt= DateTime.Now;
+            var bid = await _context.Bids.FirstOrDefaultAsync(x => x.RequestId == acceptRequest.Id, cancellationToken); // Corrected to use expertId instead of acceptRequest.AcceptedExpertId
+            if (bid is null)
+            {
+                return false;
+            }
+            bid.Status= StatusBidEnum.Success;
+            await _context.SaveChangesAsync(cancellationToken);
+            return true;
+        }
+
+        public async Task<bool> CancellRequest(int requestId, CancellationToken cancellationToken)
+        {
+            var acceptRequest = await _context.Requests.FirstOrDefaultAsync(x => x.Id == requestId, cancellationToken);
+            if (acceptRequest is null)
+            {
+                return false;
+            }
+            acceptRequest.Status = StatusRequestEnum.CancelledByCustomer;
+            var bid = await _context.Bids.FirstOrDefaultAsync(x => x.RequestId == acceptRequest.Id, cancellationToken); // Corrected to use expertId instead of acceptRequest.AcceptedExpertId
+            if (bid is null)
+            {
+                return false;
+            }
+            bid.Status = StatusBidEnum.CancelledByCustomer;
+            await _context.SaveChangesAsync(cancellationToken);
+            return true;
+        }
     }
 }

@@ -82,7 +82,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
         public async Task<HomeServiceDto> GetHomeServiceById(int id, CancellationToken cancellationToken)
         {
             _logger.LogInformation("دریافت خدمات  با شناسه: {HomeServiceId} زمان {Time}", id, DateTime.Now.ToLongTimeString());
-            var homeService = await _context.HomeServices.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+            var homeService = await _context.HomeServices.Include(x=>x.SubCategory).FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
             if (homeService is null)
             {
                 _logger.LogWarning("خدمات  با شناسه: {HomeServiceId} پیدا نشد زمان {Time}", id, DateTime.Now.ToLongTimeString());
@@ -103,6 +103,17 @@ namespace Achar.Infra.Access.EfCore.Repositories
             };
         }
 
+        public async Task<List<HomeServiceGetDto>> GetHomeServiceRequest( CancellationToken cancellationToken)
+        {
+            var homeServices = await _context.HomeServices
+                .Select(e => new HomeServiceGetDto()
+                {
+                    Id = e.Id,
+                    Title = e.Title,
+                    BasePrice = e.BasePrice}).AsNoTracking().ToListAsync(cancellationToken);
+            return homeServices;
+        }
+
         public async Task<List<HomeServiceDto>> GetHomeServices(CancellationToken cancellationToken)
         {
             var homeServices = await _context.HomeServices
@@ -120,6 +131,27 @@ namespace Achar.Infra.Access.EfCore.Repositories
                 }).AsNoTracking().ToListAsync(cancellationToken);
             return homeServices;
         }
+
+        public async Task<List<HomeServiceDto?>> GetAllGetHomeServicesBySubCategory(int subCategory, CancellationToken cancellationToken)
+        {
+            var homeServices = await _context.HomeServices
+                .Where(e => e.SubCategoryId == subCategory)
+                .Select(e => new HomeServiceDto()
+                {
+                    Id = e.Id,
+                    Title = e.Title,
+                    ImageSrc = e.ImageSrc,
+                    Description = e.Description,
+                    ShortDescription = e.ShortDescription,
+                    BasePrice = e.BasePrice,
+                    SubCategoryId = e.SubCategoryId,
+                    CategoryName = e.SubCategory.Title,
+                    CreateAt = e.CreateAt
+                }).AsNoTracking().ToListAsync(cancellationToken);
+            return homeServices;
+        }
+
+
 
         public async Task<bool> DeleteHomeService(SoftDeleteDto active, CancellationToken cancellationToken)
         {

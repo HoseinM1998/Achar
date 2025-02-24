@@ -1,0 +1,146 @@
+﻿@page
+@model Achar.Endpoint.Razor.Pages.HomeServiceModel
+@{
+
+
+
+    <!-- ============================ Main Section Start ================================== -->
+    <!-- Find New Property -->
+    <section class="gray py-5">
+        <div class="container">
+            <div class="row">
+
+                <!-- Sidebar Start -->
+                <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                    <div class="bg-white rounded mb-4">
+                        <div class="sidebar_header d-flex align-items-center justify-content-between px-4 py-3 br-bottom">
+                            <h4 class="ft-medium fs-6 mb-0">فیلتر جستجو</h4>
+                            <div class="ssh-header">
+                                <a href="javascript:void(0);" class="clear_all ft-medium text-muted">حذف همه</a>
+                                <a href="#search_open" data-bs-toggle="collapse" aria-expanded="false" role="button" class="collapsed _filter-ico ml-2"><i class="lni lni-text-align-right"></i></a>
+                            </div>
+                        </div>
+
+                        <!-- Find New Property -->
+                        <div class="sidebar-widgets collapse miz_show" id="search_open" data-bs-parent="#search_open">
+                            <div class="search-inner">
+                                <div class="side-filter-box">
+                                    <div class="side-filter-box-body">
+                                        <!-- Categories -->
+                                        <div class="inner_widget_link">
+                                            <h6 class="ft-medium">دسته بندی ها</h6>
+                                            <ul class="no-ul-list filter-list">
+                                                @foreach (var category in Model.Categories)
+                                                {
+                                                    <li>
+                                                        <input id="cat-@category.Id" class="checkbox-custom" name="category" type="checkbox">
+                                                        <label for="cat-@category.Id" class="checkbox-custom-label">@category.Title</label>
+                                                    </li>
+                                                }
+                                            </ul>
+                                        </div>
+
+                                        <!-- Subcategories -->
+                                        <div class="inner_widget_link">
+                                            <h6 class="ft-medium">زیر دسته ها</h6>
+                                            <ul class="no-ul-list filter-list">
+                                                @foreach (var subcategory in Model.SubCategories)
+                                                {
+                                                    <li>
+                                                        <input id="subcat-@subcategory.Id" class="checkbox-custom" name="subcategory" type="checkbox">
+                                                        <label for="subcat-@subcategory.Id" class="checkbox-custom-label">@subcategory.Title</label>
+                                                    </li>
+                                                }
+                                            </ul>
+                                        </div>
+
+                                        <div class="form-group filter_button">
+                                            <button type="submit" class="btn theme-bg text-light rounded full-width">22 نتیجه یافت شد</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Home Services Start -->
+                <div class="col-xl-9 col-lg-8 col-md-12 col-sm-12" id="hotels">
+                    <div class="row justify-content-center gx-3">
+                        @foreach (var subcategory in Model.HomeServices)
+                        {
+                            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-6">
+                                <div class="cats-wrap text-center d-flex flex-column justify-content-between" style="height: 100%;">
+                                    <a asp-page="/Service" asp-route-id="@subcategory.Id" class="Goodup-catg-wrap">
+                                        <div>
+                                            <div class="Goodup-sng-menu-thumb">
+                                                @if (!string.IsNullOrEmpty(subcategory.ImageSrc))
+                                                {
+                                                    <img src="@subcategory.ImageSrc" class="img-fluid" alt="Category Image" width="50" height="50" />
+                                                }
+                                                else
+                                                {
+                                                    <span>بدون عکس</span>
+                                                }
+                                            </div>
+                                            <div class="Goodup-catg-caption">
+                                                <h4 class="fs-md mb-0 ft-medium m-catrio">عنوان: @subcategory.Title</h4>
+                                            </div>
+                                            <div class="Goodup-catg-caption">
+                                                <h4 class="fs-md mb-0 ft-medium m-catrio">دسته بندی: @subcategory.CategoryName</h4>
+                                            </div>
+                                            <div class="Goodup-catg-caption">
+                                                <h4 class="fs-md mb-0 ft-medium m-catrio">توضیحات: @subcategory.ShortDescription</h4>
+                                            </div>
+                                            <div class="Goodup-catg-caption">
+                                                <h4 class="fs-md mb-0 ft-medium m-catrio">تومان: @subcategory.BasePrice</h4>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <a asp-page="/Service" asp-route-id="@subcategory.Id" class="btn btn-primary mt-2">جزئیات</a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================ Main Section End ================================== -->
+    <!-- ======================= Newsletter Start ============================ -->
+    <section class="space bg-cover" style="background:#03343b url(assets/img/landing-bg.png) no-repeat;">
+        <div class="container py-5">
+
+            <div class="row justify-content-center">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                    <div class="sec_title position-relative text-center mb-5">
+                        <h6 class="text-light">عضویت در خبرنامه</h6>
+                        <h3 class="ft-bold text-light">دریافت به روز رسانی ها و پیشنهادات پیشرفته</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row align-items-center justify-content-center">
+                <div class="col-xl-7 col-lg-10 col-md-12 col-sm-12 col-12">
+                    <form class="bg-white rounded p-1">
+                        <div class="row no-gutters">
+                            <div class="col-xl-9 col-lg-9 col-md-8 col-sm-8 col-8">
+                                <div class="form-group mb-0 position-relative">
+                                    <input type="text" class="form-control b-0" placeholder="ایمیل خود را وارد کنید...">
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 col-4">
+                                <div class="form-group mb-0 position-relative">
+                                    <button class="btn full-width btn-height bg-dark text-white fs-md" type="button">عضویت</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </section>
+}
