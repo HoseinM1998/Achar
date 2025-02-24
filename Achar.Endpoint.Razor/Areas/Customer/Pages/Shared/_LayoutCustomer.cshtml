@@ -62,6 +62,8 @@
                         </ul>
                         <ul data-submenu-title="حساب کاربری">
                             <li class="@ViewData["UpdateProf"]"><a href="UpdateProf"><i class="lni lni-user ms-2"></i>ویرایش پروفایل </a></li>
+                            <li class="@ViewData["DeleteAccount"]"><a href="Delete"><i class="lni lni-user ms-2"></i>حذف اکانت </a></li>
+
                             <li class="@ViewData["ChangePass"]"><a asp-page=""><i class="lni lni-lock-alt ms-2"></i>تغییر رمز عبور</a></li>
                             <li>
                                 <form class="form-inline" asp-area="Account" asp-page="Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })">
@@ -90,7 +92,7 @@
                 <div class="container">
                     <div class="row align-items-center">
                         <div class="col-lg-12 col-md-12 text-center">
-                            <p class="mb-0">© آیدو سرویس</p>
+                            <p class="mb-0">© آچار سرویس</p>
                         </div>
                     </div>
                 </div>
