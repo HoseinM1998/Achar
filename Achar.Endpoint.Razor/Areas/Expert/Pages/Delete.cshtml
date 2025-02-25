@@ -2,3 +2,28 @@
 @model Achar.Endpoint.Razor.Areas.Expert.Pages.DeleteModel
 @{
 }
+{
+@ViewData["Title"] = "حذف کاربر";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="alert alert-warning">
+    <strong>اخطار:</strong> قبل از حذف اکانت، لطفاً مطمئن شوید که قصد حذف  دارید.
+</div>
+
+@{
+    ViewData["Title"] = "حذف مشتری";
+}
+
+<h3>حذف تسک</h3>
+
+<div>
+    <h4>آیا  حذف  اکانت اطمینان دارید؟</h4>
+    <form method="post" asp-page-handler="Delete">
+        <button type="submit" class="btn btn-danger btn-sm">حذف</button>
+        <a href="@Url.Page("/Expert/Index")" class="btn btn-secondary btn-sm">بازگشت</a>
+    </form>
+
+
+</div>

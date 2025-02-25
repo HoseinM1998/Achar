@@ -35,7 +35,7 @@ namespace Achar.Endpoint.Razor.Areas.Expert.Pages
             }
             else
             {
-                TempData["ErrorMessage"] = "خطا در حذف حساب کاربری. لطفاً دوباره تلاش کنید"; 
+                TempData["ErrorMessage"] = "خطا در حذف حساب کاربری لطفاً دوباره تلاش کنید"; 
                 return RedirectToPage("/Index");
             }
         }

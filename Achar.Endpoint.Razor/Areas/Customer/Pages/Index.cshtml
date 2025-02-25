@@ -23,20 +23,22 @@
         <div class="colxl-12 col-lg-12 col-md-12">
             <h3 class="breadcrumb-item"><a href="#" class="theme-cl">داشبورد</a></h3>
             <br>
+            @if (!string.IsNullOrEmpty(Model.Customer.ProfileImageUrl))
+            {
+                <img src="@Model.Customer.ProfileImageUrl" alt="Profile Image" class="img-thumbnail" style="width: 150px; height: 150px;  margin-bottom: 20px;">
+            }
+            else
+            {
+                <img src="~/assets/img/1.png" alt="Default Profile Image" class="img-thumbnail" style="width: 150px; height: 150px; margin-bottom: 20px;">
+            }
+
+
             <h6 class="ft-medium fs-4">سلام @Model.Customer.UserName</h6>
             <h6 class="ft-medium fs-4">نام: @Model.Customer.FirstName</h6>
             <h6 class="ft-medium fs-4">نام خانوادگی: @Model.Customer.LastName</h6>
             <h6 class="ft-medium fs-4">موجودی: @Model.Customer.Balance</h6>
+            <br>
 
-
-            @if (!string.IsNullOrEmpty(Model.Customer.ProfileImageUrl))
-            {
-                <img src="@Model.Customer.ProfileImageUrl" alt="Profile Image" class="img-thumbnail" style="width: 150px; height: 150px;">
-            }
-            else
-            {
-                <p>عکس پروفایل یافت نشد.</p>
-            }
             <a asp-page="/Customer/UpdateBalance" class="btn btn-primary mt-3">افزایش موجودی</a>
         
         </div>

@@ -26,25 +26,40 @@
         <div class="colxl-12 col-lg-12 col-md-12">
             <h3 class="breadcrumb-item"><a href="#" class="theme-cl">داشبورد</a></h3>
             <br>
+            
+            @if (!string.IsNullOrEmpty(Model.Expert.ProfileImageUrl))
+            {
+                <img src="@Model.Expert.ProfileImageUrl" alt="Profile Image" class="img-thumbnail" style="width: 150px; height: 150px;  margin-bottom: 20px;">
+            }
+            else
+            {
+                <img src="~/assets/img/1.png" alt="Default Profile Image" class="img-thumbnail" style="width: 150px; height: 150px; margin-bottom: 20px;">
+            }
+
+
             <h6 class="ft-medium fs-4">سلام @Model.Expert.UserName</h6>
             <h6 class="ft-medium fs-4">نام: @Model.Expert.FirstName</h6>
             <h6 class="ft-medium fs-4">نام خانوادگی: @Model.Expert.LastName</h6>
             <h6 class="ft-medium fs-4">موجودی: @Model.Expert.Balance</h6>
-            <h6 class="ft-medium fs-4">موجودی: @Model.Expert.Skills</h6>
+            <br>
 
-
-            @if (!string.IsNullOrEmpty(Model.Expert.ProfileImageUrl))
+            <h6 class="ft-medium fs-4">مهارت‌ها:</h6>
+            @if (Model.Expert.Skills != null && Model.Expert.Skills.Any())
             {
-                <img src="@Model.Expert.ProfileImageUrl" alt="Profile Image" class="img-thumbnail" style="width: 150px; height: 150px;">
+                <ul>
+                    @foreach (var skill in Model.Expert.Skills)
+                    {
+                        <li><h4>@skill.Title</h4></li> 
+                    }
+                </ul>
             }
             else
             {
-                <p>عکس پروفایل یافت نشد.</p>
+                <p>مهارتی انتخاب نکردید.</p>
             }
-        
+          
         </div>
     </div>
 </div>
 
 
-}
