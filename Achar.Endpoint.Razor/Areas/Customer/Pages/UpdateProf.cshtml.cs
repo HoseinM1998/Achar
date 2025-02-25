@@ -1,4 +1,4 @@
-using AcharDomainCore.Contracts.City;
+﻿using AcharDomainCore.Contracts.City;
 using AcharDomainCore.Contracts.Customer;
 using AcharDomainCore.Dtos.CustomerDto;
 using AcharDomainCore.Entites;
@@ -40,11 +40,14 @@ namespace Achar.Endpoint.Razor.Areas.Customer.Pages
                 var userCustomerId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == "userCustomerId").Value);
                 customerUpdate.Id = userCustomerId;
                 await _customerAppServices.UpdateCustomer(customerUpdate, cancellationToken);
+                TempData["Success"] = "اطلاعات با موفقیت بروزرسانی شد"; 
                 return RedirectToPage("Index");
-
             }
-            return RedirectToPage("Index");
-
+            else
+            {
+                TempData["ErrorMessage"] = "خطا در بروزرسانی اطلاعات. لطفاً داده‌ها را بررسی کنید"; 
+                return RedirectToPage("Index");
+            }
         }
     }
 }

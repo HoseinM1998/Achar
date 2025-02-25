@@ -2,3 +2,49 @@
 @model Achar.Endpoint.Razor.Areas.Expert.Pages.IndexModel
 @{
 }
+@{
+    Layout = "_LayoutExpert";
+    ViewData["Dashboard"] = "active";
+}
+
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Success"]
+    </div>
+}
+
+<div class="dashboard-tlbar d-block mb-5">
+    <div class="row">
+        <div class="colxl-12 col-lg-12 col-md-12">
+            <h3 class="breadcrumb-item"><a href="#" class="theme-cl">داشبورد</a></h3>
+            <br>
+            <h6 class="ft-medium fs-4">سلام @Model.Expert.UserName</h6>
+            <h6 class="ft-medium fs-4">نام: @Model.Expert.FirstName</h6>
+            <h6 class="ft-medium fs-4">نام خانوادگی: @Model.Expert.LastName</h6>
+            <h6 class="ft-medium fs-4">موجودی: @Model.Expert.Balance</h6>
+            <h6 class="ft-medium fs-4">موجودی: @Model.Expert.Skills</h6>
+
+
+            @if (!string.IsNullOrEmpty(Model.Expert.ProfileImageUrl))
+            {
+                <img src="@Model.Expert.ProfileImageUrl" alt="Profile Image" class="img-thumbnail" style="width: 150px; height: 150px;">
+            }
+            else
+            {
+                <p>عکس پروفایل یافت نشد.</p>
+            }
+        
+        </div>
+    </div>
+</div>
+
+
+}

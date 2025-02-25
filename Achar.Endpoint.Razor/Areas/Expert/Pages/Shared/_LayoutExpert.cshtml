@@ -12,27 +12,18 @@
     <link rel="shortcut icon" type="image/x-icon" href="~/assets/img/logo.jpg">
     <link href="~/assets/css/styles.css" rel="stylesheet">
 
-
     <link type="text/css" rel="stylesheet" href="~/calendar-dist/jalalidatepicker.min.css" />
     <script type="text/javascript" src="~/calendar-dist/jalalidatepicker.min.js"></script>
 </head>
 
-
 <body dir="rtl">
 
     <!-- Preloader - style you can find in spinners.css -->
-    <!-- ============================================================== -->
     <div class="preloader"></div>
 
-    <!-- ============================================================== -->
-    <!-- Main wrapper - style you can find in pages.scss -->
-    <!-- ============================================================== -->
     <div id="main-wrapper">
 
-        <!-- ============================================================== -->
         <!-- Top header  -->
-        <!-- ============================================================== -->
-        <!-- Start Navigation -->
         <div class="header header-light dark-text">
             <div class="container">
                 <nav id="navigation" class="navigation navigation-landscape">
@@ -44,10 +35,7 @@
                 </nav>
             </div>
         </div>
-        <!-- End Navigation -->
-        <div class="clearfix"></div>
 
-        <!-- ======================= dashboard Detail ======================== -->
         <div class="goodup-dashboard-wrap gray px-4 py-5">
             <a class="mobNavigation" data-bs-toggle="collapse" href="#MobNav" role="button" aria-expanded="false" aria-controls="MobNav">
                 <i class="fas fa-bars ms-2"></i>منو
@@ -56,13 +44,13 @@
                 <div class="goodup-dashboard-nav sticky-top">
                     <div class="goodup-dashboard-inner">
                         <ul data-submenu-title="منو">
-                            <li class="@ViewData["Dashboard"]"><a href="Index"><i class="lni lni-dashboard ms-2"></i>داشبورد</a></li>
-                            <li class="@ViewData["ListBid"]"><a href="ListRequest"><i class="lni lni-files ms-2"></i>پیشنهاد های من</a></li>
+                            <li class="@ViewData["Dashboard"]"><a asp-page="/Index"><i class="lni lni-dashboard ms-2"></i>داشبورد</a></li>
+                            <li class="@ViewData["Bids"]"><a asp-page="/Bids"><i class="lni lni-files ms-2"></i>پیشنهاد های من</a></li>
                             <li class="@ViewData["Request"]"><a href="Request"><i class="lni lni-add-files ms-2"></i>ثبت پیشنهاد</a></li>
-                        </ul>
+                        </ul> 
                         <ul data-submenu-title="حساب کاربری">
-                            <li class="@ViewData["UpdateProf"]"><a href="UpdateProf"><i class="lni lni-user ms-2"></i>ویرایش پروفایل </a></li>
-                            <li class="@ViewData["DeleteAccount"]"><a href="Delete"><i class="lni lni-user ms-2"></i>حذف اکانت </a></li>
+                            <li class="@ViewData["UpdateProf"]"><a asp-page="/ExpertUpdate"><i class="lni lni-user ms-2"></i>ویرایش پروفایل </a></li>
+                            <li class="@ViewData["DeleteAccount"]"><a asp-page="/Delete"><i class="lni lni-user ms-2"></i>حذف اکانت </a></li>
 
                             <li class="@ViewData["ChangePass"]"><a asp-page=""><i class="lni lni-lock-alt ms-2"></i>تغییر رمز عبور</a></li>
                             <li>
@@ -82,10 +70,7 @@
                     </div>
                 </div>
             </div>
-
         </div>
-        <!-- =====================  == dashboard Detail End ======================== -->
-        <!-- ======================= All Types Listing ======================== -->
 
         <footer class="light-footer skin-light-footer style-2">
             <div class="footer-bottom br-top">
@@ -104,12 +89,8 @@
         </a>
 
     </div>
-    <!-- ============================================================== -->
-    <!-- End Wrapper -->
-    <!-- ============================================================== -->
-    <!-- ============================================================== -->
+
     <!-- All Jquery -->
-    <!-- ============================================================== -->
     <script src="~/assets/js/jquery.min.js"></script>
     <script src="~/assets/js/popper.min.js"></script>
     <script src="~/assets/js/bootstrap.min.js"></script>
@@ -124,11 +105,7 @@
     <script src="~/assets/js/jQuery.style.switcher.js"></script>
     <script src="~/assets/js/custom.js"></script>
 
-    <!-- ============================================================== -->
-    <!-- This page plugins -->
-    <!-- ============================================================== -->
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 
-
-@await RenderSectionAsync("Scripts", required: false)
 </html>

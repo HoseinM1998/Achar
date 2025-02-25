@@ -1,4 +1,4 @@
-using AcharDomainCore.Contracts.City;
+﻿using AcharDomainCore.Contracts.City;
 using AcharDomainCore.Contracts.Customer;
 using AcharDomainCore.Dtos;
 using AcharDomainCore.Dtos.CustomerDto;
@@ -26,18 +26,20 @@ namespace Achar.Endpoint.Razor.Areas.Customer.Pages
 
         }
 
-        public async Task<IActionResult> OnPostDelete( CancellationToken cancellationToken)
+        public async Task<IActionResult> OnPostDelete(CancellationToken cancellationToken)
         {
             var userCustomerId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == "userCustomerId").Value);
             if (ModelState.IsValid)
             {
-                
                 await _customerAppServices.DeleteCustomer(userCustomerId, cancellationToken);
+                TempData["Success"] = "حساب کاربری با موفقیت حذف شد"; 
                 return LocalRedirect("/Account/Login");
-
-
             }
-            return RedirectToPage("/Index");
+            else
+            {
+                TempData["ErrorMessage"] = "خطا در حذف حساب کاربری. لطفاً دوباره تلاش کنید"; 
+                return RedirectToPage("/Index");
+            }
         }
     }
 }

@@ -26,7 +26,7 @@ namespace AcharDomainCore.Dtos.ExpertDto
         [DisplayName(" جنسیت")]
         public GenderEnum? Gender { get; set; }
         [DisplayName(" شهر")]
-        public string NameCity { get; set; }
+        public string? NameCity { get; set; }
         [DisplayName(" مهارت ها")]
         public List<Entites.HomeService>? Skills { get; set; }
         public List<int>? ServiceIds { get; set; }

@@ -1,4 +1,4 @@
-using AcharDomainCore.Contracts.Bid;
+﻿using AcharDomainCore.Contracts.Bid;
 using AcharDomainCore.Contracts.HomeService;
 using AcharDomainCore.Contracts.Request;
 using AcharDomainCore.Dtos.HomeServiceDto;
@@ -41,11 +41,11 @@ namespace Achar.Endpoint.Razor.Areas.Customer.Pages
             try
             {
                 await _requestAppService.AcceptExpert(id, expertId, cancellationToken);
-                TempData["Success"] = "????? ??????? ?? ?????? ????? ????.";
+                TempData["Success"] = "پیشنهاد تایید شد";
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "??? ?? ????? ??????";
+                TempData["ErrorMessage"] = "خطا در تایید پیشنهاد";
             }
             return RedirectToPage("ListRequest");
         }
@@ -55,11 +55,11 @@ namespace Achar.Endpoint.Razor.Areas.Customer.Pages
             try
             {
                 await _requestAppService.DoneRequest(id, cancellationToken);
-                TempData["Success"] = "????? ??????? ?? ?????? ????? ????.";
+                TempData["Success"] = "با موفقیت تمام شد";
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "??? ?? ????? ??????";
+                TempData["ErrorMessage"] = "خطا در انجام عملیات";
             }
             return RedirectToPage("ListRequest");
         }
@@ -69,11 +69,11 @@ namespace Achar.Endpoint.Razor.Areas.Customer.Pages
             try
             {
                 await _requestAppService.CancellRequest(id, cancellationToken);
-                TempData["Success"] = "????? ??????? ?? ?????? ????? ????.";
+                TempData["Success"] = "با موفقیت کنسل شد";
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "??? ?? ????? ??????";
+                TempData["ErrorMessage"] = "خطا کنسل نشد";
             }
             return RedirectToPage("ListRequest");
         }

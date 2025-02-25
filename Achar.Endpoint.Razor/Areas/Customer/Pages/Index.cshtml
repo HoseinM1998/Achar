@@ -28,6 +28,7 @@
             <h6 class="ft-medium fs-4">نام خانوادگی: @Model.Customer.LastName</h6>
             <h6 class="ft-medium fs-4">موجودی: @Model.Customer.Balance</h6>
 
+
             @if (!string.IsNullOrEmpty(Model.Customer.ProfileImageUrl))
             {
                 <img src="@Model.Customer.ProfileImageUrl" alt="Profile Image" class="img-thumbnail" style="width: 150px; height: 150px;">
@@ -36,11 +37,10 @@
             {
                 <p>عکس پروفایل یافت نشد.</p>
             }
-            <a href="/Customer/UpdateBalance" class="btn btn-primary mt-3">افزایش موجودی</a>
+            <a asp-page="/Customer/UpdateBalance" class="btn btn-primary mt-3">افزایش موجودی</a>
         
         </div>
     </div>
 </div>
 
 
-}

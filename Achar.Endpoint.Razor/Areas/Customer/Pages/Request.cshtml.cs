@@ -1,4 +1,4 @@
-using AcharDomainCore.Contracts.HomeService;
+﻿using AcharDomainCore.Contracts.HomeService;
 using AcharDomainCore.Contracts.Request;
 using AcharDomainCore.Dtos.HomeServiceDto;
 using AcharDomainCore.Dtos.Request;
@@ -37,10 +37,14 @@ namespace Achar.Endpoint.Razor.Areas.Customer.Pages
                 var userCustomerId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == "userCustomerId").Value);
                 Request.CustomerId = userCustomerId;
                 await _requestAppService.CreateRequest(Request, cancellationToken);
+                TempData["Success"] = "درخواست با موفقیت ثبت شد"; 
                 return RedirectToPage("Index");
             }
-            return RedirectToPage("Index");
-
+            else
+            {
+                TempData["ErrorMessage"] = "خطا در ثبت درخواست. لطفاً داده‌ها را بررسی کنید"; 
+                return RedirectToPage("Index");
+            }
         }
     }
 }
