@@ -114,7 +114,8 @@ namespace Achar.Infra.Access.EfCore.Repositories
                 PhoneNumber = customer.ApplicationUser.PhoneNumber,
                 Gender = customer.Gender,
                 Namecity = customer.City.Title,
-                ApplictaionUserId = customer.ApplicationUserId
+                ApplictaionUserId = customer.ApplicationUserId,
+                Balance = customer.ApplicationUser.Balance
             };
         }
 
@@ -166,7 +167,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
                 _logger.LogWarning("مشتری با شناسه: {CustomerId} پیدا نشد زمان {Time}", id, DateTime.UtcNow.ToLongTimeString());
                 return false;
             }
-            customer.ApplicationUser.Balance = balance;
+            customer.ApplicationUser.Balance += balance;
             await _context.SaveChangesAsync(cancellationToken);
             _logger.LogInformation("موجودی مشتری با شناسه: {CustomerId} به {Balance} بروزرسانی شد زمان {Time}", id, balance, DateTime.UtcNow.ToLongTimeString());
             return true;

@@ -210,7 +210,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
         {
             var expert = await _context.Experts.Include(x => x.ApplicationUser).FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
             if (expert is null) return false;
-            expert.ApplicationUser.Balance = balance;
+            expert.ApplicationUser.Balance += balance;
             await _context.SaveChangesAsync(cancellationToken);
             _logger.LogInformation("موجودی کارشناس با موفقیا اپدیت شد با شناسه:{Ba;ance} {ExpertId} زمان {Time}",expert.ApplicationUser.Balance, expert.Id, DateTime.UtcNow.ToLongTimeString());
 

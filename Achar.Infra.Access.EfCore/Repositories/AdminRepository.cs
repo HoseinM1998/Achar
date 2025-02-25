@@ -132,7 +132,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
             var updateBalance = await _context.Admins.Include(x => x.ApplicationUser).FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
             if (updateBalance != null)
             {
-                updateBalance.ApplicationUser.Balance = balance;
+                updateBalance.ApplicationUser.Balance += balance;
                 await _context.SaveChangesAsync(cancellationToken);
                 _logger.LogInformation("موجودی ادمین با شناسه: {AdminID} به {Balance} بروزرسانی شد لایه ریپازیتوریزمان{Time}", id, balance, DateTime.UtcNow.ToLongTimeString());
                 return true;

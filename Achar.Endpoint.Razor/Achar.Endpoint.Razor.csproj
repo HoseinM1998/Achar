@@ -46,7 +46,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Expert\Pages\" />
     <Folder Include="wwwroot\assets\img\requesst\" />
     <Folder Include="wwwroot\assets\img\request\" />
   </ItemGroup>
