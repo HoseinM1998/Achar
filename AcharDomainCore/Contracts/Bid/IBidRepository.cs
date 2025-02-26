@@ -13,6 +13,8 @@ namespace AcharDomainCore.Contracts.Bid
         Task<List<GetBidDto?>> GetBids(CancellationToken cancellationToken);
         Task<bool> DeleteBid(SoftDeleteDto delete, CancellationToken cancellationToken);
         Task<bool> ChangebidStatus(BidStatusDto status, CancellationToken cancellationToken);
+        Task<bool> CancellBid(int bidId, int expertId, CancellationToken cancellationToken);
+
         Task<Entites.Bid?> GetBidById(int id, CancellationToken cancellationToken);
 
     }

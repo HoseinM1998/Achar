@@ -168,6 +168,23 @@ namespace Achar.Infra.Access.EfCore.Repositories
             return true;
         }
 
+        public async Task<bool> CancellBid(int bidId, int expertId, CancellationToken cancellationToken)
+        {
+            var bid = await _context.Bids
+                .FirstOrDefaultAsync(x => x.Id == bidId && x.ExpertId == expertId&&x.Status!=StatusBidEnum.Success, cancellationToken);
+
+            if (bid == null)
+            {
+                return false;
+            }
+            bid.Status = StatusBidEnum.CancelledByExpert;
+            var request = await _context.Requests.FirstOrDefaultAsync(x => x.Id == bid.RequestId);
+            request.Status = StatusRequestEnum.CancelledByExpert;
+            await _context.SaveChangesAsync(cancellationToken);
+            return true;
+        }
+
+
         public async Task<Bid?> GetBidById(int id, CancellationToken cancellationToken)
         {
             var bid = await _context.Bids

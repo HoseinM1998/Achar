@@ -102,5 +102,8 @@ namespace AcharDomainService
             return true;
         }
 
+        public async Task<bool> CancellBid(int bidId, int expertId, CancellationToken cancellationToken)
+            => await _repository.CancellBid(bidId,expertId, cancellationToken);
+
     }
 }

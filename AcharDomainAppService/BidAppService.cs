@@ -143,5 +143,18 @@ namespace AcharDomainAppService
                 throw new Exception($"Error ChangebidStatus: {ex.Message}");
             }
         }
+
+        public async Task<bool> CancellBid(int bidId, int expertId, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await _service.CancellBid(bidId,expertId, cancellationToken);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error CancellBid: {ex.Message}");
+            }
+        }
     }
 }
