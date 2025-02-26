@@ -1,53 +1,58 @@
 ﻿@page
 @using System.ComponentModel.DataAnnotations
-
+@using Framework
 @model Achar.Endpoint.Razor.Areas.Expert.Pages.RequestsModel
-@{
-}
 @{
     Layout = "_LayoutExpert";
     ViewData["Request"] = "active";
+    ViewData["Title"] = "درخواست‌ها";
 }
 
-@foreach (var item in Model.Requests)
-{
-    <div class="container dsd-single-listing-wraps">
-        <div class="row dsd-single-lst-caption">
-            <div class="col">
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h4 class="card-title">@item.Title</h4>
-                        <h5 class="card-title">@item.HomeServiceName</h5>
-                        <p class="card-text">تاریخ انجام: @item.DoneAt</p>
-                        <p class="card-text">وضعیت: @DisplayEnum(item.Status)</p>
-                        <p class="card-text">قیمت: @item.Price</p>
-                        <p class="card-text">@item.Description</p>
-                    </div>
-                    <div class="dsd-single-lst-thumb">
-                        @if (item.Images == null || item.Images.Count == 0)
-                        {
-                            <img src="~/assets/img/logo.jpg" class="img-fluid" alt="" />
-                        }
-                        else
-                        {
-                            foreach (var imageUrl in item.Images)
+<section class="gray py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <h3 class="breadcrumb-item pb-3 px-5"><a href="#" class="theme-cl">درخواست‌ها</a></h3>
+                @foreach (var item in Model.Requests)
+                {
+                    <div class="card shadow-lg border-0 p-4 rounded-4 mb-4">
+                        <div class="card-body">
+                            <h4 class="card-title">@item.Title</h4>
+                            <h5 class="card-title">سرویس: @item.HomeServiceName</h5>
+                            <p class="mb-1">تاریخ پیشنهادی مشتری: @(item.RequesteForTime.ToPersianString())</p>
+                            <p class="card-text">وضعیت: <span class="badge bg-primary">@DisplayEnum(item.Status)</span></p>
+                            <p class="card-text">قیمت: @item.Price.ToString("N0") تومان</p>
+                            <p class="card-text">توضیحات: @item.Description</p>
+                        </div>
+                        <div class="dsd-single-lst-thumb">
+                            @if (item.Images == null || item.Images.Count == 0)
                             {
-                                <img src="@imageUrl" class="img-fluid" alt="" />
+                                <img src="~/assets/img/logo.jpg" class="img-fluid rounded-3" alt="تصویر پیش‌فرض" />
                             }
-                        }
+                            else
+                            {
+                                <div class="row">
+                                    @foreach (var imageUrl in item.Images)
+                                    {
+                                        <div class="col-md-4 mb-3">
+                                            <img src="@imageUrl" class="img-fluid rounded-3" alt="تصویر درخواست" />
+                                        </div>
+                                    }
+                                </div>
+                            }
+                        </div>
                     </div>
-                </div>
+                }
             </div>
         </div>
     </div>
-}
-
+</section>
 
 @functions {
     public string DisplayEnum(Enum enumValue)
     {
         var field = enumValue.GetType().GetField(enumValue.ToString());
-        var attribute = (DisplayAttribute)field.GetCustomAttributes(typeof(DisplayAttribute), false).FirstOrDefault();
+        var attribute = (DisplayAttribute)field?.GetCustomAttributes(typeof(DisplayAttribute), false).FirstOrDefault();
 
         return attribute?.GetName() ?? enumValue.ToString();
     }

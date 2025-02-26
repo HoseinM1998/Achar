@@ -198,44 +198,26 @@ namespace Achar.Infra.Access.EfCore.Repositories
                     skillIds.Contains(r.HomeServiceId) &&
                     r.Customer.CityId == expert.CityId &&
                     r.Status == StatusRequestEnum.AwaitingSuggestionExperts)
-                .Select(r => new
+                .Select(r => new RequestGetDto
                 {
-                    r.Id,
-                    r.Title,
-                    r.Description,
-                    r.Price,
-                    r.Images,
-                    r.Status,
-                    r.RequesteForTime,
-                    r.CreateAt,
-                    r.CustomerId,
+                    Id = r.Id,
+                    Title = r.Title,
+                    Description = r.Description,
+                    Price = r.Price,
+                    Images = r.Images.ToList(),
+                    Status = r.Status,
+                    RequesteForTime = r.RequesteForTime,
+                    CreateAt = r.CreateAt,
+                    CustomerId = r.CustomerId,
                     CustomerName = r.Customer.ApplicationUser.FirstName + " " + r.Customer.ApplicationUser.LastName,
-                    r.HomeServiceId,
+                    ServiceId = r.HomeServiceId,
                     HomeServiceName = r.HomeService.Title,
-                    r.AcceptedExpertId,
+                    ExpertId = r.AcceptedExpertId,
                     ExpertName = r.AcceptedExpert != null ? r.AcceptedExpert.ApplicationUser.FirstName + " " + r.AcceptedExpert.ApplicationUser.LastName : null
                 })
                 .ToListAsync(cancellationToken);
 
-            var filterRequest = requests.Select(r => new RequestGetDto
-            {
-                Id = r.Id,
-                Title = r.Title,
-                Description = r.Description,
-                Price = r.Price,
-                Images = r.Images.ToList(),
-                Status = r.Status,
-                RequesteForTime = r.RequesteForTime,
-                CreateAt = r.CreateAt,
-                CustomerId = r.CustomerId,
-                CustomerName = r.CustomerName,
-                ServiceId = r.HomeServiceId,
-                HomeServiceName = r.HomeServiceName,
-                ExpertId = r.AcceptedExpertId,
-                ExpertName = r.ExpertName
-            }).ToList();
-
-            return filterRequest;
+            return requests;
         }
 
 

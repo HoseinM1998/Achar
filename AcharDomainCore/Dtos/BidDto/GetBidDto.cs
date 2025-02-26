@@ -26,10 +26,11 @@ namespace AcharDomainCore.Dtos.BidDto
         public string ExpertName { get; set; }
 
         [Display(Name = " نام مشتری")]
-        public string RequestName { get; set; }
+        public string? RequestName { get; set; }
         public string? CustomerName { get; set; }
-
+        public Entites.Request? Request { get; set; }
         public int? ExpertId { get; set; }
         public int? RequestId { get; set; }
+
     }
 }
