@@ -2,7 +2,7 @@
 @model Achar.Endpoint.Razor.Areas.Customer.Pages.RequestModel
 @{
     Layout = "_LayoutCustomer";
-    ViewData["AddOrder"] = "active";
+    ViewData["Request"] = "active";
 }
 <form method="post" asp-page-handler="Request" enctype="multipart/form-data">
     <div class="dashboard-list-wraps bg-white rounded mb-4">
@@ -49,15 +49,15 @@
                 </div>
 
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                    <label for="formFileLg" class="form-label">آپلود تصویر</label>
+                    <label for="formFileLg" class="form-label">آپلود تصاویر</label>
                     <div class="input-group form-group">
-                        <input type="text" class="form-control upload-name-photo rounded" asp-for="@Model.Request.Images" />
-                        <span class="btn cursor-pointer upload-btn-photo">آپلود فایل</span>
+                        <input type="text" class="form-control upload-name-photo rounded" readonly />
+                        <span class="btn cursor-pointer upload-btn-photo">انتخاب فایل‌ها</span>
                     </div>
-                    <input type="file" asp-for="@Model.Request.Images" class="d-none hidden-upload-photo" />
+                    <input type="file" asp-for="@Model.Request.Images" class="d-none hidden-upload-photo" multiple />
                     <span asp-validation-for="@Model.Request.Images" class="text-danger"></span>
-
                 </div>
+
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                     <div class="form-group p-2">
                         <button type="submit" class="btn theme-cl rounded theme-bg-light ft-medium">افزودن</button>
@@ -97,25 +97,14 @@
 
     </script>
     <script>
-        Dropzone.options.gallery = {
-            accept: function (file, done) {
-                console.log("uploaded");
-                done();
-            },
-            init: function () {
-                this.on("maxfilesexceeded", function (file) {
-                    alert("No more files please!");
-                });
-            }
-        };
-        $(".upload-btn-photo").on("click", () => {
-            //clicks on the file input
-            document.querySelector(".hidden-upload-photo").click();
+        document.querySelector('.upload-btn-photo').addEventListener('click', function() {
+            document.querySelector('.hidden-upload-photo').click();
         });
-        //adds event listener on the hidden file input to listen for any changes
-        $(".hidden-upload-photo").on("change", (event) => {
-            //gets the file name
-            document.querySelector(".upload-name-photo").value = event.target.files[0].name;
+
+        document.querySelector('.hidden-upload-photo').addEventListener('change', function(event) {
+            let fileNames = Array.from(event.target.files).map(file => file.name);
+            document.querySelector('.upload-name-photo').value = fileNames.join(', ');
         });
     </script>
+
 }

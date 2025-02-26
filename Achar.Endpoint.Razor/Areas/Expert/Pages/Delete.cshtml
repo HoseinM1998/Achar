@@ -2,9 +2,11 @@
 @model Achar.Endpoint.Razor.Areas.Expert.Pages.DeleteModel
 @{
 }
-{
-@ViewData["Title"] = "حذف کاربر";
+@{
+    Layout = "_LayoutExpert";
+    ViewData["DeleteAccount"] = "active";
 }
+
 
 <h2>@ViewData["Title"]</h2>
 
@@ -13,7 +15,7 @@
 </div>
 
 @{
-    ViewData["Title"] = "حذف مشتری";
+    ViewData["Title"] = "حذف اکانت";
 }
 
 <h3>حذف تسک</h3>

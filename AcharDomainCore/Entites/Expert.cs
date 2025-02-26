@@ -6,7 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using HomeService.Domain.Core.Enums;
+using AcharDomainCore.Enums;
 
 namespace AcharDomainCore.Entites
 {

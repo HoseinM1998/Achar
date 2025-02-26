@@ -2,18 +2,20 @@
 @model Achar.Endpoint.Razor.Areas.Customer.Pages.DeleteModel
 @{
 }
-{
-@ViewData["Title"] = "حذف کاربر";
+@{
+    Layout = "_LayoutCustomer";
+    ViewData["DeleteAccount"] = "active";
+
 }
 
-<h2>@ViewData["Title"]</h2>
+<h2> حذف اکانت مشتری</h2>
 
 <div class="alert alert-warning">
     <strong>اخطار:</strong> قبل از حذف اکانت، لطفاً مطمئن شوید که قصد حذف  دارید.
 </div>
 
 @{
-    ViewData["Title"] = "حذف مشتری";
+    ViewData["Title"] = "حذف اکانت";
 }
 
 <h3>حذف تسک</h3>

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace HomeService.Domain.Core.Enums
+namespace AcharDomainCore.Enums
 {
     public enum StatusRequestEnum
     {

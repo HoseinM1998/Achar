@@ -16,6 +16,8 @@ namespace AcharDomainCore.Contracts.Request
         Task<RequestGetDto> GetRequestById(int id, CancellationToken cancellationToken);
         Task<List<RequestGetDto?>> GetRequests(CancellationToken cancellationToken);
         Task<List<RequestGetDto?>> GetCustomerRequests(int customerId, CancellationToken cancellationToken);
+        Task<List<RequestGetDto?>> GetRequestsByExpert(int expertId, CancellationToken cancellationToken);
+
 
         Task<bool> DeleteRequest(SoftDeleteDto delete, CancellationToken cancellationToken);
         public Task<bool> ChangeRequestStatus(StatusRequestDto newStatus, CancellationToken cancellationToken);

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AcharDomainCore.Entites;
-using HomeService.Domain.Core.Enums;
+using AcharDomainCore.Enums;
 using Microsoft.AspNetCore.Http;
 
 namespace AcharDomainCore.Dtos.ExpertDto

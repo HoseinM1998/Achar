@@ -1,6 +1,5 @@
 ﻿using Achar.Infra.Db.SqLServer.EntitiesConfigration;
 using AcharDomainCore.Entites;
-using HomeService.Domain.Core.Enums;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;

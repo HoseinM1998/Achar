@@ -9,7 +9,6 @@ using AcharDomainCore.Dtos;
 using AcharDomainCore.Dtos.BidDto;
 using AcharDomainCore.Entites;
 using AcharDomainCore.Enums;
-using HomeService.Domain.Core.Enums;
 using Microsoft.Extensions.Logging;
 
 namespace AcharDomainService

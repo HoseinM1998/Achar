@@ -9,7 +9,7 @@ using AcharDomainCore.Contracts.Request;
 using AcharDomainCore.Dtos;
 using AcharDomainCore.Dtos.Request;
 using AcharDomainCore.Entites;
-using HomeService.Domain.Core.Enums;
+using AcharDomainCore.Enums;
 using Microsoft.Extensions.Logging;
 
 namespace AcharDomainService
@@ -43,6 +43,9 @@ namespace AcharDomainService
 
         public async Task<List<RequestGetDto?>> GetCustomerRequests(int customerId, CancellationToken cancellationToken)
             => await _repository.GetCustomerRequests(customerId,cancellationToken);
+
+        public async Task<List<RequestGetDto?>> GetRequestsByExpert(int expertId, CancellationToken cancellationToken)
+            => await _repository.GetRequestsByExpert(expertId, cancellationToken);
 
 
         public async Task<bool> DeleteRequest(SoftDeleteDto delete, CancellationToken cancellationToken)

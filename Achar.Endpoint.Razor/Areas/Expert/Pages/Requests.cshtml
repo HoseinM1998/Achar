@@ -1,0 +1,54 @@
+﻿@page
+@using System.ComponentModel.DataAnnotations
+
+@model Achar.Endpoint.Razor.Areas.Expert.Pages.RequestsModel
+@{
+}
+@{
+    Layout = "_LayoutExpert";
+    ViewData["Request"] = "active";
+}
+
+@foreach (var item in Model.Requests)
+{
+    <div class="container dsd-single-listing-wraps">
+        <div class="row dsd-single-lst-caption">
+            <div class="col">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h4 class="card-title">@item.Title</h4>
+                        <h5 class="card-title">@item.HomeServiceName</h5>
+                        <p class="card-text">تاریخ انجام: @item.DoneAt</p>
+                        <p class="card-text">وضعیت: @DisplayEnum(item.Status)</p>
+                        <p class="card-text">قیمت: @item.Price</p>
+                        <p class="card-text">@item.Description</p>
+                    </div>
+                    <div class="dsd-single-lst-thumb">
+                        @if (item.Images == null || item.Images.Count == 0)
+                        {
+                            <img src="~/assets/img/logo.jpg" class="img-fluid" alt="" />
+                        }
+                        else
+                        {
+                            foreach (var imageUrl in item.Images)
+                            {
+                                <img src="@imageUrl" class="img-fluid" alt="" />
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+@functions {
+    public string DisplayEnum(Enum enumValue)
+    {
+        var field = enumValue.GetType().GetField(enumValue.ToString());
+        var attribute = (DisplayAttribute)field.GetCustomAttributes(typeof(DisplayAttribute), false).FirstOrDefault();
+
+        return attribute?.GetName() ?? enumValue.ToString();
+    }
+}

@@ -29,13 +29,13 @@ namespace AcharDomainAppService
         {
             try
             {
-                //if (requestDto.Images is not null)
-                //{
-                //    foreach (var image in requestDto.Images)
-                //    {
-                //        var imagePath = await _imageService.UploadImage(image, "requesst", cancellationToken);
-                //    }
-                //}
+                if (requestDto.Images is not null)
+                {
+                    foreach (var image in requestDto.Images)
+                    {
+                        var imagePath = await _imageService.UploadImage(image, "requesst", cancellationToken);
+                    }
+                }
 
                 return await _service.CreateRequest(requestDto, cancellationToken);
             }
@@ -98,6 +98,18 @@ namespace AcharDomainAppService
             try
             {
                 return await _service.GetRequests( cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error GetRequests: {ex.Message}");
+            }
+        }
+
+        public async Task<List<RequestGetDto?>> GetRequestsByExpert(int expertId, CancellationToken cancellationToken)
+        {
+            try
+            {
+                return await _service.GetRequestsByExpert(expertId,cancellationToken);
             }
             catch (Exception ex)
             {

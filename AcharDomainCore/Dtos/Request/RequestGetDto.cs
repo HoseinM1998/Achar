@@ -1,11 +1,11 @@
-﻿using HomeService.Domain.Core.Enums;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AcharDomainCore.Entites;
+using AcharDomainCore.Enums;
 
 namespace AcharDomainCore.Dtos.Request
 {
