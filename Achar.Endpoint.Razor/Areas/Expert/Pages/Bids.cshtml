@@ -1,8 +1,58 @@
 ﻿@page
+@using System.ComponentModel.DataAnnotations
+@using Framework
 @model Achar.Endpoint.Razor.Areas.Expert.Pages.BidsModel
-@{
-}
 @{
     Layout = "_LayoutExpert";
     ViewData["Bids"] = "active";
+    ViewData["Title"] = "پیشنهادهای من";
+}
+
+<section class="gray py-5 w-75">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <div class="card shadow-lg border-0 p-4 rounded-4 mb-4">
+                    <div class="text-center mb-4">
+                        <h4 class="fw-bold text-primary">پیشنهادهای من</h4>
+                    </div>
+
+                    <div class="list-group">
+                        @foreach (var bid in Model.Bids)
+                        {
+                            <div class="list-group-item">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h5 class="mb-1">شناسه: @bid.Id</h5>
+                                        <p class="mb-1">توضیحات: @bid.Description</p>
+                                        <small>کارشناس: @bid.ExpertName</small>
+                                    </div>
+                                    <div>
+                                        <p class="mb-1">درخواست: @bid.RequestName</p>
+                                        <p class="mb-1">مشتری: @bid.CustomerName</p>
+                                        <small>قیمت: @bid.BidPrice.ToString("N0")</small>
+                                    </div>
+                                    <div>
+                                        <p class="mb-1">تاریخ پیشنهادی کارشناس: @bid.BidDate.ToPersianString()</p>
+                                        <p class="mb-1">تاریخ پیشنهادی مشتری: @(bid.RequestDate.ToPersianString())</p>
+                                        <span class="badge bg-primary">@DisplayEnum(bid.Status)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@functions {
+    public string DisplayEnum(Enum enumValue)
+    {
+        var field = enumValue.GetType().GetField(enumValue.ToString());
+        var attribute = (DisplayAttribute)field?.GetCustomAttributes(typeof(DisplayAttribute), false).FirstOrDefault();
+
+        return attribute?.GetName() ?? enumValue.ToString();
+    }
 }
