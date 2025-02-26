@@ -93,7 +93,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
         public async Task<CustomerProfDto> GetCustomerById(int id, CancellationToken cancellationToken)
         {
             _logger.LogInformation("دریافت مشتری با شناسه: {CustomerId} زمان {Time}", id, DateTime.UtcNow.ToLongTimeString());
-            var customer = await _context.Customers
+            var customer = await _context.Customers.AsNoTracking()
                 .Include(c => c.ApplicationUser)
                 .Include(c => c.City)
                 .FirstOrDefaultAsync(c => c.Id == id, cancellationToken);
@@ -123,8 +123,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
         {
             _logger.LogInformation("دریافت تمامی مشتری‌ها زمان {Time}", DateTime.UtcNow.ToLongTimeString());
             var customer = await _context.Customers
-                .Include(e => e.ApplicationUser)
-                .Include(e => e.City)
+              .AsNoTracking()
                 .Select(e => new CustomerGetAll()
                 {
                     Id = e.Id,

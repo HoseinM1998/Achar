@@ -29,7 +29,6 @@ namespace Achar.Infra.Access.EfCore.Repositories
             await _context.SaveChangesAsync(cancellationToken);
             _logger.LogInformation("کارشناس ایجاد شد با شناسه: {ExpertId} زمان {Time}", expert.Id, DateTime.UtcNow.ToLongTimeString());
             return expert.Id;
-            return expert.Id;
         }
 
         public async Task<bool> UpdateExpert(ExpertProfDto expert, CancellationToken cancellationToken)
@@ -133,8 +132,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
         public async Task<List<ExpertProfDto?>>? GetExperts(CancellationToken cancellationToken)
         {
             var experts = await _context.Experts
-                .Include(e => e.ApplicationUser)
-                .Include(e => e.City)
+                .AsNoTracking()
                 .Include(e => e.Skills)
                 .Select(e => new ExpertProfDto
                 {
@@ -182,8 +180,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
         public async Task<List<ExpertProfDto?>> GetTopExpertsByScore(CancellationToken cancellationToken)
         {
             var topExperts = await _context.Experts
-                .Include(e => e.ApplicationUser)
-                .Include(e => e.City)
+                .AsNoTracking()
                 .Where(e => e.IsActive)
                 .OrderByDescending(e => e.Score)
                 .Take(10)

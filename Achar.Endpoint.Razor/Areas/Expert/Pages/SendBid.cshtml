@@ -1,0 +1,48 @@
+﻿@page
+@model Achar.Endpoint.Razor.Areas.Expert.Pages.SendBidModel
+@{
+    Layout = "_LayoutExpert";
+    ViewData["Title"] = "ثبت پیشنهاد‌ها";
+}
+
+<section class="gray py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-8 col-lg-8 col-md-10 col-sm-12">
+                <div class="card shadow-lg border-0 p-4 rounded-4">
+                    <div class="card-body">
+                        <h3 class="card-title text-center mb-4">ثبت پیشنهاد </h3>
+                        <form method="post" asp-page-handler="SendBid" onsubmit="console.log('Form submitted');">
+                            <input type="hidden" asp-for="Bid.RequestId" />
+                            <div class="mb-3">
+                                <label asp-for="Bid.Description" class="form-label">توضیحات پیشنهاد</label>
+                                <textarea class="form-control" asp-for="Bid.Description" rows="5"></textarea>
+                                <span asp-validation-for="Bid.Description" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label asp-for="Bid.BidPrice" class="form-label">قیمت پیشنهادی (تومان)</label>
+                                <input type="number" class="form-control" asp-for="Bid.BidPrice" />
+                                <span asp-validation-for="Bid.BidPrice" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label asp-for="Bid.BidDate" class="form-label">تاریخ پیشنهادی</label>
+                                <input type="date" class="form-control rounded" data-jdp data-jdp-min-date="today" asp-for="Bid.BidDate" />
+                                <span asp-validation-for="Bid.BidDate" class="text-danger"></span>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">ثبت پیشنهاد</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+                                
+

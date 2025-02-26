@@ -23,17 +23,8 @@ namespace AcharDomainService
             _repository = repository;
         }
 
-        public async Task<int> CreateBid(Bid bid, CancellationToken cancellationToken)
-        {
-            var addBid = new Bid();
-            addBid.CreateAt = DateTime.Now;
-            addBid.Description = bid.Description;
-            addBid.BidPrice = bid.BidPrice;
-            addBid.ExpertId = bid.ExpertId;
-            addBid.RequestId = bid.RequestId;
-            addBid.Status = StatusBidEnum.WaitingForCustomerConfirmation;
-            return await _repository.CreateBid(addBid, cancellationToken);
-        }
+        public async Task<int> CreateBid(BidAddDto bid, CancellationToken cancellationToken)
+            => await _repository.CreateBid(bid, cancellationToken);
 
         public async Task<bool> UpdateBid(BidUpdateDto bid, CancellationToken cancellationToken)
             => await _repository.UpdateBid(bid, cancellationToken);

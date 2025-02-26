@@ -9,29 +9,23 @@ using System.Threading.Tasks;
 
 namespace AcharDomainCore.Dtos.BidDto
 {
-    public class GetBidDto
+    public class BidAddDto
     {
-        [Display(Name = "ایدی")]
-        public int Id { get; set; }
+
         [Display(Name = "توضیحات")]
+        [Required(ErrorMessage = "وارد کردن توضیحات الزامی است")]
         public string Description { get; set; }
         [Display(Name = "قیمت پیشنهادی")]
+        [Required(ErrorMessage = "وارد کردن قیمت پیشنهادی الزامی است")]
         public decimal BidPrice { get; set; }
-
         [Display(Name = "تاریخ پیشنهادی")]
+        [Required(ErrorMessage = "وارد کردن تاریخ الزامی است")]
         public DateTime BidDate { get; set; }
-        public DateTime RequestDate { get; set; }
 
-        public StatusBidEnum Status { get; set; }
-       
-        [Display(Name = " نام متخصص")]
-        public string ExpertName { get; set; }
-
-        [Display(Name = " نام مشتری")]
-        public string? RequestName { get; set; }
-        public string CustomerName { get; set; }
-        public int? ExpertId { get; set; }
-        public int? RequestId { get; set; }
+        [Display(Name = "ایدی متخصص")]
+        public int ExpertId { get; set; }
+        [Display(Name = "ایدی مشتری")]
+        public int RequestId { get; set; }
 
     }
 }

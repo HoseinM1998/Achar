@@ -23,6 +23,12 @@
                             <p class="card-text">وضعیت: <span class="badge bg-primary">@DisplayEnum(item.Status)</span></p>
                             <p class="card-text">قیمت: @item.Price.ToString("N0") تومان</p>
                             <p class="card-text">توضیحات: @item.Description</p>
+
+                            <!-- فرم ثبت پیشنهاد -->
+                            <form method="post" asp-page="SendBid">
+                                <input type="hidden" asp-for="Bid.RequestId" value="@item.Id" />
+                                <button type="submit" class="btn btn-primary">ثبت پیشنهاد</button>
+                            </form>
                         </div>
                         <div class="dsd-single-lst-thumb">
                             @if (item.Images == null || item.Images.Count == 0)

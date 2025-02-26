@@ -17,9 +17,9 @@
 
 <body dir="rtl">
 
-	<!-- ============================================================== -->
-	<!-- Preloader - style you can find in spinners.css -->
-	<!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
     <div class="preloader"></div>
 
     <!-- ============================================================== -->
@@ -52,55 +52,22 @@
                                 </ul>
                             </li>
 
-                            <li>
-                                <a href="javascript:void(0);">آگهی</a>
-                                <ul class="nav-dropdown nav-submenu">
-                                    <li>
-                                        <a href="javascript:void(0);">جزئیات</a>
-                                        <ul class="nav-dropdown nav-submenu">
-                                            <li><a href="single-listing-detail-1.html">نسخه 1</a></li>
-                                            <li><a href="single-listing-detail-2.html">نسخه 2</a></li>
-                                            <li><a href="single-listing-detail-3.html">نسخه 3</a></li>
-                                            <li><a href="single-listing-detail-4.html">نسخه 4</a></li>
-                                            <li><a href="single-listing-detail-5.html">نسخه 5</a></li>
-                                            <li><a href="single-listing-detail-6.html">نسخه 6</a></li>
-                                            <li><a href="single-listing-detail-7.html">نسخه 7</a></li>
-                                            <li><a href="single-listing-detail-8.html">نسخه 8</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
 
-                            <li>
-                                <a href="javascript:void(0);">صفحات</a>
-                                <ul class="nav-dropdown nav-submenu">
-                                    <li><a href="blog.html">وبلاگ</a></li>
-                                    <li><a href="about-us.html">درباره ما</a></li>
-                                    <li><a href="contact.html">تماس با ما</a></li>
-                                    <li><a href="checkout.html">تسویه حساب</a></li>
-                                    <li><a href="pricing.html">پکیج های قیمت گذاری</a></li>
-                                    <li><a href="signup.html">ثبت نام</a></li>
-                                    <li><a href="login.html">ورود</a></li>
-                                    <li><a href="privacy.html">شرایط و قوانین</a></li>
-                                    <li><a href="faq.html">سوالات متداول</a></li>
-                                    <li><a href="404.html">صفحه 404</a></li>
-                                </ul>
-                            </li>
 
+                            <ul class="navbar-nav me-auto" style="display: flex; flex-direction: row;">
+                                <li class="nav-item" style="margin-right: 1rem;">
+                                    <a class="nav-link text-dark" asp-area="Account" asp-page="/Login" style="color: #000;">
+                                        <i class="fas fa-sign-in-alt me-2"></i> ورود
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-page="/Register" style="color: #000;">
+                                        <i class="fas fa-user-plus me-2"></i> ثبت نام
+                                    </a>
+                                </li>
+                            </ul>
                         </ul>
 
-                        <ul class="navbar-nav me-auto" style="display: flex; flex-direction: row;">
-                            <li class="nav-item" style="margin-right: 1rem;">
-                                <a class="nav-link text-dark" asp-area="Account" asp-page="/Login" style="color: #000;">
-                                    <i class="fas fa-sign-in-alt me-2"></i> ورود
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Register" style="color: #000;">
-                                    <i class="fas fa-user-plus me-2"></i> ثبت نام
-                                </a>
-                            </li>
-                        </ul>
                     </div>
                 </nav>
             </div>
@@ -127,7 +94,7 @@
                                 ایران، تهران، میدان آزادی جنب مترو شادمان<br> کوچه شکوفه پلاک 8
                             </div>
                             <div class="address mt-3">
-                                09320000000<br>support@Goodup.com
+                                09913466961<br>support@Goodup.com
                             </div>
                             <div class="address mt-2">
                                 <ul class="list-inline">
@@ -226,6 +193,6 @@
     <!-- This page plugins -->
     <!-- ============================================================== -->
     @await RenderSectionAsync("Scripts", required: false)
-    </body>
+</body>
 
-    </html>
+</html>

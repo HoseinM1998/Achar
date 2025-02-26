@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using AcharDomainCore.Enums;
 using Microsoft.Extensions.Logging;
 using System.Net.NetworkInformation;
+using AcharDomainCore.Dtos.Request;
 
 namespace Achar.Infra.Access.EfCore.Repositories
 {
@@ -26,14 +27,23 @@ namespace Achar.Infra.Access.EfCore.Repositories
             _logger = logger;
         }
 
-        public async Task<int> CreateBid(Bid bid, CancellationToken cancellationToken)
+        public async Task<int> CreateBid(BidAddDto bid, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("ایجاد پیشنهاد با شناسه: {BidId} زمان {Time}", bid.Id, DateTime.UtcNow.ToLongTimeString());
-            bid.CreateAt = DateTime.Now;
-            await _context.Bids.AddAsync(bid, cancellationToken);
+            var biid = new Bid()
+            {
+                CreateAt = DateTime.Now,
+                IsDeleted = false,
+                Status = StatusBidEnum.WaitingForCustomerConfirmation,
+                Description = bid.Description,
+                BidPrice = bid.BidPrice,
+                BidDate = bid.BidDate,
+                ExpertId = bid.ExpertId,
+                RequestId = bid.RequestId
+
+            };
+            await _context.Bids.AddAsync(biid, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
-            _logger.LogInformation("پیشنهاد ایجاد شد با شناسه: {BidId} زمان {Time}", bid.Id, DateTime.UtcNow.ToLongTimeString());
-            return bid.Id;
+            return biid.Id;
         }
 
         public async Task<bool> UpdateBid(BidUpdateDto updatebid, CancellationToken cancellationToken)
@@ -65,11 +75,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
         {
             _logger.LogInformation("دریافت پیشنهادها با شناسه درخواست: {RequestId} زمان {Time}", requestId, DateTime.UtcNow.ToLongTimeString());
             var bids = await _context.Bids
-                .Include(b => b.Expert)
-                .ThenInclude(x => x.ApplicationUser)
-                .Include(b => b.Request)
-                .ThenInclude(x => x.Customer)
-                .ThenInclude(x => x.ApplicationUser)
+              .AsNoTracking()
                 .Where(b => b.RequestId == requestId && b.Status == StatusBidEnum.WaitingForCustomerConfirmation)
                 .Select(b => new GetBidDto
                 {
@@ -89,13 +95,31 @@ namespace Achar.Infra.Access.EfCore.Repositories
         public async Task<List<GetBidDto>>? GetBidsByExpertId(int expertId, CancellationToken cancellationToken)
         {
             _logger.LogInformation("دریافت پیشنهادها با شناسه کارشناس: {ExpertId} زمان {Time}", expertId, DateTime.UtcNow.ToLongTimeString());
-            var bids = await _context.Bids
-                .Include(b => b.Expert)
-                .ThenInclude(x => x.ApplicationUser)
-                .Include(b => b.Request)
-                .ThenInclude(x => x.Customer)
-                .ThenInclude(x => x.ApplicationUser)
+            var bids = await _context.Bids.AsNoTracking()
                 .Where(b => b.ExpertId == expertId)
+                .Select(b => new GetBidDto
+                {
+                    Id = b.Id,
+                    ExpertId = expertId,
+                    RequestId = b.RequestId,
+                    Description = b.Description,
+                    BidPrice = b.BidPrice,
+                    BidDate = b.BidDate,
+                    RequestDate = b.Request.RequesteForTime,
+                    Status = b.Status,
+                    RequestName = b.Request.Title,
+                    ExpertName = b.Expert.ApplicationUser.FirstName + " " + b.Expert.ApplicationUser.LastName,
+                    CustomerName = b.Request.Customer.ApplicationUser.FirstName + " " + b.Request.Customer.ApplicationUser.LastName
+                })
+                .ToListAsync(cancellationToken);
+
+            _logger.LogInformation("پیشنهادهای با شناسه کارشناس: {ExpertId} دریافت شدند زمان {Time}", expertId, DateTime.UtcNow.ToLongTimeString());
+            return bids;
+        }
+
+        public async Task<List<GetBidDto>> GetBids(CancellationToken cancellationToken)
+        {
+            var result = await _context.Bids.AsNoTracking()
                 .Select(b => new GetBidDto
                 {
                     Id = b.Id,
@@ -103,40 +127,16 @@ namespace Achar.Infra.Access.EfCore.Repositories
                     BidPrice = b.BidPrice,
                     BidDate = b.BidDate,
                     Status = b.Status,
-                    ExpertName = b.Expert.ApplicationUser.FirstName + " " + b.Expert.ApplicationUser.LastName,
-                    RequestName = b.Request.Customer.ApplicationUser.FirstName + " " + b.Request.Customer.ApplicationUser.LastName
+                    ExpertName = b.Expert.ApplicationUser.LastName,
+                    CustomerName = b.Request.Customer.ApplicationUser.LastName,
+                    RequestName = b.Request.Title,
+                    ExpertId = b.ExpertId,
+                    RequestId = b.RequestId
                 })
                 .ToListAsync(cancellationToken);
-            _logger.LogInformation("پیشنهادهای با شناسه کارشناس: {ExpertId} دریافت شدند زمان {Time}", expertId, DateTime.UtcNow.ToLongTimeString());
-            return bids;
-        }
 
-        public async Task<List<GetBidDto>> GetBids(CancellationToken cancellationToken)
-        {
-            var bids = await _context.Bids
-                .Include(b => b.Expert)
-                .ThenInclude(x=>x.ApplicationUser)
-                .Include(b => b.Request)
-                .ThenInclude(x=>x.Customer)
-                .ThenInclude(x=>x.ApplicationUser)
-                .ToListAsync(cancellationToken);
-
-            var result = bids.Select(b => new GetBidDto
-            {
-                Id = b.Id,
-                Description = b.Description,
-                BidPrice = b.BidPrice,
-                BidDate = b.BidDate,
-                Status = b.Status,
-                ExpertName = b.Expert.ApplicationUser.LastName,
-                CustomerName = b.Request.Customer.ApplicationUser.LastName,
-                RequestName = b.Request.Title,
-                ExpertId = b.ExpertId,
-                RequestId = b.RequestId
-            }).ToList();
             return result;
         }
-
 
         public async Task<bool> DeleteBid(SoftDeleteDto active, CancellationToken cancellationToken)
         {
@@ -171,7 +171,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
         public async Task<bool> CancellBid(int bidId, int expertId, CancellationToken cancellationToken)
         {
             var bid = await _context.Bids
-                .FirstOrDefaultAsync(x => x.Id == bidId && x.ExpertId == expertId&&x.Status!=StatusBidEnum.Success, cancellationToken);
+                .FirstOrDefaultAsync(x => x.Id == bidId && x.ExpertId == expertId && x.Status != StatusBidEnum.Success, cancellationToken);
 
             if (bid == null)
             {

@@ -24,7 +24,7 @@ namespace AcharDomainAppService
             _logger = logger;
         }
 
-        public async Task<int> CreateBid(Bid bid, CancellationToken cancellationToken)
+        public async Task<int> CreateBid(BidAddDto bid, CancellationToken cancellationToken)
         {
             try
             {

@@ -5,7 +5,7 @@ namespace AcharDomainCore.Contracts.Bid
 {
     public interface IBidService
     {
-        Task<int> CreateBid(Entites.Bid bid, CancellationToken cancellationToken);
+        Task<int> CreateBid(BidAddDto bid, CancellationToken cancellationToken);
         Task<bool> UpdateBid(BidUpdateDto bid, CancellationToken cancellationToken);
         Task<int> BidCount(CancellationToken cancellationToken);
         Task<List<GetBidDto>>? GetBidsByRequestId(int id, CancellationToken cancellationToken);

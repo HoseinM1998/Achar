@@ -5,12 +5,15 @@ using AcharDomainCore.Contracts.HomeService;
 using AcharDomainCore.Dtos.ExpertDto;
 using AcharDomainCore.Dtos.HomeServiceDto;
 using AcharDomainCore.Entites;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 
 namespace Achar.Endpoint.Razor.Areas.Expert.Pages
 {
+    [Authorize(Roles = "Expert")]
+
     public class ExpertUpdateModel : PageModel
     {
         private readonly IExpertAppService _expertAppServices;

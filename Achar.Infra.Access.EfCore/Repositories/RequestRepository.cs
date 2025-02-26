@@ -1,13 +1,11 @@
 ﻿using System.Security.Cryptography.X509Certificates;
 using Achar.Infra.Db.Sql;
-
 using AcharDomainCore.Contracts.Request;
 using AcharDomainCore.Dtos;
 using AcharDomainCore.Dtos.Request;
 using AcharDomainCore.Entites;
 using AcharDomainCore.Enums;
 using Microsoft.EntityFrameworkCore;
-using Azure.Core;
 using Request = AcharDomainCore.Entites.Request;
 using Microsoft.Extensions.Logging;
 
@@ -198,26 +196,44 @@ namespace Achar.Infra.Access.EfCore.Repositories
                     skillIds.Contains(r.HomeServiceId) &&
                     r.Customer.CityId == expert.CityId &&
                     r.Status == StatusRequestEnum.AwaitingSuggestionExperts)
-                .Select(r => new RequestGetDto
+                .Select(r => new
                 {
-                    Id = r.Id,
-                    Title = r.Title,
-                    Description = r.Description,
-                    Price = r.Price,
-                    Images = r.Images.ToList(),
-                    Status = r.Status,
-                    RequesteForTime = r.RequesteForTime,
-                    CreateAt = r.CreateAt,
-                    CustomerId = r.CustomerId,
+                    r.Id,
+                    r.Title,
+                    r.Description,
+                    r.Price,
+                    r.Images,
+                    r.Status,
+                    r.RequesteForTime,
+                    r.CreateAt,
+                    r.CustomerId,
                     CustomerName = r.Customer.ApplicationUser.FirstName + " " + r.Customer.ApplicationUser.LastName,
-                    ServiceId = r.HomeServiceId,
+                    r.HomeServiceId,
                     HomeServiceName = r.HomeService.Title,
-                    ExpertId = r.AcceptedExpertId,
+                    r.AcceptedExpertId,
                     ExpertName = r.AcceptedExpert != null ? r.AcceptedExpert.ApplicationUser.FirstName + " " + r.AcceptedExpert.ApplicationUser.LastName : null
                 })
                 .ToListAsync(cancellationToken);
 
-            return requests;
+            var filterRequest = requests.Select(r => new RequestGetDto
+            {
+                Id = r.Id,
+                Title = r.Title,
+                Description = r.Description,
+                Price = r.Price,
+                Images = r.Images.ToList(),
+                Status = r.Status,
+                RequesteForTime = r.RequesteForTime,
+                CreateAt = r.CreateAt,
+                CustomerId = r.CustomerId,
+                CustomerName = r.CustomerName,
+                ServiceId = r.HomeServiceId,
+                HomeServiceName = r.HomeServiceName,
+                ExpertId = r.AcceptedExpertId,
+                ExpertName = r.ExpertName
+            }).ToList();
+
+            return filterRequest;
         }
 
 

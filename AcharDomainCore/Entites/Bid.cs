@@ -25,7 +25,7 @@ namespace AcharDomainCore.Entites
 
         [Display(Name = "ایدی متخصص")]
         public int ExpertId { get; set; }
-        public Expert Expert { get; set; }
+        public Expert? Expert { get; set; }
         public int RequestId { get; set; }
         public Request Request { get; set; }
 
