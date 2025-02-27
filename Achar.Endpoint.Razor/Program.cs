@@ -5,6 +5,7 @@ using AcharDomainAppService;
 using AcharDomainAppService.AcharDomainAppService;
 using AcharDomainCore.Contracts.Admin;
 using AcharDomainCore.Contracts.ApplicationUser;
+using AcharDomainCore.Contracts.BaseData;
 using AcharDomainCore.Contracts.Bid;
 using AcharDomainCore.Contracts.Category;
 using AcharDomainCore.Contracts.City;
@@ -82,6 +83,7 @@ builder.Services.AddScoped<IAdminService, AdminService>();
 builder.Services.AddScoped<IAdminAppService, AdminAppService>();
 
 builder.Services.AddScoped<IImageService, ImageService>();
+builder.Services.AddScoped<IBaseRepository, BaseRepository>();
 
 
 builder.Services.AddScoped<ICityRepository, CityRepository>();
