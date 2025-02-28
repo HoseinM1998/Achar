@@ -76,6 +76,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
         {
             _logger.LogInformation("دریافت درخواست با شناسه: {RequestId} زمان {Time}", id, DateTime.UtcNow.ToLongTimeString());
             var request = await _context.Requests
+                .AsNoTracking()
                 .Include(r => r.Customer)
                 .ThenInclude(x => x.ApplicationUser)
                 .Include(r => r.HomeService)
@@ -112,6 +113,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
         {
             _logger.LogInformation("دریافت تمامی درخواست‌ها زمان {Time}", DateTime.UtcNow.ToLongTimeString());
             var requests = await _context.Requests
+                .AsNoTracking()
                 .Include(r => r.Customer)
                 .ThenInclude(c => c.ApplicationUser)
                 .Include(r => r.HomeService)
@@ -142,7 +144,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
 
         public async Task<List<RequestGetDto?>> GetCustomerRequests(int customerId, CancellationToken cancellationToken)
         {
-            var requests = await _context.Requests
+            var requests = await _context.Requests.AsNoTracking()
                 .Where(r => r.CustomerId == customerId)
                 .Include(r => r.Customer)
                 .ThenInclude(c => c.ApplicationUser)
@@ -179,6 +181,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
         public async Task<List<RequestGetDto>> GetRequestsByExpert(int expertId, CancellationToken cancellationToken)
         {
             var expert = await _context.Experts
+                .AsNoTracking()
                 .Include(e => e.Skills)
                 .Include(e => e.City)
                 .FirstOrDefaultAsync(e => e.Id == expertId, cancellationToken);

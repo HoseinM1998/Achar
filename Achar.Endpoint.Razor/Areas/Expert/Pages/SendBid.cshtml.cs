@@ -2,11 +2,13 @@
 using AcharDomainCore.Contracts.Request;
 using AcharDomainCore.Dtos.BidDto;
 using AcharDomainCore.Entites;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Achar.Endpoint.Razor.Areas.Expert.Pages
 {
+    [Authorize(Roles = "Expert")]
     public class SendBidModel : PageModel
     {
         private readonly IBidAppService _bidAppService;

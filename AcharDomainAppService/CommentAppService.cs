@@ -82,6 +82,18 @@ namespace AcharDomainAppService
             }
         }
 
+        public async Task<List<AllCommentDto?>> GetAllCommentByCustomerId(int customerId, CancellationToken cancellationToken)
+        {
+            try
+            {
+                return await _service.GetAllCommentByCustomerId(customerId, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error GetAllCommentByCustomerId: {ex.Message}");
+            }
+        }
+
         public async Task<List<GetCommentDto>>? GetCommentsByExpertId(int expertId, CancellationToken cancellationToken)
         {
             try

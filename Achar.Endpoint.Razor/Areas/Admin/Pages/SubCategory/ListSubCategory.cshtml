@@ -1,4 +1,5 @@
 ﻿@page
+@using Framework
 @model Achar.Endpoint.Razor.Areas.Admin.Pages.SubCategory.ListSubCategoryModel
 @{
     ViewData["Title"] = "مدیریت زیر دسته‌بندی‌ها";
@@ -93,7 +94,7 @@
                         <span>بدون عکس</span>
                     }
                 </td>
-                <td>@subCategory.CreateAt.ToString("yyyy-MM-dd")</td>
+                <td>@subCategory.CreateAt.ToPersianString("yyyy-MM-dd")</td>
                 <td>
                     <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#updateSubCategoryModal-@subCategory.Id">
                         ویرایش

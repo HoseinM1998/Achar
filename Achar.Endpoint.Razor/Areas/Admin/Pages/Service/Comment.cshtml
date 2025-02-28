@@ -1,4 +1,5 @@
 ﻿@page
+@using Framework
 @model Achar.Endpoint.Razor.Areas.Admin.Pages.Service.CommentModel
 @{
     ViewData["Title"] = "مدیریت نظرات";
@@ -33,6 +34,8 @@
                 <th>عنوان</th>
                 <th>توضیحات</th>
                 <th>امتیاز</th>
+                <th>نام مشتری</th>
+                <th>نام کارشناس</th>
                 <th>تاریخ ایجاد</th>
                 <th>وضعیت</th>
                 <th>عملیات</th>
@@ -46,7 +49,10 @@
                     <td>@comment.Title</td>
                     <td>@comment.Description</td>
                     <td>@comment.Score</td>
-                    <td>@comment.CreateAt.ToString("yyyy-MM-dd")</td>
+                    <td>@comment.CustomerName</td>
+                    <td>@comment.ExpertName</td>
+
+                    <td>@comment.CreateAt.ToPersianString("yyyy-MM-dd")</td>
                     <td>@(comment.IsAccept ? "فعال" : "غیر فعال")</td>
                     <td>
                         <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#changeStatusModal-@comment.Id">

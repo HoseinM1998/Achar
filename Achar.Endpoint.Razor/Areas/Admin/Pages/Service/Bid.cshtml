@@ -1,5 +1,6 @@
 ﻿@page
 @using System.ComponentModel.DataAnnotations
+@using Framework
 @model Achar.Endpoint.Razor.Areas.Admin.Pages.Service.BidModel
 @{
     ViewData["Title"] = "مدیریت پیشنهادها";
@@ -52,7 +53,7 @@
                     <td>@bid.RequestName</td>
                     <td>@bid.CustomerName</td>
                     <td>@bid.BidPrice</td>
-                    <td>@bid.BidDate.ToShortDateString()</td>
+                    <td>@bid.BidDate.ToPersianString()</td>
                     <td>@DisplayEnum(bid.Status)</td>
                     <td>
                         <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#changeStatusModal-@bid.Id">

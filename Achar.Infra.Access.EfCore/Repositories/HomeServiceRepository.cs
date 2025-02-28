@@ -82,7 +82,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
         public async Task<HomeServiceDto> GetHomeServiceById(int id, CancellationToken cancellationToken)
         {
             _logger.LogInformation("دریافت خدمات  با شناسه: {HomeServiceId} زمان {Time}", id, DateTime.Now.ToLongTimeString());
-            var homeService = await _context.HomeServices.Include(x=>x.SubCategory).FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+            var homeService = await _context.HomeServices.AsNoTracking().Include(x=>x.SubCategory).FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
             if (homeService is null)
             {
                 _logger.LogWarning("خدمات  با شناسه: {HomeServiceId} پیدا نشد زمان {Time}", id, DateTime.Now.ToLongTimeString());
@@ -135,6 +135,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
         public async Task<List<HomeServiceDto?>> GetAllGetHomeServicesBySubCategory(int subCategory, CancellationToken cancellationToken)
         {
             var homeServices = await _context.HomeServices
+                .AsNoTracking()
                 .Where(e => e.SubCategoryId == subCategory)
                 .Select(e => new HomeServiceDto()
                 {

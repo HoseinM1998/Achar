@@ -35,7 +35,7 @@ builder.Host.ConfigureLogging(o => {
     o.AddSerilog();
 }).UseSerilog((context, config) =>
 {
-    config.WriteTo.Console();
+    //config.WriteTo.Console();
     config.WriteTo.Seq("http://localhost:5341", apiKey: "81g7sJguN5KRaJbWkyBs");
 });
 

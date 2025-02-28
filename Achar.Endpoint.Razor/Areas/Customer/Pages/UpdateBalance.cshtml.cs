@@ -1,10 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using AcharDomainCore.Contracts.Customer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Achar.Endpoint.Razor.Areas.Customer.Pages
 {
+    [Authorize(Roles = "Customer")]
+
     public class UpdateBalanceModel : PageModel
     {
         private readonly ICustomerAppService _customerAppServices;

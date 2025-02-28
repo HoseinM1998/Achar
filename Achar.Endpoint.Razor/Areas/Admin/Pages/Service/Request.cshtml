@@ -1,5 +1,6 @@
 ﻿@page
 @using System.ComponentModel.DataAnnotations
+@using Framework
 @model Achar.Endpoint.Razor.Areas.Admin.Pages.Service.RequestModel
 @{
     ViewData["Title"] = "مدیریت درخواست‌ها";
@@ -47,7 +48,7 @@
                     <td>@request.Title</td>
                     <td>@request.Description</td>
                     <td>@request.Price</td>
-                    <td>@request.CreateAt.ToString("yyyy-MM-dd")</td>
+                    <td>@request.CreateAt.ToPersianString("yyyy-MM-dd")</td>
                     <td>@DisplayEnum(request.Status)</td>
                     <td>
                         <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#changeStatusModal-@request.Id">

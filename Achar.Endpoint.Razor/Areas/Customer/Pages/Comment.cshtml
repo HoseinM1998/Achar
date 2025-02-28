@@ -1,0 +1,67 @@
+﻿@page
+@using Framework
+@model Achar.Endpoint.Razor.Pages.Shared.CommentModel
+@{
+}
+@{
+    ViewData["Title"] = "مدیریت نظرات";
+    Layout = "_Layout";
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Success"]
+    </div>
+}
+
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="card shadow-lg border-0 p-4 rounded-4 mb-4">
+    <div class="text-center mb-4">
+        <h4 class="fw-bold text-primary">مدیریت نظرات</h4>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>شناسه</th>
+                <th>عنوان</th>
+                <th>توضیحات</th>
+                <th>امتیاز</th>
+                <th>نام کارشناس</th>
+                <th>تاریخ ایجاد</th>
+                <th>عملیات</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var comment in Model.Comments)
+            {
+                <tr>
+                    <td>@comment.Id</td>
+                    <td>@comment.Title</td>
+                    <td>@comment.Description</td>
+                    <td>@comment.Score</td>
+                    <td>@comment.ExpertName</td>
+
+                    <td>@comment.CreateAt.ToPersianString("yyyy-MM-dd")</td>
+                    <td>
+                        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#changeStatusModal-@comment.Id">
+                            تغییر وضعیت
+                        </button>
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteCommentModal-@comment.Id">
+                            حذف
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -84,6 +84,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
         {
             _logger.LogInformation("دریافت تمامی نظرات زمان {Time}", DateTime.UtcNow.ToLongTimeString());
             var comments = await _context.Comments
+                .AsNoTracking()
                 .Include(c => c.Expert)
                 .ThenInclude(c => c.ApplicationUser)
                 .Include(c => c.Customer)
@@ -106,10 +107,37 @@ namespace Achar.Infra.Access.EfCore.Repositories
             return comments;
         }
 
+        public async Task<List<AllCommentDto?>> GetAllCommentByCustomerId(int customerId,CancellationToken cancellationToken)
+        {
+            var comments = await _context.Comments
+                .AsNoTracking()
+                .Include(c => c.Expert)
+                .ThenInclude(c => c.ApplicationUser)
+                .Include(c => c.Customer)
+                .ThenInclude(c => c.ApplicationUser)
+                .Where(x=>x.CustomerId==customerId)
+                .Select(c => new AllCommentDto
+                {
+                    Id = c.Id,
+                    Title = c.Title,
+                    Description = c.Description,
+                    Score = c.Score,
+                    IsAccept = c.IsAccept,
+                    CreateAt = c.CreateAt,
+                    CustomerId = c.CustomerId,
+                    CustomerName = c.Customer.ApplicationUser.FirstName + " " + c.Customer.ApplicationUser.LastName,
+                    ExpertId = c.ExpertId,
+                    ExpertName = c.Expert.ApplicationUser.FirstName + " " + c.Expert.ApplicationUser.LastName
+                })
+                .ToListAsync(cancellationToken);
+            return comments;
+        }
+
         public async Task<List<GetCommentDto>>? GetCommentsByExpertId(int expertId, CancellationToken cancellationToken)
         {
             _logger.LogInformation("دریافت نظرات با شناسه کارشناس: {ExpertId} زمان {Time}", expertId, DateTime.UtcNow.ToLongTimeString());
             var comments = await _context.Comments
+                .AsNoTracking()
                 .Include(c => c.Expert)
                 .ThenInclude(c => c.ApplicationUser)
                 .Include(c => c.Customer)

@@ -48,6 +48,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
         {
             _logger.LogInformation("دریافت ادمین با شناسه: {AdminID}زمان{Time} ", adminID, DateTime.UtcNow.ToLongTimeString());
             var admin = await _context.Admins
+                .AsNoTracking()
                 .Include(e => e.ApplicationUser)
                 .FirstOrDefaultAsync(e => e.Id == adminID, cancellationToken);
             if (admin == null)
@@ -72,7 +73,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
         public async Task<decimal> GetBalanceAdminById(int adminID, CancellationToken cancellationToken)
         {
             _logger.LogInformation("دریافت موجودی ادمین با شناسه: {AdminID} لایه ریپازیتوری زمان{Time} ", adminID, DateTime.UtcNow.ToLongTimeString());
-            var admin = await _context.Admins.FirstOrDefaultAsync(a => a.Id == adminID, cancellationToken);
+            var admin = await _context.Admins.AsNoTracking().FirstOrDefaultAsync(a => a.Id == adminID, cancellationToken);
             if (admin == null)
             {
                 _logger.LogWarning("ادمین با شناسه: {AdminID} زمان{Time} پیدا نشد", adminID, DateTime.UtcNow.ToLongTimeString());
@@ -85,7 +86,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
         public async Task<List<Admin?>> GetAllAmin(CancellationToken cancellationToken)
         {
             _logger.LogInformation("دریافت تمامی ادمین‌ها لایه ریپازیتوری زمان{Time} ", DateTime.UtcNow.ToLongTimeString());
-            var admins = await _context.Admins.Include(x => x.ApplicationUser).AsNoTracking().ToListAsync(cancellationToken);
+            var admins = await _context.Admins.AsNoTracking().Include(x => x.ApplicationUser).AsNoTracking().ToListAsync(cancellationToken);
             _logger.LogInformation(" لایه ریپازیتوری تعداد ادمین‌های دریافت شده زمان{Time} : {Count}", admins.Count, DateTime.UtcNow.ToLongTimeString());
             return admins;
         }

@@ -4,9 +4,12 @@ using AcharDomainCore.Dtos.BidDto;
 using AcharDomainCore.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Achar.Endpoint.Razor.Areas.Expert.Pages
 {
+    [Authorize(Roles = "Expert")]
+
     public class BidsModel : PageModel
     {
 
