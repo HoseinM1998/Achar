@@ -64,23 +64,41 @@ namespace AcharDomainService
             {
                 return false;
             }
-            if (request.ExpertId == null)
+
+            if (newStatus.Status == StatusRequestEnum.AwaitingSuggestionExperts)
             {
-                newStatus.Status = StatusRequestEnum.AwaitingSuggestionExperts; 
+                if (request.ExpertId == null&&request.DoneAt==null&&request.Bids==null)
+                {
+                    newStatus.Status = StatusRequestEnum.AwaitingSuggestionExperts;
+                }
             }
 
-            if (request.Bids != null)
+            if (newStatus.Status == StatusRequestEnum.AwaitingCustomerConfirmation)
             {
-                newStatus.Status = StatusRequestEnum.AwaitingCustomerConfirmation;
+                if (request.Bids != null)
+                {
+                    newStatus.Status = StatusRequestEnum.AwaitingCustomerConfirmation;
 
+                }
             }
 
-            if (request.DoneAt != null)
+            if (newStatus.Status == StatusRequestEnum.Success)
             {
-                newStatus.Status = StatusRequestEnum.Success;
+                if (request.DoneAt != null)
+                {
+                    newStatus.Status = StatusRequestEnum.Success;
+                }
             }
 
-            else
+            if (newStatus.Status == StatusRequestEnum.CancelledByCustomer)
+            {
+                if (request.DoneAt == null)
+                {
+                    newStatus.Status= StatusRequestEnum.CancelledByCustomer;
+                }
+            }
+
+            if (newStatus.Status == StatusRequestEnum.WaitingForExpert)
             {
                 newStatus.Status = StatusRequestEnum.WaitingForExpert;
                 var requet = new RequestAcceptExpertDto()
@@ -88,10 +106,9 @@ namespace AcharDomainService
                     Id = newStatus.Id,
                     Bids = null
                 };
-                await _repository.AcceptExpert(requet.Id, requet.ExpertId,cancellationToken);
+                await _repository.AcceptExpert(requet.Id, requet.ExpertId, cancellationToken);
             }
             await _repository.ChangeRequestStatus(newStatus, cancellationToken);
-
             return true;
         }
 

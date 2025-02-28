@@ -1,13 +1,13 @@
-using AcharDomainCore.Contracts.City;
 using AcharDomainCore.Contracts.Comment;
-using AcharDomainCore.Contracts.Customer;
 using AcharDomainCore.Dtos;
 using AcharDomainCore.Dtos.CommentDto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Achar.Endpoint.Razor.Pages.Shared
+namespace Achar.Endpoint.Razor.Areas.Customer.Pages
 {
+    [Authorize(Roles = "Customer")]
     public class CommentModel : PageModel
     {
 
@@ -33,11 +33,11 @@ namespace Achar.Endpoint.Razor.Pages.Shared
             try
             {
                 await _commentAppService.DeleteComment(Delete, cancellationToken);
-                TempData["Success"] = "??? ?? ?????? ??? ??.";
+                TempData["Success"] = "?? ?????? ??? ??";
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "??? ?? ????? ??????";
+                TempData["ErrorMessage"] = "???? ??? ???";
             }
             return RedirectToPage("Comment");
         }

@@ -32,17 +32,25 @@ namespace Achar.Endpoint.Razor.Areas.Customer.Pages
 
         public async Task<IActionResult> OnPostRequest(CancellationToken cancellationToken)
         {
-            if (ModelState.IsValid)
+            try
             {
-                var userCustomerId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == "userCustomerId").Value);
-                Request.CustomerId = userCustomerId;
-                await _requestAppService.CreateRequest(Request, cancellationToken);
-                TempData["Success"] = "درخواست با موفقیت ثبت شد"; 
-                return RedirectToPage("Index");
+                if (ModelState.IsValid)
+                {
+                    var userCustomerId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == "userCustomerId").Value);
+                    Request.CustomerId = userCustomerId;
+                    await _requestAppService.CreateRequest(Request, cancellationToken);
+                    TempData["Success"] = "درخواست با موفقیت ثبت شد";
+                    return RedirectToPage("Index");
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "خطا در ثبت درخواست. لطفاً داده‌ها را بررسی کنید";
+                    return RedirectToPage("Index");
+                }
             }
-            else
+            catch (Exception e)
             {
-                TempData["ErrorMessage"] = "خطا در ثبت درخواست. لطفاً داده‌ها را بررسی کنید"; 
+                TempData["Message"] =e.Message;
                 return RedirectToPage("Index");
             }
         }
