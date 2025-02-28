@@ -33,9 +33,9 @@
                 <th>شناسه</th>
                 <th>عنوان</th>
                 <th>توضیحات</th>
-                <th>امتیاز</th>
                 <th>نام مشتری</th>
                 <th>نام کارشناس</th>
+                <th>امتیاز</th>
                 <th>تاریخ ایجاد</th>
                 <th>وضعیت</th>
                 <th>عملیات</th>
@@ -48,10 +48,9 @@
                     <td>@comment.Id</td>
                     <td>@comment.Title</td>
                     <td>@comment.Description</td>
-                    <td>@comment.Score</td>
                     <td>@comment.CustomerName</td>
                     <td>@comment.ExpertName</td>
-
+                    <td>@comment.Score</td>
                     <td>@comment.CreateAt.ToPersianString("yyyy-MM-dd")</td>
                     <td>@(comment.IsAccept ? "فعال" : "غیر فعال")</td>
                     <td>

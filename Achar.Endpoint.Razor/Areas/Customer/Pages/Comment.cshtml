@@ -4,8 +4,8 @@
 @{
 }
 @{
-    ViewData["Title"] = "مدیریت نظرات";
-    Layout = "_Layout";
+
+    Layout = "_LayoutCustomer";
 }
 
 @if (TempData["ErrorMessage"] != null)
@@ -36,8 +36,10 @@
                 <th>عنوان</th>
                 <th>توضیحات</th>
                 <th>امتیاز</th>
+                <th>نام مشتری</th>
                 <th>نام کارشناس</th>
                 <th>تاریخ ایجاد</th>
+                <th>وضعیت</th>
                 <th>عملیات</th>
             </tr>
         </thead>
@@ -49,9 +51,10 @@
                     <td>@comment.Title</td>
                     <td>@comment.Description</td>
                     <td>@comment.Score</td>
+                    <td>@comment.CustomerName</td>
                     <td>@comment.ExpertName</td>
-
                     <td>@comment.CreateAt.ToPersianString("yyyy-MM-dd")</td>
+                    <td>@(comment.IsAccept ? "فعال" : "غیر فعال")</td>
                     <td>
                         <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#changeStatusModal-@comment.Id">
                             تغییر وضعیت
@@ -65,3 +68,27 @@
         </tbody>
     </table>
 </div>
+
+@foreach (var comment in Model.Comments)
+{
+    <div class="modal fade" id="deleteCommentModal-@comment.Id" tabindex="-1" aria-labelledby="deleteCommentModalLabel-@comment.Id" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteCommentModalLabel-@comment.Id">تأیید حذف</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    آیا مطمئن هستید که می‌خواهید این نظر را حذف کنید؟
+                </div>
+                <div class="modal-footer">
+                    <form method="post" asp-page-handler="DeleteComment" style="display:inline;">
+                        <input type="hidden" asp-for="Delete.Id" value="@comment.Id" />
+                        <button type="submit" class="btn btn-danger">حذف</button>
+                    </form>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">لغو</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
