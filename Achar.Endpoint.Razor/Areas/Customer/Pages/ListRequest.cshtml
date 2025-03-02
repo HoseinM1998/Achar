@@ -29,9 +29,24 @@
         <div class="col-md-4 mb-4">
             <div class="card shadow-sm h-100">
                 <div class="card-body text-center">
-                    <img src="@((item.Images == null || item.Images.Count == 0) ? "/assets/img/logo.jpg" : item.Images.FirstOrDefault())"
-                         class="img-fluid rounded-circle border border-primary p-1 shadow-sm mb-3"
-                         alt="Service Image" style="width: 120px; height: 120px; object-fit: cover;">
+                    <div class="d-flex justify-content-center flex-wrap gap-2 mb-3">
+                        @if (item.ImagePaths == null || item.ImagePaths.Count == 0)
+                        {
+                            <img src="/assets/img/logo.jpg"
+                                 class="img-fluid rounded-circle border border-primary p-1 shadow-sm"
+                                 alt="Service Image" style="width: 80px; height: 80px; object-fit: cover;">
+                        }
+                        else
+                        {
+                            @foreach (var imagePath in item.ImagePaths)
+                            {
+                                <img src="@imagePath"
+                                     class="img-fluid rounded-circle border border-primary p-1 shadow-sm"
+                                     alt="Service Image" style="width: 80px; height: 80px; object-fit: cover;">
+                            }
+                        }
+                    </div>
+
                     <h4 class="card-title text-primary fw-bold text-end">عنوان: @item.Title</h4>
                     <h5 class="text-muted text-end">سرویس: @item.HomeServiceName</h5>
 

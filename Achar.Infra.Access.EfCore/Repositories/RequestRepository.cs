@@ -8,6 +8,7 @@ using AcharDomainCore.Enums;
 using Microsoft.EntityFrameworkCore;
 using Request = AcharDomainCore.Entites.Request;
 using Microsoft.Extensions.Logging;
+using Azure.Core;
 
 namespace Achar.Infra.Access.EfCore.Repositories
 {
@@ -96,7 +97,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
                 Title = request.Title,
                 Description = request.Description,
                 Price = request.Price,
-                Images = request.Images?.ToList() ?? new List<Image>(),
+                ImagePaths = request.Images.Select(img => img.ImgPath).ToList(), 
                 Status = request.Status,
                 RequesteForTime = request.RequesteForTime,
                 CreateAt = request.CreateAt,
@@ -127,7 +128,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
                     Title = r.Title,
                     Description = r.Description,
                     Price = r.Price,
-                    Images = r.Images.ToList(),
+                    ImagePaths = r.Images.Select(img => img.ImgPath).ToList(),
                     Status = r.Status,
                     RequesteForTime = r.RequesteForTime,
                     CreateAt = r.CreateAt,
@@ -162,7 +163,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
                     Title = r.Title,
                     Description = r.Description,
                     Price = r.Price,
-                    Images = r.Images.ToList(),
+                    ImagePaths = r.Images.Select(img => img.ImgPath).ToList(),
                     Status = r.Status,
                     RequesteForTime = r.RequesteForTime,
                     CreateAt = r.CreateAt,

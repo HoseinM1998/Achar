@@ -9,10 +9,10 @@ namespace AcharDomainCore.Entites
     public class Image
     {
         public int Id { get; set; }
-        public string Title { get; set; }
+        public string? Title { get; set; } = "عکس";
         public string ImgPath { get; set; }
         public int RequestId { get; set; }
-        public Request Request { get; set; }
+        public Request? Request { get; set; }
 
     }
 }

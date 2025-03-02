@@ -20,6 +20,8 @@ namespace AcharDomainCore.Dtos.Request
         public decimal Price { get; set; }
         [DisplayName("عکس ها")]
         public List<Image>? Images { get; set; } = new List<Image>();
+        public List<string> ImagePaths { get; set; }
+
         [DisplayName("وضعیت")]
         public StatusRequestEnum Status { get; set; }
 

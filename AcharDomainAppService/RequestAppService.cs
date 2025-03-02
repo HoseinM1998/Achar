@@ -29,15 +29,22 @@ namespace AcharDomainAppService
         {
             try
             {
+                var request= await _service.CreateRequest(requestDto, cancellationToken);
+                var imagesPath = new List<string>();
+
                 if (requestDto.Images is not null)
                 {
                     foreach (var image in requestDto.Images)
                     {
-                        var imagePath = await _imageService.UploadImage(image, "requesst", cancellationToken);
+                        var imagePath = await _imageService.UploadImage(image, "request", cancellationToken);
+                        imagesPath.Add(imagePath);
                     }
+
+                    await _imageService.AddAdvImages(imagesPath, request, cancellationToken);
                 }
 
-                return await _service.CreateRequest(requestDto, cancellationToken);
+                return request;
+
             }
             catch (Exception ex)
             {
@@ -49,13 +56,32 @@ namespace AcharDomainAppService
         {
             try
             {
+                var existingRequest = await _service.GetRequestById(requestUpDto.Id, cancellationToken);
+                if (existingRequest is null)
+                {
+                    throw new Exception("درخواست موردنظر یافت نشد.");
+                }
+                var imagesPath = existingRequest.ImagePaths?.ToList() ?? new List<string>(); 
+
+                if (requestUpDto.Images is not null && requestUpDto.Images.Any())
+                {
+                    imagesPath.Clear(); 
+                    foreach (var image in requestUpDto.Images)
+                    {
+                        var imagePath = await _imageService.UploadImage(image, "requestt", cancellationToken);
+                        imagesPath.Add(imagePath);
+                    }
+                }
+
+                requestUpDto.ImagesPath = imagesPath;
                 return await _service.UpdateRequest(requestUpDto, cancellationToken);
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error UpdateRequest: {ex.Message}");
+                throw new Exception($"خطا در به‌روزرسانی درخواست: {ex.Message}");
             }
         }
+
 
         public async Task<int> RequestCount(CancellationToken cancellationToken)
         {

@@ -83,6 +83,10 @@ builder.Services.AddScoped<IAdminService, AdminService>();
 builder.Services.AddScoped<IAdminAppService, AdminAppService>();
 
 builder.Services.AddScoped<IImageService, ImageService>();
+builder.Services.AddScoped<IImageRepository, ImageRepository>();
+
+
+
 builder.Services.AddScoped<IBaseRepository, BaseRepository>();
 
 

@@ -10,6 +10,8 @@ namespace AcharDomainCore.Contracts.Image
     public interface IImageService
     {
         Task<string> UploadImage(IFormFile FormFile, string folderName, CancellationToken cancellationToken);
+        Task AddAdvImages(List<string> imgAddress, int requestId, CancellationToken cancellationToken);
+
 
     }
 }

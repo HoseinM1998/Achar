@@ -7,7 +7,9 @@
 <form method="post" asp-page-handler="Request" enctype="multipart/form-data">
     <div class="dashboard-list-wraps bg-white rounded shadow p-4 mb-4">
         <div class="dashboard-list-wraps-head d-flex justify-content-between align-items-center br-bottom py-3">
-            <h4 class="mb-0 ft-medium fs-md"><i class="fas fa-concierge-bell text-primary me-2"></i> درخواست خدمات</h4>
+            <h4 class="mb-0 ft-medium fs-md">
+                <i class="fas fa-concierge-bell text-primary me-2"></i> درخواست خدمات
+            </h4>
         </div>
 
         <div class="dashboard-list-wraps-body py-3">
@@ -18,25 +20,35 @@
                         <select asp-for="@Model.Request.ServiceId" class="form-control rounded border-primary">
                             @foreach (var item in Model.Services)
                             {
-                                <option value="@item.Id">@item.Title - <strong class="text-success">@item.BasePrice تومان</strong></option>
+                                <option value="@item.Id">@item.Title - @item.BasePrice.ToString("N0") تومان</option>
                             }
                         </select>
                     </div>
                 </div>
-                <div class="col-md-6">
+
+                <div class="col-md-4">
                     <div class="form-group">
                         <label class="mb-2 fw-bold"><i class="fas fa-tag me-2 text-secondary"></i> عنوان</label>
-                        <input asp-for="@Model.Request.Title" class="form-control rounded border-primary" type="text" />
+                        <input asp-for="@Model.Request.Title" class="form-control rounded border-primary" type="text" required="وارد کردن عنوان اجباری است" />
                         <span asp-validation-for="@Model.Request.Title" class="text-danger"></span>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="mb-2 fw-bold"><i class="fas fa-dollar-sign me-2 text-secondary"></i> قیمت</label>
+                        <input asp-for="@Model.Request.Price" class="form-control rounded border-primary" type="text" id="priceInput" oninput="formatPrice()" />
+                        <span asp-validation-for="@Model.Request.Price" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
                     <div class="form-group">
                         <label class="mb-2 fw-bold"><i class="fas fa-calendar-alt me-2 text-secondary"></i> تاریخ</label>
-                        <input asp-for="@Model.Request.RequesteForTime" data-jdp class="form-control rounded border-primary" />
+                        <input asp-for="@Model.Request.RequesteForTime" data-jdp class="form-control rounded border-primary" required="وارد کردن تاریخ اجباری است" />
                         <span asp-validation-for="@Model.Request.RequesteForTime" class="text-danger"></span>
                     </div>
                 </div>
+
                 <div class="col-md-12">
                     <div class="form-group">
                         <label class="mb-2 fw-bold"><i class="fas fa-edit me-2 text-secondary"></i> توضیحات</label>
@@ -51,7 +63,7 @@
                         <input type="text" class="form-control upload-name-photo rounded border-primary" readonly />
                         <button type="button" class="btn btn-primary upload-btn-photo">انتخاب فایل‌ها</button>
                     </div>
-                    <input type="file" asp-for="@Model.Request.Images" class="d-none hidden-upload-photo" multiple />
+                    <input type="file" asp-for="@Model.Request.Images" class="hidden-upload-photo" multiple />
                     <span asp-validation-for="@Model.Request.Images" class="text-danger"></span>
                 </div>
 
@@ -84,3 +96,21 @@
         });
     </script>
 }
+
+<script>
+    function formatPrice() {
+        let priceInput = document.getElementById('priceInput');
+        let price = priceInput.value.replace(/[^0-9]/g, '');
+        if (price) {
+            price = parseInt(price).toLocaleString();
+        }
+        priceInput.value = price;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        let priceInput = document.getElementById('priceInput');
+        if (priceInput.value) {
+            formatPrice();
+        }
+    });
+</script>

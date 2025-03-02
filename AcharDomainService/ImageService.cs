@@ -1,11 +1,25 @@
 ﻿using System.Net.Http.Headers;
+using AcharDomainCore.Contracts.Category;
 using AcharDomainCore.Contracts.Image;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace AcharDomainService
 {
     public class ImageService : IImageService
     {
+
+        private readonly IImageRepository _repository;
+        public ImageService(IImageRepository repository)
+        {
+            _repository = repository;
+        }
+
+
+        public async Task AddAdvImages(List<string> imgAddress, int requestId, CancellationToken cancellationToken)
+        {
+            await _repository.AddAdvImages(imgAddress, requestId, cancellationToken);
+        }
         public async Task<string> UploadImage(IFormFile FormFile, string folderName, CancellationToken cancellation)
         {
             string filePath;

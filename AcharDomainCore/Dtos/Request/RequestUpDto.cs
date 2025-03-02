@@ -20,6 +20,8 @@ namespace AcharDomainCore.Dtos.Request
         public decimal Price { get; set; }
         [DisplayName("عکس ها")]
         public List<IFormFile>? Images { get; set; }
+        public List<string>? ImagesPath { get; set; }
+
 
         [DisplayName("تغییر روز")]
         public DateTime RequesteForTime { get; set; }

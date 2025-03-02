@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AcharDomainCore.Contracts.Bid;
+using AcharDomainCore.Contracts.HomeService;
 using AcharDomainCore.Contracts.Request;
 using AcharDomainCore.Dtos;
 using AcharDomainCore.Dtos.BidDto;
@@ -21,18 +22,48 @@ namespace AcharDomainService
         private readonly ILogger<BidService> _logger;
         private readonly IRequestRepository _requestRepository;
         private readonly IBaseRepository _repositoryBalance;
+        private readonly IHomeServiceRepository _homeServiceRepository;
 
 
 
-        public BidService(IBidRepository repository, IRequestRepository requestRepository, IBaseRepository repositoryBalance)
+
+        public BidService(IBidRepository repository, 
+            IRequestRepository requestRepository,
+            IBaseRepository repositoryBalance, 
+            IHomeServiceRepository homeServiceRepository)
         {
             _repository = repository;
             _requestRepository = requestRepository;
             _repositoryBalance = repositoryBalance;
+            _homeServiceRepository= homeServiceRepository;
         }
 
         public async Task<int> CreateBid(BidAddDto bid, CancellationToken cancellationToken)
-            => await _repository.CreateBid(bid, cancellationToken);
+        {
+            var request = await _requestRepository.GetRequestById(bid.RequestId, cancellationToken);
+            if (request is null)
+            {
+                throw new ArgumentException("درخواست مورد نظر یافت نشد");
+            }
+
+            var service = await _homeServiceRepository.GetHomeServiceById(request.ServiceId, cancellationToken);
+            if (service is null)
+            {
+                throw new ArgumentException("خدمات مورد نظر یافت نشد");
+            }
+
+            if (bid.BidDate > request.RequesteForTime)
+            {
+                throw new InvalidOperationException("تاریخ باید از تاریخ پیشنهادی مشتری کمتر باشد");
+            }
+
+            if (bid.BidPrice < service.BasePrice)
+            {
+                throw new InvalidOperationException($"مبلغ پیشنهادی باید از مبلغ پایه بزرگتر باشد ({service.BasePrice})");
+            }
+
+            return await _repository.CreateBid(bid, cancellationToken);
+        }
 
         public async Task<bool> UpdateBid(BidUpdateDto bid, CancellationToken cancellationToken)
             => await _repository.UpdateBid(bid, cancellationToken);
