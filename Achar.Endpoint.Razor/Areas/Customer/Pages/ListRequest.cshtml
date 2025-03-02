@@ -12,117 +12,115 @@
 
 @if (TempData["ErrorMessage"] != null)
 {
-    <div class="alert alert-danger">
+    <div class="alert alert-danger text-center fw-bold">
         @TempData["ErrorMessage"]
     </div>
 }
 @if (TempData["Success"] != null)
 {
-    <div class="alert alert-success">
+    <div class="alert alert-success text-center fw-bold">
         @TempData["Success"]
     </div>
 }
 
-@foreach (var item in Model.Request)
-{
-    <div class="container dsd-single-listing-wraps">
-        <div class="row dsd-single-lst-caption">
-            <div class="dsd-single-lst-thumb">
-                @if (item.Images == null || item.Images.Count == 0)
-                {
-                    <img src="~/assets/img/logo.jpg" class="img-fluid" alt="" />
-                }
-                else
-                {
-                    <img src="@item.Images.FirstOrDefault()" class="img-fluid" alt="" />
-                }
-            </div>
-            <div class="col">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title">@item.Title</h4>
-                        <h5 class="card-title">@item.HomeServiceName</h5>
-                        <p class="card-text">@item.DoneAt</p>
-                        <p class="card-text">@item.ExpertName</p>
-                        <p class="card-text">@DisplayEnum(item.Status)</p>
-                        <p class="card-text">@item.Price</p>
-                        <p class="card-text">@item.Description</p>
-                        <button class="btn btn-primary me-1" type="button" data-bs-toggle="collapse" data-bs-target="#@("collapse-" + item.Id)" aria-expanded="false" aria-controls="@("collapse-" + item.Id)">
-                            لیست پیشنهادات
-                        </button>
-                        <div class="collapse" id="@("collapse-" + item.Id)">
-                            <div class="d-grid d-sm-flex p-3 border">
-                                @if (item.Bids == null || item.Bids.Count == 0)
-                                {
-                                    <span class="lh-2">
-                                        هنوز پیشنهادی برای درخواست شما ارسال نشده
-                                    </span>
-                                }
-                                else
-                                {
-                                    <table class="table">
-                                        <thead class="table-dark">
-                                            <tr>
-                                                <th>نام متخصص</th>
-                                                <th>قیمت پیشنهادی</th>
-                                                <th>تاریخ پیشنهادی</th>
-                                                <th>وضعیت</th>
-                                                <th>عمل‌ها</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="table-border-bottom-0">
-                                            @foreach (var bid in item.Bids)
-                                            {
-                                                <tr>
-                                                    <td>@bid.Expert.ApplicationUser.FirstName @bid.Expert.ApplicationUser.LastName</td>
-                                                    <td>@bid.BidPrice</td>
-                                                    <td>@DateTime.Parse(bid.CreateAt.ToString()).ToPersianString("dddd, dd MMMM,yyyy")</td>
-                                                    <td>@DisplayEnum(bid.Status)</td>
-                                                    <td>
-                                                        @if (bid.Status == StatusBidEnum.WaitingForCustomerConfirmation)
-                                                        {
-                                                            <form method="post" asp-page-handler="AcceptRequest" asp-route-id="@item.Id" asp-route-expertId="@bid.ExpertId">
-                                                                <button type="submit" class="btn btn-success">تایید متخصص</button>
-                                                            </form>
-                                                        }
-                                                        else
-                                                        {
-                                                            @if (item.Status == StatusRequestEnum.WaitingForExpert)
-                                                            {
-                                                                <form method="post" asp-page-handler="DoneRequest" asp-route-id="@item.Id" asp-route-expertId="@bid.ExpertId">
-                                                                    <button type="submit" class="btn btn-primary">اتمام کار</button>
-                                                                </form>
-                                                            }
-                                                            @if (item.Status != StatusRequestEnum.Success && item.Status != StatusRequestEnum.CancelledByCustomer && item.Status != StatusRequestEnum.CancelledByExpert)
-                                                            {
-                                                                <form method="post" asp-page-handler="CancellRequest" asp-route-id="@item.Id" asp-route-expertId="@bid.ExpertId">
-                                                                    <button type="submit" class="btn btn-danger">کنسل کردن درخواست</button>
-                                                                </form>
-                                                            }
-                                                            <a class="btn btn-warning" asp-page="ExpertDetails" asp-route-expertId="@bid.ExpertId">دیدن اطلاعات متخصص</a>
-                                                        }
+<div class="row">
+    @foreach (var item in Model.Request)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <img src="@((item.Images == null || item.Images.Count == 0) ? "/assets/img/logo.jpg" : item.Images.FirstOrDefault())"
+                         class="img-fluid rounded-circle border border-primary p-1 shadow-sm mb-3"
+                         alt="Service Image" style="width: 120px; height: 120px; object-fit: cover;">
+                    <h4 class="card-title text-primary fw-bold text-end">عنوان: @item.Title</h4>
+                    <h5 class="text-muted text-end">سرویس: @item.HomeServiceName</h5>
 
-                                                    </td>
-                                                </tr>
-                                            }
-                                        </tbody>
-                                    </table>
-                                }
-                            </div>
-                        </div>
+                    <div class="text-end">
+                        <p class="mb-1"><i class="fas fa-calendar-alt text-info"></i> تاریخ انجام: @(item.DoneAt != null ? DateTime.Parse(item.DoneAt.ToString()).ToPersianString("dddd, dd MMMM,yyyy") : "---")</p>
+                        <p class="mb-1"><i class="fas fa-calendar-alt text-info"></i> تاریخ پیشنهادی: @(item.RequesteForTime != null ? DateTime.Parse(item.RequesteForTime.ToString()).ToPersianString("dddd, dd MMMM,yyyy") : "---")</p>
+                        <p class="mb-1"><i class="fas fa-user text-success"></i> نام مشتری: @item.CustomerName</p>
+                        <p class="mb-1"><i class="fas fa-user text-success"></i> متخصص: @item.ExpertName</p>
+                        <p class="mb-1"><i class="fas fa-info-circle text-warning"></i> وضعیت: @DisplayEnum(item.Status)</p>
+                        <p class="mb-1"><i class="fas fa-dollar-sign text-primary"></i> قیمت: @item.Price تومان</p>
                     </div>
+
+                    <p class="mb-3 text-secondary text-end">توضیحات: @item.Description</p>
+
+                    <button class="btn btn-outline-primary w-100 mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#@("collapse-" + item.Id)" aria-expanded="false" aria-controls="@("collapse-" + item.Id)">
+                        <i class="fas fa-list"></i> لیست پیشنهادات
+                    </button>
                 </div>
             </div>
         </div>
-    </div>
-}
+
+        <div class="collapse mt-3 col-12" id="@("collapse-" + item.Id)">
+            <div class="p-3 border rounded bg-light">
+                @if (item.Bids == null || item.Bids.Count == 0)
+                {
+                    <span class="lh-2 text-center d-block text-muted">هنوز پیشنهادی برای درخواست شما ارسال نشده</span>
+                }
+                else
+                {
+                    <table class="table table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th class="text-end">نام متخصص</th>
+                                <th class="text-end">قیمت پیشنهادی</th>
+                                <th class="text-end">تاریخ پیشنهادی</th>
+                                <th class="text-end">وضعیت</th>
+                                <th class="text-end">عملیات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var bid in item.Bids)
+                            {
+                                <tr>
+                                    <td class="text-end">@bid.Expert.ApplicationUser.FirstName @bid.Expert.ApplicationUser.LastName</td>
+                                    <td class="text-end">@bid.BidPrice</td>
+                                    <td class="text-end">@DateTime.Parse(bid.CreateAt.ToString()).ToPersianString("dddd, dd MMMM,yyyy")</td>
+                                    <td class="text-end">@DisplayEnum(bid.Status)</td>
+                                    <td class="text-end">
+                                        @if (bid.Status == StatusBidEnum.WaitingForCustomerConfirmation)
+                                        {
+                                            <form method="post" asp-page-handler="AcceptRequest" asp-route-id="@item.Id" asp-route-expertId="@bid.ExpertId">
+                                                <button type="submit" class="btn btn-success btn-sm">تایید متخصص</button>
+                                            </form>
+                                        }
+                                        else
+                                        {
+                                            @if (item.Status == StatusRequestEnum.WaitingForExpert)
+                                            {
+                                                <form method="post" asp-page-handler="DoneRequest" asp-route-id="@item.Id" asp-route-expertId="@bid.ExpertId">
+                                                    <button type="submit" class="btn btn-primary btn-sm">اتمام کار</button>
+                                                </form>
+                                            }
+                                            @if (item.Status != StatusRequestEnum.Success && item.Status != StatusRequestEnum.CancelledByCustomer && item.Status != StatusRequestEnum.CancelledByExpert && bid.Status != StatusBidEnum.Rejected)
+                                            {
+                                                <form method="post" asp-page-handler="CancellRequest" asp-route-id="@item.Id" asp-route-expertId="@bid.ExpertId">
+                                                    <button type="submit" class="btn btn-danger btn-sm">کنسل کردن درخواست</button>
+                                                </form>
+                                            }
+                                        }
+
+                                        <a class="btn btn-warning btn-sm" asp-page="Expert" asp-route-expertId="@bid.ExpertId">
+                                            دیدن اطلاعات متخصص
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+            </div>
+        </div>
+    }
+</div>
 
 @functions {
     public string DisplayEnum(Enum enumValue)
     {
         var field = enumValue.GetType().GetField(enumValue.ToString());
         var attribute = (DisplayAttribute)field.GetCustomAttributes(typeof(DisplayAttribute), false).FirstOrDefault();
-
         return attribute?.GetName() ?? enumValue.ToString();
     }
 }

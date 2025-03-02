@@ -36,6 +36,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
             var existingExpert = await _context.Experts
                 .Include(e => e.ApplicationUser)
                 .Include(e => e.Skills)
+                .Include(e=>e.Comments)
                 .FirstOrDefaultAsync(e => e.Id == expert.Id, cancellationToken);
 
             if (existingExpert == null)
@@ -45,6 +46,9 @@ namespace Achar.Infra.Access.EfCore.Repositories
 
             existingExpert.Gender = expert.Gender;
             existingExpert.CityId = expert.CityId;
+            existingExpert.Score = existingExpert.Comments.Any()
+                ? (int?)existingExpert.Comments.Average(c => c.Score)
+                : null;
             existingExpert.ApplicationUser.UserName = expert.UserName;
             existingExpert.ApplicationUser.Email = expert.Email;
             existingExpert.ApplicationUser.PhoneNumber = expert.PhoneNumber;

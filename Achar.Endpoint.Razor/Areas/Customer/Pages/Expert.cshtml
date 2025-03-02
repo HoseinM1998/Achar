@@ -1,0 +1,50 @@
+﻿@page
+@using System.ComponentModel.DataAnnotations
+@model Achar.Endpoint.Razor.Areas.Customer.Pages.ExpertModel
+@{
+    Layout = "_LayoutCustomer";
+}
+
+<div class="container mt-5">
+    <div class="card shadow-lg p-4">
+        <div class="text-center">
+            <h3 class="breadcrumb-item">
+                <a href="#" class="text-primary">اطلاعات کارشناس</a>
+            </h3>
+            <br>
+
+            <img src="@(!string.IsNullOrEmpty(Model.Expert.ProfileImageUrl) ? Model.Expert.ProfileImageUrl : "/assets/img/1.png")" 
+                 alt="Profile Image" 
+                 class="rounded-circle border border-primary p-1 shadow-sm" 
+                 style="width: 150px; height: 150px; object-fit: cover;">
+
+            <br><br>
+
+            <h5 class="fw-bold text-dark">نام: <span class="text-secondary">@Model.Expert.FirstName</span></h5>
+            <h5 class="fw-bold text-dark">نام خانوادگی: <span class="text-secondary">@Model.Expert.LastName</span></h5>
+            <h5 class="fw-bold text-dark">شماره تلفن: <span class="text-secondary">@Model.Expert.PhoneNumber</span></h5>
+            <h5 class="fw-bold text-dark">جنسیت: <span class="text-secondary">@DisplayEnum(@Model.Expert.Gender)</span></h5>
+            <h5 class="fw-bold text-dark">امتیاز: 
+                <span class="text-warning fw-bold">@Model.Expert.Score <i class="fas fa-star"></i></span>
+            </h5>
+
+            <br>
+
+            <a asp-page="ListRequest" class="btn btn-outline-primary px-4 py-2">
+                <i class="fas fa-arrow-left"></i> بازگشت به لیست درخواست‌ها
+            </a>
+        </div>
+    </div>
+</div>
+
+            
+@functions {
+    public string DisplayEnum(Enum enumValue)
+    {
+        var field = enumValue.GetType().GetField(enumValue.ToString());
+        var attribute = (DisplayAttribute)field.GetCustomAttributes(typeof(DisplayAttribute), false).FirstOrDefault();
+
+        return attribute?.GetName() ?? enumValue.ToString();
+    }
+}
+
