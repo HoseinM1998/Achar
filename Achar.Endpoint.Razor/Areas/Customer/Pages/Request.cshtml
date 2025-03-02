@@ -5,63 +5,60 @@
     ViewData["Request"] = "active";
 }
 <form method="post" asp-page-handler="Request" enctype="multipart/form-data">
-    <div class="dashboard-list-wraps bg-white rounded mb-4">
-        <div class="dashboard-list-wraps-head br-bottom py-3 px-3">
-            <div class="dashboard-list-wraps-flx">
-                <h4 class="mb-0 ft-medium fs-md">درخواست خدمات</h4>
-            </div>
+    <div class="dashboard-list-wraps bg-white rounded shadow p-4 mb-4">
+        <div class="dashboard-list-wraps-head d-flex justify-content-between align-items-center br-bottom py-3">
+            <h4 class="mb-0 ft-medium fs-md"><i class="fas fa-concierge-bell text-primary me-2"></i> درخواست خدمات</h4>
         </div>
 
-        <div class="dashboard-list-wraps-body py-3 px-3">
+        <div class="dashboard-list-wraps-body py-3">
             <div class="row">
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                <div class="col-md-6">
                     <div class="form-group">
-                        <label class="mb-1">انتخاب سرویس</label>
-                        <select asp-for="@Model.Request.ServiceId" class="form-control">
+                        <label class="mb-2 fw-bold"><i class="fas fa-tools me-2 text-secondary"></i> انتخاب سرویس</label>
+                        <select asp-for="@Model.Request.ServiceId" class="form-control rounded border-primary">
                             @foreach (var item in Model.Services)
                             {
-                                <option value="@item.Id">@item.Title - قیمت @item.BasePrice تومان</option>
+                                <option value="@item.Id">@item.Title - <strong class="text-success">@item.BasePrice تومان</strong></option>
                             }
                         </select>
                     </div>
                 </div>
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                <div class="col-md-6">
                     <div class="form-group">
-                        <label class="mb-1">عنوان</label>
-                        <input asp-for="@Model.Request.Title" class="form-control rounded" type="text" />
+                        <label class="mb-2 fw-bold"><i class="fas fa-tag me-2 text-secondary"></i> عنوان</label>
+                        <input asp-for="@Model.Request.Title" class="form-control rounded border-primary" type="text" />
                         <span asp-validation-for="@Model.Request.Title" class="text-danger"></span>
                     </div>
                 </div>
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                <div class="col-md-6">
                     <div class="form-group">
-                        <label class="mb-1">تاریخ</label>
-                        <input asp-for="@Model.Request.RequesteForTime" data-jdp data-jdp-min-date="today" class="form-control rounded" />
+                        <label class="mb-2 fw-bold"><i class="fas fa-calendar-alt me-2 text-secondary"></i> تاریخ</label>
+                        <input asp-for="@Model.Request.RequesteForTime" data-jdp class="form-control rounded border-primary" />
                         <span asp-validation-for="@Model.Request.RequesteForTime" class="text-danger"></span>
                     </div>
                 </div>
-                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <div class="col-md-12">
                     <div class="form-group">
-                        <label class="mb-1">توضیحات</label>
-                        <textarea asp-for="@Model.Request.Description" class="form-control rounded ht-80"></textarea>
+                        <label class="mb-2 fw-bold"><i class="fas fa-edit me-2 text-secondary"></i> توضیحات</label>
+                        <textarea asp-for="@Model.Request.Description" class="form-control rounded border-primary ht-80"></textarea>
                         <span asp-validation-for="@Model.Request.Description" class="text-danger"></span>
-
                     </div>
                 </div>
 
-                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                    <label for="formFileLg" class="form-label">آپلود تصاویر</label>
-                    <div class="input-group form-group">
-                        <input type="text" class="form-control upload-name-photo rounded" readonly />
-                        <span class="btn cursor-pointer upload-btn-photo">انتخاب فایل‌ها</span>
+                <div class="col-md-12">
+                    <label class="form-label fw-bold"><i class="fas fa-upload me-2 text-secondary"></i> آپلود تصاویر</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control upload-name-photo rounded border-primary" readonly />
+                        <button type="button" class="btn btn-primary upload-btn-photo">انتخاب فایل‌ها</button>
                     </div>
                     <input type="file" asp-for="@Model.Request.Images" class="d-none hidden-upload-photo" multiple />
                     <span asp-validation-for="@Model.Request.Images" class="text-danger"></span>
                 </div>
 
-                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                    <div class="form-group p-2">
-                        <button type="submit" class="btn theme-cl rounded theme-bg-light ft-medium">افزودن</button>
-                    </div>
+                <div class="col-md-12 text-center mt-3">
+                    <button type="submit" class="btn btn-success btn-lg rounded shadow">
+                        <i class="fas fa-check-circle me-2"></i> ارسال درخواست
+                    </button>
                 </div>
             </div>
         </div>
@@ -69,34 +66,14 @@
 </form>
 
 @section Scripts {
-
     <partial name="_ValidationScriptsPartial" />
-
     <script>
         jalaliDatepicker.startWatch({
             minDate: "attr",
-            maxDate: "attr",
-            minTime: "attr",
-            maxTime: "attr",
-            hideAfterChange: true,
             autoHide: true,
-            showTodayBtn: true,
-            showEmptyBtn: true,
-            topSpace: 10,
-            bottomSpace: 30,
-            time:true,
-            dayRendering(opt, input) {
-                return {
-                    isHollyDay: opt.day == 1
-                }
-            }
+            showTodayBtn: true
         });
 
-        document.getElementById("aaa").addEventListener("jdp:change", function (e) { console.log(e) });
-
-
-    </script>
-    <script>
         document.querySelector('.upload-btn-photo').addEventListener('click', function() {
             document.querySelector('.hidden-upload-photo').click();
         });
@@ -106,5 +83,4 @@
             document.querySelector('.upload-name-photo').value = fileNames.join(', ');
         });
     </script>
-
 }

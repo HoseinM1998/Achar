@@ -1,38 +1,43 @@
-﻿
-@page
+﻿@page
 @model Achar.Endpoint.Razor.Areas.Customer.Pages.UpdateBalanceModel
 @{
     ViewData["UpdateBalance"] = "active";
     Layout = "_LayoutCustomer";
 }
 
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-md-6 offset-md-3">
-            <h2 class="text-center mb-4">افزایش موجودی</h2>
+<div class="container mt-5 d-flex justify-content-center">
+    <div class="col-md-6 bg-white text-dark p-5 rounded-3 shadow-lg border border-light">
+        <h2 class="text-center mb-4 fw-bold text-primary">افزایش موجودی</h2>
 
-            @if (TempData["ErrorMessage"] != null)
-            {
-                <div class="alert alert-danger">
-                    @TempData["ErrorMessage"]
-                </div>
-            }
-            @if (TempData["Success"] != null)
-            {
-                <div class="alert alert-success">
-                    @TempData["Success"]
-                </div>
-            }
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger text-center fw-semibold">
+                @TempData["ErrorMessage"]
+            </div>
+        }
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert alert-success text-center fw-semibold">
+                @TempData["Success"]
+            </div>
+        }
 
-            <form method="post" asp-page-handler="Balance">
-                <div class="form-group">
-                    <label for="Balance">مقدار افزایش موجودی</label>
-                    <input type="number" class="form-control" asp-for="Balance" value="100" min="100.01" step="0.01" required />
-                    <span asp-validation-for="Balance" class="text-danger"></span>
-                </div>
-                <button type="submit" class="btn btn-primary mt-3">افزایش موجودی</button>
-            </form>
-        </div>
+        <form method="post" asp-page-handler="Balance">
+            <div class="form-group mb-4">
+                <label for="Balance" class="fw-bold text-secondary">مقدار افزایش موجودی</label>
+                <input type="text" class="form-control bg-light text-dark border-primary shadow-sm" asp-for="Balance" id="Balance" value="100" required />
+                <span asp-validation-for="Balance" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary w-100 py-3 fw-bold">افزایش موجودی</button>
+        </form>
     </div>
 </div>
 
+<script>
+    document.getElementById('Balance').addEventListener('input', function (e) {
+        let value = e.target.value.replace(/,/g, '');
+        if (!isNaN(value) && value !== '') {
+            e.target.value = Number(value).toLocaleString('en-US');
+        }
+    });
+</script>

@@ -41,7 +41,7 @@
                         <p class="mb-1"><i class="fas fa-user text-success"></i> نام مشتری: @item.CustomerName</p>
                         <p class="mb-1"><i class="fas fa-user text-success"></i> متخصص: @item.ExpertName</p>
                         <p class="mb-1"><i class="fas fa-info-circle text-warning"></i> وضعیت: @DisplayEnum(item.Status)</p>
-                        <p class="mb-1"><i class="fas fa-dollar-sign text-primary"></i> قیمت: @item.Price تومان</p>
+                        <p class="mb-1"><i class="fas fa-dollar-sign text-primary"></i> قیمت: @item.Price.ToString("N0") تومان</p>
                     </div>
 
                     <p class="mb-3 text-secondary text-end">توضیحات: @item.Description</p>
@@ -76,7 +76,7 @@
                             {
                                 <tr>
                                     <td class="text-end">@bid.Expert.ApplicationUser.FirstName @bid.Expert.ApplicationUser.LastName</td>
-                                    <td class="text-end">@bid.BidPrice</td>
+                                    <td class="text-end">@bid.BidPrice.ToString("N0")</td>
                                     <td class="text-end">@DateTime.Parse(bid.CreateAt.ToString()).ToPersianString("dddd, dd MMMM,yyyy")</td>
                                     <td class="text-end">@DisplayEnum(bid.Status)</td>
                                     <td class="text-end">

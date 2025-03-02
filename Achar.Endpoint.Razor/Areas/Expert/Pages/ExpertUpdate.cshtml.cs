@@ -32,13 +32,12 @@ namespace Achar.Endpoint.Razor.Areas.Expert.Pages
         public ExpertProfDto? ExpertUpdate { get; set; } = new();
 
         [BindProperty]
+        public List<City> Cities { get; set; }
+
+        [BindProperty]
         public List<int> ServiceIds { get; set; } = new();
 
-        [BindProperty]
-        public List<HomeServiceDto> Services { get; set; } = new();
-
-        [BindProperty]
-        public List<City> Cities { get; set; } = new List<City>();
+        public List<HomeServiceDto> Services { get; set; }
         public async Task OnGet(CancellationToken cancellationToken)
         {
             var expertId = int.Parse(User.Claims.FirstOrDefault(u => u.Type == "userExpertId").Value);
@@ -52,11 +51,11 @@ namespace Achar.Endpoint.Razor.Areas.Expert.Pages
             }
         }
 
-        public async Task<IActionResult> OnPostUpdateProfile(ExpertProfDto expertUpdate, CancellationToken cancellationToken)
+        public async Task<IActionResult> OnPostUpdateProfile(CancellationToken cancellationToken)
         {
             if (ModelState.IsValid)
             {
-                await _expertAppServices.UpdateExpert(expertUpdate, cancellationToken);
+                await _expertAppServices.UpdateExpert(ExpertUpdate, cancellationToken);
                 TempData["Success"] = "پروفایل با موفقیت بروزرسانی شد";
                 return RedirectToPage("Index");
             }

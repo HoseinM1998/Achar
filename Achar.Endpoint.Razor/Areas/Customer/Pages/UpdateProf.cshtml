@@ -7,144 +7,104 @@
     ViewData["UpdateProf"] = "active";
 }
 <div class="goodup-dashboard-content">
-    <div class="dashboard-tlbar d-block mb-5">
-        <div class="row">
-            <div class="colxl-12 col-lg-12 col-md-12">
-                <h1 class="ft-medium fs-lg">پروفایل</h1>
-            </div>
-        </div>
+    <div class="dashboard-tlbar d-block mb-5 text-center">
+        <h1 class="fw-bold text-success">پروفایل کاربری</h1>
     </div>
 
     <div class="dashboard-widg-bar d-block">
-        <div class="row">
-            <div class="col-xl-12 col-lg-12">
-                <div class="dashboard-list-wraps bg-white rounded mb-4">
-                    <div class="dashboard-list-wraps-head br-bottom py-3 px-3">
-                        <div class="dashboard-list-wraps-flx">
-                            <h4 class="mb-0 ft-medium fs-md"><i class="fa fa-file-alt ms-2 theme-cl fs-sm"></i>تنظیمات پروفایل</h4>
-                        </div>
+        <div class="row justify-content-center">
+            <div class="col-xl-10 col-lg-12">
+                <div class="dashboard-list-wraps bg-light shadow-lg rounded p-4 mb-4 border border-success">
+                    <div class="dashboard-list-wraps-head br-bottom pb-3 border-bottom d-flex align-items-center">
+                        <h4 class="text-secondary fw-bold"><i class="fa fa-cog ms-2 text-success"></i> تنظیمات پروفایل</h4>
                     </div>
                     <form class="submit-form" method="post" asp-page-handler="Update" enctype="multipart/form-data">
-
-                        <div class="dashboard-widg-bar d-block">
-                            <div class="row">
-                                <div class="col-xl-12 col-lg-12 col-md-8 col-sm-12">
-                                    <div class="dashboard-list-wraps bg-white rounded mb-4">
-                                        <div class="dashboard-list-wraps-head br-bottom py-3 px-3">
-                                            <div class="dashboard-list-wraps-flx">
-                                                <h4 class="mb-0 ft-medium fs-md"><i class="fa fa-user-check ms-2 theme-cl fs-sm"></i>مشخصات شخصی</h4>
-                                            </div>
-                                        </div>
-
-                                        <div class="dashboard-list-wraps-body py-3 px-3">
-                                            <div class="row">
-                                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                                    <div class="form-group">
-                                                        <label class="mb-1"> نام کاربری</label>
-                                                        <input asp-for=@Model.CustomerUpdate.UserName type="text" class="form-control rounded" />
-                                                        <span asp-validation-for="@Model.CustomerUpdate.UserName" class="text-danger"></span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                                    <div class="form-group">
-                                                        <label class="mb-1">نام</label>
-                                                        <input asp-for=@Model.CustomerUpdate.FirstName type="text" class="form-control rounded" />
-                                                        <span asp-validation-for="@Model.CustomerUpdate.FirstName" class="text-danger"></span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                                    <div class="form-group">
-                                                        <label class="mb-1">نام خانوادگی</label>
-                                                        <input asp-for=@Model.CustomerUpdate.LastName type="text" class="form-control rounded" />
-                                                        <span asp-validation-for="@Model.CustomerUpdate.LastName" class="text-danger"></span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                                    <div class="form-group">
-                                                        <label class="mb-1"> ایمیل</label>
-                                                        <input asp-for=@Model.CustomerUpdate.Email type="email" class="form-control rounded" />
-                                                        <span asp-validation-for="@Model.CustomerUpdate.Email" class="text-danger"></span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                                    <div class="form-group">
-                                                        <label class="mb-1">شماره تلفن</label>
-                                                        <input type="number" asp-for=@Model.CustomerUpdate.PhoneNumber class="form-control rounded" />
-                                                        <span asp-validation-for="@Model.CustomerUpdate.PhoneNumber" class="text-danger"></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="dashboard-list-wraps-head br-bottom p-3">
-                                                <div class="dashboard-list-wraps-flx">
-                                                    <h4 class="mb-0 ft-medium fs-md"><i class="fa fa-user-check ms-2 theme-cl fs-sm"></i>آدرس</h4>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 pt-3">
-                                                    <div class="form-group">
-                                                        <label class="mb-1">انتخاب شهر محل سکونت</label>
-                                                        <select class="form-control rounded" asp-for="@Model.CustomerUpdate.CityId">
-                                                            @foreach (var item in Model.Cities)
-                                                            {
-                                                                <option value="@item.Id">@item.Title</option>
-                                                            }
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 pt-3">
-                                                    <div class="form-group">
-                                                        <label class="mb-1">جنسیت</label>
-                                                        <label asp-for="@Model.CustomerUpdate.Gender" class="control-label"></label>
-                                                        <select asp-for="@Model.CustomerUpdate.Gender" class="form-control">
-                                                            <option value="1" selected="@Model.CustomerUpdate?.Gender == GenderEnum.Male">آقا</option>
-                                                            <option value="2" selected="@Model.CustomerUpdate?.Gender == GenderEnum.Female">خانم</option>
-                                                        </select>
-                                                        <span asp-validation-for="CustomerUpdate.Gender" class="text-danger"></span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 pt-3">
-                                                    <div class="form-group">
-                                                        <label class="mb-1">نام خیابان</label>
-                                                        <input asp-for=@Model.CustomerUpdate.Street class="form-control rounded" />
-                                                        <span asp-validation-for="@Model.CustomerUpdate.Street" class="text-danger"></span>
-                                                    </div>
-                                                </div>
-
-
-                                                <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 order-xl-last order-lg-last order-md-last">
-                                                    <div class="d-flex bg-white rounded px-3 py-3 mb-3">
-                                                        <div class="dash-figure">
-                                                            <div class="dash-figure-thumb">
-                                                                @if (Model.CustomerUpdate.ProfileImageUrl == null)
-                                                                {
-                                                                    <img src="~/assets/img/1.png" class="img-fluid rounded" />
-                                                                }
-                                                                else
-                                                                {
-                                                                    <img src="@Model.CustomerUpdate.ProfileImageUrl" class="img-fluid rounded" alt="" />
-                                                                }
-                                                            </div>
-
-                                                            <div class="upload-photo-btn">
-                                                                <div class="Uploadphoto">
-                                                                    <span><i class="fas fa-upload"></i> آپلود تصویر</span>
-                                                                    <input type="file" asp-for="@Model.CustomerUpdate.ImageFile" class="upload">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                                                    <div class="form-group">
-                                                        <button type="submit" class="btn theme-bg rounded text-light">ذخیره تغییرات</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="fw-semibold text-success">نام کاربری</label>
+                                    <input asp-for=@Model.CustomerUpdate.UserName type="text" class="form-control border-success shadow-sm" />
+                                    <span asp-validation-for="@Model.CustomerUpdate.UserName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="fw-semibold text-success">نام</label>
+                                    <input asp-for=@Model.CustomerUpdate.FirstName type="text" class="form-control border-success shadow-sm" />
+                                    <span asp-validation-for="@Model.CustomerUpdate.FirstName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="fw-semibold text-success">نام خانوادگی</label>
+                                    <input asp-for=@Model.CustomerUpdate.LastName type="text" class="form-control border-success shadow-sm" />
+                                    <span asp-validation-for="@Model.CustomerUpdate.LastName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="fw-semibold text-success">ایمیل</label>
+                                    <input asp-for=@Model.CustomerUpdate.Email type="email" class="form-control border-success shadow-sm" />
+                                    <span asp-validation-for="@Model.CustomerUpdate.Email" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="fw-semibold text-success">شماره تلفن</label>
+                                    <input type="number" asp-for=@Model.CustomerUpdate.PhoneNumber class="form-control border-success shadow-sm" />
+                                    <span asp-validation-for="@Model.CustomerUpdate.PhoneNumber" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="fw-semibold text-success">انتخاب شهر محل سکونت</label>
+                                    <select class="form-control border-success shadow-sm" asp-for="@Model.CustomerUpdate.CityId">
+                                        @foreach (var item in Model.Cities)
+                                        {
+                                            <option value="@item.Id">@item.Title</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="fw-semibold text-success">جنسیت</label>
+                                    <select asp-for="@Model.CustomerUpdate.Gender" class="form-control border-success shadow-sm">
+                                        <option value="1" selected="@Model.CustomerUpdate?.Gender == GenderEnum.Male">آقا</option>
+                                        <option value="2" selected="@Model.CustomerUpdate?.Gender == GenderEnum.Female">خانم</option>
+                                    </select>
+                                    <span asp-validation-for="CustomerUpdate.Gender" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="fw-semibold text-success">نام خیابان</label>
+                                    <input asp-for=@Model.CustomerUpdate.Street class="form-control border-success shadow-sm" />
+                                    <span asp-validation-for="@Model.CustomerUpdate.Street" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-center">
+                                <div class="d-flex flex-column align-items-center bg-white rounded p-3 shadow-lg border border-success">
+                                    <div class="dash-figure-thumb mb-2">
+                                        @if (Model.CustomerUpdate.ProfileImageUrl == null)
+                                        {
+                                            <img src="~/assets/img/1.png" class="img-fluid rounded-circle shadow-lg border border-success" />
+                                        }
+                                        else
+                                        {
+                                            <img src="@Model.CustomerUpdate.ProfileImageUrl" class="img-fluid rounded-circle shadow-lg border border-success" alt="" />
+                                        }
+                                    </div>
+                                    <div class="upload-photo-btn">
+                                        <label class="btn btn-dark text-white">
+                                            <i class="fas fa-upload"></i> آپلود تصویر
+                                            <input type="file" asp-for="@Model.CustomerUpdate.ImageFile" hidden>
+                                        </label>
                                     </div>
                                 </div>
-
-
+                            </div>
+                            <div class="col-12 text-center">
+                                <button type="submit" class="btn btn-lg btn-dark px-5 shadow-lg">ذخیره تغییرات</button>
                             </div>
                         </div>
                     </form>
@@ -154,8 +114,6 @@
     </div>
 </div>
 
-
 @section Scripts {
-
     <partial name="_ValidationScriptsPartial" />
 }

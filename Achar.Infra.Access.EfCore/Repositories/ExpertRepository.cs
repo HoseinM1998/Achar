@@ -36,7 +36,6 @@ namespace Achar.Infra.Access.EfCore.Repositories
             var existingExpert = await _context.Experts
                 .Include(e => e.ApplicationUser)
                 .Include(e => e.Skills)
-                .Include(e=>e.Comments)
                 .FirstOrDefaultAsync(e => e.Id == expert.Id, cancellationToken);
 
             if (existingExpert == null)
@@ -46,9 +45,6 @@ namespace Achar.Infra.Access.EfCore.Repositories
 
             existingExpert.Gender = expert.Gender;
             existingExpert.CityId = expert.CityId;
-            existingExpert.Score = existingExpert.Comments.Any()
-                ? (int?)existingExpert.Comments.Average(c => c.Score)
-                : null;
             existingExpert.ApplicationUser.UserName = expert.UserName;
             existingExpert.ApplicationUser.Email = expert.Email;
             existingExpert.ApplicationUser.PhoneNumber = expert.PhoneNumber;
@@ -99,10 +95,17 @@ namespace Achar.Infra.Access.EfCore.Repositories
         public async Task<ExpertProfDto?> GetExpertById(int id, CancellationToken cancellationToken)
         {
             var expert = await _context.Experts
+                .AsNoTracking()
                 .Include(e => e.ApplicationUser)
+                .Include(e => e.Comments)
                 .Include(e => e.City)
                 .Include(e => e.Skills)
                 .FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
+
+            if (expert == null)
+                return null;
+
+            var acceptComments = expert.Comments.Where(c => c.IsAccept).ToList();
 
             return new ExpertProfDto
             {
@@ -114,15 +117,18 @@ namespace Achar.Infra.Access.EfCore.Repositories
                 ProfileImageUrl = expert.ApplicationUser.ProfileImageUrl,
                 PhoneNumber = expert.ApplicationUser.PhoneNumber,
                 Gender = expert.Gender,
+                Score = acceptComments.Any() ? (int?)acceptComments.Average(c => c.Score) : null,
                 NameCity = expert.City.Title,
+                CityId = expert.CityId,
+                Street = expert.ApplicationUser.Street,
                 Skills = expert.Skills?.ToList() ?? new List<AcharDomainCore.Entites.HomeService>()
             };
-
         }
+
 
         public async Task<decimal> GetBalanceExpertById(int expertId, CancellationToken cancellationToken)
         {
-            var expert = await _context.Experts
+            var expert = await _context.Experts.AsNoTracking()
                 .FirstOrDefaultAsync(a => a.Id == expertId, cancellationToken);
             if (expert == null)
             {
@@ -133,11 +139,10 @@ namespace Achar.Infra.Access.EfCore.Repositories
             return expert.ApplicationUser.Balance;
         }
 
-        public async Task<List<ExpertProfDto?>>? GetExperts(CancellationToken cancellationToken)
+        public async Task<List<ExpertProfDto>> GetExperts(CancellationToken cancellationToken)
         {
             var experts = await _context.Experts
                 .AsNoTracking()
-                .Include(e => e.Skills)
                 .Select(e => new ExpertProfDto
                 {
                     Id = e.Id,
@@ -148,18 +153,23 @@ namespace Achar.Infra.Access.EfCore.Repositories
                     ProfileImageUrl = e.ApplicationUser.ProfileImageUrl,
                     PhoneNumber = e.ApplicationUser.PhoneNumber,
                     Gender = e.Gender,
+                    Score = e.Comments.Any(c => c.IsAccept)
+                        ? (int?)e.Comments.Where(c => c.IsAccept).Average(c => c.Score)
+                        : null,
                     NameCity = e.City.Title,
                     Skills = e.Skills.ToList(),
                     IsActive = e.IsActive,
                     Balance = e.ApplicationUser.Balance
-
                 })
                 .ToListAsync(cancellationToken);
-            _logger.LogInformation("لیست کارشناس ها:  زمان {Time}", DateTime.UtcNow.ToLongTimeString());
+
+            _logger.LogInformation("لیست کارشناسان دریافت شد. زمان: {Time}", DateTime.UtcNow.ToLongTimeString());
 
             return experts;
-
         }
+
+
+
 
         public async Task<bool> DeleteExpert(int id, CancellationToken cancellationToken)
         {

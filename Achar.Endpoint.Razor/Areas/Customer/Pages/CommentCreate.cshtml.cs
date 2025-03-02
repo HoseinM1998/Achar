@@ -1,4 +1,4 @@
-using AcharDomainCore.Contracts.Comment;
+﻿using AcharDomainCore.Contracts.Comment;
 using AcharDomainCore.Dtos.CommentDto;
 using AcharDomainCore.Dtos;
 using Microsoft.AspNetCore.Mvc;
@@ -29,11 +29,11 @@ namespace Achar.Endpoint.Razor.Areas.Customer.Pages
             try
             {
                 await _commentAppService.CreateComment(Comment, cancellationToken);
-                TempData["Success"] = "??? ?? ?????? ????? ??.";
+                TempData["Success"] = "ارسال کامنت انجام شد";
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "??? ?? ????? ??????";
+                TempData["ErrorMessage"] = "خطا در ارسال کامنت";
             }
             return RedirectToPage("Comment");
         }

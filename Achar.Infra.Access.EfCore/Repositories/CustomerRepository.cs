@@ -114,6 +114,8 @@ namespace Achar.Infra.Access.EfCore.Repositories
                 PhoneNumber = customer.ApplicationUser.PhoneNumber,
                 Gender = customer.Gender,
                 Namecity = customer.City.Title,
+                CityId = customer.CityId,
+                Street = customer.ApplicationUser.Street,
                 ApplictaionUserId = customer.ApplicationUserId,
                 Balance = customer.ApplicationUser.Balance
             };

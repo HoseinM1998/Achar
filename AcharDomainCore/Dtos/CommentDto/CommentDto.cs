@@ -21,7 +21,7 @@ namespace AcharDomainCore.Dtos.CommentDto
         public int CustomerId { get; set; }
         [Display(Name = "شناسه کارشناس")]
         public int ExpertId { get; set; }
-        public Expert Expert { get; set; }
+        public Expert? Expert { get; set; }
 
     }
 }

@@ -57,7 +57,7 @@
                     <td>@bid.BidDate.ToPersianString()</td>
                     <td>@DisplayEnum(bid.Status)</td>
                     <td>
-                        @if (bid.Status != StatusBidEnum.CancelledByExpert && bid.Status != StatusBidEnum.Success && bid.Status != StatusBidEnum.CancelledByCustomer)
+                        @if (bid.Status != StatusBidEnum.CancelledByExpert && bid.Status != StatusBidEnum.Success && bid.Status != StatusBidEnum.CancelledByCustomer && bid.Status != StatusBidEnum.Rejected)
                         {
                             <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#changeStatusModal-@bid.Id">
                                 تغییر وضعیت
@@ -87,7 +87,7 @@
                     <form method="post" asp-page-handler="CancellBid">
                         <input type="hidden" asp-for="BidId" value="@bid.Id" />
                         <input type="hidden" asp-for="ExpertId" value="@bid.ExpertId" />
-                        <button type="submit" class="btn btn-danger w-100 rounded-pill">بله، لغو شود</button>
+                        <button type="submit" class="btn btn-danger w-100 rounded-pill">بله لغو شود</button>
                     </form>
                 </div>
             </div>

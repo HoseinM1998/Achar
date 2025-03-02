@@ -2,91 +2,97 @@
 @using Framework
 @model Achar.Endpoint.Razor.Areas.Customer.Pages.CommentModel
 @{
-}
-@{
-
     Layout = "_LayoutCustomer";
 }
 
 @if (TempData["ErrorMessage"] != null)
 {
-    <div class="alert alert-danger">
+    <div class="alert alert-danger text-center fw-bold">
         @TempData["ErrorMessage"]
     </div>
 }
 @if (TempData["Success"] != null)
 {
-    <div class="alert alert-success">
+    <div class="alert alert-success text-center fw-bold">
         @TempData["Success"]
     </div>
 }
 
-
-<h2>@ViewData["Title"]</h2>
-
 <div class="card shadow-lg border-0 p-4 rounded-4 mb-4">
     <div class="text-center mb-4">
-        <h4 class="fw-bold text-primary">مدیریت نظرات</h4>
+        <h4 class="fw-bold text-primary"><i class="fas fa-comments text-primary me-2"></i> مدیریت نظرات</h4>
     </div>
 
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>شناسه</th>
-                <th>عنوان</th>
-                <th>توضیحات</th>
-                <th>امتیاز</th>
-                <th>نام مشتری</th>
-                <th>نام کارشناس</th>
-                <th>تاریخ ایجاد</th>
-                <th>وضعیت</th>
-                <th>عملیات</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var comment in Model.Comments)
-            {
+    <div class="table-responsive">
+        <table class="table table-hover align-middle text-center">
+            <thead class="table-primary">
                 <tr>
-                    <td>@comment.Id</td>
-                    <td>@comment.Title</td>
-                    <td>@comment.Description</td>
-                    <td>@comment.Score</td>
-                    <td>@comment.CustomerName</td>
-                    <td>@comment.ExpertName</td>
-                    <td>@comment.CreateAt.ToPersianString("yyyy-MM-dd")</td>
-                    <td>@(comment.IsAccept ? "فعال" : "غیر فعال")</td>
-                    <td>
-                        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#changeStatusModal-@comment.Id">
-                            تغییر وضعیت
-                        </button>
-                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteCommentModal-@comment.Id">
-                            حذف
-                        </button>
-                    </td>
+                    <th>شناسه</th>
+                    <th>عنوان</th>
+                    <th>توضیحات</th>
+                    <th>امتیاز</th>
+                    <th>نام مشتری</th>
+                    <th>نام کارشناس</th>
+                    <th>تاریخ ایجاد</th>
+                    <th>وضعیت</th>
+                    <th>عملیات</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var comment in Model.Comments)
+                {
+                    <tr>
+                        <td>@comment.Id</td>
+                        <td>@comment.Title</td>
+                        <td class="text-truncate" style="max-width: 150px;">@comment.Description</td>
+                        <td>
+                            <span class="badge bg-success">@comment.Score</span>
+                        </td>
+                        <td>@comment.CustomerName</td>
+                        <td>@comment.ExpertName</td>
+                        <td>@comment.CreateAt.ToPersianString("yyyy-MM-dd")</td>
+                        <td>
+                            <span class="badge @(comment.IsAccept ? "bg-success" : "bg-danger")">
+                                @(comment.IsAccept ? "فعال" : "غیر فعال")
+                            </span>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteCommentModal-@comment.Id">
+                                <i class="fas fa-trash-alt"></i> حذف
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
 
 @foreach (var comment in Model.Comments)
 {
     <div class="modal fade" id="deleteCommentModal-@comment.Id" tabindex="-1" aria-labelledby="deleteCommentModalLabel-@comment.Id" aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteCommentModalLabel-@comment.Id">تأیید حذف</h5>
+            <div class="modal-content rounded-3">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="deleteCommentModalLabel-@comment.Id">
+                        <i class="fas fa-exclamation-triangle"></i> تأیید حذف
+                    </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                    آیا مطمئن هستید که می‌خواهید این نظر را حذف کنید؟
+                <div class="modal-body text-center">
+                    <p class="fw-bold text-danger">آیا مطمئن هستید که می‌خواهید این نظر را حذف کنید؟</p>
+                    <p class="text-muted"><strong>@comment.Title</strong></p>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer justify-content-center">
                     <form method="post" asp-page-handler="DeleteComment" style="display:inline;">
                         <input type="hidden" asp-for="Delete.Id" value="@comment.Id" />
-                        <button type="submit" class="btn btn-danger">حذف</button>
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fas fa-trash-alt"></i> حذف
+                        </button>
                     </form>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">لغو</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times"></i> لغو
+                    </button>
                 </div>
             </div>
         </div>

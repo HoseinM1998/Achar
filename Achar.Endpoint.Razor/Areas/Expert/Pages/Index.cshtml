@@ -1,65 +1,96 @@
 ﻿@page
 @model Achar.Endpoint.Razor.Areas.Expert.Pages.IndexModel
 @{
-}
-@{
     Layout = "_LayoutExpert";
     ViewData["Dashboard"] = "active";
 }
 
-
 @if (TempData["ErrorMessage"] != null)
 {
-    <div class="alert alert-danger">
-        @TempData["ErrorMessage"]
-    </div>
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
 }
 @if (TempData["Success"] != null)
 {
-    <div class="alert alert-success">
-        @TempData["Success"]
-    </div>
+    <div class="alert alert-success">@TempData["Success"]</div>
 }
 
-<div class="dashboard-tlbar d-block mb-5">
-    <div class="row">
-        <div class="colxl-12 col-lg-12 col-md-12">
-            <h3 class="breadcrumb-item"><a href="#" class="theme-cl">داشبورد</a></h3>
-            <br>
-            
-            @if (!string.IsNullOrEmpty(Model.Expert.ProfileImageUrl))
-            {
-                <img src="@Model.Expert.ProfileImageUrl" alt="Profile Image" class="img-thumbnail" style="width: 150px; height: 150px;  margin-bottom: 20px;">
-            }
-            else
-            {
-                <img src="~/assets/img/1.png" alt="Default Profile Image" class="img-thumbnail" style="width: 150px; height: 150px; margin-bottom: 20px;">
-            }
-
-
-            <h6 class="ft-medium fs-4">سلام @Model.Expert.UserName</h6>
-            <h6 class="ft-medium fs-4">نام: @Model.Expert.FirstName</h6>
-            <h6 class="ft-medium fs-4">نام خانوادگی: @Model.Expert.LastName</h6>
-            <h6 class="ft-medium fs-4">موجودی: @Model.Expert.Balance</h6>
-            <br>
-
-            <h6 class="ft-medium fs-4">مهارت‌ها:</h6>
-            @if (Model.Expert.Skills != null && Model.Expert.Skills.Any())
-            {
-                <ul>
-                    @foreach (var skill in Model.Expert.Skills)
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-xl-6 col-lg-8 col-md-10">
+            <div class="card shadow-lg p-4 border-0 rounded">
+                <div class="text-center">
+                    @if (!string.IsNullOrEmpty(Model.Expert.ProfileImageUrl))
                     {
-                        <li><h4>@skill.Title</h4></li> 
+                        <img src="@Model.Expert.ProfileImageUrl" alt="Profile Image"
+                             class="rounded-circle border shadow-sm"
+                             style="width: 120px; height: 120px; object-fit: cover;">
                     }
-                </ul>
-            }
-            else
-            {
-                <p>مهارتی انتخاب نکردید.</p>
-            }
-          
+                    else
+                    {
+                        <img src="~/assets/img/1.png" alt="Default Profile Image"
+                             class="rounded-circle border shadow-sm"
+                             style="width: 120px; height: 120px; object-fit: cover;">
+                    }
+                </div>
+                <div class="card-body">
+                    <h4 class="text-center text-primary fw-bold">سلام، @Model.Expert.UserName 👋</h4>
+                    <hr>
+
+                    <div class="row">
+                        <div class="col-6">
+                            <p class="fw-bold mb-1">نام:</p>
+                            <p class="text-muted">@Model.Expert.FirstName</p>
+                        </div>
+                        <div class="col-6">
+                            <p class="fw-bold mb-1">نام خانوادگی:</p>
+                            <p class="text-muted">@Model.Expert.LastName</p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6">
+                            <p class="fw-bold mb-1">تلفن همراه:</p>
+                            <p class="text-muted">@Model.Expert.PhoneNumber</p>
+                        </div>
+                        <div class="col-6">
+                            <p class="fw-bold mb-1">ایمیل:</p>
+                            <p class="text-muted">@Model.Expert.Email</p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6">
+                            <p class="fw-bold mb-1">شهر:</p>
+                            <p class="text-muted">@Model.Expert.NameCity</p>
+                        </div>
+                        <div class="col-6">
+                            <p class="fw-bold mb-1">خیابان:</p>
+                            <p class="text-muted">@Model.Expert.Street</p>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-3">
+                        <h5 class="fw-bold text-success">💰 موجودی: @Model.Expert.Balance.ToString("N0")تومان</h5>
+                    </div>
+
+                    <div class="mt-4">
+                        <h6 class="fw-bold">🔹 مهارت‌ها:</h6>
+                        @if (Model.Expert.Skills != null && Model.Expert.Skills.Any())
+                        {
+                            <div class="d-flex flex-wrap gap-2">
+                                @foreach (var skill in Model.Expert.Skills)
+                                {
+                                    <span class="badge bg-primary p-2 fs-6">@skill.Title</span>
+                                }
+                            </div>
+                        }
+                        else
+                        {
+                            <p class="text-muted">مهارتی انتخاب نکردید.</p>
+                        }
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-
-

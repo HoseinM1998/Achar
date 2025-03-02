@@ -7,47 +7,77 @@
 
 @if (TempData["Message"] != null)
 {
-    <div class="alert alert-danger">
-        @TempData["Message"]
-    </div>
+    <div class="alert alert-danger">@TempData["Message"]</div>
 }
 @if (TempData["ErrorMessage"] != null)
 {
-    <div class="alert alert-danger">
-        @TempData["ErrorMessage"]
-    </div>
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
 }
-
 @if (TempData["Success"] != null)
 {
-    <div class="alert alert-success">
-        @TempData["Success"]
-    </div>
+    <div class="alert alert-success">@TempData["Success"]</div>
 }
 
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-xl-6 col-lg-8 col-md-10">
+            <div class="card shadow-lg p-4 border-0 rounded">
+                <div class="text-center">
+                    @if (!string.IsNullOrEmpty(Model.Customer.ProfileImageUrl))
+                    {
+                        <img src="@Model.Customer.ProfileImageUrl" alt="Profile Image"
+                             class="rounded-circle border shadow-sm"
+                             style="width: 120px; height: 120px; object-fit: cover;">
+                    }
+                    else
+                    {
+                        <img src="~/assets/img/1.png" alt="Default Profile Image"
+                             class="rounded-circle border shadow-sm"
+                             style="width: 120px; height: 120px; object-fit: cover;">
+                    }
+                </div>
+                <div class="card-body">
+                    <h4 class="text-center text-primary fw-bold">سلام، @Model.Customer.UserName 👋</h4>
+                    <hr>
 
+                    <div class="row">
+                        <div class="col-6">
+                            <p class="fw-bold mb-1">نام:</p>
+                            <p class="text-muted">@Model.Customer.FirstName</p>
+                        </div>
+                        <div class="col-6">
+                            <p class="fw-bold mb-1">نام خانوادگی:</p>
+                            <p class="text-muted">@Model.Customer.LastName</p>
+                        </div>
+                    </div>
 
-<div class="dashboard-tlbar d-block mb-5">
-    <div class="row">
-        <div class="colxl-12 col-lg-12 col-md-12">
-            <h3 class="breadcrumb-item"><a href="#" class="theme-cl">داشبورد</a></h3>
-            <br>
-            @if (!string.IsNullOrEmpty(Model.Customer.ProfileImageUrl))
-            {
-                <img src="@Model.Customer.ProfileImageUrl" alt="Profile Image" class="img-thumbnail" style="width: 150px; height: 150px;  margin-bottom: 20px;">
-            }
-            else
-            {
-                <img src="~/assets/img/1.png" alt="Default Profile Image" class="img-thumbnail" style="width: 150px; height: 150px; margin-bottom: 20px;">
-            }
+                    <div class="row">
+                        <div class="col-6">
+                            <p class="fw-bold mb-1">ایمیل:</p>
+                            <p class="text-muted">@Model.Customer.Email</p>
+                        </div>
+                        <div class="col-6">
+                            <p class="fw-bold mb-1">موبایل:</p>
+                            <p class="text-muted">@Model.Customer.PhoneNumber</p>
+                        </div>
+                    </div>
 
+                    <div class="row">
+                        <div class="col-6">
+                            <p class="fw-bold mb-1">شهر:</p>
+                            <p class="text-muted">@Model.Customer.Namecity</p>
+                        </div>
+                        <div class="col-6">
+                            <p class="fw-bold mb-1">خیابان:</p>
+                            <p class="text-muted">@Model.Customer.Street</p>
+                        </div>
+                    </div>
 
-            <h6 class="ft-medium fs-4">سلام @Model.Customer.UserName</h6>
-            <h6 class="ft-medium fs-4">نام: @Model.Customer.FirstName</h6>
-            <h6 class="ft-medium fs-4">نام خانوادگی: @Model.Customer.LastName</h6>
-            <h6 class="ft-medium fs-4">موجودی: @Model.Customer.Balance تومان</h6>
+                    <div class="text-center mt-3">
+                        <h5 class="fw-bold text-success">💰 موجودی: @Model.Customer.Balance.ToString("N0") تومان</h5>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-
-

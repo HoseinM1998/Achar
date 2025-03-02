@@ -13,9 +13,9 @@
             </h3>
             <br>
 
-            <img src="@(!string.IsNullOrEmpty(Model.Expert.ProfileImageUrl) ? Model.Expert.ProfileImageUrl : "/assets/img/1.png")" 
-                 alt="Profile Image" 
-                 class="rounded-circle border border-primary p-1 shadow-sm" 
+            <img src="@(!string.IsNullOrEmpty(Model.Expert.ProfileImageUrl) ? Model.Expert.ProfileImageUrl : "/assets/img/1.png")"
+                 alt="Profile Image"
+                 class="rounded-circle border border-primary p-1 shadow-sm"
                  style="width: 150px; height: 150px; object-fit: cover;">
 
             <br><br>
@@ -24,7 +24,8 @@
             <h5 class="fw-bold text-dark">نام خانوادگی: <span class="text-secondary">@Model.Expert.LastName</span></h5>
             <h5 class="fw-bold text-dark">شماره تلفن: <span class="text-secondary">@Model.Expert.PhoneNumber</span></h5>
             <h5 class="fw-bold text-dark">جنسیت: <span class="text-secondary">@DisplayEnum(@Model.Expert.Gender)</span></h5>
-            <h5 class="fw-bold text-dark">امتیاز: 
+            <h5 class="fw-bold text-dark">
+                امتیاز:
                 <span class="text-warning fw-bold">@Model.Expert.Score <i class="fas fa-star"></i></span>
             </h5>
 
@@ -37,7 +38,42 @@
     </div>
 </div>
 
-            
+<div class="container mt-4">
+    <div class="card shadow-lg p-4">
+        <h4 class="text-center mb-4">ارسال کامنت</h4>
+        <form method="post" asp-page-handler="CreateComment">
+            <input type="hidden" asp-for="Comment.ExpertId" value="@Model.Expert.Id" />
+
+
+            <div class="mb-3">
+                <label asp-for="Comment.Title" class="form-label">عنوان</label>
+                <input asp-for="Comment.Title" class="form-control" />
+                <span asp-validation-for="Comment.Title" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Comment.Description" class="form-label">توضیحات</label>
+                <textarea asp-for="Comment.Description" class="form-control"></textarea>
+                <span asp-validation-for="Comment.Description" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">امتیاز (۱ تا ۵)</label>
+                <div class="rating">
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        <i class="far fa-star" data-value="@i"></i>
+                    }
+                </div>
+                <input type="hidden" asp-for="Comment.Score" id="ratingValue" />
+                <span asp-validation-for="Comment.Score" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">ارسال کامنت</button>
+        </form>
+    </div>
+</div>
+
 @functions {
     public string DisplayEnum(Enum enumValue)
     {
@@ -48,3 +84,49 @@
     }
 }
 
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const stars = document.querySelectorAll('.rating .fa-star');
+            const ratingValue = document.getElementById('ratingValue');
+
+            stars.forEach(star => {
+                star.addEventListener('click', function () {
+                    const value = this.getAttribute('data-value');
+                    ratingValue.value = value;
+
+  
+                    stars.forEach((s, index) => {
+                        if (index < value) {
+                            s.classList.remove('far');
+                            s.classList.add('fas');
+                        } else {
+                            s.classList.remove('fas');
+                            s.classList.add('far');
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+}
+
+<style>
+    .rating {
+        font-size: 24px;
+        color: #ffc107; 
+        cursor: pointer;
+    }
+
+        .rating .fa-star {
+            margin: 0 2px;
+        }
+
+        .rating .fas {
+            color: #ffc107; 
+        }
+
+        .rating .far {
+            color: #e4e5e9; 
+        }
+</style>
