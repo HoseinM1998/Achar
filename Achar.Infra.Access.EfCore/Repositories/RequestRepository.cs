@@ -101,6 +101,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
                 RequesteForTime = request.RequesteForTime,
                 CreateAt = request.CreateAt,
                 CustomerId = request.CustomerId,
+                DoneAt = request.DoneAt,
                 CustomerName = request.Customer.ApplicationUser.FirstName + " " + request.Customer.ApplicationUser.LastName,
                 ServiceId = request.HomeServiceId,
                 HomeServiceName = request.HomeService?.Title,

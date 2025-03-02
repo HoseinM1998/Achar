@@ -37,25 +37,27 @@ namespace Achar.Endpoint.Razor.Areas.Admin.Pages.Service
         public SoftDeleteDto Delete { get; set; }
 
         [BindProperty]
-        public BidStatusDto Status { get; set; }
+        public int BidId { get; set; }
+        [BindProperty]
+        public int ExpertId { get; set; }
 
         public async Task OnGet(CancellationToken cancellationToken)
         {
             Bids = await _bidAppService.GetBids(cancellationToken);
         }
 
-        public async Task<IActionResult> OnPostChangeStatusBid(CancellationToken cancellationToken)
+        public async Task<IActionResult> OnPostCancellBid(CancellationToken cancellationToken)
         {
             try
             {
-                await _bidAppService.ChangebidStatus(Status, cancellationToken);
+                await _bidAppService.CancellBid(BidId, ExpertId, cancellationToken);
                 TempData["Success"] = "وضعیت پیشنهاد با موفقیت تغییر یافت.";
-                _logger.LogInformation("[{Time}] وضعیت پیشنهاد با موفقیت تغییر یافت: {BidId}", DateTime.Now, Status.Id);
+                _logger.LogInformation("[{Time}] وضعیت پیشنهاد با موفقیت تغییر یافت: {BidId}", DateTime.Now, BidId);
             }
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = "خطا در انجام عملیات";
-                _logger.LogError(ex, "[{Time}] خطا در تغییر وضعیت پیشنهاد: {BidId}", DateTime.Now, Status.Id);
+                _logger.LogError(ex, "[{Time}] خطا در تغییر وضعیت پیشنهاد: {BidId}", DateTime.Now, BidId);
             }
             return RedirectToPage("Bid");
         }

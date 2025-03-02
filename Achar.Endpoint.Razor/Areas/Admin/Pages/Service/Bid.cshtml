@@ -1,5 +1,6 @@
 ﻿@page
 @using System.ComponentModel.DataAnnotations
+@using AcharDomainCore.Enums
 @using Framework
 @model Achar.Endpoint.Razor.Areas.Admin.Pages.Service.BidModel
 @{
@@ -56,9 +57,12 @@
                     <td>@bid.BidDate.ToPersianString()</td>
                     <td>@DisplayEnum(bid.Status)</td>
                     <td>
-                        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#changeStatusModal-@bid.Id">
-                            تغییر وضعیت
-                        </button>
+                        @if (bid.Status != StatusBidEnum.CancelledByExpert && bid.Status != StatusBidEnum.Success && bid.Status != StatusBidEnum.CancelledByCustomer)
+                        {
+                            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#changeStatusModal-@bid.Id">
+                                تغییر وضعیت
+                            </button>
+                        }
                         <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteBidModal-@bid.Id">
                             حذف
                         </button>
@@ -75,29 +79,21 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="changeStatusModalLabel-@bid.Id">تغییر وضعیت پیشنهاد</h5>
+                    <h5 class="modal-title" id="changeStatusModalLabel-@bid.Id">لغو پیشنهاد</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form method="post" asp-page-handler="ChangeStatusBid">
-                        <input type="hidden" asp-for="Status.Id" value="@bid.Id" />
-                        <div class="mb-3">
-                            <label asp-for="Status.Status" class="form-label fw-semibold">وضعیت</label>
-                            <select class="form-control" asp-for="Status.Status">
-                                <option value="WaitingForCustomerConfirmation">درانتظار تایید مشتری</option>
-                                <option value="WaitingForExpert">درانتظار مراجعه متخصص</option>
-                                <option value="CancelledByCustomer">توسط مشتری کنسل شد</option>
-                                <option value="Rejected">ردشد</option>
-                                <option value="Success">با‌موفقیت انجام‌شد</option>
-                            </select>
-                            <span asp-validation-for="Status.Status" class="text-danger"></span>
-                        </div>
-                        <button type="submit" class="btn btn-success w-100 rounded-pill">ذخیره</button>
+                    <p>آیا مطمئن هستید که می‌خواهید این پیشنهاد را لغو کنید؟</p>
+                    <form method="post" asp-page-handler="CancellBid">
+                        <input type="hidden" asp-for="BidId" value="@bid.Id" />
+                        <input type="hidden" asp-for="ExpertId" value="@bid.ExpertId" />
+                        <button type="submit" class="btn btn-danger w-100 rounded-pill">بله، لغو شود</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+
 
     <div class="modal fade" id="deleteBidModal-@bid.Id" tabindex="-1" aria-labelledby="deleteBidModalLabel-@bid.Id" aria-hidden="true">
         <div class="modal-dialog">

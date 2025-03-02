@@ -8,6 +8,7 @@ using AcharDomainCore.Contracts.Bid;
 using AcharDomainCore.Contracts.Request;
 using AcharDomainCore.Dtos;
 using AcharDomainCore.Dtos.BidDto;
+using AcharDomainCore.Dtos.Request;
 using AcharDomainCore.Entites;
 using AcharDomainCore.Enums;
 using Microsoft.Extensions.Logging;
@@ -19,12 +20,15 @@ namespace AcharDomainService
         private readonly IBidRepository _repository;
         private readonly ILogger<BidService> _logger;
         private readonly IRequestRepository _requestRepository;
+        private readonly IBaseRepository _repositoryBalance;
 
 
-        public BidService(IBidRepository repository, IRequestRepository requestRepository)
+
+        public BidService(IBidRepository repository, IRequestRepository requestRepository, IBaseRepository repositoryBalance)
         {
             _repository = repository;
             _requestRepository = requestRepository;
+            _repositoryBalance = repositoryBalance;
         }
 
         public async Task<int> CreateBid(BidAddDto bid, CancellationToken cancellationToken)
@@ -45,8 +49,17 @@ namespace AcharDomainService
             => await _repository.GetBidsByExpertId(expertId, cancellationToken);
 
 
-        public async Task<List<GetBidDto?>> GetBids(CancellationToken cancellationToken)
-            => await _repository.GetBids(cancellationToken);
+        public async Task<List<GetBidDto>> GetBids(CancellationToken cancellationToken)
+        {
+            var bids = await _repository.GetBids(cancellationToken);
+
+            foreach (var bid in bids)
+            {
+                await ChangebidStatus(new BidStatusDto { Id = bid.Id }, cancellationToken);
+            }
+
+            return bids;
+        }
 
         public async Task<bool> DeleteBid(SoftDeleteDto delete, CancellationToken cancellationToken)
             => await _repository.DeleteBid(delete, cancellationToken);
@@ -54,54 +67,58 @@ namespace AcharDomainService
         public async Task<bool> ChangebidStatus(BidStatusDto status, CancellationToken cancellationToken)
         {
             var bid = await _repository.GetBidById(status.Id, cancellationToken);
-            if (bid == null || bid.Request == null) return false;
+            if (bid?.Request == null) return false;
 
             var request = bid.Request;
-
-            if (status.Status == StatusBidEnum.WaitingForCustomerConfirmation)
+            if (request.Status == StatusRequestEnum.AwaitingCustomerConfirmation)
             {
-                return request.AcceptedExpertId == null;
+                status.Status = StatusBidEnum.WaitingForCustomerConfirmation;
             }
-
             if (request.AcceptedExpertId == bid.ExpertId)
             {
-                if (status.Status == StatusBidEnum.Success && request.DoneAt != null)
-                {
-                    await _repository.ChangebidStatus(status, cancellationToken);
-                    return true;
-                }
+                if (request.Status == StatusRequestEnum.WaitingForExpert)
+                    status.Status = StatusBidEnum.WaitingForExpert;
 
-                if (status.Status == StatusBidEnum.CancelledByCustomer && request.Status == StatusRequestEnum.CancelledByCustomer && request.DoneAt == null)
-                {
-                    await _repository.ChangebidStatus(status, cancellationToken);
-                    return true;
-                }
+                else if (request.Status == StatusRequestEnum.CancelledByExpert)
+                    status.Status = StatusBidEnum.CancelledByExpert;
 
-                if (status.Status == StatusBidEnum.CancelledByExpert && request.DoneAt == null)
-                {
-                    await _repository.ChangebidStatus(status, cancellationToken);
-                    return true;
-                }
+                else if (request.Status == StatusRequestEnum.CancelledByCustomer)
+                    status.Status = StatusBidEnum.CancelledByCustomer;
 
-                if (status.Status == StatusBidEnum.WaitingForExpert && request.Status == StatusRequestEnum.WaitingForExpert && request.DoneAt == null)
-                {
-                    await _repository.ChangebidStatus(status, cancellationToken);
-                    return true;
-                }
+                else if (request.Status == StatusRequestEnum.Success)
+                    status.Status = StatusBidEnum.Success;
+     
             }
-
-            if (status.Status == StatusBidEnum.Rejected && request.AcceptedExpertId != bid.ExpertId)
+            else
             {
-                await _repository.ChangebidStatus(status, cancellationToken);
-                return true;
+                status.Status = StatusBidEnum.Rejected;
             }
 
-            return false;
+            await _repository.ChangebidStatus(status, cancellationToken);
+            return true;
         }
 
 
+
         public async Task<bool> CancellBid(int bidId, int expertId, CancellationToken cancellationToken)
-            => await _repository.CancellBid(bidId, expertId, cancellationToken);
+        {
+            var bid = await _repository.GetBidById(bidId, cancellationToken);
+            if (bid == null) throw new Exception("Bid not found");
+
+            var requestDto = await _requestRepository.GetRequestById(bid.RequestId, cancellationToken);
+            if (requestDto == null) throw new Exception("Request not found");
+
+            await _repositoryBalance.ChangeBalanceAdmin(requestDto.Price, cancellationToken);
+            await _repositoryBalance.ChangeAddBalanceCustomer(requestDto.CustomerId, requestDto.Price, cancellationToken);
+            await _repository.CancellBid(bidId, expertId, cancellationToken);
+            StatusRequestDto status = new ();
+            status.Id = bid.RequestId;
+            status.Status = StatusRequestEnum.CancelledByExpert;
+            await _requestRepository.ChangeRequestStatus(status, cancellationToken);
+                
+            return true;
+        }
+
 
     }
 }

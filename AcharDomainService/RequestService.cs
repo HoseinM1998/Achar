@@ -21,15 +21,13 @@ namespace AcharDomainService
     {
         private readonly IRequestRepository _repository;
         private readonly IBaseRepository _repositoryBalance;
-        private readonly IBidRepository _bidRepository;
 
         private readonly ILogger<RequestService> _logger;
 
-        public RequestService(IRequestRepository repository, IBaseRepository repositoryBalance, IBidRepository bidRepository)
+        public RequestService(IRequestRepository repository, IBaseRepository repositoryBalance)
         {
             _repository = repository;
             _repositoryBalance = repositoryBalance;
-            _bidRepository = bidRepository;
         }
 
         public async Task<int> CreateRequest(RequestDto requestDto, CancellationToken cancellationToken)
@@ -66,42 +64,49 @@ namespace AcharDomainService
             if (request == null) return false;
 
             if (newStatus.Status == StatusRequestEnum.AwaitingSuggestionExperts &&
-                request.ExpertId == null && request.DoneAt == null && request.Bids == null)
+                request.ExpertId == null && request.DoneAt == null && request.Bids == null && request.Status != StatusRequestEnum.CancelledByCustomer &&
+                request.Status != StatusRequestEnum.CancelledByExpert)
             {
                 await _repository.ChangeRequestStatus(newStatus, cancellationToken);
                 return true;
             }
 
             if (newStatus.Status == StatusRequestEnum.AwaitingCustomerConfirmation &&
-                request.Bids != null && request.DoneAt == null)
+                request.Bids != null && request.DoneAt == null && request.Status != StatusRequestEnum.CancelledByCustomer &&
+                request.Status != StatusRequestEnum.CancelledByExpert)
             {
                 await _repository.ChangeRequestStatus(newStatus, cancellationToken);
                 return true;
             }
 
             if (newStatus.Status == StatusRequestEnum.Success &&
-                request.DoneAt != null && request.ExpertId != null)
+                  request.ExpertId != null&&request.Status!=StatusRequestEnum.CancelledByCustomer&&
+                  request.Status != StatusRequestEnum.CancelledByExpert)
             {
+                request.DoneAt=DateTime.Now;
                 await _repository.ChangeRequestStatus(newStatus, cancellationToken);
                 return true;
             }
 
             if (newStatus.Status == StatusRequestEnum.CancelledByCustomer &&
-                request.DoneAt == null)
+                request.DoneAt == null && request.Status != StatusRequestEnum.CancelledByCustomer &&
+                request.Status != StatusRequestEnum.CancelledByExpert)
             {
                 await _repository.ChangeRequestStatus(newStatus, cancellationToken);
                 return true;
             }
 
             if (newStatus.Status == StatusRequestEnum.CancelledByExpert &&
-                request.DoneAt == null)
+                request.DoneAt == null && request.Status != StatusRequestEnum.CancelledByCustomer &&
+                request.Status != StatusRequestEnum.CancelledByExpert)
             {
                 await _repository.ChangeRequestStatus(newStatus, cancellationToken);
                 return true;
             }
 
             if (newStatus.Status == StatusRequestEnum.WaitingForExpert &&
-                request.Bids == null && request.DoneAt == null && request.ExpertId != null)
+                request.Bids == null && request.DoneAt == null && request.ExpertId != null && request.Status != StatusRequestEnum.CancelledByCustomer &&
+                request.Status != StatusRequestEnum.CancelledByExpert)
             {
                 await _repository.ChangeRequestStatus(newStatus, cancellationToken);
                 return true;

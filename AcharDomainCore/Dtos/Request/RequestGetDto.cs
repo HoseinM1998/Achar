@@ -27,6 +27,8 @@ namespace AcharDomainCore.Dtos.Request
         public DateTime RequesteForTime { get; set; }
         public DateTime CreateAt { get; set; }
 
+
+
         [DisplayName("شناسه مشتری")]
         public int CustomerId { get; set; }
         public string CustomerName { get; set; }
