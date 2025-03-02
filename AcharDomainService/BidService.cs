@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AcharDomainCore.Contracts.Bid;
+using AcharDomainCore.Contracts.Request;
 using AcharDomainCore.Dtos;
 using AcharDomainCore.Dtos.BidDto;
 using AcharDomainCore.Entites;
@@ -17,10 +18,13 @@ namespace AcharDomainService
     {
         private readonly IBidRepository _repository;
         private readonly ILogger<BidService> _logger;
+        private readonly IRequestRepository _requestRepository;
 
-        public BidService(IBidRepository repository)
+
+        public BidService(IBidRepository repository, IRequestRepository requestRepository)
         {
             _repository = repository;
+            _requestRepository = requestRepository;
         }
 
         public async Task<int> CreateBid(BidAddDto bid, CancellationToken cancellationToken)
@@ -50,51 +54,54 @@ namespace AcharDomainService
         public async Task<bool> ChangebidStatus(BidStatusDto status, CancellationToken cancellationToken)
         {
             var bid = await _repository.GetBidById(status.Id, cancellationToken);
-            if (bid == null)
-            {
-                return false;
-            }
+            if (bid == null || bid.Request == null) return false;
 
             var request = bid.Request;
-            if (request == null)
+
+            if (status.Status == StatusBidEnum.WaitingForCustomerConfirmation)
             {
-                return false;
+                return request.AcceptedExpertId == null;
             }
 
-            if (request.AcceptedExpertId == null)
+            if (request.AcceptedExpertId == bid.ExpertId)
             {
-                status.Status = StatusBidEnum.WaitingForCustomerConfirmation;
-            }
-            else if (request.AcceptedExpertId == bid.ExpertId)
-            {
-                if (request.DoneAt != null)
+                if (status.Status == StatusBidEnum.Success && request.DoneAt != null)
                 {
-                    status.Status = StatusBidEnum.Success;
+                    await _repository.ChangebidStatus(status, cancellationToken);
+                    return true;
                 }
-                else if (request.Status == StatusRequestEnum.CancelledByCustomer)
+
+                if (status.Status == StatusBidEnum.CancelledByCustomer && request.Status == StatusRequestEnum.CancelledByCustomer && request.DoneAt == null)
                 {
-                    status.Status = StatusBidEnum.CancelledByCustomer;
+                    await _repository.ChangebidStatus(status, cancellationToken);
+                    return true;
                 }
-                else if (request.Status == StatusRequestEnum.CancelledByExpert)
+
+                if (status.Status == StatusBidEnum.CancelledByExpert && request.DoneAt == null)
                 {
-                    status.Status = StatusBidEnum.CancelledByExpert;
+                    await _repository.ChangebidStatus(status, cancellationToken);
+                    return true;
                 }
-                else
+
+                if (status.Status == StatusBidEnum.WaitingForExpert && request.Status == StatusRequestEnum.WaitingForExpert && request.DoneAt == null)
                 {
-                    status.Status = StatusBidEnum.WaitingForExpert;
+                    await _repository.ChangebidStatus(status, cancellationToken);
+                    return true;
                 }
-            }
-            else
-            {
-                status.Status = StatusBidEnum.Rejected;
             }
 
-            await _repository.ChangebidStatus(status, cancellationToken);
-            return true;
+            if (status.Status == StatusBidEnum.Rejected && request.AcceptedExpertId != bid.ExpertId)
+            {
+                await _repository.ChangebidStatus(status, cancellationToken);
+                return true;
+            }
+
+            return false;
         }
 
+
         public async Task<bool> CancellBid(int bidId, int expertId, CancellationToken cancellationToken)
-            => await _repository.CancellBid(bidId,expertId, cancellationToken);
+            => await _repository.CancellBid(bidId, expertId, cancellationToken);
 
     }
 }

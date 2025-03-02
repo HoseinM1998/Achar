@@ -6,8 +6,10 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using AcharDomainCore.Contracts.BaseData;
+using AcharDomainCore.Contracts.Bid;
 using AcharDomainCore.Contracts.Request;
 using AcharDomainCore.Dtos;
+using AcharDomainCore.Dtos.BidDto;
 using AcharDomainCore.Dtos.Request;
 using AcharDomainCore.Entites;
 using AcharDomainCore.Enums;
@@ -19,17 +21,19 @@ namespace AcharDomainService
     {
         private readonly IRequestRepository _repository;
         private readonly IBaseRepository _repositoryBalance;
+        private readonly IBidRepository _bidRepository;
 
         private readonly ILogger<RequestService> _logger;
 
-        public RequestService(IRequestRepository repository,IBaseRepository repositoryBalance)
+        public RequestService(IRequestRepository repository, IBaseRepository repositoryBalance, IBidRepository bidRepository)
         {
             _repository = repository;
             _repositoryBalance = repositoryBalance;
+            _bidRepository = bidRepository;
         }
 
         public async Task<int> CreateRequest(RequestDto requestDto, CancellationToken cancellationToken)
-            => await _repository.CreateRequest(requestDto,cancellationToken);
+            => await _repository.CreateRequest(requestDto, cancellationToken);
 
         public async Task<bool> UpdateRequest(RequestUpDto request, CancellationToken cancellationToken)
             => await _repository.UpdateRequest(request, cancellationToken);
@@ -43,10 +47,10 @@ namespace AcharDomainService
             => await _repository.GetRequestById(id, cancellationToken);
 
         public async Task<List<RequestGetDto?>> GetRequests(CancellationToken cancellationToken)
-            => await _repository.GetRequests( cancellationToken);
+            => await _repository.GetRequests(cancellationToken);
 
         public async Task<List<RequestGetDto?>> GetCustomerRequests(int customerId, CancellationToken cancellationToken)
-            => await _repository.GetCustomerRequests(customerId,cancellationToken);
+            => await _repository.GetCustomerRequests(customerId, cancellationToken);
 
         public async Task<List<RequestGetDto?>> GetRequestsByExpert(int expertId, CancellationToken cancellationToken)
             => await _repository.GetRequestsByExpert(expertId, cancellationToken);
@@ -57,60 +61,55 @@ namespace AcharDomainService
 
 
         public async Task<bool> ChangeRequestStatus(StatusRequestDto newStatus, CancellationToken cancellationToken)
-        { 
+        {
             var request = await _repository.GetRequestById(newStatus.Id, cancellationToken);
+            if (request == null) return false;
 
-            if (request == null)
+            if (newStatus.Status == StatusRequestEnum.AwaitingSuggestionExperts &&
+                request.ExpertId == null && request.DoneAt == null && request.Bids == null)
             {
-                return false;
+                await _repository.ChangeRequestStatus(newStatus, cancellationToken);
+                return true;
             }
 
-            if (newStatus.Status == StatusRequestEnum.AwaitingSuggestionExperts)
+            if (newStatus.Status == StatusRequestEnum.AwaitingCustomerConfirmation &&
+                request.Bids != null && request.DoneAt == null)
             {
-                if (request.ExpertId == null&&request.DoneAt==null&&request.Bids==null)
-                {
-                    newStatus.Status = StatusRequestEnum.AwaitingSuggestionExperts;
-                }
+                await _repository.ChangeRequestStatus(newStatus, cancellationToken);
+                return true;
             }
 
-            if (newStatus.Status == StatusRequestEnum.AwaitingCustomerConfirmation)
+            if (newStatus.Status == StatusRequestEnum.Success &&
+                request.DoneAt != null && request.ExpertId != null)
             {
-                if (request.Bids != null)
-                {
-                    newStatus.Status = StatusRequestEnum.AwaitingCustomerConfirmation;
-
-                }
+                await _repository.ChangeRequestStatus(newStatus, cancellationToken);
+                return true;
             }
 
-            if (newStatus.Status == StatusRequestEnum.Success)
+            if (newStatus.Status == StatusRequestEnum.CancelledByCustomer &&
+                request.DoneAt == null)
             {
-                if (request.DoneAt != null)
-                {
-                    newStatus.Status = StatusRequestEnum.Success;
-                }
+                await _repository.ChangeRequestStatus(newStatus, cancellationToken);
+                return true;
             }
 
-            if (newStatus.Status == StatusRequestEnum.CancelledByCustomer)
+            if (newStatus.Status == StatusRequestEnum.CancelledByExpert &&
+                request.DoneAt == null)
             {
-                if (request.DoneAt == null)
-                {
-                    newStatus.Status= StatusRequestEnum.CancelledByCustomer;
-                }
+                await _repository.ChangeRequestStatus(newStatus, cancellationToken);
+                return true;
             }
 
-            if (newStatus.Status == StatusRequestEnum.WaitingForExpert)
+            if (newStatus.Status == StatusRequestEnum.WaitingForExpert &&
+                request.Bids == null && request.DoneAt == null && request.ExpertId != null)
             {
-                newStatus.Status = StatusRequestEnum.WaitingForExpert;
-                var requet = new RequestAcceptExpertDto()
-                {
-                    Id = newStatus.Id,
-                    Bids = null
-                };
-                await _repository.AcceptExpert(requet.Id, requet.ExpertId, cancellationToken);
+                await _repository.ChangeRequestStatus(newStatus, cancellationToken);
+                return true;
             }
-            await _repository.ChangeRequestStatus(newStatus, cancellationToken);
-            return true;
+
+            return false;
         }
+
 
         public async Task<bool> AcceptExpert(int id, int expertId, CancellationToken cancellationToken)
         {
@@ -176,7 +175,7 @@ namespace AcharDomainService
 
             }
             var admin = await _repositoryBalance.ChangeBalanceAdmin(requestDto.Price, cancellationToken);
-            var customer = await _repositoryBalance.ChangeAddBalanceCustomer(requestDto.CustomerId,requestDto.Price, cancellationToken);
+            var customer = await _repositoryBalance.ChangeAddBalanceCustomer(requestDto.CustomerId, requestDto.Price, cancellationToken);
             await _repository.CancellRequest(requestId, cancellationToken);
             return true;
 
