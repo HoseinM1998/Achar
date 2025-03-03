@@ -27,11 +27,14 @@ namespace Achar.Endpoint.Razor.Areas.Customer.Pages
         public ExpertProfDto Expert { get; set; }
         [BindProperty]
         public CommentDto Comment { get; set; }
+        [BindProperty]
+        public List<GetCommentDto?> CommentExpert { get; set; }
         public async Task OnGetAsync(int expertId, CancellationToken cancellationToken)
         {
             try
             {
                 Expert = await _expertAppService.GetExpertById(expertId, cancellationToken);
+                CommentExpert = await _commentAppService.GetCommentsByExpertId(expertId, cancellationToken);
             }
             catch (Exception ex)
             {

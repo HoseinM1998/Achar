@@ -1,5 +1,6 @@
 ﻿@page
 @using System.ComponentModel.DataAnnotations
+@using Framework
 @model Achar.Endpoint.Razor.Areas.Customer.Pages.ExpertModel
 @{
     Layout = "_LayoutCustomer";
@@ -30,7 +31,31 @@
             </h5>
 
             <br>
+            <div class="card shadow-lg p-4">
+                <h4 class="text-center mb-4">نظرات کاربران</h4>
 
+                @if (Model.CommentExpert != null && Model.CommentExpert.Count > 0)
+                {
+                    <div class="comments-container">
+                        @foreach (var comment in Model.CommentExpert)
+                        {
+                            <div class="comment-card">
+                                <div class="comment-header">
+                                    <h5 class="fw-bold text-dark">@comment.Title</h5>
+                                    <span class="badge bg-warning text-dark">@comment.Score ⭐</span>
+                                </div>
+                                <p class="text-secondary"><strong>نام مشتری:</strong> @comment.CustomerName</p>
+                                <p class="text-secondary comment-text">@comment.Description</p>
+                                <p class="text-muted"><small>📅 @comment.CreatAt.ToPersianString("yyyy/MM/dd HH:mm")</small></p>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <p class="text-center text-muted">هنوز نظری ثبت نشده است.</p>
+                }
+            </div>
             <a asp-page="ListRequest" class="btn btn-outline-primary px-4 py-2">
                 <i class="fas fa-arrow-left"></i> بازگشت به لیست درخواست‌ها
             </a>
@@ -95,7 +120,7 @@
                     const value = this.getAttribute('data-value');
                     ratingValue.value = value;
 
-  
+
                     stars.forEach((s, index) => {
                         if (index < value) {
                             s.classList.remove('far');
@@ -114,7 +139,7 @@
 <style>
     .rating {
         font-size: 24px;
-        color: #ffc107; 
+        color: #ffc107;
         cursor: pointer;
     }
 
@@ -123,10 +148,44 @@
         }
 
         .rating .fas {
-            color: #ffc107; 
+            color: #ffc107;
         }
 
         .rating .far {
-            color: #e4e5e9; 
+            color: #e4e5e9;
         }
+
+    .comments-container {
+        display: flex;
+        overflow-x: auto;
+        gap: 15px;
+        padding-bottom: 10px;
+    }
+
+    .comment-card {
+        flex: 0 0 auto;
+        width: 320px;
+        background: #fff;
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease-in-out;
+    }
+
+        .comment-card:hover {
+            transform: scale(1.05);
+        }
+
+    .comment-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .comment-text {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 280px;
+    }
 </style>
