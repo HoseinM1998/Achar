@@ -1,80 +1,33 @@
 ﻿@page
 @model Achar.Endpoint.Razor.Pages.ServiceModel
 @{
-}@{
     var homeService = Model.HomeService;
 }
 
-<!-- ======================= Searchbar Banner ======================== -->
-<!-- ============================ Listing Details Start ================================== -->
 <section class="gray py-5 position-relative">
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
-                <div class="bg-white rounded mb-4" style="padding: 2rem; font-size: 1.2rem;">
-                    <div class="jbd-01 px-4 py-4">
-                        <div class="jbd-details mb-4">
-                            <h5 class="ft-bold fs-lg">جزئیات خدمات</h5>
-                            <div class="Goodup-lot-wrap d-block">
-                                <div class="row g-4">
-                                    <div class="col-xl-12 col-lg-12 col-md-12">
-                                        <div class="Goodup-sng-menu-thumb">
-                                            @if (!string.IsNullOrEmpty(homeService.ImageSrc))
-                                            {
-                                                <img src="@homeService.ImageSrc" class="img-fluid" alt="Service Image" width="400" height="400" />
-                                            }
-                                            else
-                                            {
-                                                <span>بدون عکس</span>
-                                            }
-                                        </div>
-                                        <div class="list-map-capt" style="margin-top: 1rem;">
-                                            <div class="lio-pact">
-                                                <span class="ft-medium text-info" style="font-size: 1.2rem;">عنوان: @homeService.Title</span>
-                                            </div>
-                                            <div class="lio-pact">
-                                                <p class="ft-medium" style="font-size: 1.2rem;">دسته بندی: @homeService.CategoryName</p>
-                                            </div>
-                                            <div class="lio-pact">
-                                                <p class="ft-medium" style="font-size: 1.2rem;">توضیحات: @homeService.Description</p>
-                                            </div>
-                                            <div class="lio-pact">
-                                                <span class="hkio-oilp ft-bold" style="font-size: 1.2rem;">قیمت پایه: تومان @homeService.BasePrice</span>
-                                            </div>
-                                        </div>
-                                        <a asp-area="Customer" asp-page="/Request" asp-route-id="@homeService.Id" class="btn btn-primary mt-2">ثبت درخواست</a>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+            <div class="col-xl-8 col-lg-8 col-md-12">
+                <div class="bg-white rounded shadow-sm p-4">
+                    <h4 class="text-primary fw-bold mb-3">جزئیات خدمات</h4>
+                    <div class="text-center mb-4">
+                        @if (!string.IsNullOrWhiteSpace(homeService.ImageSrc))
+                        {
+                            <img src="@homeService.ImageSrc" class="img-fluid rounded" alt="@homeService.Title" width="400" height="400" />
+                        }
+                        else
+                        {
+                            <p class="text-muted">تصویری موجود نیست</p>
+                        }
                     </div>
-                </div>
-
-                <!-- Location & Hours -->
-                <div class="bg-white rounded mb-4">
-                    <div class="jbd-01 px-4 py-4">
-                        <div class="jbd-details mb-4">
-                            <h5 class="ft-bold fs-lg">آدرس و زمان سرویس دهی</h5>
-                            <div class="Goodup-lot-wrap d-block">
-                                <div class="row g-4">
-                                    <div class="col-xl-12 col-lg-12 col-md-12">
-                                        <div class="list-map-lot">
-                                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3239.788351674947!2d51.420654220182854!3d35.70682558028542!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3f8e0170e5559ab5%3A0xd17709cbc12fcc94!2z2K7bjNin2KjYp9mGINi32KfZhNmC2KfZhtuMICYg2K7bjNin2KjYp9mGINiz2b7Zh9io2K8g2YLYsdmG24zYjCDZhdmG2LfZgtmHINu22Iwg2KrZh9ix2KfZhtiMINin2LPYqtin2YYg2KrZh9ix2KfZhtiMINin24zYsdin2YY!5e0!3m2!1sfa!2s!4v1670230928327!5m2!1sfa!2s" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                                        </div>
-                                        <div class="list-map-capt">
-                                            <div class="lio-pact">
-                                                <span class="ft-medium text-info">
-                                                    تهران
-                                                </span>
-                                            </div>
-                                            <div class="lio-pact"><span class="hkio-oilp ft-bold">خیابان طالقانی</span></div>
-                                            <div class="lio-pact"><p class="ft-medium">خیابان سپهد قرنی رستوران ماهان</p></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><strong>عنوان:</strong> @homeService.Title</li>
+                        <li class="list-group-item"><strong>دسته‌بندی:</strong> @homeService.CategoryName</li>
+                        <li class="list-group-item"><strong>توضیحات:</strong> @homeService.Description</li>
+                        <li class="list-group-item"><strong>قیمت پایه:</strong> <span class="text-success">@homeService.BasePrice.ToString("N0") تومان</span></li>
+                    </ul>
+                    <div class="text-center mt-4">
+                        <a asp-area="Customer" asp-page="/Request" asp-route-id="@homeService.Id" class="btn btn-primary btn-lg">ثبت درخواست</a>
                     </div>
                 </div>
             </div>
@@ -82,36 +35,31 @@
     </div>
 </section>
 
-<section class="space bg-cover" style="background:#03343b url(assets/img/landing-bg.png) no-repeat;">
-    <div class="container py-5">
-
+<section class="bg-white py-5">
+    <div class="container">
         <div class="row justify-content-center">
-            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                <div class="sec_title position-relative text-center mb-5">
-                    <h6 class="text-light">عضویت در خبرنامه</h6>
-                    <h3 class="ft-bold text-light">دریافت به روز رسانی ها و پیشنهادات پیشرفته</h3>
+            <div class="col-xl-8 col-lg-8 col-md-12">
+                <div class="rounded shadow-sm p-4">
+                    <h4 class="text-primary fw-bold mb-3">آدرس و زمان سرویس دهی</h4>
+                    <iframe src="https://www.google.com/maps/embed?..." width="100%" height="250" class="rounded mb-3" style="border:0;" allowfullscreen loading="lazy"></iframe>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><strong>مکان:</strong> تهران</li>
+                        <li class="list-group-item"><strong>خیابان:</strong> طالقانی</li>
+                        <li class="list-group-item"><strong>نشانی دقیق:</strong> خیابان سپهبد قرنی، رستوران ماهان</li>
+                    </ul>
                 </div>
             </div>
         </div>
+    </div>
+</section>
 
-        <div class="row align-items-center justify-content-center">
-            <div class="col-xl-7 col-lg-10 col-md-12 col-sm-12 col-12">
-                <form class="bg-white rounded p-1">
-                    <div class="row no-gutters">
-                        <div class="col-xl-9 col-lg-9 col-md-8 col-sm-8 col-8">
-                            <div class="form-group mb-0 position-relative">
-                                <input type="text" class="form-control b-0" placeholder="ایمیل خود را وارد کنید...">
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 col-4">
-                            <div class="form-group mb-0 position-relative">
-                                <button class="btn full-width btn-height bg-dark text-white fs-md" type="button">عضویت</button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-
+<section class="py-5" style="background: linear-gradient(to right, #03343b, #026775);">
+    <div class="container text-center text-white">
+        <h5>عضویت در خبرنامه</h5>
+        <p class="mb-4">دریافت به‌روزرسانی‌ها و پیشنهادات ویژه</p>
+        <form class="d-flex justify-content-center">
+            <input type="email" class="form-control w-50 me-2" placeholder="ایمیل خود را وارد کنید...">
+            <button class="btn btn-light">عضویت</button>
+        </form>
     </div>
 </section>

@@ -11,25 +11,23 @@
     </div>
 }
 
-
-<div class="home-banner margin-bottom-0" style="background:#f41b3b url('@Url.Content("~/assets/img/Background.png")') no-repeat;" data-overlay="5">
+<!-- بنر اصلی -->
+<div class="home-banner margin-bottom-0 full-width-banner"
+     style="background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7)),
+                   url('@Url.Content("~/assets/img/Background.png")') no-repeat center center / cover;">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-xl-11 col-lg-12 col-md-12 col-sm-12 col-12">
 
                 <div class="banner_caption text-center mb-5">
-                    <h1 class="banner_title ft-bold mb-1">سایت خدمات منزل آچار</h1>
-                    <p class="fs-md ft-medium">متخصصین را از ما بخواهید</p>
+                    <h1 class="banner_title ft-bold mb-1 text-white">سایت خدمات منزل آچار</h1>
+                    <p class="fs-md ft-medium text-light">متخصصین را از ما بخواهید</p>
                 </div>
 
                 <form class="main-search-wrap fl-wrap half-column">
                     <div class="main-search-item">
                         <span class="search-tag">سرویس</span>
                         <input type="text" class="form-control radius" placeholder="مثلا برقکاری، کارواش" />
-                    </div>
-                    <div class="main-search-item">
-                        <span class="search-tag">موقعیت</span>
-                        <input type="text" class="form-control" placeholder="مثلا تهران" />
                     </div>
                     <div class="main-search-button">
                         <button class="btn full-width theme-bg text-white" type="button">جستجو<i class="fas fa-search"></i></button>
@@ -41,6 +39,7 @@
     </div>
 </div>
 
+<!-- دسته بندی های محبوب -->
 <section class="space min gray">
     <div class="container">
 
@@ -48,10 +47,11 @@
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                 <div class="sec_title position-relative text-center mb-5">
                     <h6 class="theme-cl">دسته بندی های محبوب</h6>
-                    <h4 class="ft-bold">انتخاب دسته بندی انتخابی شما</h4>
+                    <h4 class="ft-bold">انتخاب دسته بندی مورد نظر شما</h4>
                 </div>
             </div>
         </div>
+
         <div class="row align-items-center flex-wrap">
             @foreach (var category in Model.Categories)
             {
@@ -61,11 +61,11 @@
                             <div class="Goodup-catg-icon">
                                 @if (!string.IsNullOrEmpty(category.Image))
                                 {
-                                    <img src="@category.Image" class="img-fluid" alt="Category Image" width="50" height="50" />
+                                    <img src="@category.Image" class="category-icon" alt="Category Image" />
                                 }
                                 else
                                 {
-                                    <span>بدون عکس</span>
+                                    <span class="no-image">بدون عکس</span>
                                 }
                             </div>
                             <div class="Goodup-catg-caption">
@@ -80,14 +80,7 @@
     </div>
 </section>
 
-
-
-
-
-
-<!-- ============================ Search Tag & Filter End ================================== -->
-<!-- ============================ Main Section End ================================== -->
-<!-- ======================= Newsletter Start ============================ -->
+<!-- بخش عضویت در خبرنامه -->
 <section class="space bg-cover" style="background:#03343b url(assets/img/landing-bg.png) no-repeat;">
     <div class="container py-5">
 
@@ -95,7 +88,7 @@
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                 <div class="sec_title position-relative text-center mb-5">
                     <h6 class="text-light">عضویت در خبرنامه</h6>
-                    <h3 class="ft-bold text-light">دریافت به روز رسانی ها و پیشنهادات پیشرفته</h3>
+                    <h3 class="ft-bold text-light">دریافت به روز رسانی ها و پیشنهادات ویژه</h3>
                 </div>
             </div>
         </div>
@@ -121,3 +114,28 @@
 
     </div>
 </section>
+
+<!-- استایل ها -->
+<style>
+
+ 
+
+    .category-icon {
+        width: 60px;
+        height: 60px;
+        filter: grayscale(40%) brightness(80%);
+        transition: all 0.3s ease-in-out;
+    }
+
+
+    .Goodup-catg-wrap:hover .category-icon {
+        filter: grayscale(0%) brightness(120%);
+        transform: scale(1.2);
+        box-shadow: 0px 8px 20px rgba(255, 140, 0, 0.5); 
+    }
+
+    .no-image {
+        font-size: 14px;
+        color: #888;
+    }
+</style>

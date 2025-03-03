@@ -71,7 +71,7 @@
                                     <td>@admin.ApplicationUser.UserName</td>
                                     <td>@admin.ApplicationUser.PhoneNumber</td>
                                     <td>@admin.ApplicationUser.Email</td>
-                                    <td>@admin.ApplicationUser.Balance</td>
+                                    <td>@admin.ApplicationUser.Balance.ToString("N0")تومان</td>
                                     <td>
                                         <a asp-page="AdminUp" asp-route-id="@admin.Id" class="btn btn-info">ویرایش</a>
                                         <a asp-page="DeleteUser" asp-route-id="@admin.Id" asp-route-userType="Admin" class="btn btn-danger">حذف</a>
@@ -111,7 +111,7 @@
                                     <td>@customer.PhoneNumber</td>
                                     <td>@customer.Email</td>
                                     <td>@customer.NameCity</td>
-                                    <td>@customer.Balance</td>
+                                    <td>@customer.Balance.ToString("N0")تومان</td>
                                     <td>
                                         <a asp-page="CustomerUp" asp-route-id="@customer.Id" class="btn btn-info">ویرایش</a>
                                         <a asp-page="DeleteUser" asp-route-id="@customer.Id" asp-route-userType="Customer" class="btn btn-danger">حذف</a>
@@ -157,7 +157,7 @@
                                     <td>@expert.Gender</td>
                                     <td>@expert.NameCity</td>
                                     <td>@(expert.IsActive ? "فعال" : "غیرفعال")</td>
-                                    <td>@expert.Balance</td>
+                                    <td>@expert.Balance.ToString("N0")تومان</td>
                                     <td>
                                         @if (expert.Skills != null && expert.Skills.Any())
                                         {

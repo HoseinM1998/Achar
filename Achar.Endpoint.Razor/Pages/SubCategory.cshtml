@@ -6,30 +6,28 @@
 <section class="gray py-5">
     <div class="container">
         <div class="row">
-
-            <!-- Home Services Start -->
-            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" id="hotels" style="padding-left: 0;">
+            <div class="col-12" id="hotels">
                 <div class="row justify-content-center gx-3">
                     @foreach (var subcategory in Model.SubCategories)
                     {
-                        <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-6">
-                            <div class="cats-wrap text-center" style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
-                                <a href="/ListHomeService?category=@subcategory.Id" class="Goodup-catg-wrap">
-                                    <div class="Goodup-sng-menu-thumb">
+                        <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-6 mb-4">
+                            <div class="cats-wrap text-center shadow-lg rounded p-4 bg-white position-relative transition-all hover-shadow-lg">
+                                <a href="/ListHomeService?category=@subcategory.Id" class="d-block text-decoration-none">
+                                    <div class="Goodup-sng-menu-thumb mb-3">
                                         @if (!string.IsNullOrEmpty(subcategory.Image))
                                         {
-                                            <img src="@subcategory.Image" class="img-fluid" alt="Category Image" width="50" height="50" />
+                                            <img src="@subcategory.Image" class="img-fluid rounded-circle border border-2 border-primary" alt="Category Image" style="max-width: 100px; max-height: 100px; transition: transform 0.3s;">
                                         }
                                         else
                                         {
-                                            <span>بدون عکس</span>
+                                            <div class="d-flex align-items-center justify-content-center bg-light rounded-circle" style="width: 100px; height: 100px;">
+                                                <i class="fas fa-image text-secondary fs-2"></i>
+                                            </div>
                                         }
                                     </div>
                                     <div class="Goodup-catg-caption">
-                                        <h4 class="fs-md mb-0 ft-medium m-catrio">عنوان: @subcategory.Title</h4>
-                                    </div>
-                                    <div class="Goodup-catg-caption">
-                                        <h4 class="fs-md mb-0 ft-medium m-catrio">دسته بندی: @subcategory.CategoryName</h4>
+                                        <h5 class="fs-md mb-1 text-dark fw-bold">عنوان: @subcategory.Title</h5>
+                                        <p class="mb-0 text-muted">📂 دسته بندی: @subcategory.CategoryName</p>
                                     </div>
                                 </a>
                             </div>
@@ -41,36 +39,34 @@
     </div>
 </section>
 
-<!-- ============================ Main Section End ================================== -->
-<!-- ======================= Newsletter Start ============================ -->
-<section class="space bg-cover" style="background: #03343b url('assets/img/landing-bg.png') no-repeat;">
+<!-- Newsletter Section -->
+<section class="space bg-cover" style="background: linear-gradient(rgba(3, 52, 59, 0.8), rgba(3, 52, 59, 0.9)), url('assets/img/landing-bg.png') no-repeat center center; background-size: cover;">
     <div class="container py-5">
         <div class="row justify-content-center">
-            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                <div class="sec_title position-relative text-center mb-5">
-                    <h6 class="text-light">عضویت در خبرنامه</h6>
-                    <h3 class="ft-bold text-light">دریافت به روز رسانی ها و پیشنهادات پیشرفته</h3>
-                </div>
+            <div class="col-12 text-center text-light">
+                <h6 class="fw-bold">📩 عضویت در خبرنامه</h6>
+                <h3 class="ft-bold">✨ دریافت به‌روزرسانی‌ها و پیشنهادات ویژه ✨</h3>
             </div>
         </div>
-
-        <div class="row align-items-center justify-content-center">
+        <div class="row align-items-center justify-content-center mt-4">
             <div class="col-xl-7 col-lg-10 col-md-12 col-sm-12 col-12">
-                <form class="bg-white rounded p-1" style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
-                    <div class="row no-gutters">
-                        <div class="col-xl-9 col-lg-9 col-md-8 col-sm-8 col-8">
-                            <div class="form-group mb-0 position-relative">
-                                <input type="text" class="form-control b-0" placeholder="ایمیل خود را وارد کنید...">
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 col-4">
-                            <div class="form-group mb-0 position-relative">
-                                <button class="btn full-width btn-height bg-dark text-white fs-md" type="button">عضویت</button>
-                            </div>
-                        </div>
-                    </div>
+                <form class="bg-white rounded p-3 shadow-sm d-flex">
+                    <input type="email" class="form-control border-0 me-2" placeholder="ایمیل خود را وارد کنید..." required>
+                    <button class="btn btn-primary px-4" type="submit">📩 عضویت</button>
                 </form>
             </div>
         </div>
     </div>
 </section>
+
+<style>
+    .hover-shadow-lg:hover {
+        box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.15) !important;
+        transform: translateY(-5px);
+        transition: all 0.3s ease-in-out;
+    }
+
+    .Goodup-sng-menu-thumb img:hover {
+        transform: scale(1.1);
+    }
+</style>
