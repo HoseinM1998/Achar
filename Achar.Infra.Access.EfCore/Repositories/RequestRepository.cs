@@ -202,7 +202,8 @@ namespace Achar.Infra.Access.EfCore.Repositories
                     skillIds.Contains(r.HomeServiceId) &&
                     r.Customer.CityId == expert.CityId &&
                     (r.Status == StatusRequestEnum.AwaitingSuggestionExperts ||
-                     r.Status == StatusRequestEnum.AwaitingCustomerConfirmation))
+                     r.Status == StatusRequestEnum.AwaitingCustomerConfirmation) &&
+                    !r.Bids.Any(s => s.ExpertId == expertId)) 
                 .Select(r => new RequestGetDto
                 {
                     Id = r.Id,
@@ -268,7 +269,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
             {
                 return false;
             }
-
+            acceptRequest.DoneAt=DateTime.Now;
             acceptRequest.Status = StatusRequestEnum.WaitingForExpert;
 
             var bid = await _context.Bids.FirstOrDefaultAsync(
