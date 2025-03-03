@@ -117,6 +117,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
                 ProfileImageUrl = expert.ApplicationUser.ProfileImageUrl,
                 PhoneNumber = expert.ApplicationUser.PhoneNumber,
                 Gender = expert.Gender,
+                Balance = expert.ApplicationUser.Balance,
                 Score = acceptComments.Any() ? (int?)acceptComments.Average(c => c.Score) : null,
                 NameCity = expert.City.Title,
                 CityId = expert.CityId,

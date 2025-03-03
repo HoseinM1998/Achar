@@ -158,7 +158,6 @@ namespace AcharDomainService
             try
             {
                 var requestDto = await _repository.GetRequestById(requestId, cancellationToken);
-                var priceService = await _repositoryBalance.GetPriceHomeService(requestDto.ServiceId, cancellationToken);
                 var balanceCustomer = await _repositoryBalance.GetBalanceCustomer(requestDto.CustomerId, cancellationToken);
                 var bid = await _bidRepository.GetBidById(bidId, cancellationToken);
 

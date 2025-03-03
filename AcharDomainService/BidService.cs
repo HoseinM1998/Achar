@@ -115,7 +115,7 @@ namespace AcharDomainService
         public async Task<bool> ChangebidStatus(BidStatusDto status, CancellationToken cancellationToken)
         {
             var bid = await _repository.GetBidById(status.Id, cancellationToken);
-            if (bid?.Request == null) return false;
+            if (bid.RequestId == null) return false;
 
             var request = bid.Request;
             if (request.Status == StatusRequestEnum.AwaitingCustomerConfirmation)
