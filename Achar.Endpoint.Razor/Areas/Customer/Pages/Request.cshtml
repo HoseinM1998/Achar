@@ -1,4 +1,5 @@
 ﻿@page
+@using Framework
 @model Achar.Endpoint.Razor.Areas.Customer.Pages.RequestModel
 @{
     Layout = "_LayoutCustomer";
@@ -43,8 +44,15 @@
 
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label class="mb-2 fw-bold"><i class="fas fa-calendar-alt me-2 text-secondary"></i> تاریخ</label>
-                        <input asp-for="@Model.Request.RequesteForTime" data-jdp class="form-control rounded border-primary" required="وارد کردن تاریخ اجباری است" />
+                        <label class="mb-2 fw-bold">
+                            <i class="fas fa-calendar-alt me-2 text-secondary"></i> تاریخ پیشنهادی
+                        </label>
+                        <input id="jalaliDatePicker"
+                               name="Request.RequesteForTime"
+                               class="form-control rounded border-primary"
+                               data-jdp
+                               value="@DateTime.Now.ToPersianString("yyyy/MM/dd HH:mm")"
+                               required />
                         <span asp-validation-for="@Model.Request.RequesteForTime" class="text-danger"></span>
                     </div>
                 </div>
@@ -112,5 +120,21 @@
         if (priceInput.value) {
             formatPrice();
         }
+    });
+</script>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let datePicker = document.getElementById("jalaliDatePicker");
+
+        datePicker.addEventListener("change", function () {
+            let now = new Date();
+            let hours = now.getHours().toString().padStart(2, "0");
+            let minutes = now.getMinutes().toString().padStart(2, "0");
+            if (!this.value.match(/\d{2}:\d{2}/)) {
+                this.value += ` ${hours}:${minutes}`;
+            }
+        });
     });
 </script>

@@ -12,44 +12,64 @@
     <div class="container">
         <div class="row">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                <h3 class="breadcrumb-item pb-3 px-5"><a href="#" class="theme-cl">درخواست‌ها</a></h3>
-                @foreach (var item in Model.Requests)
-                {
-                    <div class="card shadow-lg border-0 p-4 rounded-4 mb-4">
+                <h3 class="breadcrumb-item pb-3 px-5">
+                    <a href="#" class="theme-cl fw-bold fs-4 text-primary">📌 درخواست‌ها</a>
+                </h3>
+            </div>
+        </div>
+        <div class="row">
+            @foreach (var item in Model.Requests)
+            {
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="card shadow-sm border-0 p-4 rounded-4 mb-4 bg-light">
                         <div class="card-body">
-                            <h4 class="card-title">@item.Title</h4>
-                            <h5 class="card-title">سرویس: @item.HomeServiceName</h5>
-                            <p class="mb-1">تاریخ پیشنهادی مشتری: @(item.RequesteForTime.ToPersianString())</p>
-                            <p class="card-text">وضعیت: <span class="badge bg-primary">@DisplayEnum(item.Status)</span></p>
-                            <p class="card-text">قیمت: @item.Price.ToString("N0") تومان</p>
-                            <p class="card-text">توضیحات: @item.Description</p>
-
-                            <!-- فرم ثبت پیشنهاد -->
-                            <form method="post" asp-page="SendBid">
-                                <input type="hidden" asp-for="Bid.RequestId" value="@item.Id" />
-                                <button type="submit" class="btn btn-primary">ثبت پیشنهاد</button>
-                            </form>
+                            <h4 class="card-title fw-bold text-primary mb-2">@item.Title</h4>
+                            <h5 class="card-title text-muted">🔧 سرویس: <span class="fw-semibold">@item.HomeServiceName</span></h5>
+                            <p class="mb-1"><i class="fas fa-calendar-alt text-warning me-2"></i>تاریخ پیشنهادی مشتری: <span class="fw-semibold">@item.RequesteForTime.ToPersianString()</span></p>
+                            <p class="card-text">
+                                🏷 وضعیت:
+                                <span class="badge bg-danger px-3 py-2 fs-6">@DisplayEnum(item.Status)</span>
+                            </p>
+                            <p class="card-text text-success fw-bold fs-5">
+                                💰 قیمت: <span>@item.Price.ToString("N0")</span> تومان
+                            </p>
+                            <p class="card-text text-muted">📝 توضیحات: <span class="fw-normal">@item.Description</span></p>
                         </div>
-                        <div class="dsd-single-lst-thumb">
-                            @if (item.Images == null || item.Images.Count == 0)
+
+                        <div class="d-flex justify-content-center flex-wrap gap-2 mt-3">
+                            @if (item.ImagePaths == null || item.ImagePaths.Count == 0)
                             {
-                                <img src="~/assets/img/logo.jpg" class="img-fluid rounded-3" alt="تصویر پیش‌فرض" />
+                                <img src="/assets/img/logo.jpg"
+                                     class="img-fluid rounded-circle border border-primary p-1 shadow-sm"
+                                     alt="Service Image"
+                                     style="width: 90px; height: 90px; object-fit: cover; transition: transform 0.3s;"
+                                     onmouseover="this.style.transform='scale(1.1)'"
+                                     onmouseout="this.style.transform='scale(1)'">
                             }
                             else
                             {
-                                <div class="row">
-                                    @foreach (var imageUrl in item.Images)
-                                    {
-                                        <div class="col-md-4 mb-3">
-                                            <img src="@imageUrl" class="img-fluid rounded-3" alt="تصویر درخواست" />
-                                        </div>
-                                    }
-                                </div>
+                                @foreach (var imagePath in item.ImagePaths)
+                                {
+                                    <img src="@imagePath"
+                                         class="img-fluid rounded-circle border border-primary p-1 shadow-sm"
+                                         alt="Service Image"
+                                         style="width: 90px; height: 90px; object-fit: cover; transition: transform 0.3s;"
+                                         onmouseover="this.style.transform='scale(1.1)'"
+                                         onmouseout="this.style.transform='scale(1)'">
+                                }
                             }
                         </div>
+
+
+                        <form method="post" asp-page="SendBid" class="mt-3 text-center">
+                            <input type="hidden" asp-for="Bid.RequestId" value="@item.Id" />
+                            <button type="submit" class="btn btn-lg btn-primary fw-semibold px-4 py-2 mt-2 shadow-sm">
+                                📩 ثبت پیشنهاد
+                            </button>
+                        </form>
                     </div>
-                }
-            </div>
+                </div>
+            }
         </div>
     </div>
 </section>

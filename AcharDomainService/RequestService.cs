@@ -21,13 +21,17 @@ namespace AcharDomainService
     {
         private readonly IRequestRepository _repository;
         private readonly IBaseRepository _repositoryBalance;
+        private readonly IBidRepository _bidRepository;
+
+
 
         private readonly ILogger<RequestService> _logger;
 
-        public RequestService(IRequestRepository repository, IBaseRepository repositoryBalance)
+        public RequestService(IRequestRepository repository, IBaseRepository repositoryBalance, IBidRepository bidRepository)
         {
             _repository = repository;
             _repositoryBalance = repositoryBalance;
+            _bidRepository = bidRepository;
         }
 
         public async Task<int> CreateRequest(RequestDto requestDto, CancellationToken cancellationToken)
@@ -88,10 +92,10 @@ namespace AcharDomainService
             }
 
             if (newStatus.Status == StatusRequestEnum.Success &&
-                  request.ExpertId != null&&request.Status!=StatusRequestEnum.CancelledByCustomer&&
+                  request.ExpertId != null && request.Status != StatusRequestEnum.CancelledByCustomer &&
                   request.Status != StatusRequestEnum.CancelledByExpert)
             {
-                request.DoneAt=DateTime.Now;
+                request.DoneAt = DateTime.Now;
                 await _repository.ChangeRequestStatus(newStatus, cancellationToken);
                 return true;
             }
@@ -124,74 +128,81 @@ namespace AcharDomainService
         }
 
 
-        public async Task<bool> AcceptExpert(int id, int expertId, CancellationToken cancellationToken)
+        public async Task<bool> AcceptExpert(int id, int bidId, decimal bidPrice, CancellationToken cancellationToken)
         {
             try
             {
                 var requestDto = await _repository.GetRequestById(id, cancellationToken);
-                var priceService = await _repositoryBalance.GetPriceHomeService(requestDto.ServiceId, cancellationToken);
                 var balanceCustomer = await _repositoryBalance.GetBalanceCustomer(requestDto.CustomerId, cancellationToken);
+                var bid = await _bidRepository.GetBidById(bidId, cancellationToken);
 
-                if (balanceCustomer < priceService)
+                if (balanceCustomer < bidPrice)
                 {
                     throw new Exception("موجودی کافی نیست");
-                    return false;
                 }
 
-                if (requestDto.Price < priceService)
-                {
-                    throw new Exception($"{priceService}مبلغ پیشنهادی باید بزرگتر از");
-                    return false;
-                }
-                await _repositoryBalance.ChangeBalanceCustomer(requestDto.CustomerId, requestDto.Price, cancellationToken);
-                await _repositoryBalance.ChangeBalanceAdmin(requestDto.Price, cancellationToken);
-                await _repository.AcceptExpert(id, expertId, cancellationToken);
+                await _repositoryBalance.ChangeBalanceCustomer(requestDto.CustomerId, bidPrice, cancellationToken);
+                await _repositoryBalance.ChangeBalanceAdmin(bidPrice, cancellationToken);
+                await _repository.AcceptExpert(id, bidId, cancellationToken);
                 return true;
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error Accept: {ex.Message}");
+                throw new Exception($"ارور تایید کارشناس: {ex.Message}");
             }
         }
 
 
-        public async Task<bool> DoneRequest(int requestId, CancellationToken cancellationToken)
+        public async Task<bool> DoneRequest(int requestId, int bidId, CancellationToken cancellationToken)
         {
-            var requestDto = await _repository.GetRequestById(requestId, cancellationToken);
-            var priceService = await _repositoryBalance.GetPriceHomeService(requestDto.ServiceId, cancellationToken);
-            var balanceCustomer = await _repositoryBalance.GetBalanceCustomer(requestDto.CustomerId, cancellationToken);
-            if (balanceCustomer < priceService)
+            try
             {
-                throw new Exception("Not enough inventory");
-                return false;
+                var requestDto = await _repository.GetRequestById(requestId, cancellationToken);
+                var priceService = await _repositoryBalance.GetPriceHomeService(requestDto.ServiceId, cancellationToken);
+                var balanceCustomer = await _repositoryBalance.GetBalanceCustomer(requestDto.CustomerId, cancellationToken);
+                var bid = await _bidRepository.GetBidById(bidId, cancellationToken);
+
+                decimal tenPercent = bid.BidPrice * 0.1m;
+                decimal remainingAmount = bid.BidPrice - tenPercent;
+
+                await _repositoryBalance.ChangeBalanceAdminExpert(remainingAmount, cancellationToken);
+                await _repositoryBalance.ChangeBalanceExpert(requestDto.ExpertId.Value, remainingAmount, cancellationToken);
+                await _repository.DoneRequest(requestId, cancellationToken);
+
+                return true;
             }
-            if (requestDto.Price < priceService)
+            catch (Exception ex)
             {
-                throw new Exception($"Price >{priceService}");
-                return false;
+                throw new Exception("خطا در انجام تراکنش ");
+
             }
-            decimal tenPercent = requestDto.Price * 0.1m;
-            decimal remainingAmount = requestDto.Price - tenPercent;
-            await _repositoryBalance.ChangeBalanceAdminExpert(remainingAmount, cancellationToken);
-            await _repositoryBalance.ChangeBalanceExpert(requestDto.ExpertId!.Value, remainingAmount, cancellationToken); ;
-            await _repository.DoneRequest(requestId, cancellationToken);
-            return true;
         }
 
-        public async Task<bool> CancellRequest(int requestId, CancellationToken cancellationToken)
+
+        public async Task<bool> CancellRequest(int requestId, int bidId, CancellationToken cancellationToken)
         {
-            var requestDto = await _repository.GetRequestById(requestId, cancellationToken);
-            if (requestDto == null)
+            try
             {
-                throw new Exception("Not Find");
-                return false;
+                var requestDto = await _repository.GetRequestById(requestId, cancellationToken);
+                var bid = await _bidRepository.GetBidById(bidId, cancellationToken);
 
+                if (requestDto == null)
+                    throw new Exception("درخواست مورد نظر یافت نشد.");
+
+                if (requestDto.ExpertId.HasValue)
+                {
+                    await _repositoryBalance.ChangeBalanceAdmin(bid.BidPrice, cancellationToken);
+                    await _repositoryBalance.ChangeAddBalanceCustomer(requestDto.CustomerId, bid.BidPrice, cancellationToken);
+                }
+
+                await _repository.CancellRequest(requestId, cancellationToken);
+                return true;
             }
-            var admin = await _repositoryBalance.ChangeBalanceAdmin(requestDto.Price, cancellationToken);
-            var customer = await _repositoryBalance.ChangeAddBalanceCustomer(requestDto.CustomerId, requestDto.Price, cancellationToken);
-            await _repository.CancellRequest(requestId, cancellationToken);
-            return true;
-
+            catch (Exception ex)
+            {
+                throw new Exception($"خطا در لغو درخواست: {ex.Message}");
+            }
         }
+
     }
 }

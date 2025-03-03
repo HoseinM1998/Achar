@@ -1,6 +1,7 @@
 ﻿using AcharDomainCore.Contracts.Comment;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,6 +29,21 @@ namespace AcharDomainAppService
         {
             try
             {
+                if (bid.BidDate != DateTime.MinValue)
+                {
+                    PersianCalendar persianCalendar = new PersianCalendar();
+
+                    bid.BidDate = new DateTime(
+                        bid.BidDate.Year,
+                        bid.BidDate.Month,
+                        bid.BidDate.Day,
+                        persianCalendar
+                    );
+                }
+                else
+                {
+                    throw new Exception("تاریخ وارد شده نامعتبر است.");
+                }
                 var bidId = await _service.CreateBid(bid, cancellationToken);
                 _logger.LogInformation("لایه اپ سرویس: ایجاد پیشنهاد با شناسه: {BidId} زمان {Time}", bidId, DateTime.Now.ToLongTimeString());
                 return bidId;

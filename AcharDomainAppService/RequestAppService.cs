@@ -9,6 +9,7 @@ using AcharDomainCore.Dtos;
 using AcharDomainCore.Dtos.Request;
 using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.Extensions.Logging;
+using System.Globalization;
 
 namespace AcharDomainAppService
 {
@@ -29,6 +30,23 @@ namespace AcharDomainAppService
         {
             try
             {
+
+                PersianCalendar persianCalendar = new PersianCalendar();
+
+                if (requestDto.RequesteForTime != default)
+                {
+                    DateTime gregorianDate = new DateTime(
+                        requestDto.RequesteForTime.Year,
+                        requestDto.RequesteForTime.Month,
+                        requestDto.RequesteForTime.Day,
+                        persianCalendar
+                    );
+                    requestDto.RequesteForTime = gregorianDate; 
+                }
+
+
+
+
                 var request= await _service.CreateRequest(requestDto, cancellationToken);
                 var imagesPath = new List<string>();
 
@@ -167,11 +185,11 @@ namespace AcharDomainAppService
             }
         }
 
-        public async Task<bool> AcceptExpert(int id, int expertId, CancellationToken cancellationToken)
+        public async Task<bool> AcceptExpert(int id, int bidId, decimal bidPrice, CancellationToken cancellationToken)
         {
             try
             {
-                return await _service.AcceptExpert(id,expertId, cancellationToken);
+                return await _service.AcceptExpert(id, bidId, bidPrice, cancellationToken);
             }
             catch (Exception ex)
             {
@@ -179,11 +197,11 @@ namespace AcharDomainAppService
             }
         }
 
-        public async Task<bool> DoneRequest(int requestId, CancellationToken cancellationToken)
+        public async Task<bool> DoneRequest(int requestId, int bidId, CancellationToken cancellationToken)
         {
             try
             {
-                return await _service.DoneRequest(requestId, cancellationToken);
+                return await _service.DoneRequest(requestId, bidId, cancellationToken);
             }
             catch (Exception ex)
             {
@@ -191,11 +209,11 @@ namespace AcharDomainAppService
             }
         }
 
-        public async Task<bool> CancellRequest(int requestId, CancellationToken cancellationToken)
+        public async Task<bool> CancellRequest(int requestId, int bidId, CancellationToken cancellationToken)
         {
             try
             {
-                return await _service.CancellRequest(requestId, cancellationToken);
+                return await _service.CancellRequest(requestId, bidId, cancellationToken);
             }
             catch (Exception ex)
             {

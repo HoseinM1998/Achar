@@ -97,21 +97,23 @@
                                     <td class="text-end">
                                         @if (bid.Status == StatusBidEnum.WaitingForCustomerConfirmation)
                                         {
-                                            <form method="post" asp-page-handler="AcceptRequest" asp-route-id="@item.Id" asp-route-expertId="@bid.ExpertId">
+                                            <form method="post" asp-page-handler="AcceptRequest" asp-route-id="@item.Id" asp-route-bidId="@bid.Id">
+                                                <input type="hidden" name="bidPrice" value="@bid.BidPrice" />
                                                 <button type="submit" class="btn btn-success btn-sm">تایید متخصص</button>
                                             </form>
+
                                         }
                                         else
                                         {
                                             @if (item.Status == StatusRequestEnum.WaitingForExpert)
                                             {
-                                                <form method="post" asp-page-handler="DoneRequest" asp-route-id="@item.Id" asp-route-expertId="@bid.ExpertId">
+                                                <form method="post" asp-page-handler="DoneRequest" asp-route-id="@item.Id" asp-route-bidId="@bid.Id">
                                                     <button type="submit" class="btn btn-primary btn-sm">اتمام کار</button>
                                                 </form>
                                             }
                                             @if (item.Status != StatusRequestEnum.Success && item.Status != StatusRequestEnum.CancelledByCustomer && item.Status != StatusRequestEnum.CancelledByExpert && bid.Status != StatusBidEnum.Rejected)
                                             {
-                                                <form method="post" asp-page-handler="CancellRequest" asp-route-id="@item.Id" asp-route-expertId="@bid.ExpertId">
+                                                <form method="post" asp-page-handler="CancellRequest" asp-route-id="@item.Id" asp-route-bidId="@bid.Id">
                                                     <button type="submit" class="btn btn-danger btn-sm">کنسل کردن درخواست</button>
                                                 </form>
                                             }

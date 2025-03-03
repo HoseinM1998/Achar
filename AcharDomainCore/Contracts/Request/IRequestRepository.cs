@@ -20,7 +20,7 @@ namespace AcharDomainCore.Contracts.Request
 
         Task<bool> DeleteRequest(SoftDeleteDto delete, CancellationToken cancellationToken);
         public Task<bool> ChangeRequestStatus(StatusRequestDto newStatus, CancellationToken cancellationToken);
-        Task<bool> AcceptExpert(int id, int expertId, CancellationToken cancellationToken);
+        Task<bool> AcceptExpert(int id, int bidId, CancellationToken cancellationToken);
         Task<bool> DoneRequest(int requestId, CancellationToken cancellationToken);
         Task<bool> CancellRequest(int requestId, CancellationToken cancellationToken);
 

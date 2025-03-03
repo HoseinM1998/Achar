@@ -188,58 +188,43 @@ namespace Achar.Infra.Access.EfCore.Repositories
                 .Include(e => e.City)
                 .FirstOrDefaultAsync(e => e.Id == expertId, cancellationToken);
 
-            if (expert == null)
+            if (expert is null || !expert.IsActive)
             {
                 return new List<RequestGetDto>();
             }
 
             var skillIds = expert.Skills.Select(s => s.Id).ToList();
 
-            var requests = await _context.Requests.OrderByDescending(x=>x.CreateAt)
+            var requests = await _context.Requests
                 .AsNoTracking()
+                .OrderByDescending(r => r.CreateAt)
                 .Where(r =>
                     skillIds.Contains(r.HomeServiceId) &&
                     r.Customer.CityId == expert.CityId &&
-                    expert.IsActive==true&&
-                    r.Status == StatusRequestEnum.AwaitingSuggestionExperts || r.Status == StatusRequestEnum.AwaitingCustomerConfirmation)
-                .Select(r => new
+                    (r.Status == StatusRequestEnum.AwaitingSuggestionExperts ||
+                     r.Status == StatusRequestEnum.AwaitingCustomerConfirmation))
+                .Select(r => new RequestGetDto
                 {
-                    r.Id,
-                    r.Title,
-                    r.Description,
-                    r.Price,
-                    r.Images,
-                    r.Status,
-                    r.RequesteForTime,
-                    r.CreateAt,
-                    r.CustomerId,
+                    Id = r.Id,
+                    Title = r.Title,
+                    Description = r.Description,
+                    Price = r.Price,
+                    ImagePaths = r.Images.Select(img => img.ImgPath).ToList(),
+                    Status = r.Status,
+                    RequesteForTime = r.RequesteForTime,
+                    CreateAt = r.CreateAt,
+                    CustomerId = r.CustomerId,
                     CustomerName = r.Customer.ApplicationUser.FirstName + " " + r.Customer.ApplicationUser.LastName,
-                    r.HomeServiceId,
+                    ServiceId = r.HomeServiceId,
                     HomeServiceName = r.HomeService.Title,
-                    r.AcceptedExpertId,
-                    ExpertName = r.AcceptedExpert != null ? r.AcceptedExpert.ApplicationUser.FirstName + " " + r.AcceptedExpert.ApplicationUser.LastName : null
+                    ExpertId = r.AcceptedExpertId,
+                    ExpertName = r.AcceptedExpert != null
+                        ? r.AcceptedExpert.ApplicationUser.FirstName + " " + r.AcceptedExpert.ApplicationUser.LastName
+                        : null
                 })
                 .ToListAsync(cancellationToken);
 
-            var filterRequest = requests.Select(r => new RequestGetDto
-            {
-                Id = r.Id,
-                Title = r.Title,
-                Description = r.Description,
-                Price = r.Price,
-                Images = r.Images.ToList(),
-                Status = r.Status,
-                RequesteForTime = r.RequesteForTime,
-                CreateAt = r.CreateAt,
-                CustomerId = r.CustomerId,
-                CustomerName = r.CustomerName,
-                ServiceId = r.HomeServiceId,
-                HomeServiceName = r.HomeServiceName,
-                ExpertId = r.AcceptedExpertId,
-                ExpertName = r.ExpertName
-            }).ToList();
-
-            return filterRequest;
+            return requests;
         }
 
 
@@ -273,24 +258,29 @@ namespace Achar.Infra.Access.EfCore.Repositories
             return true;
         }
 
-        public async Task<bool> AcceptExpert(int id, int expertId, CancellationToken cancellationToken)
+        public async Task<bool> AcceptExpert(int id, int bidId, CancellationToken cancellationToken)
         {
-            var acceptRequest = await _context.Requests.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+            var acceptRequest = await _context.Requests
+                .Include(x => x.Bids)
+                .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+
             if (acceptRequest is null)
             {
                 return false;
             }
 
-            acceptRequest.Bids = null;
-            acceptRequest.AcceptedExpertId = expertId;
             acceptRequest.Status = StatusRequestEnum.WaitingForExpert;
 
-            var bid = await _context.Bids.FirstOrDefaultAsync(x => x.RequestId == id, cancellationToken); // Corrected to use expertId instead of acceptRequest.AcceptedExpertId
-            if (bid is null || bid.ExpertId != expertId)
+            var bid = await _context.Bids.FirstOrDefaultAsync(
+                x => x.Id == bidId);
+            if (bid is null)
             {
                 return false;
             }
+            acceptRequest.AcceptedExpertId = bid.ExpertId;
+
             bid.Status = StatusBidEnum.WaitingForExpert;
+
             await _context.SaveChangesAsync(cancellationToken);
             return true;
         }

@@ -1,4 +1,5 @@
 ﻿@page
+@using Framework
 @model Achar.Endpoint.Razor.Areas.Expert.Pages.SendBidModel
 @{
     Layout = "_LayoutExpert";
@@ -11,26 +12,43 @@
             <div class="col-xl-8 col-lg-8 col-md-10 col-sm-12">
                 <div class="card shadow-lg border-0 p-4 rounded-4">
                     <div class="card-body">
-                        <h3 class="card-title text-center mb-4">ثبت پیشنهاد </h3>
+                        <h3 class="card-title text-center mb-4 fw-bold text-primary">ثبت پیشنهاد</h3>
                         <form method="post" asp-page-handler="SendBid" onsubmit="console.log('Form submitted');">
                             <input type="hidden" asp-for="Bid.RequestId" />
+
                             <div class="mb-3">
-                                <label asp-for="Bid.Description" class="form-label">توضیحات پیشنهاد</label>
-                                <textarea class="form-control" asp-for="Bid.Description" rows="5"></textarea>
+                                <label asp-for="Bid.Description" class="form-label fw-semibold">توضیحات پیشنهاد</label>
+                                <textarea class="form-control rounded-3 border-secondary" asp-for="Bid.Description" rows="5"></textarea>
                                 <span asp-validation-for="Bid.Description" class="text-danger"></span>
                             </div>
+
                             <div class="mb-3">
-                                <label asp-for="Bid.BidPrice" class="form-label">قیمت پیشنهادی (تومان)</label>
-                                <input type="number" class="form-control" asp-for="Bid.BidPrice" />
+                                <label asp-for="Bid.BidPrice" class="form-label fw-semibold">قیمت پیشنهادی (تومان)</label>
+                                <input type="text" 
+                                       class="form-control rounded-3 border-secondary" 
+                                       id="bidPriceInput"
+                                       value="1,000"
+                                       oninput="formatPrice(this)" />
+                                <input type="hidden" asp-for="Bid.BidPrice" id="bidPriceHidden" />
                                 <span asp-validation-for="Bid.BidPrice" class="text-danger"></span>
                             </div>
+
                             <div class="mb-3">
-                                <label asp-for="Bid.BidDate" class="form-label">تاریخ پیشنهادی</label>
-                                <input type="date" class="form-control rounded" data-jdp data-jdp-min-date="today" asp-for="Bid.BidDate" />
+                                <label class="fw-semibold">
+                                    <i class="fas fa-calendar-alt me-2 text-primary"></i> تاریخ پیشنهادی
+                                </label>
+                                <input id="jalaliDatePicker"
+                                       name="Bid.BidDate"
+                                       class="form-control rounded-3 border-primary"
+                                       data-jdp
+                                       value="@DateTime.Now.ToPersianString("yyyy/MM/dd HH:mm")"
+                                       required />
                                 <span asp-validation-for="Bid.BidDate" class="text-danger"></span>
                             </div>
+
+
                             <div class="text-center">
-                                <button type="submit" class="btn btn-primary">ثبت پیشنهاد</button>
+                                <button type="submit" class="btn btn-primary px-4 py-2 fw-semibold">ثبت پیشنهاد</button>
                             </div>
                         </form>
                     </div>
@@ -44,5 +62,36 @@
     <partial name="_ValidationScriptsPartial" />
 }
 
-                                
 
+<script>
+    window.addEventListener("DOMContentLoaded", function () {
+        jalaliDatepicker.startWatch();
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let datePicker = document.getElementById("jalaliDatePicker");
+
+        datePicker.addEventListener("change", function () {
+            let now = new Date();
+            let hours = now.getHours().toString().padStart(2, "0");
+            let minutes = now.getMinutes().toString().padStart(2, "0");
+            if (!this.value.match(/\d{2}:\d{2}/)) {
+                this.value += ` ${hours}:${minutes}`;
+            }
+        });
+    });
+</script>
+<script>
+    function formatPrice(input) {
+        let value = input.value.replace(/,/g, ''); 
+        let number = parseInt(value, 10); 
+
+        if (isNaN(number) || number < 1000) {
+            number = 1000;
+        }
+
+        input.value = number.toLocaleString(); 
+        document.getElementById("bidPriceHidden").value = number; 
+    }
+</script>

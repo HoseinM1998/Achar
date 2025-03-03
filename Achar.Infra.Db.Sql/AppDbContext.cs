@@ -36,6 +36,9 @@ namespace Achar.Infra.Db.Sql
                 .HasQueryFilter(e => !e.IsDeleted);
             modelBuilder.Entity<SubCategory>()
                 .HasQueryFilter(e => !e.IsDeleted);
+            modelBuilder.Entity<Bid>()
+                .HasQueryFilter(e => !e.IsDeleted);
+
 
 
             ApplicationUserConfig.SeedUsers(modelBuilder);

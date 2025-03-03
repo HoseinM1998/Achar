@@ -27,15 +27,15 @@ namespace AcharDomainService
 
 
 
-        public BidService(IBidRepository repository, 
+        public BidService(IBidRepository repository,
             IRequestRepository requestRepository,
-            IBaseRepository repositoryBalance, 
+            IBaseRepository repositoryBalance,
             IHomeServiceRepository homeServiceRepository)
         {
             _repository = repository;
             _requestRepository = requestRepository;
             _repositoryBalance = repositoryBalance;
-            _homeServiceRepository= homeServiceRepository;
+            _homeServiceRepository = homeServiceRepository;
         }
 
         public async Task<int> CreateBid(BidAddDto bid, CancellationToken cancellationToken)
@@ -52,7 +52,7 @@ namespace AcharDomainService
                 throw new ArgumentException("خدمات مورد نظر یافت نشد");
             }
 
-            if (bid.BidDate > request.RequesteForTime&&bid.BidDate<DateTime.Now)
+            if (bid.BidDate > request.RequesteForTime && bid.BidDate < DateTime.Now)
             {
                 throw new InvalidOperationException("تاریخ باید از تاریخ پیشنهادی مشتری کمتر باشد یا تاریخ روز باشه");
             }
@@ -72,12 +72,29 @@ namespace AcharDomainService
             => await _repository.BidCount(cancellationToken);
 
         public async Task<List<GetBidDto>>? GetBidsByRequestId(int id, CancellationToken cancellationToken)
-            => await _repository.GetBidsByRequestId(id, cancellationToken);
+        {
+            var bids= await _repository.GetBidsByRequestId(id, cancellationToken);
+            foreach (var bid in bids)
+            {
+                await ChangebidStatus(new BidStatusDto { Id = bid.Id }, cancellationToken);
+            }
+
+            return bids;
+        }
 
 
 
         public async Task<List<GetBidDto>>? GetBidsByExpertId(int expertId, CancellationToken cancellationToken)
-            => await _repository.GetBidsByExpertId(expertId, cancellationToken);
+        {
+
+            var bids= await _repository.GetBidsByExpertId(expertId, cancellationToken);
+            foreach (var bid in bids)
+            {
+                await ChangebidStatus(new BidStatusDto { Id = bid.Id }, cancellationToken);
+            }
+
+            return bids;
+        }
 
 
         public async Task<List<GetBidDto>> GetBids(CancellationToken cancellationToken)
@@ -118,9 +135,9 @@ namespace AcharDomainService
 
                 else if (request.Status == StatusRequestEnum.Success)
                     status.Status = StatusBidEnum.Success;
-     
+
             }
-            else
+            if(request.AcceptedExpertId!=null&&request.AcceptedExpertId != bid.ExpertId)
             {
                 status.Status = StatusBidEnum.Rejected;
             }
@@ -138,15 +155,19 @@ namespace AcharDomainService
 
             var requestDto = await _requestRepository.GetRequestById(bid.RequestId, cancellationToken);
             if (requestDto == null) throw new Exception("Request not found");
+            if (requestDto.ExpertId==bid.ExpertId)
+            {
+                await _repositoryBalance.ChangeBalanceAdmin(requestDto.Price, cancellationToken);
+                await _repositoryBalance.ChangeAddBalanceCustomer(requestDto.CustomerId, requestDto.Price, cancellationToken);
 
-            await _repositoryBalance.ChangeBalanceAdmin(requestDto.Price, cancellationToken);
-            await _repositoryBalance.ChangeAddBalanceCustomer(requestDto.CustomerId, requestDto.Price, cancellationToken);
+            }
+
             await _repository.CancellBid(bidId, expertId, cancellationToken);
-            StatusRequestDto status = new ();
+            StatusRequestDto status = new();
             status.Id = bid.RequestId;
             status.Status = StatusRequestEnum.CancelledByExpert;
             await _requestRepository.ChangeRequestStatus(status, cancellationToken);
-                
+
             return true;
         }
 

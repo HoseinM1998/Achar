@@ -36,11 +36,11 @@ namespace Achar.Endpoint.Razor.Areas.Customer.Pages
             }
         }
 
-        public async Task<IActionResult> OnPostAcceptRequest(int id, int expertId, CancellationToken cancellationToken)
+        public async Task<IActionResult> OnPostAcceptRequest(int id, int bidId,decimal bidPrice, CancellationToken cancellationToken)
         {
             try
             {
-                await _requestAppService.AcceptExpert(id, expertId, cancellationToken);
+                await _requestAppService.AcceptExpert(id, bidId, bidPrice, cancellationToken);
                 TempData["Success"] = "پیشنهاد تایید شد";
             }
             catch (Exception ex)
@@ -50,11 +50,11 @@ namespace Achar.Endpoint.Razor.Areas.Customer.Pages
             return RedirectToPage("ListRequest");
         }
 
-        public async Task<IActionResult> OnPostDoneRequest(int id, CancellationToken cancellationToken)
+        public async Task<IActionResult> OnPostDoneRequest(int id, int bidId, CancellationToken cancellationToken)
         {
             try
             {
-                await _requestAppService.DoneRequest(id, cancellationToken);
+                await _requestAppService.DoneRequest(id, bidId, cancellationToken);
                 TempData["Success"] = "با موفقیت تمام شد";
             }
             catch (Exception ex)
@@ -64,11 +64,11 @@ namespace Achar.Endpoint.Razor.Areas.Customer.Pages
             return RedirectToPage("ListRequest");
         }
 
-        public async Task<IActionResult> OnPostCancellRequest(int id, CancellationToken cancellationToken)
+        public async Task<IActionResult> OnPostCancellRequest(int id, int bidId, CancellationToken cancellationToken)
         {
             try
             {
-                await _requestAppService.CancellRequest(id, cancellationToken);
+                await _requestAppService.CancellRequest(id, bidId, cancellationToken);
                 TempData["Success"] = "با موفقیت کنسل شد";
             }
             catch (Exception ex)
