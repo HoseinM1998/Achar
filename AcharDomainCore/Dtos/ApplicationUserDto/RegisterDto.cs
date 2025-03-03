@@ -17,7 +17,6 @@ namespace AcharDomainCore.Dtos.ApplicationUserDto
         [Required(ErrorMessage = "تکرار رمز‌عبور الزامی می‌باشد")]
         public string ConfirmPassword { get; set; }
         [Required(ErrorMessage = "انتخاب ‌شهر الزامی می‌باشد")]
-
         public int CityId { get; set; }
         public bool IsExpert { get; set; }
 

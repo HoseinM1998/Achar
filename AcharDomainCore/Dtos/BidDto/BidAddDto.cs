@@ -19,7 +19,7 @@ namespace AcharDomainCore.Dtos.BidDto
         [Required(ErrorMessage = "وارد کردن قیمت پیشنهادی الزامی است")]
         public decimal BidPrice { get; set; }
         [Display(Name = "تاریخ پیشنهادی")]
-        [Required(ErrorMessage = "وارد کردن تاریخ الزامی است")]
+        [Required(ErrorMessage = "وارد کردن تاریخ پیشنهادی الزامی است")]
         public DateTime BidDate { get; set; }
 
         [Display(Name = "ایدی متخصص")]

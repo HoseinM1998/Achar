@@ -114,7 +114,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
         public async Task<List<RequestGetDto?>> GetRequests(CancellationToken cancellationToken)
         {
             _logger.LogInformation("دریافت تمامی درخواست‌ها زمان {Time}", DateTime.UtcNow.ToLongTimeString());
-            var requests = await _context.Requests
+            var requests = await _context.Requests.OrderByDescending(x => x.CreateAt)
                 .AsNoTracking()
                 .Include(r => r.Customer)
                 .ThenInclude(c => c.ApplicationUser)
@@ -146,7 +146,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
 
         public async Task<List<RequestGetDto?>> GetCustomerRequests(int customerId, CancellationToken cancellationToken)
         {
-            var requests = await _context.Requests.AsNoTracking()
+            var requests = await _context.Requests.OrderByDescending(x => x.CreateAt).AsNoTracking()
                 .Where(r => r.CustomerId == customerId)
                 .Include(r => r.Customer)
                 .ThenInclude(c => c.ApplicationUser)
@@ -195,12 +195,13 @@ namespace Achar.Infra.Access.EfCore.Repositories
 
             var skillIds = expert.Skills.Select(s => s.Id).ToList();
 
-            var requests = await _context.Requests
+            var requests = await _context.Requests.OrderByDescending(x=>x.CreateAt)
                 .AsNoTracking()
                 .Where(r =>
                     skillIds.Contains(r.HomeServiceId) &&
                     r.Customer.CityId == expert.CityId &&
-                    r.Status == StatusRequestEnum.AwaitingSuggestionExperts)
+                    expert.IsActive==true&&
+                    r.Status == StatusRequestEnum.AwaitingSuggestionExperts || r.Status == StatusRequestEnum.AwaitingCustomerConfirmation)
                 .Select(r => new
                 {
                     r.Id,

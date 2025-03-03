@@ -89,6 +89,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
             _logger.LogInformation("دریافت تمامی دسته‌ها زمان {Time}", DateTime.UtcNow.ToLongTimeString());
             var categories = await _context.Categories
                 .Include(x => x.SubCategories)
+                .OrderByDescending(x => x.CreatedAt)
                 .AsNoTracking().ToListAsync(cancellationToken);
             _logger.LogInformation("تعداد دسته‌های دریافت شده: {Count} زمان {Time}", categories.Count, DateTime.UtcNow.ToLongTimeString());
             return categories;

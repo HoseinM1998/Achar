@@ -91,6 +91,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
         {
             _logger.LogInformation("دریافت تمامی زیر دسته بندی‌ها زمان {Time}", DateTime.UtcNow.ToLongTimeString());
             var subCategories = await _context.SubCategory
+                .OrderByDescending(x=>x.CreateAt)
                 .Select(e => new SubCategoryDto()
                 {
                     Id = e.Id,

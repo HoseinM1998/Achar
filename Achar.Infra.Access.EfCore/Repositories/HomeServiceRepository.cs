@@ -117,6 +117,8 @@ namespace Achar.Infra.Access.EfCore.Repositories
         public async Task<List<HomeServiceDto>> GetHomeServices(CancellationToken cancellationToken)
         {
             var homeServices = await _context.HomeServices
+                .OrderByDescending(x => x.CreateAt)
+
                 .Select(e => new HomeServiceDto()
                 {
                     Id = e.Id,

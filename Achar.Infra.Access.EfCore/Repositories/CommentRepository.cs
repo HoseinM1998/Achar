@@ -84,6 +84,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
         {
             _logger.LogInformation("دریافت تمامی نظرات زمان {Time}", DateTime.UtcNow.ToLongTimeString());
             var comments = await _context.Comments
+                .OrderByDescending(x => x.CreateAt)
                 .AsNoTracking()
                 .Include(c => c.Expert)
                 .ThenInclude(c => c.ApplicationUser)

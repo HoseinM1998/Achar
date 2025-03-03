@@ -52,9 +52,9 @@ namespace AcharDomainService
                 throw new ArgumentException("خدمات مورد نظر یافت نشد");
             }
 
-            if (bid.BidDate > request.RequesteForTime)
+            if (bid.BidDate > request.RequesteForTime&&bid.BidDate<DateTime.Now)
             {
-                throw new InvalidOperationException("تاریخ باید از تاریخ پیشنهادی مشتری کمتر باشد");
+                throw new InvalidOperationException("تاریخ باید از تاریخ پیشنهادی مشتری کمتر باشد یا تاریخ روز باشه");
             }
 
             if (bid.BidPrice < service.BasePrice)

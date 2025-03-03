@@ -75,6 +75,8 @@ namespace Achar.Infra.Access.EfCore.Repositories
         {
             _logger.LogInformation("دریافت پیشنهادها با شناسه درخواست: {RequestId} زمان {Time}", requestId, DateTime.UtcNow.ToLongTimeString());
             var bids = await _context.Bids
+                .OrderByDescending(x => x.CreateAt)
+
               .AsNoTracking()
                 .Where(b => b.RequestId == requestId && b.Status == StatusBidEnum.WaitingForCustomerConfirmation)
                 .Select(b => new GetBidDto
@@ -95,7 +97,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
         public async Task<List<GetBidDto>>? GetBidsByExpertId(int expertId, CancellationToken cancellationToken)
         {
             _logger.LogInformation("دریافت پیشنهادها با شناسه کارشناس: {ExpertId} زمان {Time}", expertId, DateTime.UtcNow.ToLongTimeString());
-            var bids = await _context.Bids.AsNoTracking()
+            var bids = await _context.Bids.OrderByDescending(x => x.CreateAt).AsNoTracking()
                 .Where(b => b.ExpertId == expertId)
                 .Select(b => new GetBidDto
                 {
@@ -119,7 +121,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
 
         public async Task<List<GetBidDto>> GetBids(CancellationToken cancellationToken)
         {
-            var result = await _context.Bids.AsNoTracking()
+            var result = await _context.Bids.OrderByDescending(x => x.CreateAt).AsNoTracking()
                 .Select(b => new GetBidDto
                 {
                     Id = b.Id,

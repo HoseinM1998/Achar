@@ -31,7 +31,15 @@ namespace AcharDomainService
         }
 
         public async Task<int> CreateRequest(RequestDto requestDto, CancellationToken cancellationToken)
-            => await _repository.CreateRequest(requestDto, cancellationToken);
+        {
+            if (requestDto.RequesteForTime < DateTime.Now)
+            {
+                throw new ArgumentException("تاریخ باید ب روز باشد");
+
+            }
+
+            return await _repository.CreateRequest(requestDto, cancellationToken);
+        }
 
         public async Task<bool> UpdateRequest(RequestUpDto request, CancellationToken cancellationToken)
             => await _repository.UpdateRequest(request, cancellationToken);

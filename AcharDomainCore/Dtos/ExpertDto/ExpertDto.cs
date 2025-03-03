@@ -43,7 +43,6 @@ namespace AcharDomainCore.Dtos.ExpertDto
         [Required(ErrorMessage = "وارد کردن شهر الزامی است")]
         public int CityId { get; set; }
         [DisplayName(" مهارت ها")]
-        [Required(ErrorMessage = "وارد کردن مهارت های خود الزامی است")]
         public List<SubCategory>? Skills { get; set; }
     }
 }
