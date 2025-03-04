@@ -143,11 +143,6 @@ namespace AcharDomainAppService
 
 
 
-
-
-
-
-
         public async Task<IdentityResult> Password(int id, PasswordDto passwordDto)
         {
             try
@@ -161,7 +156,7 @@ namespace AcharDomainAppService
                 var result = await _userManager.ChangePasswordAsync(user, passwordDto.OldPassword, passwordDto.NewPassword);
                 if (!result.Succeeded)
                 {
-                    throw new Exception("رمز عبور نادرست ");
+                    throw new Exception(" رمز عبور قبلی اشتباه است ");
 
                 }
                 return result;

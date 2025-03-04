@@ -1,22 +1,23 @@
 ﻿using AcharDomainCore.Contracts.ApplicationUser;
 using AcharDomainCore.Contracts.Customer;
+using AcharDomainCore.Contracts.Expert;
 using AcharDomainCore.Dtos.ApplicationUserDto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Achar.Endpoint.Razor.Areas.Customer.Pages
+namespace Achar.Endpoint.Razor.Areas.Expert.Pages
 {
-    [Authorize(Roles = "Customer")]
+    [Authorize(Roles = "Expert")]
 
     public class ChangePasswordModel : PageModel
     {
 
-        private readonly ICustomerAppService _customerAppServices;
+        private readonly IExpertAppService _expert;
         private readonly IApplicationUserAppService _user;
-        public ChangePasswordModel(ICustomerAppService customerAppServices, IApplicationUserAppService user)
+        public ChangePasswordModel(IExpertAppService expert, IApplicationUserAppService user)
         {
-            _customerAppServices = customerAppServices;
+            _expert= expert;
             _user = user;
         }
 
@@ -29,9 +30,9 @@ namespace Achar.Endpoint.Razor.Areas.Customer.Pages
             {
                 if (ModelState.IsValid)
                 {
-                    var userId = int.Parse(User.Claims.FirstOrDefault(u => u.Type == "userCustomerId").Value);
-                    var customer = await _customerAppServices.GetCustomerById(userId, cancellationToken);
-                    await _user.Password(customer.ApplictaionUserId, Password);
+                    var userId = int.Parse(User.Claims.FirstOrDefault(u => u.Type == "userExpertId").Value);
+                    var expert = await _expert.GetExpertById(userId, cancellationToken);
+                    await _user.Password(expert.ApplictaionUserId, Password);
                     TempData["Success"] = "تغییر پسوورد با موفقیت ثبت شد";
                     return RedirectToPage("Index");
                 }

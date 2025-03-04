@@ -31,6 +31,7 @@ namespace AcharDomainCore.Dtos.ExpertDto
         public List<Entites.HomeService>? Skills { get; set; }
         public List<int>? ServiceIds { get; set; }
         public int? Score { get; set; }
+        public int ApplictaionUserId { get; set; }
 
         public bool IsActive { get; set; }
         public decimal Balance { get; set; }
