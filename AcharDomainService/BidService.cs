@@ -43,23 +43,23 @@ namespace AcharDomainService
             var request = await _requestRepository.GetRequestById(bid.RequestId, cancellationToken);
             if (request is null)
             {
-                throw new ArgumentException("درخواست مورد نظر یافت نشد");
+                throw new Exception("درخواست مورد نظر یافت نشد");
             }
 
             var service = await _homeServiceRepository.GetHomeServiceById(request.ServiceId, cancellationToken);
             if (service is null)
             {
-                throw new ArgumentException("خدمات مورد نظر یافت نشد");
+                throw new Exception("خدمات مورد نظر یافت نشد");
             }
 
             if (bid.BidDate > request.RequesteForTime && bid.BidDate < DateTime.Now)
             {
-                throw new InvalidOperationException("تاریخ باید از تاریخ پیشنهادی مشتری کمتر باشد یا تاریخ روز باشه");
+                throw new Exception("تاریخ باید از تاریخ پیشنهادی مشتری کمتر باشد یا تاریخ روز باشه");
             }
 
             if (bid.BidPrice < service.BasePrice)
             {
-                throw new InvalidOperationException($"مبلغ پیشنهادی باید از مبلغ پایه بزرگتر باشد ({service.BasePrice})");
+                throw new Exception($"مبلغ پیشنهادی باید از مبلغ پایه بزرگتر باشد ({service.BasePrice})");
             }
 
             return await _repository.CreateBid(bid, cancellationToken);

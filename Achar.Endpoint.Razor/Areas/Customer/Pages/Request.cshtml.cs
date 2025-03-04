@@ -42,15 +42,12 @@ namespace Achar.Endpoint.Razor.Areas.Customer.Pages
                     TempData["Success"] = "درخواست با موفقیت ثبت شد";
                     return RedirectToPage("Index");
                 }
-                else
-                {
-                    TempData["ErrorMessage"] = "خطا در ثبت درخواست. لطفاً داده‌ها را بررسی کنید";
-                    return RedirectToPage("Index");
-                }
+                return RedirectToPage("Index");
+
             }
             catch (Exception e)
             {
-                TempData["Message"] =e.Message;
+                TempData["ErrorMessage"] = $"خطا در ثبت درخواست. لطفاً داده‌ها را بررسی کنید({e.Message})";
                 return RedirectToPage("Index");
             }
         }

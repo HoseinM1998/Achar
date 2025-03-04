@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AcharDomainCore.Contracts.BaseData;
 using AcharDomainCore.Contracts.Bid;
+using AcharDomainCore.Contracts.HomeService;
 using AcharDomainCore.Contracts.Request;
 using AcharDomainCore.Dtos;
 using AcharDomainCore.Dtos.BidDto;
@@ -22,16 +23,20 @@ namespace AcharDomainService
         private readonly IRequestRepository _repository;
         private readonly IBaseRepository _repositoryBalance;
         private readonly IBidRepository _bidRepository;
+        private readonly IHomeServiceRepository _homeServiceRepository;
+
+
 
 
 
         private readonly ILogger<RequestService> _logger;
 
-        public RequestService(IRequestRepository repository, IBaseRepository repositoryBalance, IBidRepository bidRepository)
+        public RequestService(IRequestRepository repository, IBaseRepository repositoryBalance, IBidRepository bidRepository, IHomeServiceRepository homeServiceRepository)
         {
             _repository = repository;
             _repositoryBalance = repositoryBalance;
             _bidRepository = bidRepository;
+            _homeServiceRepository = homeServiceRepository;
         }
 
         public async Task<int> CreateRequest(RequestDto requestDto, CancellationToken cancellationToken)
@@ -42,6 +47,13 @@ namespace AcharDomainService
 
             }
 
+            var service = await _homeServiceRepository.GetHomeServiceById(requestDto.ServiceId, cancellationToken);
+
+            if (requestDto.Price < service.BasePrice)
+            {
+                throw new ArgumentException("مبلغ باید از قیمت پایه بیشتر باشه");
+
+            }
             return await _repository.CreateRequest(requestDto, cancellationToken);
         }
 

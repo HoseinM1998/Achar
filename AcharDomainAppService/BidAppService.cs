@@ -51,7 +51,7 @@ namespace AcharDomainAppService
             catch (Exception ex)
             {
                 _logger.LogError("لایه اپ سرویس: خطا در ایجاد پیشنهاد زمان {Time}: {Message}", DateTime.Now.ToLongTimeString(), ex.Message);
-                throw new Exception($"Error CreateBid: {ex.Message}");
+                throw new Exception($"خطا : {ex.Message}");
             }
         }
 

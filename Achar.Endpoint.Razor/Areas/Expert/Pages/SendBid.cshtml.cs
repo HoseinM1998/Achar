@@ -20,17 +20,23 @@ namespace Achar.Endpoint.Razor.Areas.Expert.Pages
         public BidAddDto Bid { get; set; }
         public async Task<IActionResult> OnPostSendBid(CancellationToken cancellationToken)
         {
-            if (ModelState.IsValid)
+            try
             {
-                var userId = int.Parse(User.Claims.FirstOrDefault(u => u.Type == "userExpertId").Value);
-                Bid.ExpertId=userId;
-                await _bidAppService.CreateBid(Bid, cancellationToken);
-                TempData["Success"] = "پیشنهاد با موفقیت ثبت شد";
+
+                if (ModelState.IsValid)
+                {
+                    var userId = int.Parse(User.Claims.FirstOrDefault(u => u.Type == "userExpertId").Value);
+                    Bid.ExpertId = userId;
+                    await _bidAppService.CreateBid(Bid, cancellationToken);
+                    TempData["Success"] = "پیشنهاد با موفقیت ثبت شد";
+                    return RedirectToPage("Index");
+                }
                 return RedirectToPage("Index");
+
             }
-            else
+            catch (Exception e)
             {
-                TempData["ErrorMessage"] = "خطا در ثبت پیشنهاد لطفاً داده‌ها را بررسی کنید";
+                TempData["ErrorMessage"] = $"خطا در ثبت پیشنهاد. لطفاً داده‌ها را بررسی کنید({e.Message})";
                 return RedirectToPage("Index");
             }
         }

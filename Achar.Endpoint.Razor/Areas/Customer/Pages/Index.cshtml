@@ -5,10 +5,6 @@
     ViewData["Dashboard"] = "active";
 }
 
-@if (TempData["Message"] != null)
-{
-    <div class="alert alert-danger">@TempData["Message"]</div>
-}
 @if (TempData["ErrorMessage"] != null)
 {
     <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
