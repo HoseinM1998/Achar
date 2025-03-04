@@ -139,6 +139,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
             _logger.LogInformation("دریافت نظرات با شناسه کارشناس: {ExpertId} زمان {Time}", expertId, DateTime.UtcNow.ToLongTimeString());
             var comments = await _context.Comments
                 .AsNoTracking()
+                .Where(c => c.IsAccept && c.ExpertId == expertId)
                 .Include(c => c.Expert)
                 .ThenInclude(c => c.ApplicationUser)
                 .Include(c => c.Customer)
