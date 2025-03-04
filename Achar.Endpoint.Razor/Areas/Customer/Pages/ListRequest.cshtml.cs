@@ -45,7 +45,7 @@ namespace Achar.Endpoint.Razor.Areas.Customer.Pages
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "خطا در تایید پیشنهاد";
+                TempData["ErrorMessage"] = $"{ex.Message} خطا در تایید پیشنهاد";
             }
             return RedirectToPage("ListRequest");
         }

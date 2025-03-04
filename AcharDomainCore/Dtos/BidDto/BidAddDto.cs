@@ -26,6 +26,7 @@ namespace AcharDomainCore.Dtos.BidDto
         public int ExpertId { get; set; }
         [Display(Name = "ایدی مشتری")]
         public int RequestId { get; set; }
+        public StatusBidEnum Status { get; set; }
 
     }
 }

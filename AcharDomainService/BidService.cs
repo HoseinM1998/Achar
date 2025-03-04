@@ -52,7 +52,7 @@ namespace AcharDomainService
                 throw new Exception("خدمات مورد نظر یافت نشد");
             }
 
-            if (bid.BidDate > request.RequesteForTime && bid.BidDate < DateTime.Now)
+            if (bid.BidDate > request.RequesteForTime || bid.BidDate < DateTime.Now)
             {
                 throw new Exception("تاریخ باید از تاریخ پیشنهادی مشتری کمتر باشد یا تاریخ روز باشه");
             }
@@ -62,6 +62,7 @@ namespace AcharDomainService
                 throw new Exception($"مبلغ پیشنهادی باید از مبلغ پایه بزرگتر باشد ({service.BasePrice})");
             }
 
+            bid.Status = StatusBidEnum.WaitingForCustomerConfirmation;
             return await _repository.CreateBid(bid, cancellationToken);
         }
 

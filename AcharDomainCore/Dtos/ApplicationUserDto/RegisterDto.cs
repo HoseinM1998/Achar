@@ -10,6 +10,8 @@ namespace AcharDomainCore.Dtos.ApplicationUserDto
     public class RegisterDto
     {
         [Required(ErrorMessage = "نام کاربری الزامی می‌باشد")]
+        [MinLength(5, ErrorMessage = "نام کاربری نمی‌تواند کمتر 5 کاراکتر باشد")]
+
         public string UserName { get; set; }
         [Required(ErrorMessage = "رمز‌عبور الزامی می‌باشد")]
         [MinLength(5, ErrorMessage = "رمزعبور نمی‌تواند کمتر 6 کاراکتر باشد")]

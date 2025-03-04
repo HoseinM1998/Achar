@@ -193,7 +193,7 @@ namespace AcharDomainAppService
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error AcceptExpert: {ex.Message}");
+                throw new Exception($"خطا: {ex.Message}");
             }
         }
 
