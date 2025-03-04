@@ -31,7 +31,7 @@ namespace AcharDomainCore.Dtos.CustomerDto
         public string? Namecity { get; set; }
         public decimal Balance { get; set; }
         public int CityId { get; set; }
-        public int? ApplictaionUserId { get; set; }
+        public int ApplictaionUserId { get; set; }
         public IFormFile? ImageFile { get; set; }
 
 

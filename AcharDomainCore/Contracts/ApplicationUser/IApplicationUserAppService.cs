@@ -12,6 +12,8 @@ namespace AcharDomainCore.Contracts.ApplicationUser
     {   Task<List<IdentityError>> Register(RegisterDto registerDto, CancellationToken cancellationToken);
         Task<List<IdentityError>> AdminRegister(RegisterDto accountAdminRegisterDto);
         Task<IdentityResult> Login(string username, string password);
+        Task<IdentityResult> Password(int id, PasswordDto password);
+
 
     }
 }

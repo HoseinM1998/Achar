@@ -9,9 +9,11 @@
     <title>@ViewData["Title"]</title>
 
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="~/assets/img/logo.jpg">
-    <link href="~/assets/css/styles.css" rel="stylesheet">
 
+    <link rel="shortcut icon" type="image/x-icon" href="~/assets/img/favicon.png">
+
+    <!-- Custom CSS -->
+    <link href="~/assets/css/styles.css" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="~/calendar-dist/jalalidatepicker.min.css" />
     <script type="text/javascript" src="~/calendar-dist/jalalidatepicker.min.js"></script>
 </head>
@@ -54,7 +56,6 @@
                             <li class="@ViewData["UpdateProf"]"><a asp-page ="UpdateProf"><i class="lni lni-user ms-2"></i>ویرایش پروفایل </a></li>
                             <li class="@ViewData["UpdateBalance"]"><a asp-page="UpdateBalance"><i class="lni lni-user ms-2"></i>افزایش موجودی </a></li>
                             <li class="@ViewData["DeleteAccount"]"><a asp-page="Delete"><i class="lni lni-user ms-2"></i>حذف اکانت </a></li>
-                            <li class="@ViewData["ChangePass"]"><a asp-page="Index"><i class="lni lni-lock-alt ms-2"></i>تغییر رمز عبور</a></li>
                             <li>
                                 <form class="form-inline" asp-area="Account" asp-page="Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })">
                                     <button type="submit" class="nav-link btn btn-link text-dark">خروج<i class="bx bx-power-off me-2"></i></button>
@@ -92,7 +93,7 @@
 
     </div>
 
-    <!-- All Jquery -->
+
     <script src="~/assets/js/jquery.min.js"></script>
     <script src="~/assets/js/popper.min.js"></script>
     <script src="~/assets/js/bootstrap.min.js"></script>
@@ -103,9 +104,16 @@
     <script src="~/assets/js/lightbox.js"></script>
     <script src="~/assets/js/moment.min.js"></script>
     <script src="~/assets/js/daterangepicker.js"></script>
-    <script src="~/assets/js/lightbox.js"></script>
+    <script src="~/assets/js/lightbox.js"></script>		
     <script src="~/assets/js/jQuery.style.switcher.js"></script>
     <script src="~/assets/js/custom.js"></script>
+		
+
+    <script src="~/assets/js/plugins/raphael/raphael.min.js"></script>
+    <script src="~/assets/js/plugins/morris.js/morris.min.js"></script>
+		
+
+
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

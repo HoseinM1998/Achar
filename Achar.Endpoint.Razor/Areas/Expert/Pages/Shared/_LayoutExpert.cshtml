@@ -9,7 +9,9 @@
     <title>@ViewData["Title"]</title>
 
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="~/assets/img/logo.jpg">
+    <link rel="shortcut icon" type="image/x-icon" href="~/assets/img/favicon.png">
+
+    <!-- Custom CSS -->
     <link href="~/assets/css/styles.css" rel="stylesheet">
 
     <link type="text/css" rel="stylesheet" href="~/calendar-dist/jalalidatepicker.min.css" />
@@ -51,8 +53,6 @@
                         <ul data-submenu-title="حساب کاربری">
                             <li class="@ViewData["UpdateProf"]"><a asp-page="/ExpertUpdate"><i class="lni lni-user ms-2"></i>ویرایش پروفایل </a></li>
                             <li class="@ViewData["DeleteAccount"]"><a asp-page="/Delete"><i class="lni lni-user ms-2"></i>حذف اکانت </a></li>
-
-                            <li class="@ViewData["ChangePass"]"><a asp-page=""><i class="lni lni-lock-alt ms-2"></i>تغییر رمز عبور</a></li>
                             <li>
                                 <form class="form-inline" asp-area="Account" asp-page="Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })">
                                     <button type="submit" class="nav-link btn btn-link text-dark">خروج<i class="bx bx-power-off me-2"></i></button>
@@ -89,8 +89,8 @@
         </a>
 
     </div>
-
     <!-- All Jquery -->
+    <!-- ============================================================== -->
     <script src="~/assets/js/jquery.min.js"></script>
     <script src="~/assets/js/popper.min.js"></script>
     <script src="~/assets/js/bootstrap.min.js"></script>
@@ -104,7 +104,9 @@
     <script src="~/assets/js/lightbox.js"></script>
     <script src="~/assets/js/jQuery.style.switcher.js"></script>
     <script src="~/assets/js/custom.js"></script>
-
+    <!-- ============================================================== -->
+    <!-- This page plugins -->
+    <!-- ============================================================== -->
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 

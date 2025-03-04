@@ -139,5 +139,41 @@ namespace AcharDomainAppService
 
             return (List<IdentityError>)result.Errors;
         }
+
+
+
+
+
+
+
+
+
+        public async Task<IdentityResult> Password(int id, PasswordDto passwordDto)
+        {
+            try
+            {
+                var user = await _userManager.FindByIdAsync(id.ToString());
+                if (user == null)
+                {
+                    throw new Exception("کاربر یافت نشد");
+
+                }
+                var result = await _userManager.ChangePasswordAsync(user, passwordDto.OldPassword, passwordDto.NewPassword);
+                if (!result.Succeeded)
+                {
+                    throw new Exception("رمز عبور نادرست ");
+
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"خطا: {ex.Message}");
+
+            }
+        }
+
+
+
     }
 }
