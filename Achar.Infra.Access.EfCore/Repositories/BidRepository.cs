@@ -33,7 +33,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
             {
                 CreateAt = DateTime.Now,
                 IsDeleted = false,
-                Status = StatusBidEnum.WaitingForCustomerConfirmation,
+                Status = bid.Status,
                 Description = bid.Description,
                 BidPrice = bid.BidPrice,
                 BidDate = bid.BidDate,
