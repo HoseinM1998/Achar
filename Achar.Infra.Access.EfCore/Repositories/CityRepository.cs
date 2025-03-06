@@ -4,6 +4,7 @@ using AcharDomainCore.Dtos;
 using AcharDomainCore.Dtos.CityDto;
 using AcharDomainCore.Entites;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 
 namespace Achar.Infra.Access.EfCore.Repositories
@@ -12,11 +13,14 @@ namespace Achar.Infra.Access.EfCore.Repositories
     {
         private readonly AppDbContext _context;
         private readonly ILogger<CityRepository> _logger;
+        private readonly IMemoryCache _memoryCache;
 
-        public CityRepository(AppDbContext context, ILogger<CityRepository> logger)
+
+        public CityRepository(AppDbContext context, ILogger<CityRepository> logger, IMemoryCache memoryCache)
         {
             _context = context;
             _logger = logger;
+            _memoryCache=memoryCache;
         }
 
         public async Task<int> CreateCity(CityDto cityDto, CancellationToken cancellationToken)
@@ -61,14 +65,28 @@ namespace Achar.Infra.Access.EfCore.Repositories
             _logger.LogInformation("شهر با شناسه: {CityId} با موفقیت دریافت شد زمان {Time}", id, DateTime.UtcNow.ToLongTimeString());
             return city;
         }
-
         public async Task<List<City>> GetAllCity(CancellationToken cancellationToken)
         {
             _logger.LogInformation("دریافت تمامی شهرها زمان {Time}", DateTime.UtcNow.ToLongTimeString());
+
+            if (_memoryCache.TryGetValue("cities", out List<City> cachedCities))
+            {
+                _logger.LogInformation("دریافت شهرها از کش، تعداد: {Count} زمان {Time}", cachedCities.Count, DateTime.UtcNow.ToLongTimeString());
+                return cachedCities;
+            }
+
             var cities = await _context.Cities.AsNoTracking().ToListAsync(cancellationToken);
+
+            _memoryCache.Set("cities", cities, new MemoryCacheEntryOptions
+            {
+                SlidingExpiration = TimeSpan.FromMinutes(15)
+            });
+
             _logger.LogInformation("تعداد شهرهای دریافت شده: {Count} زمان {Time}", cities.Count, DateTime.UtcNow.ToLongTimeString());
+
             return cities;
         }
+
 
         public async Task<bool> DeleteCity(SoftDeleteDto active, CancellationToken cancellationToken)
         {

@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using AcharDomainCore.Dtos.SubCategoryDto;
 using AcharDomainCore.Dtos.ExpertDto;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Achar.Infra.Access.EfCore.Repositories
 {
@@ -20,11 +21,14 @@ namespace Achar.Infra.Access.EfCore.Repositories
     {
         private readonly AppDbContext _context;
         private readonly ILogger<HomeServiceRepository> _logger;
+        private readonly IMemoryCache _memoryCache;
 
-        public HomeServiceRepository(AppDbContext context,ILogger<HomeServiceRepository> logger)
+
+        public HomeServiceRepository(AppDbContext context,ILogger<HomeServiceRepository> logger, IMemoryCache memoryCache)
         {
             _context = context;
             _logger = logger;
+            _memoryCache = memoryCache;
             
         }
 
@@ -44,6 +48,8 @@ namespace Achar.Infra.Access.EfCore.Repositories
             };
             await _context.HomeServices.AddAsync(homeService, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
+            _memoryCache.Remove("homeServices");
+
             _logger.LogInformation("خدمات  ایجاد شد با شناسه: {HomeServiceId} زمان {Time}", homeService.Id, DateTime.Now.ToLongTimeString());
             return homeService.Id;
         }
@@ -116,9 +122,17 @@ namespace Achar.Infra.Access.EfCore.Repositories
 
         public async Task<List<HomeServiceDto>> GetHomeServices(CancellationToken cancellationToken)
         {
-            var homeServices = await _context.HomeServices
-                .OrderByDescending(x => x.CreateAt)
+            _logger.LogInformation("دریافت خدمات صفحه اصلی در زمان {Time}", DateTime.UtcNow.ToLongTimeString());
 
+            if (_memoryCache.TryGetValue("homeServices", out List<HomeServiceDto> cachedHomeServices))
+            {
+                _logger.LogInformation("داده‌های خدمات از کش دریافت شد. تعداد: {Count} زمان {Time}", cachedHomeServices.Count, DateTime.UtcNow.ToLongTimeString());
+                return cachedHomeServices;
+            }
+
+            var homeServices = await _context.HomeServices
+                .Include(x => x.SubCategory) 
+                .OrderByDescending(x => x.CreateAt)
                 .Select(e => new HomeServiceDto()
                 {
                     Id = e.Id,
@@ -130,9 +144,19 @@ namespace Achar.Infra.Access.EfCore.Repositories
                     SubCategoryId = e.SubCategoryId,
                     CategoryName = e.SubCategory.Title,
                     CreateAt = e.CreateAt
-                }).AsNoTracking().ToListAsync(cancellationToken);
+                })
+                .AsNoTracking()
+                .ToListAsync(cancellationToken);
+            _memoryCache.Set("homeServices", homeServices, new MemoryCacheEntryOptions
+            {
+                SlidingExpiration = TimeSpan.FromMinutes(15)
+            });
+
+            _logger.LogInformation("خدمات صفحه اصلی از دیتابیس دریافت شد. تعداد: {Count} زمان {Time}", homeServices.Count, DateTime.UtcNow.ToLongTimeString());
+
             return homeServices;
         }
+
 
         public async Task<List<HomeServiceDto?>> GetAllGetHomeServicesBySubCategory(int subCategory, CancellationToken cancellationToken)
         {

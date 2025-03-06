@@ -74,6 +74,9 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages()
     .AddRazorRuntimeCompilation();
 
+builder.Services.AddMemoryCache();
+
+
 builder.Services.AddScoped<IApplicationUserAppService, ApplicationUserAppService>();
 
 

@@ -12,6 +12,7 @@ using AcharDomainCore.Dtos.Request;
 using Azure.Core;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 
 namespace Achar.Infra.Access.EfCore.Repositories
@@ -20,11 +21,14 @@ namespace Achar.Infra.Access.EfCore.Repositories
     {
         private readonly AppDbContext _context;
         private readonly ILogger<SubCategoryRepository> _logger;
+        private readonly IMemoryCache _memoryCache;
 
-        public SubCategoryRepository(AppDbContext context, ILogger<SubCategoryRepository> logger)
+
+        public SubCategoryRepository(AppDbContext context, ILogger<SubCategoryRepository> logger , IMemoryCache memoryCache)
         {
             _context = context;
             _logger = logger;
+            _memoryCache = memoryCache;
         }
 
         public async Task<int> CreateSubCategory(SubCategoryDto subCategoryDto, CancellationToken cancellationToken)
@@ -39,6 +43,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
             };
             await _context.SubCategory.AddAsync(subCategory, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
+            _memoryCache.Remove("subCategories");
             _logger.LogInformation("زیر دسته بندی ایجاد شد با شناسه: {SubCategoryId} زمان {Time}", subCategory.Id, DateTime.UtcNow.ToLongTimeString());
             return subCategory.Id;
         }
@@ -89,9 +94,18 @@ namespace Achar.Infra.Access.EfCore.Repositories
 
         public async Task<List<SubCategoryDto>> GetAllSubCategory(CancellationToken cancellationToken)
         {
-            _logger.LogInformation("دریافت تمامی زیر دسته بندی‌ها زمان {Time}", DateTime.UtcNow.ToLongTimeString());
+            _logger.LogInformation("دریافت تمامی زیر دسته‌بندی‌ها زمان {Time}", DateTime.UtcNow.ToLongTimeString());
+
+            // ابتدا بررسی کش
+            if (_memoryCache.TryGetValue("subCategories", out List<SubCategoryDto> cachedSubCategories))
+            {
+                _logger.LogInformation("دریافت زیر دسته‌ها از کش، تعداد: {Count} زمان {Time}", cachedSubCategories.Count, DateTime.UtcNow.ToLongTimeString());
+                return cachedSubCategories;
+            }
+
             var subCategories = await _context.SubCategory
-                .OrderByDescending(x=>x.CreateAt)
+                .Include(x => x.Category) 
+                .OrderByDescending(x => x.CreateAt)
                 .Select(e => new SubCategoryDto()
                 {
                     Id = e.Id,
@@ -100,10 +114,19 @@ namespace Achar.Infra.Access.EfCore.Repositories
                     CategoryId = e.CategoryId,
                     CategoryName = e.Category.Title,
                     CreateAt = e.CreateAt
-                }).AsNoTracking().ToListAsync(cancellationToken);
-            _logger.LogInformation("تعداد زیر دسته بندی‌های دریافت شده: {Count} زمان {Time}", subCategories.Count, DateTime.UtcNow.ToLongTimeString());
+                })
+                .AsNoTracking()
+                .ToListAsync(cancellationToken);
+
+            _memoryCache.Set("subCategories", subCategories, new MemoryCacheEntryOptions
+            {
+                SlidingExpiration = TimeSpan.FromMinutes(15)
+            });
+            _logger.LogInformation("تعداد زیر دسته‌بندی‌های دریافت شده از دیتابیس: {Count} زمان {Time}", subCategories.Count, DateTime.UtcNow.ToLongTimeString());
+
             return subCategories;
         }
+
 
         public async Task<List<SubCategoryDto?>> GetAllSubCategoryByCategory(int category, CancellationToken cancellationToken)
         {

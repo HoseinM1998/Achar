@@ -11,6 +11,7 @@ using AcharDomainCore.Entites;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Achar.Infra.Access.EfCore.Repositories
 {
@@ -18,11 +19,14 @@ namespace Achar.Infra.Access.EfCore.Repositories
     {
         private readonly AppDbContext _context;
         private readonly ILogger<CategoryRepository> _logger;
+        private readonly IMemoryCache _memoryCache;
 
-        public CategoryRepository(AppDbContext context, ILogger<CategoryRepository> logger)
+
+        public CategoryRepository(AppDbContext context, ILogger<CategoryRepository> logger, IMemoryCache memoryCache)
         {
             _context = context;
             _logger = logger;
+            _memoryCache = memoryCache;
         }
 
         public async Task<int> CreateCategory(CategoryDto categoryDto, CancellationToken cancellationToken)
@@ -37,6 +41,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
 
             await _context.Categories.AddAsync(category, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
+            _memoryCache.Remove("categories");
             _logger.LogInformation("دسته ایجاد شد با شناسه: {CategoryId} زمان {Time}", category.Id, DateTime.UtcNow.ToLongTimeString());
             return category.Id;
         }
@@ -87,11 +92,26 @@ namespace Achar.Infra.Access.EfCore.Repositories
         public async Task<List<Category>> GetAllCategory(CancellationToken cancellationToken)
         {
             _logger.LogInformation("دریافت تمامی دسته‌ها زمان {Time}", DateTime.UtcNow.ToLongTimeString());
+
+            if (_memoryCache.TryGetValue("categories", out List<Category> cachedCategories))
+            {
+                _logger.LogInformation("دریافت دسته‌ها از کش، تعداد: {Count} زمان {Time}", cachedCategories.Count, DateTime.UtcNow.ToLongTimeString());
+                return cachedCategories;
+            }
+
             var categories = await _context.Categories
                 .Include(x => x.SubCategories)
                 .OrderByDescending(x => x.CreatedAt)
-                .AsNoTracking().ToListAsync(cancellationToken);
-            _logger.LogInformation("تعداد دسته‌های دریافت شده: {Count} زمان {Time}", categories.Count, DateTime.UtcNow.ToLongTimeString());
+                .AsNoTracking()
+                .ToListAsync(cancellationToken);
+
+            _memoryCache.Set("categories", categories, new MemoryCacheEntryOptions
+            {
+                SlidingExpiration = TimeSpan.FromMinutes(15) 
+            });
+
+            _logger.LogInformation("تعداد دسته‌های دریافت شده از دیتابیس: {Count} زمان {Time}", categories.Count, DateTime.UtcNow.ToLongTimeString());
+
             return categories;
         }
 
