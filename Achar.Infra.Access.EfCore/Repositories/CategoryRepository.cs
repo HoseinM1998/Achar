@@ -59,6 +59,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
             category.Image = categoryDto.Image is null ? category.Image:categoryDto.Image;
             _context.Categories.Update(category);
             await _context.SaveChangesAsync(cancellationToken);
+            _memoryCache.Remove("categories");
             _logger.LogInformation("دسته با شناسه: {CategoryId} با موفقیت بروزرسانی شد زمان {Time}", categoryDto.Id, DateTime.UtcNow.ToLongTimeString());
             return true;
         }

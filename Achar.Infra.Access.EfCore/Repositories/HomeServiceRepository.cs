@@ -70,6 +70,8 @@ namespace Achar.Infra.Access.EfCore.Repositories
             homeService.SubCategoryId = homeServiceDto.SubCategoryId;
             _context.HomeServices.Update(homeService);
             await _context.SaveChangesAsync(cancellationToken);
+            _memoryCache.Remove("homeServices");
+
             _logger.LogInformation("خدمات  با شناسه: {HomeServiceId} با موفقیت بروزرسانی شد زمان {Time}", homeServiceDto.Id, DateTime.Now.ToLongTimeString());
             return true;
         }

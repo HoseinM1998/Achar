@@ -62,6 +62,8 @@ namespace Achar.Infra.Access.EfCore.Repositories
             subCategory.CategoryId = subCategoryDto.CategoryId;
             _context.SubCategory.Update(subCategory);
             await _context.SaveChangesAsync(cancellationToken);
+            _memoryCache.Remove("subCategories");
+
             _logger.LogInformation("زیر دسته بندی با شناسه: {SubCategoryId} با موفقیت بروزرسانی شد زمان {Time}", subCategoryDto.Id, DateTime.UtcNow.ToLongTimeString());
             return true;
         }
@@ -96,7 +98,6 @@ namespace Achar.Infra.Access.EfCore.Repositories
         {
             _logger.LogInformation("دریافت تمامی زیر دسته‌بندی‌ها زمان {Time}", DateTime.UtcNow.ToLongTimeString());
 
-            // ابتدا بررسی کش
             if (_memoryCache.TryGetValue("subCategories", out List<SubCategoryDto> cachedSubCategories))
             {
                 _logger.LogInformation("دریافت زیر دسته‌ها از کش، تعداد: {Count} زمان {Time}", cachedSubCategories.Count, DateTime.UtcNow.ToLongTimeString());

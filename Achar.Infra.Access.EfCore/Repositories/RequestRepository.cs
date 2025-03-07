@@ -163,6 +163,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
                     Title = r.Title,
                     Description = r.Description,
                     Price = r.Price,
+                    DoneAt = r.DoneAt,
                     ImagePaths = r.Images.Select(img => img.ImgPath).ToList(),
                     Status = r.Status,
                     RequesteForTime = r.RequesteForTime,
@@ -269,19 +270,19 @@ namespace Achar.Infra.Access.EfCore.Repositories
             {
                 return false;
             }
-            acceptRequest.DoneAt=DateTime.Now;
             acceptRequest.Status = StatusRequestEnum.WaitingForExpert;
-
-            var bid = await _context.Bids.FirstOrDefaultAsync(
-                x => x.Id == bidId);
-            if (bid is null)
+            var acceptedBid = await _context.Bids.FirstOrDefaultAsync(x => x.Id == bidId);
+            if (acceptedBid is null)
             {
                 return false;
             }
-            acceptRequest.AcceptedExpertId = bid.ExpertId;
-
-            bid.Status = StatusBidEnum.WaitingForExpert;
-
+            acceptRequest.AcceptedExpertId = acceptedBid.ExpertId;
+            acceptedBid.Status = StatusBidEnum.WaitingForExpert;
+            var rejectedBids = acceptRequest.Bids.Where(b => b.Id != bidId).ToList();
+            foreach (var bid in rejectedBids)
+            {
+                bid.Status = StatusBidEnum.Rejected;
+            }
             await _context.SaveChangesAsync(cancellationToken);
             return true;
         }
@@ -296,7 +297,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
             }
             acceptRequest.Status = StatusRequestEnum.Success;
             acceptRequest.DoneAt = DateTime.Now;
-            var bid = await _context.Bids.FirstOrDefaultAsync(x => x.RequestId == acceptRequest.Id, cancellationToken); // Corrected to use expertId instead of acceptRequest.AcceptedExpertId
+            var bid = await _context.Bids.FirstOrDefaultAsync(x => x.RequestId == acceptRequest.Id, cancellationToken);
             if (bid is null)
             {
                 return false;

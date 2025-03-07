@@ -105,7 +105,7 @@
                                         }
                                         else
                                         {
-                                            @if (item.Status == StatusRequestEnum.WaitingForExpert)
+                                            @if (item.Status == StatusRequestEnum.WaitingForExpert && bid.Status != StatusBidEnum.Rejected&&bid.Status==StatusBidEnum.WaitingForExpert)
                                             {
                                                 <form method="post" asp-page-handler="DoneRequest" asp-route-id="@item.Id" asp-route-bidId="@bid.Id">
                                                     <button type="submit" class="btn btn-primary btn-sm">اتمام کار</button>
