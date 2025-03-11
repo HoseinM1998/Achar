@@ -10,4 +10,14 @@
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Achar.Infra.Access.Dapper\Achar.Infra.Access.Dapper.csproj" />
+    <ProjectReference Include="..\Achar.Infra.Access.EfCore\Achar.Infra.Access.EfCore.csproj" />
+    <ProjectReference Include="..\Achar.Infra.Db.Sql\Achar.Infra.Db.SqLServer.csproj" />
+    <ProjectReference Include="..\AcharDomainAppService\AcharDomainAppService.csproj" />
+    <ProjectReference Include="..\AcharDomainCore\AcharDomainCore.csproj" />
+    <ProjectReference Include="..\AcharDomainService\AcharDomainService.csproj" />
+    <ProjectReference Include="..\Framework\Framework.csproj" />
+  </ItemGroup>
+
 </Project>

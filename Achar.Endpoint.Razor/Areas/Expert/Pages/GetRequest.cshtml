@@ -1,0 +1,106 @@
+﻿@page
+@using System.ComponentModel.DataAnnotations
+@using Framework
+@model Achar.Endpoint.Razor.Areas.Expert.Pages.GetRequestModel
+@{
+    ViewData["Title"] = "جزئیات درخواست";
+}
+
+<div class="container mt-5">
+    <div class="card shadow-lg border-0 rounded-4">
+
+        <div class="card-header text-white text-center rounded-top-4" style="background: linear-gradient(45deg, #007bff, #6610f2);">
+            <h3 class="mb-0">📌 جزئیات درخواست</h3>
+        </div>
+
+        <div class="card-body">
+            <table class="table table-hover table-bordered text-center">
+                <tbody>
+                    <tr>
+                        <th class="bg-light">📌 عنوان</th>
+                        <td>@Model.Request.Title</td>
+                    </tr>
+                    <tr>
+                        <th class="bg-light">📝 توضیحات</th>
+                        <td>@Model.Request.Description</td>
+                    </tr>
+                    <tr>
+                        <th class="bg-light">💰 قیمت</th>
+                        <td>@Model.Request.Price.ToString("N0") تومان</td>
+                    </tr>
+                    <tr>
+                        <th class="bg-light">🏷 وضعیت</th>
+                        <td>
+                            <span class="badge bg-danger px-3 py-2 fs-6">@DisplayEnum(Model.Request.Status)</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="bg-light">📅 تاریخ پیشنهادی</th>
+                        <td>
+                            @(Model.Request.RequesteForTime == default ? "⏳ تاریخ مشخص نشده" : Model.Request.RequesteForTime.ToPersianString())
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="bg-light">👤 نام مشتری</th>
+                        <td>@Model.Request.CustomerName</td>
+                    </tr>
+                    <tr>
+                        <th class="bg-light">🔧 نام خدمات</th>
+                        <td>@Model.Request.HomeServiceName</td>
+                    </tr>
+                    <tr>
+                        <th class="bg-light">📌 وضعیت</th>
+                        <td class="@(Model.Request.Canccell ? "text-danger fw-bold" : "text-success fw-bold")">
+                            @(Model.Request.Canccell ? "❌ لغو شده" : "✅ فعال")
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            @if (Model.Request.Images != null && Model.Request.Images.Any())
+            {
+                <h4 class="mt-4 text-center">📷 تصاویر درخواست</h4>
+                <div class="row justify-content-center">
+                    @foreach (var image in Model.Request.Images)
+                    {
+                        <div class="col-md-3 col-6 mb-3">
+                            <div class="card border-0 shadow-sm hover-zoom">
+                                <img src="@image.ImgPath" class="card-img-top rounded-3 img-fluid" alt="تصویر درخواست">
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+
+
+        <div class="card-footer text-center">
+            <a asp-page="Requests" class="btn btn-primary px-4 py-2 shadow-sm" style="transition: 0.3s;">
+                <i class="fas fa-arrow-left"></i> بازگشت به لیست درخواست‌ها
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .hover-zoom img {
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .hover-zoom:hover img {
+        transform: scale(1.05);
+    }
+
+    .btn:hover {
+        background-color: #0056b3 !important;
+    }
+</style>
+
+@functions {
+    public string DisplayEnum(Enum enumValue)
+    {
+        var field = enumValue.GetType().GetField(enumValue.ToString());
+        var attribute = (DisplayAttribute)field?.GetCustomAttributes(typeof(DisplayAttribute), false).FirstOrDefault();
+        return attribute?.GetName() ?? enumValue.ToString();
+    }
+}
