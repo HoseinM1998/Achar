@@ -14,12 +14,17 @@ namespace Achar.Endpoint.Api.Controllers
     [Route("api/[controller]")]
     public class ListService : ControllerBase
     {
-        private readonly IDapper _dapper;
+        private readonly ICategoryAppService _categoryAppService;
+        private readonly ISubCategoryAppService _subCategoryAppService;
+        private readonly IHomeServiceAppService _homeServiceAppService;
+
         private readonly string _apiKey;
 
-        public ListService(IDapper dapper, SiteSetting siteSetting)
+        public ListService(ICategoryAppService categoryAppService, ISubCategoryAppService subCategoryAppService, IHomeServiceAppService homeServiceAppService, SiteSetting siteSetting)
         {
-            _dapper = dapper;
+            _categoryAppService=categoryAppService;
+            _subCategoryAppService=subCategoryAppService;
+            _homeServiceAppService=homeServiceAppService;
             _apiKey = siteSetting.ApiKey;
         }
 
@@ -39,7 +44,7 @@ namespace Achar.Endpoint.Api.Controllers
             var validationResponse = ValidateRequest(apikey);
             if (validationResponse != null) return validationResponse;
 
-            var categories = await _dapper.GetAllCategoryDapper(cancellationToken);
+            var categories = await _categoryAppService.GetAllCategory(cancellationToken);
             return Ok(categories);
         }
 
@@ -49,7 +54,7 @@ namespace Achar.Endpoint.Api.Controllers
             var validationResponse = ValidateRequest(apikey);
             if (validationResponse != null) return validationResponse;
 
-            var subCategories = await _dapper.GetAllSubCategory(cancellationToken);
+            var subCategories = await _subCategoryAppService.GetAllSubCategory(cancellationToken);
             return Ok(subCategories);
         }
 
@@ -59,7 +64,7 @@ namespace Achar.Endpoint.Api.Controllers
             var validationResponse = ValidateRequest(apikey);
             if (validationResponse != null) return validationResponse;
 
-            var homeServices = await _dapper.GetAllHomeServiceDapper(cancellationToken);
+            var homeServices = await _homeServiceAppService.GetHomeServices(cancellationToken);
             return Ok(homeServices);
         }
     }
