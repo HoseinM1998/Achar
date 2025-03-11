@@ -6,6 +6,7 @@ using AcharDomainCore.Entites.Config;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading;
 using System.Threading.Tasks;
+using AcharDomainCore.Contracts.Dapper;
 
 namespace Achar.Endpoint.Api.Controllers
 {
@@ -13,20 +14,12 @@ namespace Achar.Endpoint.Api.Controllers
     [Route("api/[controller]")]
     public class ListService : ControllerBase
     {
-        private readonly ICategoryAppService _categoryAppService;
-        private readonly ISubCategoryAppService _subCategoryAppService;
-        private readonly IHomeServiceAppService _homeServiceAppService;
+        private readonly IDapper _dapper;
         private readonly string _apiKey;
 
-        public ListService(
-            ICategoryAppService categoryAppService,
-            ISubCategoryAppService subCategoryAppService,
-            IHomeServiceAppService homeServiceAppService,
-            SiteSetting siteSetting)
+        public ListService(IDapper dapper, SiteSetting siteSetting)
         {
-            _categoryAppService = categoryAppService;
-            _subCategoryAppService = subCategoryAppService;
-            _homeServiceAppService = homeServiceAppService;
+            _dapper = dapper;
             _apiKey = siteSetting.ApiKey;
         }
 
@@ -46,7 +39,7 @@ namespace Achar.Endpoint.Api.Controllers
             var validationResponse = ValidateRequest(apikey);
             if (validationResponse != null) return validationResponse;
 
-            var categories = await _categoryAppService.GetAllCategory(cancellationToken);
+            var categories = await _dapper.GetAllCategoryDapper(cancellationToken);
             return Ok(categories);
         }
 
@@ -56,7 +49,7 @@ namespace Achar.Endpoint.Api.Controllers
             var validationResponse = ValidateRequest(apikey);
             if (validationResponse != null) return validationResponse;
 
-            var subCategories = await _subCategoryAppService.GetAllSubCategory(cancellationToken);
+            var subCategories = await _dapper.GetAllSubCategory(cancellationToken);
             return Ok(subCategories);
         }
 
@@ -66,7 +59,7 @@ namespace Achar.Endpoint.Api.Controllers
             var validationResponse = ValidateRequest(apikey);
             if (validationResponse != null) return validationResponse;
 
-            var homeServices = await _homeServiceAppService.GetHomeServices(cancellationToken);
+            var homeServices = await _dapper.GetAllHomeServiceDapper(cancellationToken);
             return Ok(homeServices);
         }
     }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AcharDomainCore.Entites;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -19,6 +20,7 @@ namespace AcharDomainCore.Dtos.SubCategoryDto
         public string CategoryName { get; set; }
         public DateTime CreateAt { get; set; }
         public IFormFile? ImageFile { get; set; }
+        public List<HomeService>? HomeServices { get; set; }
 
     }
 }

@@ -49,7 +49,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
             existingExpert.ApplicationUser.Email = expert.Email;
             existingExpert.ApplicationUser.PhoneNumber = expert.PhoneNumber;
             existingExpert.ApplicationUser.Street = expert.Street;
-            existingExpert.ApplicationUser.ProfileImageUrl = expert.ProfileImageUrl is null ? existingExpert.ApplicationUser.ProfileImageUrl:expert.ProfileImageUrl;
+            existingExpert.ApplicationUser.ProfileImageUrl = expert.ProfileImageUrl is null ? existingExpert.ApplicationUser.ProfileImageUrl : expert.ProfileImageUrl;
             existingExpert.ApplicationUser.FirstName = expert.FirstName;
             existingExpert.ApplicationUser.LastName = expert.LastName;
 
@@ -58,10 +58,10 @@ namespace Achar.Infra.Access.EfCore.Repositories
                 existingExpert.Skills = new List<AcharDomainCore.Entites.HomeService>();
             }
 
-            existingExpert.Skills.Clear();
 
             if (expert.ServiceIds != null)
             {
+                existingExpert.Skills.Clear();
                 foreach (var serviceId in expert.ServiceIds)
                 {
                     var service = await _context.HomeServices
@@ -136,7 +136,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
             {
                 throw new KeyNotFoundException("Admin not found.");
             }
-            _logger.LogInformation("موجودی کارشناس  با شناسه: {ExpertId},{Balance} زمان {Time}", expert.Id,expert.ApplicationUser.Balance, DateTime.UtcNow.ToLongTimeString());
+            _logger.LogInformation("موجودی کارشناس  با شناسه: {ExpertId},{Balance} زمان {Time}", expert.Id, expert.ApplicationUser.Balance, DateTime.UtcNow.ToLongTimeString());
 
             return expert.ApplicationUser.Balance;
         }
@@ -225,7 +225,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
             if (expert is null) return false;
             expert.ApplicationUser.Balance += balance;
             await _context.SaveChangesAsync(cancellationToken);
-            _logger.LogInformation("موجودی کارشناس با موفقیا اپدیت شد با شناسه:{Ba;ance} {ExpertId} زمان {Time}",expert.ApplicationUser.Balance, expert.Id, DateTime.UtcNow.ToLongTimeString());
+            _logger.LogInformation("موجودی کارشناس با موفقیا اپدیت شد با شناسه:{Ba;ance} {ExpertId} زمان {Time}", expert.ApplicationUser.Balance, expert.Id, DateTime.UtcNow.ToLongTimeString());
 
             return true;
         }

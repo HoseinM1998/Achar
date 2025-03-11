@@ -50,11 +50,13 @@ namespace Achar.Infra.Access.Dapper
             return cities;
         }
 
+     
+
         public async Task<List<Category>> GetAllCategoryDapper(CancellationToken cancellationToken)
         {
-            _logger.LogInformation("دریافت تمامی دسته‌بندی‌ها از دپر ");
-            var categories = _memoryCache.Get<List<Category>>("categories");
+            _logger.LogInformation("دریافت تمامی دسته‌بندی‌ها و زیرمجموعه‌ها و خدمات خانه از دپر");
 
+            var categories = _memoryCache.Get<List<Category>>("categories");
             if (categories is not null)
             {
                 _logger.LogInformation("دریافت دسته‌ها از کش، تعداد: {Count}", categories.Count);
@@ -62,7 +64,46 @@ namespace Achar.Infra.Access.Dapper
             }
 
             using IDbConnection db = new SqlConnection(_siteSettings.ConnectionString.SqlConnection);
-            categories = (List<Category>)await db.QueryAsync<Category>("SELECT * FROM Categories  ORDER BY CreatedAt");
+
+            var categoryDictionary = new Dictionary<int, Category>();
+
+
+            string query = @"
+        SELECT c.*, s.*, hs.*
+        FROM Categories c
+        LEFT JOIN SubCategory s ON c.Id = s.CategoryId
+        LEFT JOIN HomeServices hs ON s.Id = hs.SubCategoryId
+        ORDER BY c.CreatedAt, s.CreateAt, hs.CreateAt";
+
+            var categoryList = await db.QueryAsync<Category, SubCategory, HomeService, Category>(
+                query,
+                (category, subCategory, homeService) =>
+                {
+
+                    if (!categoryDictionary.TryGetValue(category.Id, out var categoryEntry))
+                    {
+                        categoryEntry = category;
+                        categoryEntry.SubCategories = new List<SubCategory>();
+                        categoryDictionary.Add(category.Id, categoryEntry);
+                    }
+
+                    if (subCategory != null)
+                    {
+                        subCategory.HomeServices = new List<HomeService>(); 
+                        categoryEntry.SubCategories.Add(subCategory);
+                    }
+
+    
+                    if (homeService != null)
+                    {
+                        subCategory?.HomeServices?.Add(homeService);
+                    }
+
+                    return categoryEntry;
+                },
+                splitOn: "Id,Id");
+
+            categories = categoryDictionary.Values.ToList();
 
             _memoryCache.Set("categories", categories, new MemoryCacheEntryOptions
             {
@@ -73,6 +114,10 @@ namespace Achar.Infra.Access.Dapper
 
             return categories;
         }
+
+
+
+
 
         public async Task<List<SubCategoryDto>> GetAllSubCategory(CancellationToken cancellationToken)
         {
