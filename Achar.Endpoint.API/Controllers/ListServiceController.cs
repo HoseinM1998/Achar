@@ -12,7 +12,7 @@ namespace Achar.Endpoint.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ListService : ControllerBase
+    public class ListServiceController : ControllerBase
     {
         private readonly ICategoryAppService _categoryAppService;
         private readonly ISubCategoryAppService _subCategoryAppService;
@@ -20,7 +20,7 @@ namespace Achar.Endpoint.Api.Controllers
 
         private readonly string _apiKey;
 
-        public ListService(ICategoryAppService categoryAppService, ISubCategoryAppService subCategoryAppService, IHomeServiceAppService homeServiceAppService, SiteSetting siteSetting)
+        public ListServiceController(ICategoryAppService categoryAppService, ISubCategoryAppService subCategoryAppService, IHomeServiceAppService homeServiceAppService, SiteSetting siteSetting)
         {
             _categoryAppService=categoryAppService;
             _subCategoryAppService=subCategoryAppService;

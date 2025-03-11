@@ -8,12 +8,12 @@ namespace Achar.Endpoint.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ListRequest : ControllerBase
+    public class ListRequestController : ControllerBase
     {
         private readonly IRequestAppService _appService;
         private readonly string _apiKey;
 
-        public ListRequest(IRequestAppService appService, SiteSetting siteSetting)
+        public ListRequestController(IRequestAppService appService, SiteSetting siteSetting)
         {
             _appService = appService;
             _apiKey = siteSetting.ApiKey;
