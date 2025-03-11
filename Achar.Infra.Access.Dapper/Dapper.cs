@@ -121,21 +121,34 @@ namespace Achar.Infra.Access.Dapper
 
         public async Task<List<SubCategoryDto>> GetAllSubCategory(CancellationToken cancellationToken)
         {
-            _logger.LogInformation("دریافت تمامی زیردسته‌بندی‌ها از دپر ");
+            _logger.LogInformation("دریافت تمامی زیردسته‌بندی‌ها از دپر");
+
+  
             if (_memoryCache.TryGetValue("subCategories", out List<SubCategoryDto> cachedSubCategories))
             {
                 _logger.LogInformation("دریافت زیر دسته‌ها از کش، تعداد: {Count} زمان {Time}", cachedSubCategories.Count, DateTime.UtcNow.ToLongTimeString());
                 return cachedSubCategories;
             }
 
-            const string query = @"
+            const string subCategoryQuery = @"
         SELECT s.Id, s.Title, s.Image, s.CategoryId, s.CreateAt, c.Title AS CategoryName
         FROM SubCategory s
         INNER JOIN Categories c ON s.CategoryId = c.Id
         ORDER BY s.CreateAt DESC";
 
+            const string homeServiceQuery = @"
+        SELECT hs.Id, hs.Title, hs.ImageSrc, hs.BasePrice, hs.ShortDescription, hs.Description, hs.SubCategoryId
+        FROM HomeServices hs
+        WHERE hs.SubCategoryId = @SubCategoryId";
+
             await using var db = new SqlConnection(_siteSettings.ConnectionString.SqlConnection);
-            var subCategories = (await db.QueryAsync<SubCategoryDto>(query)).ToList();
+            var subCategories = (await db.QueryAsync<SubCategoryDto>(subCategoryQuery)).ToList();
+
+            foreach (var subCategory in subCategories)
+            {
+                var homeServices = (await db.QueryAsync<HomeService>(homeServiceQuery, new { SubCategoryId = subCategory.Id })).ToList();
+                subCategory.HomeServices = homeServices;
+            }
 
             _memoryCache.Set("subCategories", subCategories, new MemoryCacheEntryOptions
             {
@@ -146,6 +159,7 @@ namespace Achar.Infra.Access.Dapper
 
             return subCategories;
         }
+
 
 
 
