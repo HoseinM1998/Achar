@@ -62,7 +62,7 @@ namespace Achar.Infra.Access.Dapper
             }
 
             using IDbConnection db = new SqlConnection(_siteSettings.ConnectionString.SqlConnection);
-            categories = (List<Category>)await db.QueryAsync<Category>("SELECT * FROM Categories");
+            categories = (List<Category>)await db.QueryAsync<Category>("SELECT * FROM Categories  ORDER BY CreatedAt");
 
             _memoryCache.Set("categories", categories, new MemoryCacheEntryOptions
             {
