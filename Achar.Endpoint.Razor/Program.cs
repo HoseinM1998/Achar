@@ -1,4 +1,5 @@
 ﻿using Achar.Endpoint.Razor.Middleware;
+using Achar.Infra.Access.Dapper;
 using Achar.Infra.Access.EfCore.Repositories;
 using Achar.Infra.Db.Sql;
 using AcharDomainAppService;
@@ -11,6 +12,7 @@ using AcharDomainCore.Contracts.Category;
 using AcharDomainCore.Contracts.City;
 using AcharDomainCore.Contracts.Comment;
 using AcharDomainCore.Contracts.Customer;
+using AcharDomainCore.Contracts.Dapper;
 using AcharDomainCore.Contracts.Expert;
 using AcharDomainCore.Contracts.HomeService;
 using AcharDomainCore.Contracts.Image;
@@ -87,6 +89,9 @@ builder.Services.AddScoped<IAdminAppService, AdminAppService>();
 
 builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IImageRepository, ImageRepository>();
+
+builder.Services.AddScoped<IDapper, Achar.Infra.Access.Dapper.Dapper>();
+
 
 
 

@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Achar.Endpoint.API\Achar.Endpoint.Api.csproj" />
+    <ProjectReference Include="..\Achar.Infra.Access.Dapper\Achar.Infra.Access.Dapper.csproj" />
     <ProjectReference Include="..\Achar.Infra.Access.EfCore\Achar.Infra.Access.EfCore.csproj" />
     <ProjectReference Include="..\Achar.Infra.Db.Sql\Achar.Infra.Db.SqLServer.csproj" />
     <ProjectReference Include="..\AcharDomainAppService\AcharDomainAppService.csproj" />

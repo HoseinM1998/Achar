@@ -270,6 +270,11 @@ namespace Achar.Infra.Access.EfCore.Repositories
             {
                 return false;
             }
+
+            if (acceptRequest.AcceptedExpertId != null)
+            {
+                return false;
+            }
             acceptRequest.Status = StatusRequestEnum.WaitingForExpert;
             var acceptedBid = await _context.Bids.FirstOrDefaultAsync(x => x.Id == bidId);
             if (acceptedBid is null)

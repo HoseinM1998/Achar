@@ -27,7 +27,6 @@
                                 <input type="text" 
                                        class="form-control rounded-3 border-secondary" 
                                        id="bidPriceInput"
-                                       value="1,000"
                                        oninput="formatPrice(this)" />
                                 <input type="hidden" asp-for="Bid.BidPrice" id="bidPriceHidden" />
                                 <span asp-validation-for="Bid.BidPrice" class="text-danger"></span>

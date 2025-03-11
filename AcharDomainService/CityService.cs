@@ -9,6 +9,7 @@ using AcharDomainCore.Dtos;
 using AcharDomainCore.Dtos.CityDto;
 using AcharDomainCore.Entites;
 using Microsoft.Extensions.Logging;
+using AcharDomainCore.Contracts.Dapper;
 
 namespace AcharDomainService
 {
@@ -16,10 +17,13 @@ namespace AcharDomainService
     {
         private readonly ICityRepository _repository;
         private readonly ILogger<CityService> _logger;
+        private readonly IDapper _dapper;
 
-        public CityService(ICityRepository repository)
+
+        public CityService(ICityRepository repository, IDapper dapper)
         {
             _repository = repository;
+            _dapper = dapper;
         }
 
         public async Task<int> CreateCity(CityDto city, CancellationToken cancellationToken)
@@ -34,7 +38,7 @@ namespace AcharDomainService
 
 
         public async Task<List<City>> GetAllCity(CancellationToken cancellationToken)
-            => await _repository.GetAllCity(cancellationToken);
+            => await _dapper.GetAllCityDapper(cancellationToken);
 
 
         public async Task<bool> DeleteCity(SoftDeleteDto delete, CancellationToken cancellationToken)

@@ -10,6 +10,7 @@ using AcharDomainCore.Dtos.HomeServiceDto;
 using AcharDomainCore.Dtos.SubCategoryDto;
 using Microsoft.Extensions.Logging;
 using AcharDomainCore.Entites;
+using AcharDomainCore.Contracts.Dapper;
 
 namespace AcharDomainService
 {
@@ -17,11 +18,14 @@ namespace AcharDomainService
     {
         private readonly IHomeServiceRepository _repository;
         private readonly ILogger<HomeServiceService> _logger;
+        private readonly IDapper _dapper;
 
-        public HomeServiceService(IHomeServiceRepository repository, ILogger<HomeServiceService> logger)
+
+        public HomeServiceService(IHomeServiceRepository repository, ILogger<HomeServiceService> logger, IDapper dapper)
         {
             _repository = repository;
             _logger = logger;
+            _dapper = dapper;
         }
 
         public async Task<int> CreateHomeService(HomeServiceDto homeService, CancellationToken cancellationToken)
@@ -61,7 +65,7 @@ namespace AcharDomainService
 
         public async Task<List<HomeServiceDto>> GetHomeServices(CancellationToken cancellationToken)
         {
-            var homeServices = await _repository.GetHomeServices(cancellationToken);
+            var homeServices = await _dapper.GetAllHomeServiceDapper(cancellationToken);
             _logger.LogInformation("لایه سرویس: تعداد خدمات دریافت شده: {Count} زمان {Time}", homeServices.Count, DateTime.Now.ToLongTimeString());
             return homeServices;
         }

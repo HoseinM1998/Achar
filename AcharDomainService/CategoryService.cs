@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AcharDomainCore.Contracts.Category;
+using AcharDomainCore.Contracts.Dapper;
 using AcharDomainCore.Dtos;
 using AcharDomainCore.Dtos.CategoryDto;
 using AcharDomainCore.Entites;
@@ -15,12 +16,16 @@ namespace AcharDomainService
     public class CategoryService : ICategoryService
     {
         private readonly ICategoryRepository _repository;
+        private readonly IDapper _dapper;
+
+
         private readonly ILogger<CategoryService> _logger;
 
-        public CategoryService(ICategoryRepository repository, ILogger<CategoryService> logger)
+        public CategoryService(ICategoryRepository repository, ILogger<CategoryService> logger, IDapper dapper)
         {
             _repository = repository;
             _logger = logger;
+            _dapper = dapper;
         }
 
         public async Task<int> CreateCategory(CategoryDto category, CancellationToken cancellationToken)
@@ -68,7 +73,7 @@ namespace AcharDomainService
         public async Task<List<Category>> GetAllCategory(CancellationToken cancellationToken)
         {
             _logger.LogInformation("لایه سرویس: دریافت تمامی دسته بندی‌ها زمان {Time}", DateTime.UtcNow.ToLongTimeString());
-            var categories = await _repository.GetAllCategory(cancellationToken);
+            var categories = await _dapper.GetAllCategoryDapper(cancellationToken);
             _logger.LogInformation("لایه سرویس: تعداد دسته بندی‌های دریافت شده: {Count} زمان {Time}", categories.Count, DateTime.UtcNow.ToLongTimeString());
             return categories;
         }

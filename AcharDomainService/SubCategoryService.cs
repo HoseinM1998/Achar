@@ -9,6 +9,7 @@ using AcharDomainCore.Dtos;
 using AcharDomainCore.Dtos.SubCategoryDto;
 using AcharDomainCore.Entites;
 using Microsoft.Extensions.Logging;
+using AcharDomainCore.Contracts.Dapper;
 
 namespace AcharDomainService
 {
@@ -16,10 +17,13 @@ namespace AcharDomainService
     {
         private readonly ISubCategoryRepository _repository;
         private readonly ILogger<SubCategoryService> _logger;
+        private readonly IDapper _dapper;
 
-        public SubCategoryService(ISubCategoryRepository repository)
+
+        public SubCategoryService(ISubCategoryRepository repository, IDapper dapper)
         {
             _repository = repository;
+            _dapper = dapper;
         }
 
         public async Task<int> CreateSubCategory(SubCategoryDto subCategoryDto, CancellationToken cancellationToken)
@@ -38,7 +42,7 @@ namespace AcharDomainService
 
 
         public async Task<List<SubCategoryDto>> GetAllSubCategory(CancellationToken cancellationToken)
-            => await _repository.GetAllSubCategory(cancellationToken);
+            =>  await _dapper.GetAllSubCategory(cancellationToken);
 
         public async Task<List<SubCategoryDto?>> GetAllSubCategoryByCategory(int category, CancellationToken cancellationToken)
             => await _repository.GetAllSubCategoryByCategory(category,cancellationToken);
