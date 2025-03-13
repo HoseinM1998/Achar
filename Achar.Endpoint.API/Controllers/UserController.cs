@@ -1,11 +1,12 @@
-﻿using AcharDomainCore.Contracts.ApplicationUser;
+﻿using Microsoft.AspNetCore.Identity;
 using AcharDomainCore.Dtos.ApplicationUserDto;
 using AcharDomainCore.Entites.Config;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AcharDomainCore.Contracts.ApplicationUser;
+using AcharDomainCore.Entites;
 
 namespace Achar.Endpoint.Api.Controllers
 {
@@ -14,13 +15,14 @@ namespace Achar.Endpoint.Api.Controllers
     public class UserController : ControllerBase
     {
         private readonly IApplicationUserAppService _appService;
+        private readonly UserManager<ApplicationUser> _userManager; 
         private readonly string _apiKey;
 
-        public UserController(IApplicationUserAppService appService, SiteSetting siteSetting)
+        public UserController(IApplicationUserAppService appService, UserManager<ApplicationUser> userManager, SiteSetting siteSetting)
         {
             _appService = appService;
+            _userManager = userManager; 
             _apiKey = siteSetting.ApiKey;
-
         }
 
         private bool ValidateApiKey(string? apikey) => !string.IsNullOrWhiteSpace(apikey) && apikey == _apiKey;
@@ -42,6 +44,10 @@ namespace Achar.Endpoint.Api.Controllers
 
             if (register.Password != register.ConfirmPassword)
                 return BadRequest(new { message = "رمز عبور و تکرار رمز عبور باید یکسان باشند" });
+
+            var existingUser = await _userManager.FindByNameAsync(register.UserName);
+            if (existingUser != null)
+                return Conflict(new { message = "این نام کاربری قبلاً ثبت شده است" });
 
             var userId = await _appService.Register(register, cancellationToken);
 
