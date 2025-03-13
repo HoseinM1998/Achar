@@ -1,41 +1,26 @@
 ﻿using AcharDomainCore.Contracts.Request;
-using AcharDomainCore.Entites.Config;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading;
 using System.Threading.Tasks;
+using Achar.Endpoint.Api.ActionFillter; 
 
 namespace Achar.Endpoint.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [ServiceFilter(typeof(FilterApiKey))] 
     public class ListRequestController : ControllerBase
     {
         private readonly IRequestAppService _appService;
-        private readonly string _apiKey;
 
-        public ListRequestController(IRequestAppService appService, SiteSetting siteSetting)
+        public ListRequestController(IRequestAppService appService)
         {
             _appService = appService;
-            _apiKey = siteSetting.ApiKey;
-        }
-
-        private bool ValidateApiKey(string? apikey) => !string.IsNullOrWhiteSpace(apikey) && apikey == _apiKey;
-
-        private IActionResult ValidateRequest(string? apikey)
-        {
-            if (!ValidateApiKey(apikey))
-                return Unauthorized("شما دسترسی به این ای پی ای را ندارید.");
-
-            return null;
         }
 
         [HttpGet("GetRequests")]
-        public async Task<IActionResult> GetRequests([FromHeader] string? apikey, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetRequests(CancellationToken cancellationToken)
         {
-            var validationResult = ValidateRequest(apikey);
-            if (validationResult != null)
-                return validationResult;
-
             var requests = await _appService.GetRequests(cancellationToken);
 
             if (requests == null || requests.Count == 0)

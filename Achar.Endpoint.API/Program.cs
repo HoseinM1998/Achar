@@ -25,6 +25,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using Serilog;
+using Achar.Endpoint.Api.ActionFillter;
 
 
 //    .CreateLogger();
@@ -109,6 +110,9 @@ builder.Services.AddScoped<IHomeServiceRepository, HomeServiceRepository>();
 builder.Services.AddScoped<IHomeServiceAppService, HomeServiceAppService>();
 builder.Services.AddScoped<IHomeServiceService, HomeServiceService>();
 
+builder.Services.AddScoped<FilterApiKey>();
+
+
 
 
 
@@ -130,7 +134,11 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole<int>>(options =>
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+ builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<FilterApiKey>(); 
+});
+
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
