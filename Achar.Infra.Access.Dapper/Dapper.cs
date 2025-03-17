@@ -71,8 +71,8 @@ namespace Achar.Infra.Access.Dapper
             string query = @"
         SELECT c.*, s.*, hs.*
         FROM Categories c
-        LEFT JOIN SubCategory s ON c.Id = s.CategoryId
-        LEFT JOIN HomeServices hs ON s.Id = hs.SubCategoryId
+         JOIN SubCategory s ON c.Id = s.CategoryId
+         JOIN HomeServices hs ON s.Id = hs.SubCategoryId
         ORDER BY c.CreatedAt, s.CreateAt, hs.CreateAt";
 
             var categoryList = await db.QueryAsync<Category, SubCategory, HomeService, Category>(
