@@ -119,7 +119,7 @@ namespace AcharDomainService
             if (bid.RequestId == null) return false;
 
             var request = bid.Request;
-            if (request.Status == StatusRequestEnum.AwaitingCustomerConfirmation)
+            if (request.Status == StatusRequestEnum.AwaitingCustomerConfirmation|| request.Status == StatusRequestEnum.AwaitingSuggestionExperts)
             {
                 status.Status = StatusBidEnum.WaitingForCustomerConfirmation;
             }
@@ -158,8 +158,8 @@ namespace AcharDomainService
             if (requestDto == null) throw new Exception("Request not found");
             if (requestDto.ExpertId==bid.ExpertId)
             {
-                await _repositoryBalance.ChangeBalanceAdmin(requestDto.Price, cancellationToken);
-                await _repositoryBalance.ChangeAddBalanceCustomer(requestDto.CustomerId, requestDto.Price, cancellationToken);
+                await _repositoryBalance.ChangeBalanceAdmin(bid.BidPrice, cancellationToken);
+                await _repositoryBalance.ChangeAddBalanceCustomer(requestDto.CustomerId, bid.BidPrice, cancellationToken);
 
             }
 

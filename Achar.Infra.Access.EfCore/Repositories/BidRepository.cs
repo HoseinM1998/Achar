@@ -33,13 +33,12 @@ namespace Achar.Infra.Access.EfCore.Repositories
             {
                 CreateAt = DateTime.Now,
                 IsDeleted = false,
-                Status = bid.Status,
+                Status = StatusBidEnum.WaitingForCustomerConfirmation,
                 Description = bid.Description,
                 BidPrice = bid.BidPrice,
                 BidDate = bid.BidDate,
                 ExpertId = bid.ExpertId,
                 RequestId = bid.RequestId
-
             };
             await _context.Bids.AddAsync(biid, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);

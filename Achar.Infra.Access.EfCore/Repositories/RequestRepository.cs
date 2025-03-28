@@ -320,7 +320,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
                 return false;
             }
             acceptRequest.Status = StatusRequestEnum.CancelledByCustomer;
-            var bid = await _context.Bids.FirstOrDefaultAsync(x => x.RequestId == acceptRequest.Id, cancellationToken); // Corrected to use expertId instead of acceptRequest.AcceptedExpertId
+            var bid = await _context.Bids.FirstOrDefaultAsync(x => x.RequestId == acceptRequest.Id, cancellationToken); 
             if (bid is null)
             {
                 return false;

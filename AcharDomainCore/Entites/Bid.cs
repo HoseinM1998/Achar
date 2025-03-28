@@ -21,7 +21,7 @@ namespace AcharDomainCore.Entites
         [Display(Name = "تاریخ پیشنهادی")]
         public DateTime BidDate { get; set; }
         public DateTime CreateAt { get; set; } = DateTime.Now;
-        public StatusBidEnum Status { get; set; }
+        public StatusBidEnum Status { get; set; } 
 
         [Display(Name = "ایدی متخصص")]
         public int ExpertId { get; set; }

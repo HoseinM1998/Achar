@@ -72,11 +72,46 @@ namespace AcharDomainService
             => await _repository.GetRequests(cancellationToken);
 
         public async Task<List<RequestGetDto?>> GetCustomerRequests(int customerId, CancellationToken cancellationToken)
-            => await _repository.GetCustomerRequests(customerId, cancellationToken);
+        {
+            var requests = await _repository.GetCustomerRequests(customerId, cancellationToken);
+
+            foreach (var request in requests)
+            {
+                if (request.ExpertId == null && request.RequesteForTime < DateTime.Now)
+                {
+                    var newStatus = new StatusRequestDto
+                    {
+                        Id = request.Id,
+                        Status = StatusRequestEnum.CancelledByCustomer
+                    };
+
+                    await _repository.ChangeRequestStatus(newStatus, cancellationToken);
+                }
+            }
+
+            return requests;
+        }
 
         public async Task<List<RequestGetDto?>> GetRequestsByExpert(int expertId, CancellationToken cancellationToken)
-            => await _repository.GetRequestsByExpert(expertId, cancellationToken);
+        {
+            var requests = await _repository.GetRequestsByExpert(expertId, cancellationToken);
 
+            foreach (var request in requests)
+            {
+                if (request.ExpertId == null && request.RequesteForTime < DateTime.Now)
+                {
+                    var newStatus = new StatusRequestDto
+                    {
+                        Id = request.Id,
+                        Status = StatusRequestEnum.CancelledByCustomer
+                    };
+
+                    await _repository.ChangeRequestStatus(newStatus, cancellationToken);
+                }
+            }
+
+            return requests;
+        }
 
         public async Task<bool> DeleteRequest(SoftDeleteDto delete, CancellationToken cancellationToken)
             => await _repository.DeleteRequest(delete, cancellationToken);
@@ -132,6 +167,13 @@ namespace AcharDomainService
                 request.Bids == null && request.DoneAt == null && request.ExpertId != null && request.Status != StatusRequestEnum.CancelledByCustomer &&
                 request.Status != StatusRequestEnum.CancelledByExpert)
             {
+                await _repository.ChangeRequestStatus(newStatus, cancellationToken);
+                return true;
+            }
+
+            if (request.ExpertId == null && request.RequesteForTime < DateTime.Now)
+            {
+                newStatus.Status = StatusRequestEnum.CancelledByCustomer;
                 await _repository.ChangeRequestStatus(newStatus, cancellationToken);
                 return true;
             }
