@@ -24,8 +24,8 @@
 
                             <div class="mb-3">
                                 <label asp-for="Bid.BidPrice" class="form-label fw-semibold">قیمت پیشنهادی (تومان)</label>
-                                <input type="text" 
-                                       class="form-control rounded-3 border-secondary" 
+                                <input type="text"
+                                       class="form-control rounded-3 border-secondary"
                                        id="bidPriceInput"
                                        oninput="formatPrice(this)" />
                                 <input type="hidden" asp-for="Bid.BidPrice" id="bidPriceHidden" />
@@ -45,7 +45,6 @@
                                 <span asp-validation-for="Bid.BidDate" class="text-danger"></span>
                             </div>
 
-
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary px-4 py-2 fw-semibold">ثبت پیشنهاد</button>
                             </div>
@@ -61,12 +60,12 @@
     <partial name="_ValidationScriptsPartial" />
 }
 
-
 <script>
     window.addEventListener("DOMContentLoaded", function () {
         jalaliDatepicker.startWatch();
     });
 </script>
+
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         let datePicker = document.getElementById("jalaliDatePicker");
@@ -81,16 +80,19 @@
         });
     });
 </script>
+
 <script>
     function formatPrice(input) {
-        let value = input.value.replace(/,/g, ''); 
-        let number = parseInt(value, 10); 
+        let value = input.value.replace(/,/g, '');
+        let number = parseInt(value, 10);
 
-        if (isNaN(number) || number < 1000) {
-            number = 1000;
+        if (isNaN(number)) {
+            input.value = "";
+            document.getElementById("bidPriceHidden").value = "";
+            return;
         }
 
-        input.value = number.toLocaleString(); 
-        document.getElementById("bidPriceHidden").value = number; 
+        input.value = number.toLocaleString();
+        document.getElementById("bidPriceHidden").value = number;
     }
 </script>
