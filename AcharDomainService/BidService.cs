@@ -119,33 +119,53 @@ namespace AcharDomainService
             if (bid.RequestId == null) return false;
 
             var request = bid.Request;
-            if (request.Status == StatusRequestEnum.AwaitingCustomerConfirmation|| request.Status == StatusRequestEnum.AwaitingSuggestionExperts)
+            bool statusSet = false;
+
+            if (request.Status == StatusRequestEnum.AwaitingCustomerConfirmation || request.Status == StatusRequestEnum.AwaitingSuggestionExperts)
             {
                 status.Status = StatusBidEnum.WaitingForCustomerConfirmation;
+                statusSet = true;
             }
+
             if (request.AcceptedExpertId == bid.ExpertId)
             {
                 if (request.Status == StatusRequestEnum.WaitingForExpert)
+                {
                     status.Status = StatusBidEnum.WaitingForExpert;
-
+                    statusSet = true;
+                }
                 else if (request.Status == StatusRequestEnum.CancelledByExpert)
+                {
                     status.Status = StatusBidEnum.CancelledByExpert;
-
+                    statusSet = true;
+                }
                 else if (request.Status == StatusRequestEnum.CancelledByCustomer)
+                {
                     status.Status = StatusBidEnum.CancelledByCustomer;
-
+                    statusSet = true;
+                }
                 else if (request.Status == StatusRequestEnum.Success)
+                {
                     status.Status = StatusBidEnum.Success;
-
+                    statusSet = true;
+                }
             }
-            if(request.AcceptedExpertId!=null&&request.AcceptedExpertId != bid.ExpertId)
+
+            if (request.AcceptedExpertId != null && request.AcceptedExpertId != bid.ExpertId)
             {
                 status.Status = StatusBidEnum.Rejected;
+                statusSet = true;
+            }
+             
+            if (!statusSet)
+            {
+                status.Status = StatusBidEnum.WaitingForCustomerConfirmation;
             }
 
             await _repository.ChangebidStatus(status, cancellationToken);
             return true;
         }
+
 
 
 

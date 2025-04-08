@@ -1,4 +1,6 @@
 ﻿@page
+@using AcharDomainCore.Enums
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model Achar.Endpoint.Razor.Areas.Admin.Pages.Users.IndexModel
 @{
     ViewData["Title"] = "آچار > مدیریت کاربران > لیست کاربران";
@@ -147,14 +149,15 @@
                             @foreach (var expert in Model.Expert)
                             {
                                 <tr>
-                                    <td>@expert.Id</td>
                                     <td><img style="border-radius: 50%" src="@(string.IsNullOrEmpty(expert.ProfileImageUrl) ? "~/userassets/img/1.png" : expert.ProfileImageUrl)" width="50" height="50" /></td>
                                     <td>@expert.FirstName</td>
                                     <td>@expert.LastName</td>
                                     <td>@expert.UserName</td>
                                     <td>@expert.Email</td>
                                     <td>@expert.PhoneNumber</td>
-                                    <td>@expert.Gender</td>
+                                    <td>
+                                        @(expert.Gender == GenderEnum.Male ? "مرد" : expert.Gender == GenderEnum.Female ? "خانم" : "نامشخص")
+                                    </td>
                                     <td>@expert.NameCity</td>
                                     <td>@(expert.IsActive ? "فعال" : "غیرفعال")</td>
                                     <td>@expert.Balance.ToString("N0")تومان</td>

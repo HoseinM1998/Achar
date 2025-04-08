@@ -55,8 +55,8 @@
     <div class="form-group">
         <label asp-for="UpExpert.Gender" class="control-label"></label>
         <select asp-for="UpExpert.Gender" class="form-control">
-            <option value="0" selected="@Model.UpExpert?.Gender == GenderEnum.Male">آقا</option>
-            <option value="1" selected="@Model.UpExpert?.Gender == GenderEnum.Female">خانم</option>
+            <option value="1" selected="@Model.UpExpert?.Gender == GenderEnum.Male">آقا</option>
+            <option value="2" selected="@Model.UpExpert?.Gender == GenderEnum.Female">خانم</option>
         </select>
         <span asp-validation-for="UpExpert.Gender" class="text-danger"></span>
     </div>

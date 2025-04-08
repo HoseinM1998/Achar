@@ -47,6 +47,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
             existingExpert.CityId = expert.CityId;
             existingExpert.ApplicationUser.UserName = expert.UserName;
             existingExpert.ApplicationUser.Email = expert.Email;
+            existingExpert.ApplicationUser.Balance = expert.Balance;
             existingExpert.ApplicationUser.PhoneNumber = expert.PhoneNumber;
             existingExpert.ApplicationUser.Street = expert.Street;
             existingExpert.ApplicationUser.ProfileImageUrl = expert.ProfileImageUrl is null ? existingExpert.ApplicationUser.ProfileImageUrl : expert.ProfileImageUrl;

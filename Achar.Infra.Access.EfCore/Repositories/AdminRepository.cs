@@ -99,6 +99,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
             {
                 updateAdmin.ApplicationUser.UserName = admin.UserName;
                 updateAdmin.ApplicationUser.Email = admin.Email;
+                updateAdmin.ApplicationUser.Balance = admin.Balance;
                 updateAdmin.ApplicationUser.PhoneNumber = admin.PhoneNumber;
                 updateAdmin.ApplicationUser.FirstName = admin.FirstName;
                 updateAdmin.ApplicationUser.LastName = admin.LastName;

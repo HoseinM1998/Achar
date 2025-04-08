@@ -49,6 +49,7 @@ namespace Achar.Infra.Access.EfCore.Repositories
             customr.CityId = customer.CityId;
             customr.ApplicationUser.UserName = customer.UserName;
             customr.ApplicationUser.Email = customer.Email;
+            customr.ApplicationUser.Balance = customer.Balance;
             customr.ApplicationUser.PhoneNumber = customer.PhoneNumber;
             customr.ApplicationUser.Street = customer.Street;
             customr.ApplicationUser.ProfileImageUrl = customer.ProfileImageUrl is null ? customr.ApplicationUser.ProfileImageUrl: customer.ProfileImageUrl;
