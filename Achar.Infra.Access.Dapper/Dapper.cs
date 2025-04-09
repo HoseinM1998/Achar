@@ -50,7 +50,7 @@ namespace Achar.Infra.Access.Dapper
             return cities;
         }
 
-     
+
 
         public async Task<List<Category>> GetAllCategoryDapper(CancellationToken cancellationToken)
         {
@@ -67,19 +67,17 @@ namespace Achar.Infra.Access.Dapper
 
             var categoryDictionary = new Dictionary<int, Category>();
 
-
             string query = @"
         SELECT c.*, s.*, hs.*
         FROM Categories c
-         JOIN SubCategory s ON c.Id = s.CategoryId
-         JOIN HomeServices hs ON s.Id = hs.SubCategoryId
+        LEFT JOIN SubCategory s ON c.Id = s.CategoryId
+        LEFT JOIN HomeServices hs ON s.Id = hs.SubCategoryId
         ORDER BY c.CreatedAt, s.CreateAt, hs.CreateAt";
 
             var categoryList = await db.QueryAsync<Category, SubCategory, HomeService, Category>(
                 query,
                 (category, subCategory, homeService) =>
                 {
-
                     if (!categoryDictionary.TryGetValue(category.Id, out var categoryEntry))
                     {
                         categoryEntry = category;
@@ -89,33 +87,36 @@ namespace Achar.Infra.Access.Dapper
 
                     if (subCategory != null)
                     {
-                        subCategory.HomeServices = new List<HomeService>(); 
-                        categoryEntry.SubCategories.Add(subCategory);
-                    }
+                        var existingSub = categoryEntry.SubCategories.FirstOrDefault(s => s.Id == subCategory.Id);
+                        if (existingSub == null)
+                        {
+                            subCategory.HomeServices = new List<HomeService>();
+                            categoryEntry.SubCategories.Add(subCategory);
+                            existingSub = subCategory;
+                        }
 
-    
-                    if (homeService != null)
-                    {
-                        subCategory?.HomeServices?.Add(homeService);
+                        if (homeService != null)
+                        {
+                            existingSub.HomeServices.Add(homeService);
+                        }
                     }
 
                     return categoryEntry;
                 },
-                splitOn: "Id,Id");
+                splitOn: "Id,Id"
+            );
 
             categories = categoryDictionary.Values.ToList();
 
             _memoryCache.Set("categories", categories, new MemoryCacheEntryOptions
             {
-                SlidingExpiration = TimeSpan.FromDays(1)
+                SlidingExpiration = TimeSpan.FromMinutes(1)
             });
 
             _logger.LogInformation("تعداد دسته‌بندی‌های دریافت شده از دیتابیس: {Count}", categories.Count);
 
             return categories;
         }
-
-
 
 
 

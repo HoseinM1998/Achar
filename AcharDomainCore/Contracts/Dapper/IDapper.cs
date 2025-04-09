@@ -13,7 +13,7 @@ namespace AcharDomainCore.Contracts.Dapper
     {
         Task<List<Entites.City>> GetAllCityDapper(CancellationToken cancellationToken);
 
-         Task<List<Entites.Category>> GetAllCategoryDapper(CancellationToken cancellationToken);
+        Task<List<Entites.Category>> GetAllCategoryDapper(CancellationToken cancellationToken);
         Task<List<SubCategoryDto>> GetAllSubCategory(CancellationToken cancellationToken);
         Task<List<HomeServiceDto>> GetAllHomeServiceDapper(CancellationToken cancellationToken);
 
